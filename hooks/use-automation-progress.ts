@@ -10,6 +10,7 @@ export const useAutomationProgress = (leadId: string | null) => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [isComplete, setIsComplete] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [animationActive, setAnimationActive] = useState(false)
 
   const resetState = useCallback(() => {
     setStatuses({})
@@ -41,10 +42,17 @@ export const useAutomationProgress = (leadId: string | null) => {
         console.log('Handling type:', update.type, 'for leadId:', leadId);
         if (update.type === "status-update") {
           const { step, status, message } = update.payload;
+          console.log('Status step:', step);
           setStatuses((prev) => ({ ...prev, [step]: status }));
           const logMessage = `${new Date().toLocaleTimeString()}: ${step} - ${status} ${message ? `(${message})` : ""}`;
           setStatusLog((prev) => [...prev, logMessage]);
+          // Animation for Lead Capture
+          if (step === 'lead-received') {
+            setAnimationActive(true);
+          }
         } else if (update.type === "dashboard-update") {
+          console.log('Dashboard generating with:', update.payload);
+          generateDashboard(update.payload);
           setDashboardData(update.payload);
           setIsComplete(true);
           setStatusLog((prev) => [...prev, `${new Date().toLocaleTimeString()}: Dashboard received. Workflow complete.`]);
@@ -75,5 +83,13 @@ export const useAutomationProgress = (leadId: string | null) => {
     };
   }, [leadId, isComplete, resetState])
 
-  return { statuses, statusLog, dashboardData, isComplete, error }
+  // Add generateDashboard function
+  function generateDashboard(data: DashboardData) {
+    // Example: set metrics, update UI, etc.
+    // This can be expanded as needed for your UI
+    setDashboardData(data);
+    // Optionally, setAnimationActive(true) or update other UI state
+  }
+
+  return { statuses, statusLog, dashboardData, isComplete, error, animationActive }
 }
