@@ -10,35 +10,27 @@ export async function POST(request: Request, { params }: { params: { leadId: str
   }
 
   try {
-    const body = await request.json();
+    let body = await request.json();
     console.log('Body before validation:', JSON.stringify(body));
-    // Expecting: { leadId, status, dashboard }
-    const { leadId: bodyLeadId, status, dashboard } = body;
-    if (bodyLeadId && bodyLeadId !== urlLeadId) {
-      return NextResponse.json({ error: "leadId in URL and body do not match" }, { status: 400 });
-    }
-    if (!dashboard || typeof dashboard !== 'object') {
-      return NextResponse.json({ error: "Missing or invalid dashboard object" }, { status: 400 });
-    }
-
+    // Accept both flat and nested dashboard
+    if (body.dashboard) body = body.dashboard;
+    // Accept leadId from params
+    const leadId = params.leadId;
     // Coerce leadScore to number and fallback for leadData
-    dashboard.leadScore = Number(dashboard.leadScore);
-    if (isNaN(dashboard.leadScore)) {
+    body.leadScore = Number(body.leadScore);
+    if (isNaN(body.leadScore)) {
       return NextResponse.json({ error: "Invalid dashboard payload: leadScore must be a number" }, { status: 400 });
     }
-    dashboard.leadData = dashboard.leadData || { name: '', email: '', phone: '', message: '' };
-
+    body.leadData = body.leadData || { name: 'Demo Lead', email: '', phone: '', message: '' };
     // Basic validation for dashboard fields
-    if (!dashboard.leadScore || !dashboard.leadData) {
+    if (!body.leadScore || !body.leadData) {
       return NextResponse.json({ error: "Invalid dashboard payload: missing leadScore or leadData" }, { status: 400 });
     }
-
+    console.log('Validation passed for leadId:', leadId);
     // Log received data
-    console.log(`Received dashboard data for ${urlLeadId}:`, dashboard);
-
+    console.log(`Received dashboard data for ${leadId}:`, body);
     // "Broadcast" the final dashboard data
-    leadEventEmitter.emitUpdate(urlLeadId, { type: "dashboard-update", payload: dashboard });
-
+    leadEventEmitter.emitUpdate(leadId, { type: "dashboard-update", payload: body });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(`Error in dashboard-update webhook for ${params.leadId}:`, error);

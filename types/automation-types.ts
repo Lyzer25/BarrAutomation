@@ -7,14 +7,14 @@ export type StatusUpdate = {
 
 export type DashboardData = {
   processingTime: string
-  leadScore: number
+  leadScore: number | string
   category: string
   integrations: string[]
   metrics: {
     responseTime: string
     conversionProbability: string
   }
-  leadData: {
+  leadData?: {
     name: string
     email: string
     phone: string

@@ -28,7 +28,10 @@ export const useAutomationProgress = (leadId: string | null) => {
     resetState()
     setStatusLog([`${new Date().toLocaleTimeString()}: Workflow started for lead: ${leadId}`])
 
+    console.log('Subscribing to leadId:', leadId);
+
     const handleEvent = (event: AutomationEvent) => {
+      console.log('Handling type:', event.type, 'for leadId:', leadId);
       if (event.type === "status-update") {
         const { step, status, message } = event.payload
         setStatuses((prev) => ({ ...prev, [step]: status }))
@@ -41,6 +44,8 @@ export const useAutomationProgress = (leadId: string | null) => {
       } else if (event.type === "error") {
         setError(event.payload.message)
         setStatusLog((prev) => [...prev, `${new Date().toLocaleTimeString()}: ERROR - ${event.payload.message}`])
+      } else {
+        console.warn('No handler for event type:', event.type, 'for leadId:', leadId);
       }
     }
 
