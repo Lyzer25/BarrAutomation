@@ -10,15 +10,20 @@ export async function GET(request, { params }) {
   return new Response(
     new ReadableStream({
       start(controller) {
+        if (!leadEventEmitter) {
+          controller.error('leadEventEmitter not available');
+          return;
+        }
+        console.log('SSE connected for leadId:', leadId);
         const send = (update) => {
           controller.enqueue(`data: ${JSON.stringify(update)}\n\n`);
         };
         leadEventEmitter.subscribe(leadId, send);
-        // Send a ping every 30s to keep connection alive
+        // Keep-alive ping
         const ping = setInterval(() => controller.enqueue(':ping\n\n'), 30000);
         controller.enqueue(`event: open\ndata: "SSE connection established for ${leadId}"\n\n`);
-        // Clean up on close
-        controller.closed.then(() => {
+        // Cleanup on abort
+        request.signal?.addEventListener('abort', () => {
           leadEventEmitter.unsubscribe(leadId, send);
           clearInterval(ping);
         });

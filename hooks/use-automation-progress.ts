@@ -54,6 +54,9 @@ export const useAutomationProgress = (leadId: string | null) => {
         console.error('Failed to parse SSE event:', err, event.data);
       }
     };
+    eventSource.onerror = (error) => {
+      console.error('SSE error:', error);
+    };
     // Fallback timeout in case n8n workflow fails silently
     const timeoutId = setTimeout(() => {
       if (!isComplete) {
