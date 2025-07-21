@@ -30,40 +30,42 @@ export const useAutomationProgress = (leadId: string | null) => {
 
     console.log('Subscribing to leadId:', leadId);
 
-    const handleEvent = (event: AutomationEvent) => {
-      console.log('Handling type:', event.type, 'for leadId:', leadId);
-      if (event.type === "status-update") {
-        const { step, status, message } = event.payload
-        setStatuses((prev) => ({ ...prev, [step]: status }))
-        const logMessage = `${new Date().toLocaleTimeString()}: ${step} - ${status} ${message ? `(${message})` : ""}`
-        setStatusLog((prev) => [...prev, logMessage])
-      } else if (event.type === "dashboard-update") {
-        setDashboardData(event.payload)
-        setIsComplete(true)
-        setStatusLog((prev) => [...prev, `${new Date().toLocaleTimeString()}: Dashboard received. Workflow complete.`])
-      } else if (event.type === "error") {
-        setError(event.payload.message)
-        setStatusLog((prev) => [...prev, `${new Date().toLocaleTimeString()}: ERROR - ${event.payload.message}`])
-      } else {
-        console.warn('No handler for event type:', event.type, 'for leadId:', leadId);
+    const eventSource = new EventSource(`/api/events/${leadId}`);
+    eventSource.onmessage = (event) => {
+      try {
+        const update = JSON.parse(event.data);
+        console.log('Handling type:', update.type, 'for leadId:', leadId);
+        if (update.type === "status-update") {
+          const { step, status, message } = update.payload;
+          setStatuses((prev) => ({ ...prev, [step]: status }));
+          const logMessage = `${new Date().toLocaleTimeString()}: ${step} - ${status} ${message ? `(${message})` : ""}`;
+          setStatusLog((prev) => [...prev, logMessage]);
+        } else if (update.type === "dashboard-update") {
+          setDashboardData(update.payload);
+          setIsComplete(true);
+          setStatusLog((prev) => [...prev, `${new Date().toLocaleTimeString()}: Dashboard received. Workflow complete.`]);
+        } else if (update.type === "error") {
+          setError(update.payload.message);
+          setStatusLog((prev) => [...prev, `${new Date().toLocaleTimeString()}: ERROR - ${update.payload.message}`]);
+        } else {
+          console.warn('No handler for event type:', update.type, 'for leadId:', leadId);
+        }
+      } catch (err) {
+        console.error('Failed to parse SSE event:', err, event.data);
       }
-    }
-
-    leadEventEmitter.subscribe(leadId, handleEvent)
-
+    };
     // Fallback timeout in case n8n workflow fails silently
     const timeoutId = setTimeout(() => {
       if (!isComplete) {
-        const errorMessage = "Demo timed out. The workflow might be slow or have failed."
-        setError(errorMessage)
-        setStatusLog((prev) => [...prev, `${new Date().toLocaleTimeString()}: TIMEOUT - ${errorMessage}`])
+        const errorMessage = "Demo timed out. The workflow might be slow or have failed.";
+        setError(errorMessage);
+        setStatusLog((prev) => [...prev, `${new Date().toLocaleTimeString()}: TIMEOUT - ${errorMessage}`]);
       }
-    }, 90000) // 90-second timeout
-
+    }, 90000); // 90-second timeout
     return () => {
-      leadEventEmitter.unsubscribe(leadId, handleEvent)
-      clearTimeout(timeoutId)
-    }
+      eventSource.close();
+      clearTimeout(timeoutId);
+    };
   }, [leadId, isComplete, resetState])
 
   return { statuses, statusLog, dashboardData, isComplete, error }
