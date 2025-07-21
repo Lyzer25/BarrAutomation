@@ -3,6 +3,7 @@ import { leadEventEmitter } from "@/lib/events"
 import type { DashboardData } from "@/types/automation-types"
 
 export async function POST(request: Request, { params }: { params: { leadId: string } }) {
+  console.log('Route hit with leadId:', params.leadId);
   const urlLeadId = params.leadId;
   if (!urlLeadId) {
     return NextResponse.json({ error: "Missing leadId in URL" }, { status: 400 });

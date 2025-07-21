@@ -3,6 +3,7 @@ import { leadEventEmitter } from "@/lib/events"
 import type { StatusUpdate } from "@/types/automation-types"
 
 export async function POST(request: Request, { params }: { params: { leadId: string } }) {
+  console.log('Route hit with leadId:', params.leadId);
   const leadId = params.leadId
   if (!leadId) {
     return NextResponse.json({ error: "Missing leadId" }, { status: 400 })
