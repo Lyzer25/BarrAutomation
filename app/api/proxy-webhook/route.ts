@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-const N8N_WEBHOOK_URL = "https://lyzer25.app.n8n.cloud/webhook-test/new-lead"
+const N8N_WEBHOOK_URL = "https://lyzer25.app.n8n.cloud/webhook/new-lead"
 
 export async function POST(request: Request) {
   try {
