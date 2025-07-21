@@ -31,7 +31,11 @@ export const useAutomationProgress = (leadId: string | null) => {
     console.log('Subscribing to leadId:', leadId);
 
     const eventSource = new EventSource(`/api/events/${leadId}`);
+    eventSource.onopen = () => {
+      console.log('SSE opened for leadId:', leadId);
+    };
     eventSource.onmessage = (event) => {
+      console.log('SSE message:', event.data);
       try {
         const update = JSON.parse(event.data);
         console.log('Handling type:', update.type, 'for leadId:', leadId);

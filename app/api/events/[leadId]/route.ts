@@ -7,24 +7,27 @@ export async function GET(request, { params }) {
     return new Response('Missing leadId', { status: 400 });
   }
 
+  let controllerRef;
   return new Response(
     new ReadableStream({
       start(controller) {
+        controllerRef = controller;
         if (!leadEventEmitter) {
           controller.error('leadEventEmitter not available');
           return;
         }
         console.log('SSE connected for leadId:', leadId);
-        const send = (update) => {
+        const handleUpdate = (update) => {
           controller.enqueue(`data: ${JSON.stringify(update)}\n\n`);
+          console.log('Pushed event to SSE for leadId:', leadId, update);
         };
-        leadEventEmitter.subscribe(leadId, send);
+        leadEventEmitter.subscribe(leadId, handleUpdate);
         // Keep-alive ping
         const ping = setInterval(() => controller.enqueue(':ping\n\n'), 30000);
         controller.enqueue(`event: open\ndata: "SSE connection established for ${leadId}"\n\n`);
         // Cleanup on abort
         request.signal?.addEventListener('abort', () => {
-          leadEventEmitter.unsubscribe(leadId, send);
+          leadEventEmitter.unsubscribe(leadId, handleUpdate);
           clearInterval(ping);
         });
       },
