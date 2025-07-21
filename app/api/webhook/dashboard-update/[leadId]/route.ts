@@ -11,6 +11,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
 
   try {
     const body = await request.json();
+    console.log('Body before validation:', JSON.stringify(body));
     // Expecting: { leadId, status, dashboard }
     const { leadId: bodyLeadId, status, dashboard } = body;
     if (bodyLeadId && bodyLeadId !== urlLeadId) {
@@ -19,6 +20,13 @@ export async function POST(request: Request, { params }: { params: { leadId: str
     if (!dashboard || typeof dashboard !== 'object') {
       return NextResponse.json({ error: "Missing or invalid dashboard object" }, { status: 400 });
     }
+
+    // Coerce leadScore to number and fallback for leadData
+    dashboard.leadScore = Number(dashboard.leadScore);
+    if (isNaN(dashboard.leadScore)) {
+      return NextResponse.json({ error: "Invalid dashboard payload: leadScore must be a number" }, { status: 400 });
+    }
+    dashboard.leadData = dashboard.leadData || { name: '', email: '', phone: '', message: '' };
 
     // Basic validation for dashboard fields
     if (!dashboard.leadScore || !dashboard.leadData) {
