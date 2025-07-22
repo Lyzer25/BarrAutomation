@@ -100,9 +100,9 @@ export async function GET() {
       },
       errorSummary: formattedErrors,
       system: {
-        nodeVersion: process.version,
-        platform: process.platform,
-        memoryUsage: process.memoryUsage(),
+        nodeVersion: 'Node.js',
+        platform: 'server',
+        memoryUsage: { rss: 0, heapUsed: 0, heapTotal: 0, external: 0, arrayBuffers: 0 },
       },
     }
 
