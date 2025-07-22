@@ -9,6 +9,7 @@ import DemoModal from "@/components/smart-lead-machine/demo-modal"
 import WorkflowVisualizer from "@/components/smart-lead-machine/workflow-visualizer"
 import DashboardViewer from "@/components/smart-lead-machine/dashboard-viewer"
 import DebugPanel from "@/components/debug/debug-panel"
+import ErrorBoundary from "@/components/smart-lead-machine/error-boundary"
 import { useAutomationProgress } from "@/hooks/use-automation-progress"
 import { debugStore } from "@/lib/debug-store"
 import { initializeKeyboardShortcuts, initializeURLDebugAccess } from "@/lib/debug-console"
@@ -58,6 +59,14 @@ export default function SmartLeadMachinePage() {
       })
     }
   }, [activeLeadId, statuses, isComplete, error, timedOut, timeoutCountdown, debugInfo])
+
+  // Add console.log to trace rendering logic
+  console.log('--- RENDER CYCLE ---')
+  console.log('isComplete:', isComplete)
+  console.log('dashboardData:', dashboardData)
+  console.log('error:', error)
+  console.log('timedOut:', timedOut)
+  console.log('--------------------')
 
   const handleDemoStarted = useCallback((leadId: string) => {
     debugStore.logEvent('DEMO_STARTED', { 
@@ -155,7 +164,9 @@ export default function SmartLeadMachinePage() {
               exit={{ opacity: 0 }}
               className="mt-12 pb-16"
             >
-              <DashboardViewer data={dashboardData} />
+              <ErrorBoundary>
+                <DashboardViewer data={dashboardData} />
+              </ErrorBoundary>
             </motion.div>
           )}
 

@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Clock, ArrowRight, MessageSquare, BrainCircuit, CheckCircle, Mail } from "lucide-react"
@@ -90,6 +90,25 @@ export default function DashboardViewer({ data }: { data: DashboardData | null }
   const [showDiscord, setShowDiscord] = useState(false)
   const router = useRouter()
 
+  // Add console.log to check data prop
+  console.log('--- DashboardViewer RENDER ---')
+  console.log('data:', data)
+  console.log('-----------------------------')
+
+  // Add detailed logging to trace rendering
+  useEffect(() => {
+    console.log('--- DashboardViewer MOUNTED ---')
+    return () => {
+      console.log('--- DashboardViewer UNMOUNTED ---')
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log('--- DashboardViewer DATA UPDATED ---')
+    console.log('data:', data)
+    console.log('---------------------------------')
+  }, [data])
+
   // Use received data, with field-by-field fallback to mock data
   const dashboard = data || mockDashboardData.dashboard
   const leadScore = dashboard.leadScore ?? mockDashboardData.dashboard.leadScore
@@ -102,7 +121,7 @@ export default function DashboardViewer({ data }: { data: DashboardData | null }
   const integrations = dashboard.integrations ?? mockDashboardData.dashboard.integrations
 
   const scoreColorClass =
-    leadScore > 80 ? "border-green-500" : leadScore >= 50 ? "border-yellow-500" : "border-blue-500"
+    Number(leadScore) > 80 ? "border-green-500" : Number(leadScore) >= 50 ? "border-yellow-500" : "border-blue-500"
 
   return (
     <motion.div
@@ -120,13 +139,13 @@ export default function DashboardViewer({ data }: { data: DashboardData | null }
                 <h3 className="text-2xl font-mono font-bold text-white">{leadData.name}</h3>
                 <p className="text-blue-400 font-mono">{leadData.email}</p>
               </div>
-              <Badge variant="outline" className={cn("text-sm font-mono whitespace-nowrap", scoreColorClass)}>
+              <Badge className={cn("text-sm font-mono whitespace-nowrap", scoreColorClass)}>
                 {category}
               </Badge>
             </div>
             <div className="space-y-2 mb-4">
               <p className="text-sm font-mono text-gray-400">Lead Score: {leadScore}/100</p>
-              <LeadScoreBar score={leadScore} />
+              <LeadScoreBar score={Number(leadScore)} />
             </div>
             <p className="text-sm text-gray-300 font-mono italic">"{leadData.message}"</p>
           </StyledCard>
@@ -223,7 +242,6 @@ export default function DashboardViewer({ data }: { data: DashboardData | null }
                                 <Tooltip key={alt.name} delayDuration={100}>
                                   <TooltipTrigger asChild>
                                     <Badge
-                                      variant="outline"
                                       className="cursor-default font-mono hover:border-blue-500 hover:shadow-[0_0_8px_hsl(var(--accent)/0.5)] transition-all"
                                     >
                                       {alt.name}

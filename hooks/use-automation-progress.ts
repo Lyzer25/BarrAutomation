@@ -157,7 +157,7 @@ export const useAutomationProgress = (leadId: string | null) => {
             setAnimationActive(true);
           }
         } else if (update.type === "dashboard-update") {
-          console.log('Dashboard generating with:', update.payload);
+          console.log('🎯 DASHBOARD UPDATE RECEIVED:', update.payload);
           
           // Handle late dashboard arrival after timeout
           if (timedOut) {
@@ -188,8 +188,11 @@ export const useAutomationProgress = (leadId: string | null) => {
           })
           
           generateDashboard(update.payload);
+          console.log('🎯 CALLING setDashboardData');
           setDashboardData(update.payload);
+          console.log('🎯 CALLING setIsComplete(true)');
           setIsComplete(true);
+          console.log('🎯 STATE AFTER UPDATE:', { isComplete: true, hasData: !!update.payload });
           setStatusLog((prev: string[]) => [...prev, `${new Date().toLocaleTimeString()}: Dashboard received. Workflow complete.`]);
         } else if (update.type === "error") {
           debugStore.logEvent('ERROR_EVENT_RECEIVED', {

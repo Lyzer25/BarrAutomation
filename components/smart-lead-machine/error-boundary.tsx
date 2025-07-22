@@ -1,33 +1,41 @@
 "use client"
 
-import React from "react"
+import React, { Component, ErrorInfo, ReactNode } from "react"
 
-interface ErrorBoundaryProps {
-  children: React.ReactNode
-  fallback: React.ReactNode
+interface Props {
+  children: ReactNode
 }
 
-interface ErrorBoundaryState {
+interface State {
   hasError: boolean
+  error?: Error
 }
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props)
-    this.state = { hasError: false }
+class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false,
   }
 
-  static getDerivedStateFromError(_: Error): ErrorBoundaryState {
-    return { hasError: true }
+  public static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error }
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("Dashboard rendering crashed:", error, errorInfo)
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("Uncaught error:", error, errorInfo)
   }
 
-  render() {
+  public render() {
     if (this.state.hasError) {
-      return this.props.fallback
+      return (
+        <div className="text-red-500">
+          <h2>Something went wrong.</h2>
+          <details style={{ whiteSpace: "pre-wrap" }}>
+            {this.state.error && this.state.error.toString()}
+            <br />
+            {this.state.error?.stack}
+          </details>
+        </div>
+      )
     }
 
     return this.props.children
