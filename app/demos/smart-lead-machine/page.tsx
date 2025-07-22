@@ -60,13 +60,6 @@ export default function SmartLeadMachinePage() {
     }
   }, [activeLeadId, statuses, isComplete, error, timedOut, timeoutCountdown, debugInfo])
 
-  // Add console.log to trace rendering logic
-  console.log('--- RENDER CYCLE ---')
-  console.log('isComplete:', isComplete)
-  console.log('dashboardData:', dashboardData)
-  console.log('error:', error)
-  console.log('timedOut:', timedOut)
-  console.log('--------------------')
 
   const handleDemoStarted = useCallback((leadId: string) => {
     debugStore.logEvent('DEMO_STARTED', { 

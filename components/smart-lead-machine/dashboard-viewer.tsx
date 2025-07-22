@@ -90,23 +90,18 @@ export default function DashboardViewer({ data }: { data: DashboardData | null }
   const [showDiscord, setShowDiscord] = useState(false)
   const router = useRouter()
 
-  // Add console.log to check data prop
-  console.log('--- DashboardViewer RENDER ---')
-  console.log('data:', data)
-  console.log('-----------------------------')
-
-  // Add detailed logging to trace rendering
+  // Safe debugging using useEffect with proper dependencies
   useEffect(() => {
-    console.log('--- DashboardViewer MOUNTED ---')
+    console.log('🎯 DashboardViewer mounted')
     return () => {
-      console.log('--- DashboardViewer UNMOUNTED ---')
+      console.log('🎯 DashboardViewer unmounted')
     }
   }, [])
 
   useEffect(() => {
-    console.log('--- DashboardViewer DATA UPDATED ---')
-    console.log('data:', data)
-    console.log('---------------------------------')
+    if (data) {
+      console.log('🎯 Dashboard data received:', data)
+    }
   }, [data])
 
   // Use received data, with field-by-field fallback to mock data

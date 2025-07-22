@@ -25,11 +25,10 @@ export const useAutomationProgress = (leadId: string | null) => {
   const lastEventTimeRef = useRef<number | null>(null)
  
   const resetState = useCallback(() => {
-    debugStore.logStateChange('useAutomationProgress', 
-      { statuses, statusLog, dashboardData, isComplete, error, timedOut }, 
-      { statuses: {}, statusLog: [], dashboardData: null, isComplete: false, error: null, timedOut: false }, 
-      'resetState called'
-    )
+    debugStore.logEvent('AUTOMATION_STATE_RESET', { 
+      leadId,
+      timestamp: new Date().toISOString()
+    })
     
     setStatuses({})
     setStatusLog([])
@@ -39,12 +38,7 @@ export const useAutomationProgress = (leadId: string | null) => {
     setTimedOut(false)
     setTimeoutTimestamp(null)
     setTimeoutCountdown(90)
-    
-    debugStore.logEvent('AUTOMATION_STATE_RESET', { 
-      leadId,
-      timestamp: new Date().toISOString()
-    })
-  }, [leadId, statuses, statusLog, dashboardData, isComplete, error, timedOut])
+  }, [leadId])
 
   // Countdown timer effect
   useEffect(() => {
