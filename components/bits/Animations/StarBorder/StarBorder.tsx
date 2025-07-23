@@ -1,8 +1,5 @@
-/*
-	Installed from https://reactbits.dev/ts/tailwind/
-*/
-
 import React from "react";
+import "./StarBorder.css";
 
 type StarBorderProps<T extends React.ElementType> =
   React.ComponentPropsWithoutRef<T> & {
@@ -10,9 +7,9 @@ type StarBorderProps<T extends React.ElementType> =
     className?: string;
     children?: React.ReactNode;
     color?: string;
-    speed?: React.CSSProperties["animationDuration"];
+    speed?: React.CSSProperties['animationDuration'];
     thickness?: number;
-  };
+  }
 
 const StarBorder = <T extends React.ElementType = "button">({
   as,
@@ -26,51 +23,31 @@ const StarBorder = <T extends React.ElementType = "button">({
   const Component = as || "button";
 
   return (
-    <Component
-      className={`relative inline-block overflow-hidden rounded-lg ${className}`}
+    <Component 
+      className={`star-border-container ${className}`} 
       {...(rest as any)}
+      style={{
+        padding: `${thickness}px 0`,
+        ...(rest as any).style,
+      }}
     >
       <div
-        className="absolute w-full h-full opacity-70 bottom-0 right-0 rounded-full animate-star-movement-bottom z-0"
+        className="border-gradient-bottom"
         style={{
-          background: `radial-gradient(circle, ${color}, transparent 40%)`,
+          background: `radial-gradient(circle, ${color}, transparent 10%)`,
           animationDuration: speed,
         }}
       ></div>
       <div
-        className="absolute w-full h-full opacity-70 top-0 left-0 rounded-full animate-star-movement-top z-0"
+        className="border-gradient-top"
         style={{
-          background: `radial-gradient(circle, ${color}, transparent 40%)`,
+          background: `radial-gradient(circle, ${color}, transparent 10%)`,
           animationDuration: speed,
         }}
       ></div>
-      <div className="relative z-1">
-        {children}
-      </div>
+      <div className="inner-content">{children}</div>
     </Component>
   );
 };
 
 export default StarBorder;
-
-// tailwind.config.js
-// module.exports = {
-//   theme: {
-//     extend: {
-//       animation: {
-//         'star-movement-bottom': 'star-movement-bottom linear infinite alternate',
-//         'star-movement-top': 'star-movement-top linear infinite alternate',
-//       },
-//       keyframes: {
-//         'star-movement-bottom': {
-//           '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
-//           '100%': { transform: 'translate(-100%, 0%)', opacity: '0' },
-//         },
-//         'star-movement-top': {
-//           '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
-//           '100%': { transform: 'translate(100%, 0%)', opacity: '0' },
-//         },
-//       },
-//     },
-//   }
-// }
