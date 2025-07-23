@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import AnimatedBackground from "@/components/animated-background"
+import LogoCarousel from "@/components/logo-carousel"
 import Link from "next/link"
 import { Zap, BrainCircuit, Bot, BarChart } from "lucide-react"
 
@@ -60,6 +61,16 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Logo Carousel Section */}
+        <section className="py-12 bg-black/20">
+          <div className="container mx-auto px-4">
+            <h3 className="text-center font-mono text-2xl text-white mb-8">
+              Integrating With The Tools You Already Love
+            </h3>
+            <LogoCarousel />
           </div>
         </section>
 
