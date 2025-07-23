@@ -17,12 +17,14 @@ export default function IntegrationGrid() {
       className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       {allIntegrations.map((integration) => (
-        <StarBorder key={integration.id} className="rounded-lg">
-          <IntegrationCard
-            name={integration.name}
-            description={integration.description}
-            slug={integration.slug}
-          />
+        <StarBorder key={integration.id} className="w-full">
+          <div className="w-full">
+            <IntegrationCard
+              name={integration.name}
+              description={integration.description}
+              slug={integration.slug}
+            />
+          </div>
         </StarBorder>
       ))}
     </motion.div>
