@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useEffect, useRef } from "react"
-import { useInView, useMotionValue, useSpring } from "framer-motion/dist/framer-motion"
+import { useInView, useMotionValue, useSpring } from "framer-motion"
 
 export default function AnimatedStat({
   value,

@@ -1,6 +1,6 @@
 "use client"
 import { useState, useCallback, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion/dist/framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Clock, DollarSign, BrainCircuit, CheckCircle, Rocket } from "lucide-react"
 import AnimatedStat from "@/components/smart-lead-machine/animated-stat"
