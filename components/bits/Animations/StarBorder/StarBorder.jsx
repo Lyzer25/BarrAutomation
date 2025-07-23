@@ -13,7 +13,7 @@ const StarBorder = ({
 }) => {
   return (
     <Component
-      className={`relative inline-block overflow-hidden rounded-[20px] ${className}`}
+      className={`relative inline-block rounded-[20px] ${className}`}
       style={{
         padding: `${thickness}px 0`,
         ...rest.style,
