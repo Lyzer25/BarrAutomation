@@ -14,8 +14,7 @@ const IntegrationLogo = ({ slug, name, size = 24 }: IntegrationLogoProps) => {
   const { theme } = useTheme()
   const [error, setError] = useState(false)
 
-  const color = theme === "dark" ? "ffffff" : "000000"
-  const logoUrl = `https://cdn.simpleicons.org/${slug}/${color}`
+  const logoUrl = `https://cdn.simpleicons.org/${slug}`
 
   if (error) {
     return (

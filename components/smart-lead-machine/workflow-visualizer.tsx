@@ -61,7 +61,7 @@ const Node = ({
   )
 }
 
-const Connector = ({ status }: { status: "pending" | "complete" | "error" }) => {
+const Connector = ({ status }: { status: "pending" | "processing" | "complete" | "error" }) => {
   const bgColor = status === "complete" ? "bg-accent" : status === "error" ? "bg-red-500" : "bg-border"
   const scaleX = status === "pending" ? 0 : 1
   return (

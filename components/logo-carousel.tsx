@@ -10,7 +10,7 @@ const LogoCarousel = () => {
 
   return (
     <div className="relative w-full overflow-hidden py-12">
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-background via-transparent to-background" />
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-transparent via-transparent to-transparent" />
       <motion.div
         className="flex"
         animate={{
