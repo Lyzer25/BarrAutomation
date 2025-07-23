@@ -1,8 +1,8 @@
 import React from "react"
 import { integrationData } from "@/lib/integrations"
 import IntegrationCard from "@/components/smart-lead-machine/integration-card"
-import { StarBorder } from "@/components/bits/star-border"
-import { motion } from "framer-motion"
+import { StarBorder } from "../../components/bits/star-border"
+import { motion } from "framer-motion/dist/framer-motion"
 
 export const metadata = {
   title: "Integrations | Barri.ai",

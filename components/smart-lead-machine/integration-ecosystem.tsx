@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, ChangeEvent } from "react"
-import { motion } from "framer-motion"
+import { motion } from "framer-motion/dist/framer-motion"
 import { Input } from "@/components/ui/input"
 import { integrationCategories, integrationData } from "@/lib/integrations"
 import { cn } from "@/lib/utils"

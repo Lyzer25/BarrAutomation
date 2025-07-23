@@ -2,7 +2,7 @@
 
 import React from "react"
 import type { ReactNode } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion/dist/framer-motion"
 import {
   Webhook,
   Settings,

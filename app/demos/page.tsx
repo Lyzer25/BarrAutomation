@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { GooeyNav } from "@/components/bits/gooey-nav"
+import { GooeyNav } from "../../components/bits/gooey-nav"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 

@@ -3,7 +3,7 @@
 import React from "react"
 import { integrationData } from "@/lib/integrations"
 import IntegrationLogo from "@/components/smart-lead-machine/integration-logo"
-import { motion } from "framer-motion"
+import { motion } from "framer-motion/dist/framer-motion"
 
 const LogoCarousel = () => {
   const logos = Object.values(integrationData).slice(0, 20) // Take the first 20 for the carousel
