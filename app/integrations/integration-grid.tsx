@@ -2,7 +2,7 @@
 
 import React from "react"
 import { motion } from "framer-motion"
-import { StarBorder } from "@/components/bits/star-border"
+import StarBorder from "@/components/bits/Animations/StarBorder/StarBorder"
 import IntegrationCard from "@/components/smart-lead-machine/integration-card"
 import { integrationData } from "@/lib/integrations"
 

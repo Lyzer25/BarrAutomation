@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { GooeyNav } from "@/components/bits/gooey-nav"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
@@ -59,7 +58,7 @@ export default function DemosPage() {
         </p>
       </div>
 
-      <GooeyNav className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
         {demos.map((demo, index) => (
           <Card
             key={index}
@@ -106,7 +105,7 @@ export default function DemosPage() {
             </Link>
           </Button>
         </Card>
-      </GooeyNav>
+      </div>
     </div>
   )
 }
