@@ -17,7 +17,7 @@ export default function IntegrationGrid() {
       className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       {allIntegrations.map((integration) => (
-        <StarBorder key={integration.id} className="w-full">
+        <StarBorder key={integration.id} className="w-full" thickness={1} color="cyan">
           <div className="w-full">
             <IntegrationCard
               name={integration.name}
