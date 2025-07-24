@@ -5,30 +5,6 @@
   overflow: hidden;
 }
 
-.border-gradient-bottom {
-  position: absolute;
-  width: 300%;
-  height: 50%;
-  opacity: 0.7;
-  bottom: -12px;
-  right: -250%;
-  border-radius: 50%;
-  animation: star-movement-bottom linear infinite alternate;
-  z-index: 0;
-}
-
-.border-gradient-top {
-  position: absolute;
-  opacity: 0.7;
-  width: 300%;
-  height: 50%;
-  top: -12px;
-  left: -250%;
-  border-radius: 50%;
-  animation: star-movement-top linear infinite alternate;
-  z-index: 0;
-}
-
 .inner-content {
   position: relative;
   background: rgba(255, 255, 255, 0.05);
@@ -39,24 +15,63 @@
   z-index: 1;
 }
 
-@keyframes star-movement-bottom {
-  0% {
-    transform: translate(0%, 0%);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-100%, 0%);
-    opacity: 0;
-  }
+.border-gradient-top,
+.border-gradient-bottom,
+.border-gradient-left,
+.border-gradient-right {
+  position: absolute;
+  opacity: 0.7;
+  z-index: 0;
 }
 
-@keyframes star-movement-top {
-  0% {
-    transform: translate(0%, 0%);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(100%, 0%);
-    opacity: 0;
-  }
+.border-gradient-top {
+  width: 150px;
+  height: 1px;
+  top: 0;
+  left: 0;
+  animation: star-movement-right linear infinite alternate;
+}
+
+.border-gradient-bottom {
+  width: 150px;
+  height: 1px;
+  bottom: 0;
+  right: 0;
+  animation: star-movement-left linear infinite alternate;
+}
+
+.border-gradient-left {
+  width: 1px;
+  height: 150px;
+  left: 0;
+  bottom: 0;
+  animation: star-movement-up linear infinite alternate;
+}
+
+.border-gradient-right {
+  width: 1px;
+  height: 150px;
+  right: 0;
+  top: 0;
+  animation: star-movement-down linear infinite alternate;
+}
+
+@keyframes star-movement-right {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
+}
+
+@keyframes star-movement-left {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-250%); }
+}
+
+@keyframes star-movement-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(-250%); }
+}
+
+@keyframes star-movement-down {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(250%); }
 }
