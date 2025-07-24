@@ -4,11 +4,18 @@ import React from "react"
 import { motion } from "framer-motion"
 import StarBorder from "@/components/bits/Animations/StarBorder/StarBorder"
 import IntegrationCard from "@/components/smart-lead-machine/integration-card"
-import { integrationData } from "@/lib/integrations"
 
-export default function IntegrationGrid() {
-  const allIntegrations = Object.entries(integrationData).map(([id, data]) => ({ id, ...data }))
+interface IntegrationGridProps {
+  integrations: any[]
+  selectedIds: Set<string>
+  onSelectionChange: (id: string) => void
+}
 
+export default function IntegrationGrid({
+  integrations,
+  selectedIds,
+  onSelectionChange,
+}: IntegrationGridProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -16,13 +23,13 @@ export default function IntegrationGrid() {
       transition={{ staggerChildren: 0.05 }}
       className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
-      {allIntegrations.map((integration) => (
+      {integrations.map((integration) => (
         <StarBorder key={integration.id} className="w-full" as="div" thickness={1} color="cyan">
-            <IntegrationCard
-              name={integration.name}
-              description={integration.description}
-              domain={integration.domain}
-            />
+          <IntegrationCard
+            {...integration}
+            isSelected={selectedIds.has(integration.id)}
+            onSelectionChange={onSelectionChange}
+          />
         </StarBorder>
       ))}
     </motion.div>
