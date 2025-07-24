@@ -21,7 +21,7 @@ export default function IntegrationGrid() {
             <IntegrationCard
               name={integration.name}
               description={integration.description}
-              slug={integration.slug}
+              domain={integration.domain}
             />
         </StarBorder>
       ))}

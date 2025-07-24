@@ -59,8 +59,8 @@ export default function IntegrationEcosystem() {
       )}
 
       <motion.div layout className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {displayedIntegrations.map(({ id, ...props }) => (
-          <IntegrationCard key={id} {...props} />
+        {displayedIntegrations.map(({ id, name, description, domain }) => (
+          <IntegrationCard key={id} name={name} description={description} domain={domain} />
         ))}
       </motion.div>
     </section>

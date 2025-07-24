@@ -5,16 +5,16 @@ import { useTheme } from "next-themes"
 import Image from "next/image"
 
 interface IntegrationLogoProps {
-  slug: string
+  domain: string
   name: string
   size?: number
 }
 
-const IntegrationLogo = ({ slug, name, size = 24 }: IntegrationLogoProps) => {
+const IntegrationLogo = ({ domain, name, size = 24 }: IntegrationLogoProps) => {
   const { theme } = useTheme()
   const [error, setError] = useState(false)
 
-  const logoUrl = `https://cdn.simpleicons.org/${slug}`
+  const logoUrl = `https://logo.clearbit.com/${domain}`
 
   if (error) {
     return (

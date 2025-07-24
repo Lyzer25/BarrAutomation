@@ -24,7 +24,7 @@ const LogoCarousel = () => {
       >
         {[...logos, ...logos].map((logo, index) => (
           <div key={index} className="flex-shrink-0 mx-8" style={{ width: "100px" }}>
-            <IntegrationLogo slug={logo.slug} name={logo.name} size={40} />
+            <IntegrationLogo domain={logo.domain} name={logo.name} size={40} />
           </div>
         ))}
       </motion.div>

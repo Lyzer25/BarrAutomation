@@ -6,10 +6,10 @@ import IntegrationLogo from "./integration-logo"
 interface IntegrationCardProps {
   name: string
   description: string
-  slug: string
+  domain: string
 }
 
-const IntegrationCard = ({ name, description, slug }: IntegrationCardProps) => (
+const IntegrationCard = ({ name, description, domain }: IntegrationCardProps) => (
   <motion.div
     layout
     initial={{ opacity: 0, scale: 0.8 }}
@@ -19,7 +19,7 @@ const IntegrationCard = ({ name, description, slug }: IntegrationCardProps) => (
     className="p-4 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:border-accent/50 transition-all group"
   >
     <div className="flex items-center gap-3">
-      <IntegrationLogo slug={slug} name={name} />
+      <IntegrationLogo domain={domain} name={name} />
       <h4 className="font-bold text-white">{name}</h4>
     </div>
     <p className="text-xs text-subtle-gray mt-2">{description}</p>
