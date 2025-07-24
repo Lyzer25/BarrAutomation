@@ -16,7 +16,6 @@ const IntegrationCard = ({ name, description, domain }: IntegrationCardProps) =>
     animate={{ opacity: 1, scale: 1 }}
     exit={{ opacity: 0, scale: 0.8 }}
     transition={{ type: "spring", stiffness: 300, damping: 25 }}
-    className="p-4 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:border-accent/50 transition-all group"
   >
     <div className="flex items-center gap-3">
       <IntegrationLogo domain={domain} name={name} />
