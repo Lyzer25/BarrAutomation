@@ -169,7 +169,7 @@ const GooeyNav: FC<GooeyNavProps> = ({
   };
 
   useEffect(() => {
-    if (!navRef.current || !containerRef.current) return;
+    if (!navRef.current || !containerRef.current || !items) return;
     const activeLi = navRef.current.querySelectorAll("li")[
       activeIndex
     ] as HTMLElement;
@@ -193,7 +193,11 @@ const GooeyNav: FC<GooeyNavProps> = ({
       resizeObserver.observe(containerRef.current);
     }
     return () => resizeObserver.disconnect();
-  }, [activeIndex]);
+  }, [activeIndex, items]);
+
+  if (!items) {
+    return null;
+  }
 
   return (
     <div className="gooey-nav-container" ref={containerRef}>

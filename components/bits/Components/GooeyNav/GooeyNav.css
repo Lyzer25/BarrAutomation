@@ -31,6 +31,7 @@
   transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 0 0.5px 1.5px transparent;
   color: white;
+  will-change: background-color, color, box-shadow;
 }
 
 .gooey-nav-container nav ul li a {
@@ -80,6 +81,7 @@
 .gooey-nav-container .effect.text {
   color: white;
   transition: color 0.3s ease;
+  will-change: color;
 }
 
 .gooey-nav-container .effect.text.active {
@@ -137,12 +139,14 @@
   top: calc(50% - 8px);
   left: calc(50% - 8px);
   animation: particle calc(var(--time)) ease 1 -350ms;
+  will-change: transform, opacity;
 }
 
 .point {
   background: var(--color);
   opacity: 1;
   animation: point calc(var(--time)) ease 1 -350ms;
+  will-change: transform, opacity;
 }
 
 @keyframes particle {
