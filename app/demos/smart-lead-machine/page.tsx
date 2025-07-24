@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Clock, DollarSign, BrainCircuit, CheckCircle, Rocket } from "lucide-react"
 import AnimatedStat from "@/components/smart-lead-machine/animated-stat"
 import IntegrationEcosystem from "@/components/smart-lead-machine/integration-ecosystem"
-import DemoModal from "@/components/smart-lead-machine/demo-modal"
+import dynamic from "next/dynamic"
 import WorkflowVisualizer from "@/components/smart-lead-machine/workflow-visualizer"
 import DashboardViewer from "@/components/smart-lead-machine/dashboard-viewer"
 import DebugPanel from "@/components/debug/debug-panel"
@@ -13,6 +13,8 @@ import ErrorBoundary from "@/components/smart-lead-machine/error-boundary"
 import { useAutomationProgress } from "@/hooks/use-automation-progress"
 import { debugStore } from "@/lib/debug-store"
 import { initializeKeyboardShortcuts, initializeURLDebugAccess } from "@/lib/debug-console"
+
+const DemoModal = dynamic(() => import("@/components/smart-lead-machine/demo-modal"))
 
 export default function SmartLeadMachinePage() {
   const [isModalOpen, setIsModalOpen] = useState(false)

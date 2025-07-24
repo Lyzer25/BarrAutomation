@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import "./StarBorder.css";
 
 type StarBorderProps<T extends React.ElementType> =
@@ -11,7 +11,7 @@ type StarBorderProps<T extends React.ElementType> =
     thickness?: number;
   }
 
-const StarBorder = <T extends React.ElementType = "button">({
+const StarBorderInner = <T extends React.ElementType = "button">({
   as,
   className = "",
   color = "white",
@@ -67,6 +67,9 @@ const StarBorder = <T extends React.ElementType = "button">({
   );
 };
 
-StarBorder.displayName = "StarBorder";
+StarBorderInner.displayName = "StarBorder";
+
+const StarBorder = memo(StarBorderInner) as <T extends React.ElementType = "button">(props: StarBorderProps<T>) => React.ReactElement;
+
 
 export default StarBorder;
