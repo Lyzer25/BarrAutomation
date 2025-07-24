@@ -6,6 +6,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu, Bot } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
+import GooeyNav from "@/components/bits/Components/GooeyNav/GooeyNav"
+import "@/components/bits/Components/GooeyNav/GooeyNav.css"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -16,6 +18,7 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname()
+  const initialActiveIndex = navLinks.findIndex(link => link.href === pathname)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-sm">
@@ -24,20 +27,9 @@ export default function Header() {
           <Bot className="h-8 w-8 text-accent" />
           <span className="text-xl font-bold font-mono text-white">Barri.ai</span>
         </Link>
-        <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-accent",
-                pathname === link.href ? "text-accent" : "text-subtle-gray",
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="hidden md:flex items-center">
+          <GooeyNav items={navLinks} initialActiveIndex={initialActiveIndex !== -1 ? initialActiveIndex : 0} />
+        </div>
         <div className="hidden md:block">
           <Button asChild>
             <Link href="/contact">Build My Solution</Link>
