@@ -11,7 +11,9 @@ interface IntegrationFiltersProps {
   setActiveCategory: (category: string) => void
 }
 
-const categories = ["All", "Most Common", "New", "Marketing", "Sales"]
+import { integrationCategories } from "@/lib/integrations"
+
+const categories = ["All", ...Object.values(integrationCategories).map(c => c.label)]
 
 export default function IntegrationFilters({
   searchQuery,

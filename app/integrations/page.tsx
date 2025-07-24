@@ -7,7 +7,7 @@ import { integrationData } from "@/lib/integrations"
 
 export default function IntegrationsPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [activeCategory, setActiveCategory] = useState("All")
+  const [activeCategory, setActiveCategory] = useState("🚀 Most Common")
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
   const allIntegrations = useMemo(
