@@ -20,8 +20,19 @@
 .border-gradient-left,
 .border-gradient-right {
   position: absolute;
-  opacity: 0.7;
+  opacity: 0;
   z-index: 0;
+  animation-play-state: paused;
+  filter: blur(2px);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.star-border-container:hover .border-gradient-top,
+.star-border-container:hover .border-gradient-bottom,
+.star-border-container:hover .border-gradient-left,
+.star-border-container:hover .border-gradient-right {
+  opacity: 0.7;
+  animation-play-state: running;
 }
 
 .border-gradient-top {
@@ -29,7 +40,7 @@
   height: 1px;
   top: 0;
   left: 0;
-  animation: star-movement-right linear infinite alternate;
+  animation: star-movement-right 3s linear infinite alternate;
 }
 
 .border-gradient-bottom {
@@ -37,7 +48,7 @@
   height: 1px;
   bottom: 0;
   right: 0;
-  animation: star-movement-left linear infinite alternate;
+  animation: star-movement-left 3s linear infinite alternate;
 }
 
 .border-gradient-left {
@@ -45,7 +56,7 @@
   height: 150px;
   left: 0;
   bottom: 0;
-  animation: star-movement-up linear infinite alternate;
+  animation: star-movement-up 3s linear infinite alternate;
 }
 
 .border-gradient-right {
@@ -53,7 +64,7 @@
   height: 150px;
   right: 0;
   top: 0;
-  animation: star-movement-down linear infinite alternate;
+  animation: star-movement-down 3s linear infinite alternate;
 }
 
 @keyframes star-movement-right {
