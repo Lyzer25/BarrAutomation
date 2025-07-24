@@ -42,6 +42,12 @@ export const useAutomationProgress = (leadId: string | null) => {
 
   // Countdown timer effect
   useEffect(() => {
+    if (isComplete && timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+    }
+  }, [isComplete]);
+
+  useEffect(() => {
     if (!leadId || isComplete || error || timedOut) return
 
     const interval = setInterval(() => {
@@ -286,9 +292,9 @@ export const useAutomationProgress = (leadId: string | null) => {
           category: "High Priority",
           leadData: { name: "Test Lead", email: "test@example.com", phone: "", message: "Forced dashboard test" },
           metrics: { responseTime: "2.3s", conversionProbability: "78%" },
-          processingTime: 45,
+          processingTime: "45s",
           emailContent: { subject: "Test Email", body: "Test content" },
-          discordMessage: { title: "Test Alert", description: "Test notification" },
+          discordMessage: { title: "Test Alert", description: "Test notification", fields: [] },
           integrations: ["OpenAI", "Gmail", "Discord"]
         })
       }
