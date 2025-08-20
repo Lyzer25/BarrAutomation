@@ -41,30 +41,30 @@ Barri.ai transforms raw leads into qualified opportunities in real-time using AI
 ### Local Development
 
 1. **Clone the repository**:
-```bash
+\`\`\`bash
 git clone https://github.com/Lyzer25/BarrAutomation.git
 cd BarrAutomation
-```
+\`\`\`
 
 2. **Install dependencies**:
-```bash
+\`\`\`bash
 npm install
 # or
 pnpm install
-```
+\`\`\`
 
 3. **Set up environment variables**:
-```bash
+\`\`\`bash
 cp .env.local.example .env.local
 # Edit .env.local with your configuration
-```
+\`\`\`
 
 4. **Start development server**:
-```bash
+\`\`\`bash
 npm run dev
 # or
 pnpm dev
-```
+\`\`\`
 
 5. **Open your browser**: Navigate to `http://localhost:3000`
 
@@ -132,16 +132,16 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 
 ### Test Webhook Endpoints
 
-```bash
+\`\`\`bash
 # Test status endpoint
 curl -X POST https://your-domain.com/api/webhook/status-update/test123 \
   -H "Content-Type: application/json" \
   -d '{"step":"test","status":"complete"}'
-```
+\`\`\`
 
 ## 📁 Project Structure
 
-```
+\`\`\`
 ├── app/                    # Next.js app directory
 │   ├── api/               # API routes
 │   ├── demos/             # Demo pages
@@ -153,7 +153,7 @@ curl -X POST https://your-domain.com/api/webhook/status-update/test123 \
 ├── lib/                   # Utility functions
 ├── types/                 # TypeScript type definitions
 └── public/               # Static assets
-```
+\`\`\`
 
 ## 🔧 Development
 

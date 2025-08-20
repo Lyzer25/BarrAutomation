@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ['gsap']
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -7,8 +10,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    domains: ['placeholder.com'],
+    unoptimized: true
   },
+  env: {
+    CUSTOM_KEY: 'my-value'
+  }
 }
 
 export default nextConfig

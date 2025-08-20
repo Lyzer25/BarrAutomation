@@ -16,7 +16,7 @@ This application requires several environment variables to function properly. Fo
 ### 🏠 Local Development Setup
 
 1. **Create `.env.local` file** in the project root:
-```env
+\`\`\`env
 # N8N Integration
 N8N_WEBHOOK_URL=https://lyzer25.app.n8n.cloud/webhook/new-lead
 
@@ -26,14 +26,14 @@ WEBHOOK_BASE_URL=http://localhost:3000/api/webhook
 
 # Security
 WEBHOOK_SECRET_KEY=wh_sec_8f9a2b1c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
-```
+\`\`\`
 
 2. **Start development server**:
-```bash
+\`\`\`bash
 npm run dev
 # or
 pnpm dev
-```
+\`\`\`
 
 3. **Verify configuration**: Check the console for configuration logs when the server starts.
 
@@ -69,7 +69,7 @@ pnpm dev
 
 Use one of these methods to generate a secure secret:
 
-```bash
+\`\`\`bash
 # Using Node.js
 node -e "console.log('wh_sec_' + require('crypto').randomBytes(32).toString('hex'))"
 
@@ -78,7 +78,7 @@ openssl rand -hex 32 | sed 's/^/wh_sec_/'
 
 # Online generator (use a reputable one)
 # Or manually create: wh_sec_[64-character-hex-string]
-```
+\`\`\`
 
 #### Step 3: Deploy
 
@@ -92,25 +92,25 @@ After setting environment variables:
 Update your n8n workflow to call these endpoints:
 
 **Status Updates:**
-```
+\`\`\`
 https://barrautomations.com/api/webhook/status-update/{leadId}
-```
+\`\`\`
 
 **Dashboard Data:**
-```
+\`\`\`
 https://barrautomations.com/api/webhook/dashboard-update/{leadId}
-```
+\`\`\`
 
 ### 🧪 Testing Configuration
 
 #### Test Environment Variables Loading
-```bash
+\`\`\`bash
 # Check if config loads without errors
 npm run build
-```
+\`\`\`
 
 #### Test Webhook Endpoints
-```bash
+\`\`\`bash
 # Test status update endpoint
 curl -X POST https://barrautomations.com/api/webhook/status-update/test123 \
   -H "Content-Type: application/json" \
@@ -120,7 +120,7 @@ curl -X POST https://barrautomations.com/api/webhook/status-update/test123 \
 curl -X POST https://barrautomations.com/api/webhook/dashboard-update/test123 \
   -H "Content-Type: application/json" \
   -d '{"leadScore":85,"leadData":{"name":"Test","email":"test@test.com","phone":"","message":""}}'
-```
+\`\`\`
 
 #### Test N8N Integration
 1. Go to `/demos/smart-lead-machine`
