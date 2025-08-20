@@ -36,6 +36,7 @@ const demos = [
     roi: "400% increase in content output",
     description:
       "Turns a single idea into a week's worth of platform-specific content for IG, X, FB, and LinkedIn. Monitors replies and generates performance reports.",
+    link: "/demos/social-media-multiplier",
   },
   {
     title: "Customer Happiness Hub",
@@ -53,7 +54,7 @@ export default function DemosPage() {
       <div className="text-center max-w-3xl mx-auto">
         <h1 className="font-mono text-4xl font-thin text-white md:text-5xl">Live Automation Demos</h1>
         <p className="mt-4 text-lg text-subtle-gray">
-          These are real automations we’ve already built — but they’re just a starting point. Barri.ai specializes in
+          These are real automations we've already built — but they're just a starting point. Barri.ai specializes in
           custom-built workflows powered by the best AI available.
         </p>
       </div>
