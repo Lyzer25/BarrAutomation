@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
@@ -12,6 +13,7 @@ const demos = [
     description:
       "Transforms raw leads from 5+ sources into qualified, prioritized prospects in your CRM within seconds. Never miss a hot lead again.",
     link: "/demos/smart-lead-machine",
+    status: "Live",
   },
   {
     title: "Revenue Recovery Robot",
@@ -21,6 +23,7 @@ const demos = [
     description:
       "Automatically detects abandoned carts, analyzes customer history, and sends hyper-personalized SMS/email campaigns to win back sales.",
     link: "/demos/revenue-recovery",
+    status: "Live",
   },
   {
     title: "Client Success Engine",
@@ -29,6 +32,8 @@ const demos = [
     roi: "Reduces onboarding time by 85%",
     description:
       "From signed contract to project kickoff in minutes. Automates DocuSign, Asana/Monday setup, and keeps clients informed with progress reports.",
+    link: "/demos/client-success-engine",
+    status: "Live",
   },
   {
     title: "Social Media Multiplier",
@@ -38,6 +43,7 @@ const demos = [
     description:
       "Turns a single idea into a week's worth of platform-specific content for IG, X, FB, and LinkedIn. Monitors replies and generates performance reports.",
     link: "/demos/social-media-multiplier",
+    status: "In Development",
   },
   {
     title: "Customer Happiness Hub",
@@ -46,6 +52,7 @@ const demos = [
     roi: "98% faster response time",
     description:
       "Aggregates customer feedback from all channels, uses AI to understand sentiment, and routes issues to the right team member with a suggested response.",
+    status: "Coming Soon",
   },
 ]
 
@@ -69,7 +76,21 @@ export default function DemosPage() {
             <CardHeader>
               <div className="flex justify-between items-start">
                 <CardTitle className="text-white">{demo.title}</CardTitle>
-                <span className="text-xs font-mono bg-accent/20 text-accent px-2 py-1 rounded">{demo.industry}</span>
+                <div className="flex flex-col items-end gap-2">
+                  <span className="text-xs font-mono bg-accent/20 text-accent px-2 py-1 rounded">{demo.industry}</span>
+                  <Badge
+                    variant={demo.status === "Live" ? "default" : "secondary"}
+                    className={
+                      demo.status === "Live"
+                        ? "bg-green-500/20 text-green-300 border-green-500/30"
+                        : demo.status === "In Development"
+                          ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
+                          : "bg-gray-500/20 text-gray-300 border-gray-500/30"
+                    }
+                  >
+                    {demo.status}
+                  </Badge>
+                </div>
               </div>
               <CardDescription className="text-subtle-gray pt-2">{demo.useCase}</CardDescription>
             </CardHeader>
@@ -78,15 +99,22 @@ export default function DemosPage() {
               <p className="text-sm font-bold text-accent">{demo.roi}</p>
             </CardContent>
             <CardFooter>
-              {demo.link ? (
+              {demo.link && demo.status === "Live" ? (
                 <Button asChild variant="secondary" className="w-full">
                   <Link href={demo.link}>
                     Try Live Demo <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
+              ) : demo.link && demo.status === "In Development" ? (
+                <Button asChild variant="secondary" className="w-full">
+                  <Link href={demo.link}>
+                    Try Demo <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
               ) : (
                 <Button variant="secondary" className="w-full" disabled>
-                  Try Live Demo <ArrowRight className="ml-2 h-4 w-4" />
+                  {demo.status === "In Development" ? "In Development" : "Coming Soon"}{" "}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               )}
             </CardFooter>
