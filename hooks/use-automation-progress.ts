@@ -6,7 +6,14 @@ import type { StatusUpdate, DashboardData } from "@/types/automation-types"
 
 export const useAutomationProgress = (leadId: string | null) => {
   const [statuses, setStatuses] = useState<Record<string, StatusUpdate["status"]>>({})
-  const [statusLog, setStatusLog] = useState<string[]>([])
+  const [statusLog, setStatusLog] = useState<
+    Array<{
+      timestamp: string
+      step: string
+      status: StatusUpdate["status"]
+      message: string
+    }>
+  >([])
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [isComplete, setIsComplete] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -64,6 +71,17 @@ export const useAutomationProgress = (leadId: string | null) => {
           if (!cascadedStatuses[stepId] || cascadedStatuses[stepId] !== "complete") {
             cascadedStatuses[stepId] = "complete"
             hasChanges = true
+
+            // Add cascaded completion to status log
+            setStatusLog((prev) => [
+              ...prev,
+              {
+                timestamp: new Date().toISOString(),
+                step: stepId,
+                status: "complete",
+                message: `Auto-completed (cascaded from ${workflowOrder[furthestCompleteIndex]})`,
+              },
+            ])
 
             debugStore.logEvent("AUTO_COMPLETED_STEP", {
               stepId,
@@ -136,29 +154,26 @@ export const useAutomationProgress = (leadId: string | null) => {
             // Update statuses with cascading completion
             setStatuses((prev: Record<string, StatusUpdate["status"]>) => {
               const newStatuses = { ...prev, [step]: status }
-              const cascadedStatuses = cascadeCompletion(newStatuses)
-
-              // Log cascaded completions
-              Object.keys(cascadedStatuses).forEach((cascadedStep) => {
-                if (
-                  cascadedStep !== step &&
-                  cascadedStatuses[cascadedStep] === "complete" &&
-                  prev[cascadedStep] !== "complete"
-                ) {
-                  const cascadeLogMessage = `${new Date().toLocaleTimeString()}: ${cascadedStep} - auto-completed (cascaded from ${step})`
-                  setStatusLog((prevLog: string[]) => [...prevLog, cascadeLogMessage])
-                }
-              })
-
-              return cascadedStatuses
+              return cascadeCompletion(newStatuses)
             })
 
-            const logMessage = `${new Date().toLocaleTimeString()}: ${step} - ${status} ${message ? `(${message})` : ""}`
-            setStatusLog((prev: string[]) => [...prev, logMessage])
+            // Add to status log with proper timestamp
+            const logEntry = {
+              timestamp: new Date().toISOString(),
+              step,
+              status,
+              message: message || `${step} ${status}`,
+            }
+            setStatusLog((prev) => [...prev, logEntry])
 
             // Animation for Lead Capture
             if (step === "lead-received") {
               setAnimationActive(true)
+            }
+
+            // Check if workflow is complete
+            if (step === "dashboard-complete" && status === "complete") {
+              setIsComplete(true)
             }
           } else if (update.type === "dashboard-update") {
             console.log("🎯 DASHBOARD UPDATE RECEIVED:", update.payload)
@@ -170,10 +185,14 @@ export const useAutomationProgress = (leadId: string | null) => {
 
             setDashboardData(update.payload)
             setIsComplete(true)
-            setStatusLog((prev: string[]) => [
-              ...prev,
-              `${new Date().toLocaleTimeString()}: Dashboard received. Workflow complete.`,
-            ])
+
+            const logEntry = {
+              timestamp: new Date().toISOString(),
+              step: "dashboard-complete",
+              status: "complete" as StatusUpdate["status"],
+              message: "Dashboard received. Workflow complete.",
+            }
+            setStatusLog((prev) => [...prev, logEntry])
           } else if (update.type === "error") {
             debugStore.logEvent("ERROR_EVENT_RECEIVED", {
               error: update.payload.message,
@@ -181,10 +200,14 @@ export const useAutomationProgress = (leadId: string | null) => {
             })
 
             setError(update.payload.message)
-            setStatusLog((prev: string[]) => [
-              ...prev,
-              `${new Date().toLocaleTimeString()}: ERROR - ${update.payload.message}`,
-            ])
+
+            const logEntry = {
+              timestamp: new Date().toISOString(),
+              step: "error",
+              status: "error" as StatusUpdate["status"],
+              message: `ERROR - ${update.payload.message}`,
+            }
+            setStatusLog((prev) => [...prev, logEntry])
           } else {
             console.warn("Unknown event type:", update.type, "for leadId:", leadId)
             debugStore.logEvent("UNKNOWN_EVENT_TYPE", {
@@ -276,7 +299,13 @@ export const useAutomationProgress = (leadId: string | null) => {
       timestamp: new Date().toISOString(),
     })
 
-    setStatusLog([`${new Date().toLocaleTimeString()}: Workflow started for lead: ${leadId}`])
+    const initialLogEntry = {
+      timestamp: new Date().toISOString(),
+      step: "workflow-started",
+      status: "processing" as StatusUpdate["status"],
+      message: `Workflow started for lead: ${leadId}`,
+    }
+    setStatusLog([initialLogEntry])
 
     // Create the initial EventSource connection
     const eventSource = createEventSource()

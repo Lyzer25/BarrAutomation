@@ -19,6 +19,7 @@ import {
 } from "lucide-react"
 import type { AutomationStatus, StatusLogEntry } from "@/types/automation-types"
 import { cn } from "@/lib/utils"
+import { useState, useEffect } from "react"
 
 interface WorkflowStep {
   id: string
@@ -88,10 +89,10 @@ interface WorkflowCardsProps {
   isComplete: boolean
 }
 
-const getStatusIcon = (status: AutomationStatus) => {
+const getStatusIcon = (status: AutomationStatus, isAnimating = false) => {
   switch (status) {
     case "complete":
-      return <CheckCircle className="w-5 h-5 text-green-400" />
+      return <CheckCircle className={cn("w-5 h-5 text-green-400", isAnimating && "animate-pulse")} />
     case "processing":
       return <Clock className="w-5 h-5 text-blue-400 animate-spin" />
     case "error":
@@ -101,12 +102,12 @@ const getStatusIcon = (status: AutomationStatus) => {
   }
 }
 
-const getStatusColor = (status: AutomationStatus) => {
+const getStatusColor = (status: AutomationStatus, isAnimating = false) => {
   switch (status) {
     case "complete":
-      return "border-green-500 bg-green-500/10"
+      return cn("border-green-500 bg-green-500/10", isAnimating && "animate-pulse border-green-400 bg-green-400/20")
     case "processing":
-      return "border-blue-500 bg-blue-500/10"
+      return "border-blue-500 bg-blue-500/10 animate-pulse"
     case "error":
       return "border-red-500 bg-red-500/10"
     default:
@@ -114,12 +115,21 @@ const getStatusColor = (status: AutomationStatus) => {
   }
 }
 
-const getStatusBadge = (status: AutomationStatus) => {
+const getStatusBadge = (status: AutomationStatus, isAnimating = false) => {
   switch (status) {
     case "complete":
-      return <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Complete</Badge>
+      return (
+        <Badge
+          className={cn(
+            "bg-green-500/20 text-green-400 border-green-500/30",
+            isAnimating && "animate-pulse bg-green-400/30 text-green-300",
+          )}
+        >
+          Complete
+        </Badge>
+      )
     case "processing":
-      return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">Processing</Badge>
+      return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 animate-pulse">Processing</Badge>
     case "error":
       return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Error</Badge>
     default:
@@ -127,22 +137,112 @@ const getStatusBadge = (status: AutomationStatus) => {
   }
 }
 
+const formatTimestamp = (timestamp: string | number | Date): string => {
+  try {
+    // Handle different timestamp formats
+    let date: Date
+
+    if (typeof timestamp === "string") {
+      // Try parsing as ISO string first
+      if (timestamp.includes("T") || timestamp.includes("-")) {
+        date = new Date(timestamp)
+      } else {
+        // If it's just a time string like "10:30:45", use today's date
+        const today = new Date()
+        const timeMatch = timestamp.match(/(\d{1,2}):(\d{2}):(\d{2})/)
+        if (timeMatch) {
+          date = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate(),
+            Number.parseInt(timeMatch[1]),
+            Number.parseInt(timeMatch[2]),
+            Number.parseInt(timeMatch[3]),
+          )
+        } else {
+          date = new Date(timestamp)
+        }
+      }
+    } else if (typeof timestamp === "number") {
+      date = new Date(timestamp)
+    } else {
+      date = new Date(timestamp)
+    }
+
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      console.warn("Invalid timestamp:", timestamp)
+      return new Date().toLocaleTimeString()
+    }
+
+    return date.toLocaleTimeString()
+  } catch (error) {
+    console.warn("Error formatting timestamp:", timestamp, error)
+    return new Date().toLocaleTimeString()
+  }
+}
+
 export default function WorkflowCards({ statuses, statusLog, error, onContinue, isComplete }: WorkflowCardsProps) {
+  const [animatingSteps, setAnimatingSteps] = useState<Set<string>>(new Set())
+  const [showContinueButton, setShowContinueButton] = useState(false)
+
+  // Handle animation states
+  useEffect(() => {
+    if (isComplete) {
+      // Start animating all completed steps
+      const completedSteps = Object.keys(statuses).filter((stepId) => statuses[stepId] === "complete")
+      setAnimatingSteps(new Set(completedSteps))
+
+      // Show continue button after a delay to let animations play
+      const timer = setTimeout(() => {
+        setShowContinueButton(true)
+        // Stop animations after continue button appears
+        setTimeout(() => {
+          setAnimatingSteps(new Set())
+        }, 1000)
+      }, 2000)
+
+      return () => clearTimeout(timer)
+    } else {
+      setShowContinueButton(false)
+      setAnimatingSteps(new Set())
+    }
+  }, [isComplete, statuses])
+
+  // Animate individual steps as they complete
+  useEffect(() => {
+    Object.keys(statuses).forEach((stepId) => {
+      if (statuses[stepId] === "complete" && !isComplete) {
+        setAnimatingSteps((prev) => new Set([...prev, stepId]))
+
+        // Stop animating this step after 3 seconds
+        setTimeout(() => {
+          setAnimatingSteps((prev) => {
+            const newSet = new Set(prev)
+            newSet.delete(stepId)
+            return newSet
+          })
+        }, 3000)
+      }
+    })
+  }, [statuses, isComplete])
+
   return (
     <div className="max-w-6xl mx-auto">
       {/* Workflow Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {workflowSteps.map((step, index) => {
           const status = statuses[step.id] || "pending"
-          const isActive = status === "processing"
+          const isAnimating = animatingSteps.has(step.id)
+          const isActive = status === "processing" || isAnimating
 
           return (
             <Card
               key={step.id}
               className={cn(
                 "relative transition-all duration-500 border-2",
-                getStatusColor(status),
-                isActive && "animate-pulse",
+                getStatusColor(status, isAnimating),
+                isActive && "shadow-lg transform scale-105",
               )}
             >
               <CardContent className="p-6">
@@ -150,11 +250,13 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
                   <div className="flex items-center space-x-3">
                     <div
                       className={cn(
-                        "p-2 rounded-lg",
+                        "p-2 rounded-lg transition-all duration-300",
                         status === "complete"
-                          ? "bg-green-500/20"
+                          ? isAnimating
+                            ? "bg-green-400/30 shadow-lg shadow-green-400/20"
+                            : "bg-green-500/20"
                           : status === "processing"
-                            ? "bg-blue-500/20"
+                            ? "bg-blue-500/20 animate-pulse"
                             : status === "error"
                               ? "bg-red-500/20"
                               : "bg-gray-500/20",
@@ -165,8 +267,8 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
                     <div>
                       <h3 className="font-semibold text-white text-lg">{step.label}</h3>
                       <div className="flex items-center space-x-2 mt-1">
-                        {getStatusIcon(status)}
-                        {getStatusBadge(status)}
+                        {getStatusIcon(status, isAnimating)}
+                        {getStatusBadge(status, isAnimating)}
                       </div>
                     </div>
                   </div>
@@ -174,24 +276,33 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
 
                 <div className="space-y-3">
                   <p className="text-gray-300 text-sm leading-relaxed">{step.description}</p>
-                  <div className="bg-black/30 rounded-lg p-3 border border-gray-700">
+                  <div
+                    className={cn(
+                      "bg-black/30 rounded-lg p-3 border border-gray-700 transition-all duration-300",
+                      isAnimating && "border-green-500/50 bg-green-500/5",
+                    )}
+                  >
                     <p className="text-xs text-gray-400 font-mono">{step.technicalDetails}</p>
                   </div>
                 </div>
-
-                {/* Continue Button for Dashboard Step */}
-                {step.id === "dashboard-complete" && status === "complete" && (
-                  <div className="mt-4 pt-4 border-t border-gray-700">
-                    <Button onClick={onContinue} className="w-full bg-green-600 hover:bg-green-700 text-white">
-                      View Dashboard <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </div>
-                )}
               </CardContent>
             </Card>
           )
         })}
       </div>
+
+      {/* Continue Button - Shows after workflow is complete and animations finish */}
+      {showContinueButton && (
+        <div className="flex justify-center mb-8">
+          <Button
+            onClick={onContinue}
+            size="lg"
+            className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg font-semibold animate-pulse"
+          >
+            View Dashboard Results <ArrowRight className="w-5 h-5 ml-2" />
+          </Button>
+        </div>
+      )}
 
       {/* Status Log */}
       {statusLog.length > 0 && (
@@ -205,7 +316,7 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
                     {getStatusIcon(entry.status)}
                     <span className="text-gray-300">{entry.message}</span>
                   </div>
-                  <span className="text-gray-500 text-xs">{new Date(entry.timestamp).toLocaleTimeString()}</span>
+                  <span className="text-gray-500 text-xs">{formatTimestamp(entry.timestamp)}</span>
                 </div>
               ))}
             </div>
