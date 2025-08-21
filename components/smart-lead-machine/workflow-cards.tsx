@@ -102,19 +102,6 @@ const getStatusIcon = (status: AutomationStatus, isAnimating = false) => {
   }
 }
 
-const getStatusColor = (status: AutomationStatus, isAnimating = false) => {
-  switch (status) {
-    case "complete":
-      return cn("border-green-500 bg-green-500/10", isAnimating && "animate-pulse border-green-400 bg-green-400/20")
-    case "processing":
-      return "border-blue-500 bg-blue-500/10 animate-pulse"
-    case "error":
-      return "border-red-500 bg-red-500/10"
-    default:
-      return "border-gray-600 bg-gray-800/50"
-  }
-}
-
 const getStatusBadge = (status: AutomationStatus, isAnimating = false) => {
   switch (status) {
     case "complete":
@@ -129,7 +116,7 @@ const getStatusBadge = (status: AutomationStatus, isAnimating = false) => {
         </Badge>
       )
     case "processing":
-      return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 animate-pulse">Processing</Badge>
+      return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">Processing</Badge>
     case "error":
       return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Error</Badge>
     default:
@@ -283,12 +270,40 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
             <Card
               key={step.id}
               className={cn(
-                "relative transition-all duration-500 border-2",
-                getStatusColor(status, isAnimating),
+                "relative transition-all duration-500 border-2 overflow-hidden",
+                status === "complete"
+                  ? isAnimating
+                    ? "border-green-400 bg-green-500/10 shadow-lg shadow-green-400/20"
+                    : "border-green-500 bg-green-500/10"
+                  : status === "processing"
+                    ? "border-blue-500 bg-blue-500/10"
+                    : status === "error"
+                      ? "border-red-500 bg-red-500/10"
+                      : "border-gray-600 bg-gray-800/50",
                 isActive && "shadow-lg transform scale-105",
               )}
             >
-              <CardContent className="p-6">
+              {/* Liquid Fill Animation */}
+              {status === "processing" && (
+                <div className="absolute inset-0 overflow-hidden">
+                  <div
+                    className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-500/30 to-green-400/20 transition-all duration-[3000ms] ease-out"
+                    style={{
+                      height: "100%",
+                      animation: "liquidFill 3s ease-out forwards",
+                    }}
+                  />
+                  <div
+                    className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-500/20 to-transparent"
+                    style={{
+                      height: "100%",
+                      animation: "liquidFill 3s ease-out forwards 0.5s",
+                    }}
+                  />
+                </div>
+              )}
+
+              <CardContent className="p-6 relative z-10">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <div
@@ -299,7 +314,7 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
                             ? "bg-green-400/30 shadow-lg shadow-green-400/20"
                             : "bg-green-500/20"
                           : status === "processing"
-                            ? "bg-blue-500/20 animate-pulse"
+                            ? "bg-blue-500/20"
                             : status === "error"
                               ? "bg-red-500/20"
                               : "bg-gray-500/20",
@@ -381,6 +396,23 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
           </CardContent>
         </Card>
       )}
+
+      <style jsx>{`
+        @keyframes liquidFill {
+          0% {
+            height: 0%;
+            opacity: 0.8;
+          }
+          50% {
+            height: 50%;
+            opacity: 0.6;
+          }
+          100% {
+            height: 100%;
+            opacity: 0.4;
+          }
+        }
+      `}</style>
     </div>
   )
 }
