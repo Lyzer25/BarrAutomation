@@ -20,6 +20,7 @@ const demos = [
     roi: "Recovers 15-25% of lost carts",
     description:
       "Automatically detects abandoned carts, analyzes customer history, and sends hyper-personalized SMS/email campaigns to win back sales.",
+    link: "/demos/revenue-recovery",
   },
   {
     title: "Client Success Engine",
