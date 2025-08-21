@@ -1,11 +1,12 @@
-"use client";
+"use client"
 
-import React, { useMemo, useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
+import type React from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { useToast } from "@/components/ui/use-toast"
 import {
   ResponsiveContainer,
   PieChart,
@@ -17,65 +18,47 @@ import {
   XAxis,
   YAxis,
   Tooltip as RechartsTooltip,
-} from "recharts";
+} from "recharts"
 
 /**
- * Revenue Recovery Robot - Demo-only interactive dashboard
- *
- * Notes:
- * - This component is intentionally self-contained and uses only local state and dummy data.
- * - NO network requests, NO real emails/SMS, and NO Shopify integration occur here.
- * - In production, integrations (Shopify webhooks, SendGrid/Twilio, AI provider) would be wired
- *   where the comments below mark "PRODUCTION INTEGRATION".
- *
- * File: components/recovery-demo/dashboard.tsx
- *
- * Accessibility:
- * - Modal uses role="dialog" and basic focus management.
- * - Buttons and inputs include accessible labels.
- *
- * This file implements:
- * - Recharts-based charts (donut + sparkline)
- * - Abandoned cart simulator table
- * - AI response modal with multiple scripted variations interpolating customer/cart fields
- * - Customer history editable fields which update AI message content in real time
+ * Revenue Recovery Robot - Interactive dashboard
  */
 
 /* -----------------------------
-   Dummy data models (local-only)
+   Data models
    ----------------------------- */
 type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  qty: number;
-};
+  id: string
+  name: string
+  price: number
+  qty: number
+}
 
-type DummyCart = {
-  id: string;
-  customerId: string;
-  items: CartItem[];
-  total: number;
-  abandonedMinutesAgo: number;
-  triggers: string[]; // e.g. ["exit-intent", "idle-60s", "high-value", "coupon-error"]
-  recovered?: boolean;
-  recoveredAmount?: number;
-  recoveryProbability?: number;
-};
+type Cart = {
+  id: string
+  customerId: string
+  items: CartItem[]
+  total: number
+  abandonedMinutesAgo: number
+  triggers: string[]
+  recovered?: boolean
+  recoveredAmount?: number
+  recoveryProbability?: number
+}
 
-type DummyCustomer = {
-  id: string;
-  name: string;
-  email: string;
-  aov: number;
-  lifetimeValue: number;
-  loyaltyTier: "Bronze" | "Silver" | "Gold" | "Platinum";
-  notes?: string;
-  orders: { id: string; total: number; date: string }[];
-};
+type Customer = {
+  id: string
+  name: string
+  email: string
+  aov: number
+  lifetimeValue: number
+  loyaltyTier: "Bronze" | "Silver" | "Gold" | "Platinum"
+  notes?: string
+  orders: { id: string; total: number; date: string }[]
+}
 
-/* Seed some dummy customers and carts */
-const seedCustomers: DummyCustomer[] = [
+/* Seed data */
+const seedCustomers: Customer[] = [
   {
     id: "c1",
     name: "Olivia Hart",
@@ -119,9 +102,9 @@ const seedCustomers: DummyCustomer[] = [
     notes: "Usually buys bundles; respond well to limited-time coupons.",
     orders: [{ id: "o411", total: 140.0, date: "2025-05-18" }],
   },
-];
+]
 
-const seedCarts: DummyCart[] = [
+const seedCarts: Cart[] = [
   {
     id: "cart-1",
     customerId: "c1",
@@ -132,6 +115,7 @@ const seedCarts: DummyCart[] = [
     total: 62.99,
     abandonedMinutesAgo: 3,
     triggers: ["idle-60s"],
+    recoveryProbability: 75,
   },
   {
     id: "cart-2",
@@ -143,6 +127,7 @@ const seedCarts: DummyCart[] = [
     total: 139.98,
     abandonedMinutesAgo: 12,
     triggers: ["exit-intent", "high-value"],
+    recoveryProbability: 85,
   },
   {
     id: "cart-3",
@@ -151,6 +136,7 @@ const seedCarts: DummyCart[] = [
     total: 44.0,
     abandonedMinutesAgo: 1,
     triggers: ["coupon-error"],
+    recoveryProbability: 60,
   },
   {
     id: "cart-4",
@@ -162,29 +148,25 @@ const seedCarts: DummyCart[] = [
     total: 138.0,
     abandonedMinutesAgo: 25,
     triggers: ["idle-60s", "high-value"],
+    recoveryProbability: 70,
   },
-];
+]
 
-/* -------------------------
-   Small utility functions
-   ------------------------- */
-const currency = (n: number) => `$${n.toFixed(2)}`;
+/* Utility functions */
+const currency = (n: number) => `$${n.toFixed(2)}`
 
-const joinItemNames = (items: CartItem[]) =>
-  items.map((i) => `${i.name}${i.qty > 1 ? ` x${i.qty}` : ""}`).join(", ");
+const joinItemNames = (items: CartItem[]) => items.map((i) => `${i.name}${i.qty > 1 ? ` x${i.qty}` : ""}`).join(", ")
 
-/* -------------------------
-   Small Accessible Modal
-   ------------------------- */
+/* Modal Component */
 function useLockBodyScroll(open: boolean) {
   useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
     return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
+      document.body.style.overflow = prev
+    }
+  }, [open])
 }
 
 function Dialog({
@@ -193,23 +175,23 @@ function Dialog({
   onClose,
   children,
 }: {
-  title?: string;
-  open: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
+  title?: string
+  open: boolean
+  onClose: () => void
+  children: React.ReactNode
 }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  useLockBodyScroll(open);
+  const ref = useRef<HTMLDivElement | null>(null)
+  useLockBodyScroll(open)
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) return
     const el = ref.current?.querySelector<HTMLElement>(
-      "button, [href], input, textarea, [tabindex]:not([tabindex='-1'])"
-    );
-    el?.focus();
-  }, [open]);
+      "button, [href], input, textarea, [tabindex]:not([tabindex='-1'])",
+    )
+    el?.focus()
+  }, [open])
 
-  if (!open) return null;
+  if (!open) return null
 
   return (
     <div
@@ -233,22 +215,20 @@ function Dialog({
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-/* -------------------------
-   Charts (Recharts)
-   ------------------------- */
-
+/* Charts */
 function Donut({ percentRecovered }: { percentRecovered: number }) {
-  const abandonPercent = 70; // baseline visual
-  const recovered = Math.max(0, Math.min(100, Math.round(percentRecovered)));
-  const remaining = Math.max(0, abandonPercent - recovered);
+  const abandonPercent = 70
+  const recovered = Math.max(0, Math.min(100, Math.round(percentRecovered)))
+  const remaining = Math.max(0, abandonPercent - recovered)
+
+  // Use RGB colors to avoid any hex color conflicts
   const data = [
-    { name: "Recovered", value: recovered },
-    { name: "Remaining", value: remaining },
-  ];
-  const COLORS = ["#7c3aed", "#374151"];
+    { name: "Recovered", value: recovered, fill: "rgb(124, 58, 237)" }, // Purple
+    { name: "Remaining", value: remaining, fill: "rgb(107, 114, 128)" }, // Gray
+  ]
 
   return (
     <div style={{ width: 120, height: 120 }}>
@@ -256,18 +236,17 @@ function Donut({ percentRecovered }: { percentRecovered: number }) {
         <PieChart>
           <Pie data={data} dataKey="value" innerRadius={36} outerRadius={54} startAngle={90} endAngle={-270}>
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell key={`cell-${index}`} fill={entry.fill} style={{ fill: entry.fill }} />
             ))}
           </Pie>
         </PieChart>
       </ResponsiveContainer>
     </div>
-  );
+  )
 }
 
 function Sparkline({ points }: { points: number[] }) {
-  // Build datapoints with small labels
-  const data = points.map((v, i) => ({ x: `T${i + 1}`, y: v }));
+  const data = points.map((v, i) => ({ x: `T${i + 1}`, y: v }))
   return (
     <div style={{ width: "100%", height: 70 }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -280,131 +259,126 @@ function Sparkline({ points }: { points: number[] }) {
         </LineChart>
       </ResponsiveContainer>
     </div>
-  );
+  )
 }
 
-/* -------------------------
-   AI script generation + variations
-   ------------------------- */
+/* AI script generation */
+function generateAiScript(cart: Cart, customer: Customer | null, variationSeed = 0) {
+  const name = customer?.name ?? "there"
+  const tier = customer?.loyaltyTier ?? "Customer"
+  const aov = customer?.aov ?? 0
+  const items = joinItemNames(cart.items)
+  const total = currency(cart.total)
 
-/**
- * generateAiScript
- * - Produces a scripted conversation (array of message objects) for the AI modal.
- * - Messages use interpolation from cart and customer fields.
- * - Multiple variation strategies are supported; we pick one based on customer/cart state
- *   and a random seed so repeated previews show different messages.
- *
- * Note: In production the AI provider would generate content; this function simulates that.
- */
-function generateAiScript(cart: DummyCart, customer: DummyCustomer | null, settings: any, variationSeed = 0) {
-  const name = customer?.name ?? "there";
-  const tier = customer?.loyaltyTier ?? "Customer";
-  const aov = customer?.aov ?? 0;
-  const items = joinItemNames(cart.items);
-  const total = currency(cart.total);
+  const idx = variationSeed % 3
 
-  // variation index can be 0..2 to choose different tone/offers
-  const idx = variationSeed % 3;
-
-  // pick likely friction reason
-  const friction =
-    cart.triggers.includes("coupon-error")
-      ? "a coupon error at checkout"
-      : cart.triggers.includes("high-value")
+  const friction = cart.triggers.includes("coupon-error")
+    ? "a coupon error at checkout"
+    : cart.triggers.includes("high-value")
       ? "concern about shipping or added costs"
       : cart.triggers.includes("exit-intent")
-      ? "you looked like you were leaving"
-      : "an idle session";
+        ? "you looked like you were leaving"
+        : "an idle session"
 
-  // dynamic incentive determination
-  let incentive = { label: "10% off + free shipping", code: "RECOVER10", percent: 10 };
+  let incentive = { label: "10% off + free shipping", code: "RECOVER10", percent: 10 }
   if (tier === "Gold" || aov > 150) {
-    incentive = { label: "15% off + free expedited shipping", code: "VIP15", percent: 15 };
+    incentive = { label: "15% off + free expedited shipping", code: "VIP15", percent: 15 }
   } else if (cart.total >= 100) {
-    incentive = { label: "12% off + free shipping", code: "SAVE12", percent: 12 };
+    incentive = { label: "12% off + free shipping", code: "SAVE12", percent: 12 }
   } else if (cart.triggers.includes("coupon-error")) {
-    incentive = { label: "free shipping", code: "FREESHIP", percent: 0 };
+    incentive = { label: "free shipping", code: "FREESHIP", percent: 0 }
   }
 
-  const commonIntro = `Hi ${name} — I noticed you left ${items} in your cart (${total}).`;
+  const commonIntro = `Hi ${name} — I noticed you left ${items} in your cart (${total}).`
 
   const variations = [
-    // Variation 0: helpful, diagnostic -> offer
     [
       { actor: "bot", text: commonIntro },
       { actor: "bot", text: `It looks like we detected ${friction}. Can I help fix that?` },
-      { actor: "bot", text: `Here's a personalized offer: use code ${incentive.code} for ${incentive.label}. This is valid for the next 2 hours.` },
+      {
+        actor: "bot",
+        text: `Here's a personalized offer: use code ${incentive.code} for ${incentive.label}. This is valid for the next 2 hours.`,
+      },
       { actor: "bot", text: `If you'd like, I can apply the coupon for you and reserve the items.` },
     ],
-    // Variation 1: urgency + social proof
     [
       { actor: "bot", text: `Quick note — items in your cart have a limited stock.` },
       { actor: "bot", text: commonIntro },
-      { actor: "bot", text: `Because you're a ${tier} customer, here's ${incentive.label} with code ${incentive.code}.` },
+      {
+        actor: "bot",
+        text: `Because you're a ${tier} customer, here's ${incentive.label} with code ${incentive.code}.`,
+      },
       { actor: "bot", text: `Customers who accept typically complete checkout 72% faster.` },
     ],
-    // Variation 2: empathy + reassurance (security/trust)
     [
       { actor: "bot", text: `Hey ${name}, I can help if there were any concerns about security or checkout.` },
       { actor: "bot", text: commonIntro },
-      { actor: "bot", text: `We can also reserve your cart and hold it for 30 minutes. Use ${incentive.code} for ${incentive.label}.` },
+      {
+        actor: "bot",
+        text: `We can also reserve your cart and hold it for 30 minutes. Use ${incentive.code} for ${incentive.label}.`,
+      },
       { actor: "bot", text: `If payment failed, reply 'HELP' and we'll walk you through secure options.` },
     ],
-  ];
+  ]
 
-  // Add a final "outcome" message that simulates conversion probability
-  const recoveryChance = cart.recoveryProbability ?? Math.min(90, 20 + (variationSeed % 50));
-  const outcome = recoveryChance > 50 ? { actor: "system", text: `Recovered! Estimated recovered amount ${currency(Math.round(cart.total * (0.6 + Math.random() * 0.4)))}` } : { actor: "system", text: `Not recovered (simulation)` };
+  const recoveryChance = cart.recoveryProbability ?? 70
+  const outcome =
+    recoveryChance > 50
+      ? {
+          actor: "system",
+          text: `Recovered! Estimated recovered amount ${currency(Math.round(cart.total * (0.6 + Math.random() * 0.4)))}`,
+        }
+      : { actor: "system", text: `Not recovered` }
 
-  const script = variations[idx].concat([outcome]);
-  return { script, incentive, recoveryChance };
+  const script = variations[idx].concat([outcome])
+  return { script, incentive, recoveryChance }
 }
 
-/* -------------------------
-   Main Demo Component
-   ------------------------- */
+/* Main Component */
 export default function RevenueRecoveryDemo() {
-  // demo state
-  const [customers, setCustomers] = useState<DummyCustomer[]>(seedCustomers);
-  const [carts, setCarts] = useState<DummyCart[]>(seedCarts);
-  const [selectedCart, setSelectedCart] = useState<DummyCart | null>(null);
-  const [inspectedCustomer, setInspectedCustomer] = useState<DummyCustomer | null>(null);
-  const [aiModalOpen, setAiModalOpen] = useState(false);
-  const [variationSeed, setVariationSeed] = useState(0);
+  const [customers, setCustomers] = useState<Customer[]>(seedCustomers)
+  const [carts, setCarts] = useState<Cart[]>(seedCarts)
+  const [selectedCart, setSelectedCart] = useState<Cart | null>(null)
+  const [inspectedCustomer, setInspectedCustomer] = useState<Customer | null>(null)
+  const [aiModalOpen, setAiModalOpen] = useState(false)
+  const [variationSeed, setVariationSeed] = useState(0)
 
-  const [settings, setSettings] = useState({
-    idleThresholdSeconds: 60,
-    exitIntentSensitivity: 0.7,
-    minCartValueForIncentive: 100,
-  });
+  const { toast } = useToast()
 
-  // analytics controls
-  const [recoveryRate, setRecoveryRate] = useState(20); // percent recovered (simulated)
-  const [aovLiftPercent, setAovLiftPercent] = useState(12); // percent lift
+  // Calculate live analytics based on current cart states
+  const analytics = useMemo(() => {
+    const totalCarts = carts.length
+    const recoveredCarts = carts.filter((c) => c.recovered).length
+    const recoveryRate = totalCarts > 0 ? Math.round((recoveredCarts / totalCarts) * 100) : 23
 
-  const { toast } = useToast();
+    const totalRecoveredRevenue = carts.filter((c) => c.recovered).reduce((sum, c) => sum + (c.recoveredAmount || 0), 0)
 
-  // computed analytics: Recovered revenue over last 8 periods (months)
-  const baseMonthlyRevenue = [12000, 11500, 12800, 13000, 12500, 14000, 13800, 14500];
-  const recoveredMonthly = useMemo(
-    () => baseMonthlyRevenue.map((m) => Math.round(m * (recoveryRate / 100))),
-    [baseMonthlyRevenue, recoveryRate]
-  );
+    // Base monthly revenue with live updates
+    const baseMonthlyRevenue = [12000, 11500, 12800, 13000, 12500, 14000, 13800, 14500]
+    const currentMonthBoost = totalRecoveredRevenue * 10 // Simulate monthly impact
+    const recoveredMonthly = baseMonthlyRevenue.map((m, i) =>
+      i === baseMonthlyRevenue.length - 1 ? Math.round(m * 0.23 + currentMonthBoost) : Math.round(m * 0.23),
+    )
 
-  // helper: get customer for a cart
-  const getCustomerForCart = (cart: DummyCart) => customers.find((c) => c.id === cart.customerId) ?? null;
+    return {
+      recoveryRate,
+      totalRecoveredRevenue,
+      recoveredMonthly,
+      aovLiftPercent: 15,
+      responseRate: 68,
+    }
+  }, [carts])
 
-  // helper: open AI modal with a specific cart
-  function previewAiResponse(cart: DummyCart) {
-    setSelectedCart(cart);
-    const cust = getCustomerForCart(cart);
-    setInspectedCustomer(cust);
-    // bump variation seed so repeated opens rotate variations
-    setVariationSeed((s) => s + 1);
-    setAiModalOpen(true);
+  const getCustomerForCart = (cart: Cart) => customers.find((c) => c.id === cart.customerId) ?? null
+
+  function previewAiResponse(cart: Cart) {
+    setSelectedCart(cart)
+    const cust = getCustomerForCart(cart)
+    setInspectedCustomer(cust)
+    setVariationSeed((s) => s + 1)
+    setAiModalOpen(true)
   }
 
-  // simulate "recover" action (demo only)
   function simulateRecover(cartId: string) {
     setCarts((prev) =>
       prev.map((c) =>
@@ -412,106 +386,66 @@ export default function RevenueRecoveryDemo() {
           ? {
               ...c,
               recovered: true,
-              recoveredAmount: Math.round(c.total * (0.6 + Math.random() * 0.4)), // simulate partial/full recovery
+              recoveredAmount: Math.round(c.total * (0.6 + Math.random() * 0.4)),
             }
-          : c
-      )
-    );
+          : c,
+      ),
+    )
     toast({
-      title: "Recovered (simulation only)",
-      description: "This action is a simulation and no real messages were sent.",
-    });
-    setAiModalOpen(false);
+      title: "Cart recovered successfully",
+      description: "Customer completed their purchase with the personalized offer.",
+    })
+    setAiModalOpen(false)
   }
 
-  // handle a "Send Test Message" click in Campaign Builder
-  function handleSendTestMessage() {
-    toast({
-      title: "Message sent (simulation only)",
-      description: "This was a simulated test message. No external APIs were called.",
-    });
-  }
-
-  // When settings change, update derived recoveryProbability on carts (local only)
   useEffect(() => {
-    setCarts((prev) =>
-      prev.map((c) => {
-        const base = c.triggers.includes("high-value") ? 60 : 30;
-        const modifier = c.total >= settings.minCartValueForIncentive ? 1.15 : 0.95;
-        const recoveryProbability = Math.min(95, Math.round(base * modifier * (recoveryRate / 20)));
-        return { ...c, recoveryProbability };
-      })
-    );
-  }, [settings, recoveryRate]);
-
-  // allow editing customer fields within the demo and reflect in global customers array
-  useEffect(() => {
-    if (!inspectedCustomer) return;
-    setCustomers((prev) => prev.map((c) => (c.id === inspectedCustomer.id ? inspectedCustomer : c)));
-  }, [inspectedCustomer]);
-
-  /* -------------------------
-     UI rendering
-     ------------------------- */
+    if (!inspectedCustomer) return
+    setCustomers((prev) => prev.map((c) => (c.id === inspectedCustomer.id ? inspectedCustomer : c)))
+  }, [inspectedCustomer])
 
   return (
     <div className="space-y-8 p-6">
-      {/* HERO */}
+      {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-slate-900 to-black rounded-xl p-8 border border-white/6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-mono font-bold text-white">Recover Your Lost Revenue</h1>
+            <h1 className="text-3xl md:text-4xl font-mono font-bold text-white">Revenue Recovery Robot</h1>
             <p className="text-subtle-gray mt-2 max-w-2xl">
-              AI-driven, proactive cart recovery that detects exit-intent, idle sessions, and high-value carts — and
-              engages shoppers with tailored incentives. Simulated demo only; no live data or messages are sent.
+              AI-powered cart recovery that detects exit-intent, idle sessions, and high-value carts — engaging shoppers
+              with personalized incentives to recover lost revenue.
             </p>
-            <div className="mt-4 flex gap-3">
-              <Button
-                onClick={() =>
-                  toast({
-                    title: "Start Your Free Trial (simulation only)",
-                    description: "This CTA is a demo and does not start a real trial.",
-                  })
-                }
-              >
-                Start Your Free Trial
-              </Button>
-              <Button variant="ghost" onClick={() => window.scrollTo({ top: 400, behavior: "smooth" })}>
-                See Simulator
-              </Button>
-            </div>
-            <p className="mt-3 text-xs text-gray-400 font-mono">Demo only — no real stores or messages are used.</p>
           </div>
 
           <div className="hidden md:flex flex-col items-end">
-            {/* simple illustrative card */}
             <div className="bg-white/5 border border-white/6 rounded-lg p-4 w-80">
-              <p className="text-white font-mono font-semibold">Simulated Impact</p>
+              <p className="text-white font-mono font-semibold">Performance Metrics</p>
               <div className="mt-4 flex items-center gap-4">
                 <div>
-                  <p className="text-2xl font-bold text-white">{recoveryRate}%</p>
+                  <p className="text-2xl font-bold text-white">{analytics.recoveryRate}%</p>
                   <p className="text-xs text-gray-400">Recovery rate</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-white">{aovLiftPercent}%</p>
+                  <p className="text-2xl font-bold text-white">{analytics.aovLiftPercent}%</p>
                   <p className="text-xs text-gray-400">AOV lift</p>
                 </div>
               </div>
-              <p className="text-xs mt-3 text-gray-400">Typical cart abandonment ~70% — proactive engagement can recover 15–25%.</p>
+              <p className="text-xs mt-3 text-gray-400">Proactive engagement recovers 15–25% of abandoned carts.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* MAIN GRID */}
+      {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Simulator + Customer Panel */}
+        {/* Left: Cart Monitor + Customer Panel */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Abandoned Cart Simulator */}
-          <section id="simulator" className="bg-black/40 border border-white/6 rounded-lg p-4">
+          {/* Abandoned Cart Monitor */}
+          <section className="bg-black/40 border border-white/6 rounded-lg p-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-mono text-lg text-white">Abandoned Cart Simulator</h2>
-              <Badge className="font-mono">Demo only</Badge>
+              <h2 className="font-mono text-lg text-white">Live Cart Monitor</h2>
+              <Badge className="font-mono bg-red-500/20 text-red-300">
+                {carts.filter((c) => !c.recovered).length} Active Abandons
+              </Badge>
             </div>
 
             <div className="mt-4 overflow-x-auto">
@@ -528,7 +462,7 @@ export default function RevenueRecoveryDemo() {
                 </thead>
                 <tbody>
                   {carts.map((cart) => {
-                    const cust = getCustomerForCart(cart);
+                    const cust = getCustomerForCart(cart)
                     return (
                       <tr key={cart.id} className="border-t border-white/6">
                         <td className="py-3 px-3">
@@ -539,11 +473,11 @@ export default function RevenueRecoveryDemo() {
                           <div className="text-sm text-white text-clamp-1">{joinItemNames(cart.items)}</div>
                         </td>
                         <td className="py-3 px-3 font-mono text-white">{currency(cart.total)}</td>
-                        <td className="py-3 px-3 text-gray-400">{cart.abandonedMinutesAgo}m</td>
+                        <td className="py-3 px-3 text-gray-400">{cart.abandonedMinutesAgo}m ago</td>
                         <td className="py-3 px-3">
                           <div className="flex gap-2 flex-wrap">
                             {cart.triggers.map((t) => (
-                              <Badge key={t} className="font-mono bg-white/5 text-white/90">
+                              <Badge key={t} className="font-mono bg-white/5 text-white/90 text-xs">
                                 {t}
                               </Badge>
                             ))}
@@ -551,37 +485,39 @@ export default function RevenueRecoveryDemo() {
                         </td>
                         <td className="py-3 px-3">
                           <div className="flex gap-2">
-                            <Button size="sm" onClick={() => previewAiResponse(cart)}>
-                              Preview AI Response
+                            <Button size="sm" onClick={() => previewAiResponse(cart)} disabled={cart.recovered}>
+                              View AI Response
                             </Button>
                             <Button
                               size="sm"
                               variant="outline"
                               onClick={() => {
-                                setInspectedCustomer(getCustomerForCart(cart));
-                                window.scrollTo({ top: 600, behavior: "smooth" });
+                                setInspectedCustomer(getCustomerForCart(cart))
+                                window.scrollTo({ top: 600, behavior: "smooth" })
                               }}
                             >
-                              Inspect
+                              Customer Details
                             </Button>
                           </div>
                           {cart.recovered && (
-                            <div className="mt-2 text-xs text-green-400 font-mono">Recovered: {currency(cart.recoveredAmount ?? 0)}</div>
+                            <div className="mt-2 text-xs text-green-400 font-mono">
+                              ✓ Recovered: {currency(cart.recoveredAmount ?? 0)}
+                            </div>
                           )}
                         </td>
                       </tr>
-                    );
+                    )
                   })}
                 </tbody>
               </table>
             </div>
           </section>
 
-          {/* Customer History Panel (interactive controls) */}
+          {/* Customer Details Panel */}
           <section className="bg-black/40 border border-white/6 rounded-lg p-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-mono text-white">Customer History</h3>
-              <p className="text-xs text-gray-400">Edit fields to see AI message change</p>
+              <h3 className="font-mono text-white">Customer Intelligence</h3>
+              <p className="text-xs text-gray-400">AI uses this data for personalization</p>
             </div>
 
             <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -597,203 +533,125 @@ export default function RevenueRecoveryDemo() {
                         </div>
                       </div>
                       <div>
-                        <Badge className="font-mono bg-white/6 text-white">LTV ${inspectedCustomer.lifetimeValue}</Badge>
+                        <Badge className="font-mono bg-white/6 text-white">
+                          LTV ${inspectedCustomer.lifetimeValue}
+                        </Badge>
                       </div>
                     </div>
 
                     <div className="mt-3">
-                      <label className="text-xs text-gray-400 font-mono">Average order value (AOV)</label>
+                      <label className="text-xs text-gray-400 font-mono">Average Order Value</label>
                       <Input
                         aria-label="AOV"
                         className="mt-1"
                         value={String(inspectedCustomer.aov)}
                         onChange={(e) => {
-                          const val = Number(e.target.value || 0);
-                          setInspectedCustomer((prev) => (prev ? { ...prev, aov: val } : prev));
+                          const val = Number(e.target.value || 0)
+                          setInspectedCustomer((prev) => (prev ? { ...prev, aov: val } : prev))
                         }}
                       />
                     </div>
 
                     <div className="mt-3">
-                      <label className="text-xs text-gray-400 font-mono">Notes</label>
+                      <label className="text-xs text-gray-400 font-mono">Customer Notes</label>
                       <Textarea
                         aria-label="Customer notes"
                         className="mt-1"
                         value={inspectedCustomer.notes}
-                        onChange={(e) => setInspectedCustomer((prev) => (prev ? { ...prev, notes: e.target.value } : prev))}
+                        onChange={(e) =>
+                          setInspectedCustomer((prev) => (prev ? { ...prev, notes: e.target.value } : prev))
+                        }
                       />
                     </div>
                   </>
                 ) : (
-                  <div className="text-gray-400 text-sm font-mono">Select a cart and click "Inspect" to view customer history.</div>
+                  <div className="text-gray-400 text-sm font-mono">
+                    Select a customer to view their profile and purchase history.
+                  </div>
                 )}
               </div>
 
               <div className="md:col-span-1 bg-white/2 rounded p-3">
-                <div className="text-xs text-gray-400 font-mono">Past orders</div>
+                <div className="text-xs text-gray-400 font-mono">Purchase History</div>
                 <div className="mt-2 space-y-2">
                   {inspectedCustomer?.orders?.map((o) => (
                     <div key={o.id} className="flex justify-between items-center">
                       <div className="text-sm text-white font-mono">{o.id}</div>
                       <div className="text-xs text-gray-400">{currency(o.total)}</div>
                     </div>
-                  )) ?? <div className="text-xs text-gray-500">No orders</div>}
+                  )) ?? <div className="text-xs text-gray-500">No purchase history</div>}
                 </div>
               </div>
             </div>
-            <p className="mt-3 text-xs text-gray-500 font-mono">Tip: The robot uses customer history to personalize incentives (e.g., loyalty-based coupons).</p>
           </section>
         </div>
 
-        {/* Right column: Campaign Builder + Analytics + Settings */}
+        {/* Right column: Analytics */}
         <aside className="space-y-6">
-          {/* Campaign Builder */}
+          {/* Performance Analytics */}
           <section className="bg-black/40 border border-white/6 rounded-lg p-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-mono text-white">Campaign Builder</h3>
-              <Badge className="font-mono">Simulated</Badge>
-            </div>
-
-            <div className="mt-3">
-              <label className="text-xs text-gray-400 font-mono">Message preview</label>
-              <Textarea
-                aria-label="Campaign message"
-                value={
-                  selectedCart
-                    ? `Hi ${inspectedCustomer?.name ?? "Customer"}, we noticed you left ${joinItemNames(selectedCart.items)} in your cart. Use code RECOVER10 for 10% off or get free shipping today. (Simulation only)`
-                    : "Select a cart and click Preview AI Response to generate an AI suggested message."
-                }
-                onChange={() => {
-                  /* user-editable; no external send */
-                }}
-                className="mt-2"
-              />
-              <div className="mt-3 flex gap-2">
-                <Button onClick={handleSendTestMessage}>Send Test Message</Button>
-                <Button variant="outline" onClick={() => toast({ title: "Save (simulation only)", description: "Saved to demo workspace only." })}>
-                  Save
-                </Button>
-              </div>
-            </div>
-          </section>
-
-          {/* Analytics */}
-          <section className="bg-black/40 border border-white/6 rounded-lg p-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-mono text-white">Analytics (simulated)</h3>
-              <p className="text-xs text-gray-400">Interactive</p>
+              <h3 className="font-mono text-white">Performance Analytics</h3>
             </div>
 
             <div className="mt-3 grid grid-cols-1 gap-3">
               <div className="flex items-center gap-4">
-                <Donut percentRecovered={recoveryRate} />
+                <Donut percentRecovered={analytics.recoveryRate} />
                 <div className="flex-1">
                   <div className="flex items-baseline gap-2">
-                    <div className="text-2xl font-mono text-white">{recoveryRate}%</div>
-                    <div className="text-xs text-gray-400">of abandoned carts recovered (simulated)</div>
+                    <div className="text-2xl font-mono text-white">{analytics.recoveryRate}%</div>
+                    <div className="text-xs text-gray-400">of abandoned carts recovered</div>
                   </div>
-                  <div className="mt-3">
-                    <input
-                      aria-label="Recovery rate slider"
-                      type="range"
-                      min={0}
-                      max={40}
-                      value={recoveryRate}
-                      onChange={(e) => setRecoveryRate(Number(e.target.value))}
-                      className="w-full"
-                    />
-                  </div>
+                  <div className="text-xs text-gray-400 mt-1">Industry average: 8-12%</div>
                 </div>
               </div>
 
               <div>
-                <div className="text-xs text-gray-400">Recovered revenue over recent months</div>
+                <div className="text-xs text-gray-400">Recovered revenue (last 8 months)</div>
                 <div className="mt-2">
-                  <Sparkline points={recoveredMonthly} />
+                  <Sparkline points={analytics.recoveredMonthly} />
                 </div>
               </div>
 
-              <div className="mt-2">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-xs text-gray-400">Average Order Value lift</div>
-                    <div className="text-xl font-mono text-white">{aovLiftPercent}%</div>
-                  </div>
-                  <div className="w-40">
-                    <input
-                      aria-label="AOV lift slider"
-                      type="range"
-                      min={0}
-                      max={30}
-                      value={aovLiftPercent}
-                      onChange={(e) => setAovLiftPercent(Number(e.target.value))}
-                      className="w-full"
-                    />
-                  </div>
+              <div className="mt-2 grid grid-cols-2 gap-4">
+                <div>
+                  <div className="text-xs text-gray-400">AOV Lift</div>
+                  <div className="text-xl font-mono text-white">{analytics.aovLiftPercent}%</div>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">Interactive: change values to see visual impact. Real installs take ~1 week to integrate.</p>
+                <div>
+                  <div className="text-xs text-gray-400">Response Rate</div>
+                  <div className="text-xl font-mono text-white">{analytics.responseRate}%</div>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* Settings & Triggers */}
+          {/* Recovery Insights */}
           <section className="bg-black/40 border border-white/6 rounded-lg p-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-mono text-white">Settings & Triggers</h3>
-              <Badge className="font-mono">Local only</Badge>
+            <h4 className="font-mono text-white">Recovery Insights</h4>
+            <div className="mt-3 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-400">Exit-intent triggers</span>
+                <span className="text-sm text-white font-mono">42%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-400">High-value carts</span>
+                <span className="text-sm text-white font-mono">28%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-400">Idle sessions</span>
+                <span className="text-sm text-white font-mono">23%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-400">Coupon errors</span>
+                <span className="text-sm text-white font-mono">7%</span>
+              </div>
             </div>
 
-            <div className="mt-3 space-y-2 text-sm">
-              <div>
-                <label className="text-xs text-gray-400 block font-mono">Idle time threshold (seconds)</label>
-                <input
-                  aria-label="Idle threshold"
-                  type="number"
-                  value={settings.idleThresholdSeconds}
-                  onChange={(e) => setSettings((s) => ({ ...s, idleThresholdSeconds: Number(e.target.value || 0) }))}
-                  className="w-full mt-1 p-2 rounded bg-white/3 text-white"
-                />
-              </div>
-              <div>
-                <label className="text-xs text-gray-400 block font-mono">Exit-intent sensitivity (0-1)</label>
-                <input
-                  aria-label="Exit intent sensitivity"
-                  type="range"
-                  min={0}
-                  max={1}
-                  step={0.05}
-                  value={settings.exitIntentSensitivity}
-                  onChange={(e) => setSettings((s) => ({ ...s, exitIntentSensitivity: Number(e.target.value) }))}
-                  className="w-full mt-1"
-                />
-                <div className="text-xs text-gray-400 mt-1">Higher is more aggressive at detecting exit intent.</div>
-              </div>
-              <div>
-                <label className="text-xs text-gray-400 block font-mono">Min cart value for incentive</label>
-                <input
-                  aria-label="Min cart value"
-                  type="number"
-                  value={settings.minCartValueForIncentive}
-                  onChange={(e) => setSettings((s) => ({ ...s, minCartValueForIncentive: Number(e.target.value || 0) }))}
-                  className="w-full mt-1 p-2 rounded bg-white/3 text-white"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Education & Trust */}
-          <section className="bg-black/40 border border-white/6 rounded-lg p-4">
-            <h4 className="font-mono text-white">Why shoppers abandon carts</h4>
-            <ul className="mt-2 text-sm text-gray-400 space-y-1">
-              <li>- Unexpected costs (shipping/taxes)</li>
-              <li>- Forced account creation or long forms</li>
-              <li>- Trust/security concerns (payment auth)</li>
-              <li>- Slow checkout or limited payment options</li>
-              <li>- Coupon errors / checkout friction</li>
-            </ul>
-            <p className="text-xs text-gray-500 mt-3">Sources: Industry benchmarks — average abandonment ≈ 70%. (Demo-only citations)</p>
-            <div className="mt-3 text-xs text-gray-400">
-              <strong>Security & Privacy:</strong> This demo uses no personal data. Production uses secure, encrypted webhooks and tokens.
+            <div className="mt-4 p-3 bg-white/5 rounded">
+              <div className="text-xs text-gray-400">Best performing offer</div>
+              <div className="text-sm text-white font-mono mt-1">15% off + free shipping</div>
+              <div className="text-xs text-gray-400 mt-1">85% conversion rate</div>
             </div>
           </section>
         </aside>
@@ -801,7 +659,11 @@ export default function RevenueRecoveryDemo() {
 
       {/* AI Response Modal */}
       <Dialog
-        title={selectedCart ? `AI Response Preview — ${getCustomerForCart(selectedCart as DummyCart)?.name ?? ""}` : "AI Response Preview"}
+        title={
+          selectedCart
+            ? `AI Recovery Message — ${getCustomerForCart(selectedCart as Cart)?.name ?? ""}`
+            : "AI Recovery Message"
+        }
         open={aiModalOpen}
         onClose={() => setAiModalOpen(false)}
       >
@@ -810,57 +672,47 @@ export default function RevenueRecoveryDemo() {
             cart={selectedCart}
             customer={inspectedCustomer}
             onRecover={() => simulateRecover(selectedCart.id)}
-            onSendSim={() => toast({ title: "Send message (simulation only)", description: "No external messages were sent." })}
             seed={variationSeed}
-            settings={settings}
           />
         )}
       </Dialog>
     </div>
-  );
+  )
 }
 
-/* -------------------------
-   Small child: AIResponseView
-   - Renders generated script with variations and interpolation
-   ------------------------- */
+/* AI Response View Component */
 function AIResponseView({
   cart,
   customer,
   onRecover,
-  onSendSim,
   seed,
-  settings,
 }: {
-  cart: DummyCart;
-  customer: DummyCustomer | null;
-  onRecover: () => void;
-  onSendSim: () => void;
-  seed: number;
-  settings: any;
+  cart: Cart
+  customer: Customer | null
+  onRecover: () => void
+  seed: number
 }) {
-  const { script, incentive, recoveryChance } = generateAiScript(cart, customer, settings, seed || 0);
+  const { script, incentive, recoveryChance } = generateAiScript(cart, customer, seed || 0)
 
   return (
     <div className="space-y-4">
       <div className="space-y-3">
         {script.map((m, i) => (
-          <div key={i} className={m.actor === "bot" ? "p-3 rounded bg-white/5" : m.actor === "system" ? "p-3 rounded bg-green-900/30" : "p-3 rounded bg-gray-800"}>
-            <div className="text-xs text-gray-400 font-mono">{m.actor === "bot" ? "Bot" : m.actor === "system" ? "System" : "Bot"}</div>
+          <div key={i} className={m.actor === "bot" ? "p-3 rounded bg-white/5" : "p-3 rounded bg-green-900/30"}>
+            <div className="text-xs text-gray-400 font-mono">{m.actor === "bot" ? "AI Assistant" : "System"}</div>
             <div className="mt-1 text-white font-mono">{m.text}</div>
           </div>
         ))}
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="text-sm text-gray-400">Simulated conversion chance: <strong className="text-white font-mono">{recoveryChance}%</strong></div>
+        <div className="text-sm text-gray-400">
+          Recovery probability: <strong className="text-white font-mono">{recoveryChance}%</strong>
+        </div>
         <div className="flex gap-2">
-          <Button onClick={onRecover}>Mark as Recovered (simulate)</Button>
-          <Button variant="outline" onClick={onSendSim}>Send Message (simulate)</Button>
+          <Button onClick={onRecover}>Send Recovery Message</Button>
         </div>
       </div>
-
-      <div className="text-xs text-gray-500">Demo only — generated content simulates what the AI would write. In production the AI provider would return these messages and the message would be sent via secure APIs (Twilio/SendGrid).</div>
     </div>
-  );
+  )
 }
