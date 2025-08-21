@@ -186,49 +186,80 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
   const [animatingSteps, setAnimatingSteps] = useState<Set<string>>(new Set())
   const [showContinueButton, setShowContinueButton] = useState(false)
 
-  // Handle animation states
+  // Debug logging
+  useEffect(() => {
+    console.log("🎨 WorkflowCards - isComplete changed:", isComplete)
+    console.log("🎨 WorkflowCards - current statuses:", statuses)
+  }, [isComplete, statuses])
+
+  // Handle animation states when workflow completes
   useEffect(() => {
     if (isComplete) {
+      console.log("🎉 Workflow complete! Starting completion animations...")
+
       // Start animating all completed steps
       const completedSteps = Object.keys(statuses).filter((stepId) => statuses[stepId] === "complete")
+      console.log("✨ Animating completed steps:", completedSteps)
       setAnimatingSteps(new Set(completedSteps))
 
       // Show continue button after a delay to let animations play
       const timer = setTimeout(() => {
+        console.log("🎯 Showing continue button")
         setShowContinueButton(true)
-        // Stop animations after continue button appears
+
+        // Keep animations running for a bit longer
         setTimeout(() => {
+          console.log("🎭 Stopping animations")
           setAnimatingSteps(new Set())
-        }, 1000)
-      }, 2000)
+        }, 2000)
+      }, 3000) // Increased delay to 3 seconds
 
       return () => clearTimeout(timer)
     } else {
+      console.log("🔄 Workflow not complete, resetting animation states")
       setShowContinueButton(false)
       setAnimatingSteps(new Set())
     }
   }, [isComplete, statuses])
 
-  // Animate individual steps as they complete
+  // Animate individual steps as they complete (during workflow)
   useEffect(() => {
-    Object.keys(statuses).forEach((stepId) => {
-      if (statuses[stepId] === "complete" && !isComplete) {
-        setAnimatingSteps((prev) => new Set([...prev, stepId]))
+    if (!isComplete) {
+      Object.keys(statuses).forEach((stepId) => {
+        if (statuses[stepId] === "complete") {
+          console.log("✅ Step completed during workflow:", stepId)
+          setAnimatingSteps((prev) => new Set([...prev, stepId]))
 
-        // Stop animating this step after 3 seconds
-        setTimeout(() => {
-          setAnimatingSteps((prev) => {
-            const newSet = new Set(prev)
-            newSet.delete(stepId)
-            return newSet
-          })
-        }, 3000)
-      }
-    })
+          // Stop animating this individual step after 3 seconds
+          setTimeout(() => {
+            setAnimatingSteps((prev) => {
+              const newSet = new Set(prev)
+              newSet.delete(stepId)
+              return newSet
+            })
+          }, 3000)
+        }
+      })
+    }
   }, [statuses, isComplete])
 
   return (
     <div className="max-w-6xl mx-auto">
+      {/* Debug Info */}
+      {process.env.NODE_ENV === "development" && (
+        <div className="mb-4 p-4 bg-gray-800 rounded-lg text-xs text-gray-300">
+          <div>isComplete: {isComplete.toString()}</div>
+          <div>showContinueButton: {showContinueButton.toString()}</div>
+          <div>animatingSteps: {Array.from(animatingSteps).join(", ")}</div>
+          <div>
+            completedSteps:{" "}
+            {Object.keys(statuses)
+              .filter((s) => statuses[s] === "complete")
+              .join(", ")}
+          </div>
+        </div>
+      )}
+
       {/* Workflow Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {workflowSteps.map((step, index) => {

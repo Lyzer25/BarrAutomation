@@ -37,6 +37,7 @@ export const useAutomationProgress = (leadId: string | null) => {
     setDashboardData(null)
     setIsComplete(false)
     setError(null)
+    setAnimationActive(false)
     reconnectAttempts.current = 0
   }, [leadId])
 
@@ -53,6 +54,8 @@ export const useAutomationProgress = (leadId: string | null) => {
         "dashboard-complete",
       ]
 
+      console.log("🔄 Cascading completion check:", { newStatuses, workflowOrder })
+
       // Find the furthest completed step
       let furthestCompleteIndex = -1
       workflowOrder.forEach((stepId, index) => {
@@ -60,6 +63,8 @@ export const useAutomationProgress = (leadId: string | null) => {
           furthestCompleteIndex = Math.max(furthestCompleteIndex, index)
         }
       })
+
+      console.log("📊 Furthest complete index:", furthestCompleteIndex)
 
       // Auto-complete all steps before the furthest completed step
       if (furthestCompleteIndex > 0) {
@@ -71,6 +76,8 @@ export const useAutomationProgress = (leadId: string | null) => {
           if (!cascadedStatuses[stepId] || cascadedStatuses[stepId] !== "complete") {
             cascadedStatuses[stepId] = "complete"
             hasChanges = true
+
+            console.log("✅ Auto-completing step:", stepId)
 
             // Add cascaded completion to status log
             setStatusLog((prev) => [
@@ -92,9 +99,8 @@ export const useAutomationProgress = (leadId: string | null) => {
           }
         }
 
-        if (hasChanges) {
-          return cascadedStatuses
-        }
+        console.log("🎯 Cascaded statuses:", cascadedStatuses)
+        return hasChanges ? cascadedStatuses : newStatuses
       }
 
       return newStatuses
@@ -102,19 +108,52 @@ export const useAutomationProgress = (leadId: string | null) => {
     [leadId],
   )
 
+  // Check if workflow should be complete
+  const checkWorkflowCompletion = useCallback(
+    (currentStatuses: Record<string, StatusUpdate["status"]>) => {
+      const allSteps = [
+        "lead-received",
+        "data-processing",
+        "ai-qualification",
+        "email-sent",
+        "crm-complete",
+        "discord-sent",
+        "dashboard-complete",
+      ]
+
+      const completedSteps = allSteps.filter((step) => currentStatuses[step] === "complete")
+      const isWorkflowComplete = currentStatuses["dashboard-complete"] === "complete"
+
+      console.log("🏁 Workflow completion check:", {
+        completedSteps: completedSteps.length,
+        totalSteps: allSteps.length,
+        isWorkflowComplete,
+        currentStatuses,
+      })
+
+      if (isWorkflowComplete && !isComplete) {
+        console.log("🎉 Setting workflow as complete!")
+        setIsComplete(true)
+      }
+
+      return isWorkflowComplete
+    },
+    [isComplete],
+  )
+
   const createEventSource = useCallback(() => {
     if (!leadId) return null
 
-    console.log(`Creating EventSource for leadId: ${leadId}`)
+    console.log(`🔌 Creating EventSource for leadId: ${leadId}`)
 
     try {
       const eventSource = new EventSource(`/api/events/${leadId}`)
       eventSourceRef.current = eventSource
 
       eventSource.onopen = (event) => {
-        console.log("SSE connection opened successfully for leadId:", leadId)
+        console.log("✅ SSE connection opened successfully for leadId:", leadId)
         reconnectAttempts.current = 0
-        setError(null) // Clear any previous errors
+        setError(null)
 
         debugStore.logEvent("SSE_CONNECTION_OPENED", {
           leadId,
@@ -127,7 +166,7 @@ export const useAutomationProgress = (leadId: string | null) => {
         const eventTime = Date.now()
         lastEventTimeRef.current = eventTime
 
-        console.log("SSE message received:", event.data)
+        console.log("📨 SSE message received:", event.data)
 
         debugStore.logEvent("SSE_EVENT_RECEIVED", {
           leadId,
@@ -138,11 +177,11 @@ export const useAutomationProgress = (leadId: string | null) => {
 
         try {
           const update = JSON.parse(event.data)
-          console.log("Processing event type:", update.type, "for leadId:", leadId)
+          console.log("🔄 Processing event type:", update.type, "for leadId:", leadId)
 
           if (update.type === "status-update") {
             const { step, status, message } = update.payload
-            console.log(`Status update - Step: ${step}, Status: ${status}`)
+            console.log(`📊 Status update - Step: ${step}, Status: ${status}`)
 
             debugStore.logEvent("STATUS_UPDATE_PROCESSED", {
               step,
@@ -153,8 +192,19 @@ export const useAutomationProgress = (leadId: string | null) => {
 
             // Update statuses with cascading completion
             setStatuses((prev: Record<string, StatusUpdate["status"]>) => {
+              console.log("🔄 Previous statuses:", prev)
               const newStatuses = { ...prev, [step]: status }
-              return cascadeCompletion(newStatuses)
+              console.log("🆕 New statuses before cascade:", newStatuses)
+
+              const cascadedStatuses = cascadeCompletion(newStatuses)
+              console.log("✨ Final cascaded statuses:", cascadedStatuses)
+
+              // Check for completion after state update
+              setTimeout(() => {
+                checkWorkflowCompletion(cascadedStatuses)
+              }, 100)
+
+              return cascadedStatuses
             })
 
             // Add to status log with proper timestamp
@@ -170,11 +220,6 @@ export const useAutomationProgress = (leadId: string | null) => {
             if (step === "lead-received") {
               setAnimationActive(true)
             }
-
-            // Check if workflow is complete
-            if (step === "dashboard-complete" && status === "complete") {
-              setIsComplete(true)
-            }
           } else if (update.type === "dashboard-update") {
             console.log("🎯 DASHBOARD UPDATE RECEIVED:", update.payload)
 
@@ -184,7 +229,19 @@ export const useAutomationProgress = (leadId: string | null) => {
             })
 
             setDashboardData(update.payload)
-            setIsComplete(true)
+
+            // Ensure dashboard-complete status is set
+            setStatuses((prev) => {
+              const newStatuses = { ...prev, "dashboard-complete": "complete" }
+              console.log("🏁 Setting dashboard-complete status:", newStatuses)
+
+              // Check completion after setting dashboard status
+              setTimeout(() => {
+                checkWorkflowCompletion(newStatuses)
+              }, 100)
+
+              return newStatuses
+            })
 
             const logEntry = {
               timestamp: new Date().toISOString(),
@@ -194,6 +251,8 @@ export const useAutomationProgress = (leadId: string | null) => {
             }
             setStatusLog((prev) => [...prev, logEntry])
           } else if (update.type === "error") {
+            console.error("❌ Error event received:", update.payload.message)
+
             debugStore.logEvent("ERROR_EVENT_RECEIVED", {
               error: update.payload.message,
               leadId,
@@ -209,7 +268,7 @@ export const useAutomationProgress = (leadId: string | null) => {
             }
             setStatusLog((prev) => [...prev, logEntry])
           } else {
-            console.warn("Unknown event type:", update.type, "for leadId:", leadId)
+            console.warn("⚠️ Unknown event type:", update.type, "for leadId:", leadId)
             debugStore.logEvent("UNKNOWN_EVENT_TYPE", {
               eventType: update.type,
               eventData: update,
@@ -217,7 +276,7 @@ export const useAutomationProgress = (leadId: string | null) => {
             })
           }
         } catch (err) {
-          console.error("Failed to parse SSE event:", err, "Raw data:", event.data)
+          console.error("❌ Failed to parse SSE event:", err, "Raw data:", event.data)
           debugStore.logEvent("SSE_PARSE_ERROR", {
             error: err instanceof Error ? err.message : "Unknown error",
             eventData: event.data,
@@ -227,7 +286,7 @@ export const useAutomationProgress = (leadId: string | null) => {
       }
 
       eventSource.onerror = (event) => {
-        console.log("SSE error occurred, readyState:", eventSource.readyState)
+        console.log("❌ SSE error occurred, readyState:", eventSource.readyState)
 
         debugStore.logEvent("SSE_CONNECTION_ERROR", {
           readyState: eventSource.readyState,
@@ -238,7 +297,7 @@ export const useAutomationProgress = (leadId: string | null) => {
         })
 
         if (eventSource.readyState === EventSource.CLOSED) {
-          console.log("SSE connection closed, attempting reconnect...")
+          console.log("🔄 SSE connection closed, attempting reconnect...")
 
           if (reconnectAttempts.current < maxReconnectAttempts && !isComplete) {
             reconnectAttempts.current++
@@ -254,26 +313,26 @@ export const useAutomationProgress = (leadId: string | null) => {
 
             setTimeout(() => {
               if (!isComplete) {
-                console.log(`Reconnecting SSE (attempt ${reconnectAttempts.current}/${maxReconnectAttempts})...`)
+                console.log(`🔄 Reconnecting SSE (attempt ${reconnectAttempts.current}/${maxReconnectAttempts})...`)
                 createEventSource()
               }
             }, delay)
           } else {
-            console.log("Max reconnection attempts reached or workflow complete")
+            console.log("🛑 Max reconnection attempts reached or workflow complete")
             if (!isComplete) {
               setError("Connection lost after multiple attempts. Please refresh the page.")
               debugStore.logEvent("SSE_CONNECTION_FAILED_FINAL", { leadId })
             }
           }
         } else if (eventSource.readyState === EventSource.CONNECTING) {
-          console.log("SSE attempting to reconnect...")
+          console.log("🔄 SSE attempting to reconnect...")
           debugStore.logEvent("SSE_RECONNECTING", { leadId })
         }
       }
 
       return eventSource
     } catch (err) {
-      console.error("Failed to create EventSource:", err)
+      console.error("❌ Failed to create EventSource:", err)
       debugStore.logEvent("SSE_CREATION_ERROR", {
         error: err instanceof Error ? err.message : "Unknown error",
         leadId,
@@ -281,7 +340,7 @@ export const useAutomationProgress = (leadId: string | null) => {
       setError("Failed to establish connection. Please try refreshing the page.")
       return null
     }
-  }, [leadId, cascadeCompletion, isComplete])
+  }, [leadId, cascadeCompletion, isComplete, checkWorkflowCompletion])
 
   useEffect(() => {
     if (!leadId) {
@@ -289,6 +348,7 @@ export const useAutomationProgress = (leadId: string | null) => {
       return
     }
 
+    console.log("🚀 Starting automation for leadId:", leadId)
     resetState()
     startTimeRef.current = Date.now()
     lastEventTimeRef.current = Date.now()
@@ -312,6 +372,7 @@ export const useAutomationProgress = (leadId: string | null) => {
 
     // Listen for debug commands
     const handleForceDashboard = () => {
+      console.log("🔧 Force dashboard triggered")
       debugStore.logEvent("FORCE_DASHBOARD_RECOVERY", { leadId })
       setError(null)
       setIsComplete(true)
@@ -328,6 +389,7 @@ export const useAutomationProgress = (leadId: string | null) => {
     }
 
     const handleResetDemo = () => {
+      console.log("🔧 Demo reset triggered")
       debugStore.logEvent("DEMO_RESET_TRIGGERED", { leadId })
       if (eventSourceRef.current && eventSourceRef.current.readyState !== EventSource.CLOSED) {
         eventSourceRef.current.close()
@@ -342,7 +404,7 @@ export const useAutomationProgress = (leadId: string | null) => {
           url: eventSourceRef.current.url,
           leadId,
         })
-        console.log("SSE Connection Test:", {
+        console.log("🔧 SSE Connection Test:", {
           readyState: eventSourceRef.current.readyState,
           url: eventSourceRef.current.url,
           leadId,
@@ -355,6 +417,7 @@ export const useAutomationProgress = (leadId: string | null) => {
     window.addEventListener("test-sse-connection", handleTestSSE)
 
     return () => {
+      console.log("🧹 Cleaning up automation for leadId:", leadId)
       if (eventSourceRef.current && eventSourceRef.current.readyState !== EventSource.CLOSED) {
         eventSourceRef.current.close()
         debugStore.logEvent("SSE_CONNECTION_CLOSED_CLEANUP", { leadId })
@@ -365,6 +428,18 @@ export const useAutomationProgress = (leadId: string | null) => {
       window.removeEventListener("test-sse-connection", handleTestSSE)
     }
   }, [leadId, resetState, createEventSource])
+
+  // Debug effect to monitor isComplete changes
+  useEffect(() => {
+    console.log("🏁 isComplete state changed:", isComplete)
+  }, [isComplete])
+
+  // Debug effect to monitor statuses changes
+  useEffect(() => {
+    console.log("📊 Statuses changed:", statuses)
+    const completedCount = Object.values(statuses).filter((status) => status === "complete").length
+    console.log(`✅ Completed steps: ${completedCount}/7`)
+  }, [statuses])
 
   return {
     statuses,
