@@ -1087,6 +1087,17 @@ export default function ClientSuccessEngineDemo() {
                   )}
                 </div>
               </div>
+
+              {/* Reset Demo Button at bottom of wizard */}
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <Button
+                  variant="outline"
+                  className="border-white/20 text-white hover:bg-white/10 bg-transparent w-full"
+                  onClick={() => resetFull()}
+                >
+                  Reset Demo
+                </Button>
+              </div>
             </Card>
 
             {/* Engine run & logs */}
@@ -1151,31 +1162,13 @@ export default function ClientSuccessEngineDemo() {
                   })}
                 </div>
 
-                <div className="mt-3 flex gap-2">
-                  <Button
-                    className="bg-accent text-black hover:bg-accent/90"
-                    onClick={handleLaunch}
-                    disabled={!canLaunch || isRunning}
-                  >
-                    {isRunning ? "Running..." : "Run Demo"}
-                  </Button>
+                <div className="mt-3">
                   <Button
                     variant="outline"
-                    className="border-white/20 text-white hover:bg-white/10 bg-transparent"
+                    className="border-white/20 text-white hover:bg-white/10 bg-transparent w-full"
                     onClick={() => resetEngine()}
                   >
-                    Reset
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="border-white/20 text-white hover:bg-white/10 bg-transparent"
-                    onClick={() => {
-                      useSampleData()
-                      useSampleContract()
-                      setWizardStep(4)
-                    }}
-                  >
-                    Quick Demo
+                    Reset Automation
                   </Button>
                 </div>
               </div>
@@ -1469,36 +1462,6 @@ export default function ClientSuccessEngineDemo() {
                   </div>
                 )}
               </Card>
-            </div>
-          </div>
-        </div>
-
-        {/* Sticky CTA footer */}
-        <div className="fixed left-0 right-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent backdrop-blur p-3 z-10">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div>
-                <div className="text-white font-semibold">Ready to automate your client onboarding?</div>
-                <div className="text-white/70 text-sm">
-                  Transform your manual processes into seamless automation in minutes.
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <a href="/contact" className="text-white/70 hover:underline">
-                See Pricing
-              </a>
-              <a href="/contact">
-                <Button className="bg-accent text-black hover:bg-accent/90 font-semibold">Get Started</Button>
-              </a>
-              <Button
-                variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 bg-transparent"
-                onClick={() => resetFull()}
-              >
-                Reset Demo
-              </Button>
             </div>
           </div>
         </div>
