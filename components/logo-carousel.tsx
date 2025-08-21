@@ -1,35 +1,70 @@
 "use client"
 
-import React from "react"
-import { integrationData } from "@/lib/integrations"
-import IntegrationLogo from "@/components/smart-lead-machine/integration-logo"
-import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
 
-const LogoCarousel = () => {
-  const logos = Object.values(integrationData).slice(0, 20) // Take the first 20 for the carousel
+const logos = [
+  { name: "OpenAI", src: "/placeholder.svg?height=40&width=120&text=OpenAI" },
+  { name: "Stripe", src: "/placeholder.svg?height=40&width=120&text=Stripe" },
+  { name: "Shopify", src: "/placeholder.svg?height=40&width=120&text=Shopify" },
+  { name: "Slack", src: "/placeholder.svg?height=40&width=120&text=Slack" },
+  { name: "Discord", src: "/placeholder.svg?height=40&width=120&text=Discord" },
+  { name: "Gmail", src: "/placeholder.svg?height=40&width=120&text=Gmail" },
+  { name: "HubSpot", src: "/placeholder.svg?height=40&width=120&text=HubSpot" },
+  { name: "Salesforce", src: "/placeholder.svg?height=40&width=120&text=Salesforce" },
+  { name: "Zapier", src: "/placeholder.svg?height=40&width=120&text=Zapier" },
+  { name: "Airtable", src: "/placeholder.svg?height=40&width=120&text=Airtable" },
+]
+
+export default function LogoCarousel() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return (
+      <div className="flex justify-center items-center space-x-8 opacity-50">
+        {logos.slice(0, 5).map((logo, index) => (
+          <img
+            key={index}
+            src={logo.src || "/placeholder.svg"}
+            alt={logo.name}
+            className="h-8 w-auto grayscale hover:grayscale-0 transition-all duration-300"
+          />
+        ))}
+      </div>
+    )
+  }
+
+  // Duplicate the logos array for seamless loop
+  const duplicatedLogos = [...logos, ...logos]
 
   return (
-    <div className="relative w-full overflow-hidden py-12">
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-transparent via-transparent to-transparent" />
-      <motion.div
-        className="flex"
-        animate={{
-          x: ["0%", "-100%"],
-          transition: {
-            ease: "linear",
-            duration: 25,
-            repeat: Infinity,
-          },
-        }}
-      >
-        {[...logos, ...logos].map((logo, index) => (
-          <div key={index} className="flex-shrink-0 mx-8" style={{ width: "100px" }}>
-            <IntegrationLogo domain={logo.domain} name={logo.name} size={40} />
-          </div>
+    <div className="relative overflow-hidden">
+      <div className="flex space-x-8 animate-scroll">
+        {duplicatedLogos.map((logo, index) => (
+          <img
+            key={index}
+            src={logo.src || "/placeholder.svg"}
+            alt={logo.name}
+            className="h-8 w-auto flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300"
+          />
         ))}
-      </motion.div>
+      </div>
+      <style jsx>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-scroll {
+          animation: scroll 25s linear infinite;
+        }
+      `}</style>
     </div>
   )
 }
-
-export default LogoCarousel
