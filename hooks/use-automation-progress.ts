@@ -1,494 +1,330 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
-import { debugStore } from "@/lib/debug-store"
-import type { StatusUpdate, DashboardData } from "@/types/automation-types"
+import { useState, useEffect, useRef, useCallback } from "react"
+import type { AutomationStatus, StatusLogEntry } from "@/types/automation-types"
 
-export const useAutomationProgress = (leadId: string | null) => {
-  const [statuses, setStatuses] = useState<Record<string, StatusUpdate["status"]>>({})
-  const [statusLog, setStatusLog] = useState<
-    Array<{
-      timestamp: string
-      step: string
-      status: StatusUpdate["status"]
-      message: string
-    }>
-  >([])
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
+interface DebugInfo {
+  sseReadyState: number
+  timeSinceLastEvent: number
+  timeSinceStart: number
+  eventCount: number
+  lastEventType: string
+}
+
+interface UseAutomationProgressReturn {
+  statuses: Record<string, AutomationStatus>
+  statusLog: StatusLogEntry[]
+  dashboardData: any
+  isComplete: boolean
+  error: string | null
+  debugInfo: DebugInfo
+}
+
+const workflowOrder = [
+  "lead-received",
+  "data-processing",
+  "ai-qualification",
+  "email-sent",
+  "crm-complete",
+  "discord-sent",
+  "dashboard-complete",
+]
+
+// Step mapping for webhook events to UI steps
+const stepMapping: Record<string, string> = {
+  "ai-complete": "ai-qualification", // Map ai-complete webhook to ai-qualification UI step
+}
+
+export function useAutomationProgress(leadId: string | null): UseAutomationProgressReturn {
+  const [statuses, setStatuses] = useState<Record<string, AutomationStatus>>({})
+  const [statusLog, setStatusLog] = useState<StatusLogEntry[]>([])
+  const [dashboardData, setDashboardData] = useState<any>(null)
   const [isComplete, setIsComplete] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [animationActive, setAnimationActive] = useState(false)
+  const [debugInfo, setDebugInfo] = useState<DebugInfo>({
+    sseReadyState: 0,
+    timeSinceLastEvent: 0,
+    timeSinceStart: 0,
+    eventCount: 0,
+    lastEventType: "",
+  })
 
-  // Refs for cleanup and debugging
   const eventSourceRef = useRef<EventSource | null>(null)
-  const startTimeRef = useRef<number | null>(null)
-  const lastEventTimeRef = useRef<number | null>(null)
-  const reconnectAttempts = useRef(0)
+  const startTimeRef = useRef<number>(Date.now())
+  const lastEventTimeRef = useRef<number>(Date.now())
   const isCompleteRef = useRef(false)
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const reconnectAttempts = useRef(0)
   const maxReconnectAttempts = 5
 
-  // Update the ref when isComplete changes
-  useEffect(() => {
-    isCompleteRef.current = isComplete
-    console.log("🏁 isComplete state changed:", isComplete)
-  }, [isComplete])
+  // Cascading completion logic
+  const applyCascadingCompletion = useCallback((newStatuses: Record<string, AutomationStatus>) => {
+    console.log("🔄 Cascading completion check:", { newStatuses, workflowOrder })
 
-  const resetState = useCallback(() => {
-    debugStore.logEvent("AUTOMATION_STATE_RESET", {
-      leadId,
-      timestamp: new Date().toISOString(),
-    })
+    const cascadedStatuses = { ...newStatuses }
 
-    setStatuses({})
-    setStatusLog([])
-    setDashboardData(null)
-    setIsComplete(false)
-    setError(null)
-    setAnimationActive(false)
-    reconnectAttempts.current = 0
-    isCompleteRef.current = false
-  }, [leadId])
-
-  // Cascading completion function
-  const cascadeCompletion = useCallback(
-    (newStatuses: Record<string, StatusUpdate["status"]>) => {
-      const workflowOrder = [
-        "lead-received",
-        "data-processing",
-        "ai-qualification",
-        "email-sent",
-        "crm-complete",
-        "discord-sent",
-        "dashboard-complete",
-      ]
-
-      console.log("🔄 Cascading completion check:", { newStatuses, workflowOrder })
-
-      // Find the furthest completed step
-      let furthestCompleteIndex = -1
-      workflowOrder.forEach((stepId, index) => {
-        if (newStatuses[stepId] === "complete") {
-          furthestCompleteIndex = Math.max(furthestCompleteIndex, index)
-        }
-      })
-
-      console.log("📊 Furthest complete index:", furthestCompleteIndex)
-
-      // Auto-complete all steps before the furthest completed step
-      if (furthestCompleteIndex > 0) {
-        const cascadedStatuses = { ...newStatuses }
-        let hasChanges = false
-
-        for (let i = 0; i < furthestCompleteIndex; i++) {
-          const stepId = workflowOrder[i]
-          if (!cascadedStatuses[stepId] || cascadedStatuses[stepId] !== "complete") {
-            cascadedStatuses[stepId] = "complete"
-            hasChanges = true
-
-            console.log("✅ Auto-completing step:", stepId)
-
-            // Add cascaded completion to status log
-            setStatusLog((prev) => [
-              ...prev,
-              {
-                timestamp: new Date().toISOString(),
-                step: stepId,
-                status: "complete",
-                message: `Auto-completed (cascaded from ${workflowOrder[furthestCompleteIndex]})`,
-              },
-            ])
-
-            debugStore.logEvent("AUTO_COMPLETED_STEP", {
-              stepId,
-              triggeredBy: workflowOrder[furthestCompleteIndex],
-              leadId,
-              timestamp: new Date().toISOString(),
-            })
-          }
-        }
-
-        console.log("🎯 Cascaded statuses:", cascadedStatuses)
-        return hasChanges ? cascadedStatuses : newStatuses
+    // Find the furthest completed step
+    let furthestCompleteIndex = -1
+    for (let i = workflowOrder.length - 1; i >= 0; i--) {
+      if (cascadedStatuses[workflowOrder[i]] === "complete") {
+        furthestCompleteIndex = i
+        break
       }
+    }
 
-      return newStatuses
-    },
-    [leadId],
-  )
+    console.log("📊 Furthest complete index:", furthestCompleteIndex)
 
-  // Check if workflow should be complete
-  const checkWorkflowCompletion = useCallback((currentStatuses: Record<string, StatusUpdate["status"]>) => {
-    const allSteps = [
-      "lead-received",
-      "data-processing",
-      "ai-qualification",
-      "email-sent",
-      "crm-complete",
-      "discord-sent",
-      "dashboard-complete",
-    ]
+    // Auto-complete all steps before the furthest completed step
+    if (furthestCompleteIndex > 0) {
+      for (let i = 0; i < furthestCompleteIndex; i++) {
+        const stepId = workflowOrder[i]
+        if (cascadedStatuses[stepId] !== "complete") {
+          console.log("✅ Auto-completing step:", stepId)
+          cascadedStatuses[stepId] = "complete"
+        }
+      }
+    }
 
-    const completedSteps = allSteps.filter((step) => currentStatuses[step] === "complete")
-    const isWorkflowComplete = currentStatuses["dashboard-complete"] === "complete"
+    console.log("🎯 Cascaded statuses:", cascadedStatuses)
+    return cascadedStatuses
+  }, [])
+
+  // Check if workflow is complete
+  const checkWorkflowCompletion = useCallback((currentStatuses: Record<string, AutomationStatus>) => {
+    const completedSteps = workflowOrder.filter((stepId) => currentStatuses[stepId] === "complete").length
+    const isWorkflowComplete = completedSteps === workflowOrder.length
 
     console.log("🏁 Workflow completion check:", {
-      completedSteps: completedSteps.length,
-      totalSteps: allSteps.length,
+      completedSteps,
+      totalSteps: workflowOrder.length,
       isWorkflowComplete,
       currentStatuses,
     })
 
-    if (isWorkflowComplete && !isCompleteRef.current) {
-      console.log("🎉 Setting workflow as complete!")
-      setIsComplete(true)
-    }
-
     return isWorkflowComplete
   }, [])
 
-  const createEventSource = useCallback(() => {
-    if (!leadId) return null
-
-    // Prevent creating new connections if workflow is already complete
-    if (isCompleteRef.current) {
-      console.log("🛑 Workflow already complete, not creating new EventSource")
-      return null
-    }
-
-    // Close existing connection if any
-    if (eventSourceRef.current && eventSourceRef.current.readyState !== EventSource.CLOSED) {
-      console.log("🔌 Closing existing EventSource connection")
-      eventSourceRef.current.close()
-    }
-
-    console.log(`🔌 Creating EventSource for leadId: ${leadId}`)
-
-    try {
-      const eventSource = new EventSource(`/api/events/${leadId}`)
-      eventSourceRef.current = eventSource
-
-      eventSource.onopen = (event) => {
-        console.log("✅ SSE connection opened successfully for leadId:", leadId)
-        reconnectAttempts.current = 0
-        setError(null)
-
-        debugStore.logEvent("SSE_CONNECTION_OPENED", {
-          leadId,
-          timestamp: new Date().toISOString(),
-          readyState: eventSource.readyState,
-        })
+  // Process SSE events
+  const processEvent = useCallback(
+    (event: MessageEvent) => {
+      if (isCompleteRef.current) {
+        console.log("⏹️ Ignoring event - workflow already complete")
+        return
       }
 
-      eventSource.onmessage = (event) => {
-        // Don't process messages if workflow is complete
-        if (isCompleteRef.current) {
-          console.log("🛑 Ignoring message - workflow already complete")
+      try {
+        const data = JSON.parse(event.data)
+        console.log("📨 SSE message received:", event.data)
+
+        if (!data.type || !data.payload) {
+          console.warn("⚠️ Invalid event format:", data)
           return
         }
 
-        const eventTime = Date.now()
-        lastEventTimeRef.current = eventTime
+        const { type, payload } = data
+        console.log("🔄 Processing event type:", type, "for leadId:", payload.leadId)
 
-        console.log("📨 SSE message received:", event.data)
+        lastEventTimeRef.current = Date.now()
 
-        debugStore.logEvent("SSE_EVENT_RECEIVED", {
-          leadId,
-          eventData: event.data,
-          timeSinceStart: eventTime - (startTimeRef.current || 0),
-          timestamp: new Date().toISOString(),
-        })
+        setDebugInfo((prev) => ({
+          ...prev,
+          eventCount: prev.eventCount + 1,
+          lastEventType: type,
+          timeSinceLastEvent: 0,
+        }))
 
-        try {
-          const update = JSON.parse(event.data)
-          console.log("🔄 Processing event type:", update.type, "for leadId:", leadId)
+        if (type === "status-update") {
+          const { step: originalStep, status, timestamp, debug } = payload
 
-          if (update.type === "status-update") {
-            const { step, status, message } = update.payload
-            console.log(`📊 Status update - Step: ${step}, Status: ${status}`)
+          // Map step names if needed
+          const step = stepMapping[originalStep] || originalStep
 
-            // Filter out steps that aren't in our expected workflow
-            const expectedSteps = [
-              "lead-received",
-              "data-processing",
-              "ai-qualification",
-              "email-sent",
-              "crm-complete",
-              "discord-sent",
-              "dashboard-complete",
-            ]
-
-            if (!expectedSteps.includes(step)) {
-              console.log(`⚠️ Ignoring unexpected step: ${step}`)
-              return
-            }
-
-            debugStore.logEvent("STATUS_UPDATE_PROCESSED", {
-              step,
-              status,
-              message,
-              leadId,
-            })
-
-            // Update statuses with cascading completion
-            setStatuses((prev: Record<string, StatusUpdate["status"]>) => {
-              console.log("🔄 Previous statuses:", prev)
-              const newStatuses = { ...prev, [step]: status }
-              console.log("🆕 New statuses before cascade:", newStatuses)
-
-              const cascadedStatuses = cascadeCompletion(newStatuses)
-              console.log("✨ Final cascaded statuses:", cascadedStatuses)
-
-              // Check for completion after state update
-              setTimeout(() => {
-                checkWorkflowCompletion(cascadedStatuses)
-              }, 100)
-
-              return cascadedStatuses
-            })
-
-            // Add to status log with proper timestamp
-            const logEntry = {
-              timestamp: new Date().toISOString(),
-              step,
-              status,
-              message: message || `${step} ${status}`,
-            }
-            setStatusLog((prev) => [...prev, logEntry])
-
-            // Animation for Lead Capture
-            if (step === "lead-received") {
-              setAnimationActive(true)
-            }
-          } else if (update.type === "dashboard-update") {
-            console.log("🎯 DASHBOARD UPDATE RECEIVED:", update.payload)
-
-            debugStore.logEvent("DASHBOARD_UPDATE_PROCESSED", {
-              dashboardData: update.payload,
-              leadId,
-            })
-
-            setDashboardData(update.payload)
-
-            // Ensure dashboard-complete status is set
-            setStatuses((prev) => {
-              const newStatuses = { ...prev, "dashboard-complete": "complete" }
-              console.log("🏁 Setting dashboard-complete status:", newStatuses)
-
-              // Check completion after setting dashboard status
-              setTimeout(() => {
-                checkWorkflowCompletion(newStatuses)
-              }, 100)
-
-              return newStatuses
-            })
-
-            const logEntry = {
-              timestamp: new Date().toISOString(),
-              step: "dashboard-complete",
-              status: "complete" as StatusUpdate["status"],
-              message: "Dashboard received. Workflow complete.",
-            }
-            setStatusLog((prev) => [...prev, logEntry])
-
-            // Close the connection after dashboard update
-            setTimeout(() => {
-              if (eventSourceRef.current && eventSourceRef.current.readyState !== EventSource.CLOSED) {
-                console.log("🔌 Closing EventSource after dashboard completion")
-                eventSourceRef.current.close()
-              }
-            }, 1000)
-          } else if (update.type === "error") {
-            console.error("❌ Error event received:", update.payload.message)
-
-            debugStore.logEvent("ERROR_EVENT_RECEIVED", {
-              error: update.payload.message,
-              leadId,
-            })
-
-            setError(update.payload.message)
-
-            const logEntry = {
-              timestamp: new Date().toISOString(),
-              step: "error",
-              status: "error" as StatusUpdate["status"],
-              message: `ERROR - ${update.payload.message}`,
-            }
-            setStatusLog((prev) => [...prev, logEntry])
-          } else {
-            console.warn("⚠️ Unknown event type:", update.type, "for leadId:", leadId)
-            debugStore.logEvent("UNKNOWN_EVENT_TYPE", {
-              eventType: update.type,
-              eventData: update,
-              leadId,
-            })
+          if (originalStep !== step) {
+            console.log("🔄 Mapping step:", originalStep, "->", step)
           }
-        } catch (err) {
-          console.error("❌ Failed to parse SSE event:", err, "Raw data:", event.data)
-          debugStore.logEvent("SSE_PARSE_ERROR", {
-            error: err instanceof Error ? err.message : "Unknown error",
-            eventData: event.data,
-            leadId,
+
+          console.log("📊 Status update - Step:", step, "Status:", status)
+
+          setStatuses((prevStatuses) => {
+            console.log("🔄 Previous statuses:", prevStatuses)
+            const newStatuses = { ...prevStatuses, [step]: status }
+            console.log("🆕 New statuses before cascade:", newStatuses)
+
+            const cascadedStatuses = applyCascadingCompletion(newStatuses)
+            console.log("✨ Final cascaded statuses:", cascadedStatuses)
+
+            return cascadedStatuses
+          })
+
+          // Add to status log with mapped step name
+          const logMessage =
+            originalStep !== step ? `${step} ${status} (mapped from ${originalStep})` : `${step} ${status}`
+
+          setStatusLog((prev) => [
+            ...prev,
+            {
+              step,
+              status,
+              message: logMessage,
+              timestamp: timestamp || new Date().toISOString(),
+              debug,
+            },
+          ])
+        } else if (type === "dashboard-update") {
+          console.log("🎯 DASHBOARD UPDATE RECEIVED:", payload)
+          setDashboardData(payload)
+
+          // Set dashboard-complete status
+          setStatuses((prevStatuses) => {
+            const newStatuses = { ...prevStatuses, "dashboard-complete": "complete" }
+            console.log("🏁 Setting dashboard-complete status:", newStatuses)
+            return newStatuses
           })
         }
+      } catch (error) {
+        console.error("❌ Error processing SSE event:", error)
+        setError(`Event processing error: ${error}`)
+      }
+    },
+    [applyCascadingCompletion],
+  )
+
+  // Create EventSource connection
+  const createEventSource = useCallback(
+    (leadId: string) => {
+      if (isCompleteRef.current) {
+        console.log("⏹️ Not creating EventSource - workflow already complete")
+        return
       }
 
-      eventSource.onerror = (event) => {
-        console.log("❌ SSE error occurred, readyState:", eventSource.readyState)
+      console.log("🔌 Creating EventSource for leadId:", leadId)
 
-        debugStore.logEvent("SSE_CONNECTION_ERROR", {
-          readyState: eventSource.readyState,
-          url: eventSource.url,
-          leadId,
-          timestamp: new Date().toISOString(),
-          reconnectAttempts: reconnectAttempts.current,
-        })
+      // Close existing connection
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close()
+      }
 
-        if (eventSource.readyState === EventSource.CLOSED) {
-          console.log("🔄 SSE connection closed")
+      const eventSource = new EventSource(`/api/events/${leadId}`)
+      eventSourceRef.current = eventSource
 
-          // Don't reconnect if workflow is complete
-          if (isCompleteRef.current) {
-            console.log("🛑 Workflow complete, not reconnecting")
-            return
-          }
+      eventSource.onopen = () => {
+        console.log("✅ SSE connection opened successfully for leadId:", leadId)
+        setError(null)
+        reconnectAttempts.current = 0
 
-          if (reconnectAttempts.current < maxReconnectAttempts) {
+        setDebugInfo((prev) => ({
+          ...prev,
+          sseReadyState: eventSource.readyState,
+        }))
+      }
+
+      eventSource.onmessage = processEvent
+
+      eventSource.onerror = (error) => {
+        console.error("❌ SSE connection error:", error)
+        setError("Connection lost. Attempting to reconnect...")
+
+        setDebugInfo((prev) => ({
+          ...prev,
+          sseReadyState: eventSource.readyState,
+        }))
+
+        // Attempt reconnection with exponential backoff
+        if (reconnectAttempts.current < maxReconnectAttempts && !isCompleteRef.current) {
+          const delay = Math.pow(2, reconnectAttempts.current) * 1000
+          console.log(
+            `🔄 Attempting reconnection ${reconnectAttempts.current + 1}/${maxReconnectAttempts} in ${delay}ms`,
+          )
+
+          reconnectTimeoutRef.current = setTimeout(() => {
             reconnectAttempts.current++
-
-            debugStore.logEvent("SSE_RECONNECT_ATTEMPT", {
-              attempt: reconnectAttempts.current,
-              maxAttempts: maxReconnectAttempts,
-              leadId,
-            })
-
-            // Exponential backoff: 1s, 2s, 4s, 8s, 16s
-            const delay = Math.pow(2, reconnectAttempts.current - 1) * 1000
-
-            setTimeout(() => {
-              if (!isCompleteRef.current) {
-                console.log(`🔄 Reconnecting SSE (attempt ${reconnectAttempts.current}/${maxReconnectAttempts})...`)
-                createEventSource()
-              }
-            }, delay)
-          } else {
-            console.log("🛑 Max reconnection attempts reached")
-            if (!isCompleteRef.current) {
-              setError("Connection lost after multiple attempts. Please refresh the page.")
-              debugStore.logEvent("SSE_CONNECTION_FAILED_FINAL", { leadId })
-            }
-          }
-        } else if (eventSource.readyState === EventSource.CONNECTING) {
-          console.log("🔄 SSE attempting to reconnect...")
-          debugStore.logEvent("SSE_RECONNECTING", { leadId })
+            createEventSource(leadId)
+          }, delay)
+        } else {
+          setError("Connection failed after multiple attempts")
         }
       }
 
       return eventSource
-    } catch (err) {
-      console.error("❌ Failed to create EventSource:", err)
-      debugStore.logEvent("SSE_CREATION_ERROR", {
-        error: err instanceof Error ? err.message : "Unknown error",
-        leadId,
-      })
-      setError("Failed to establish connection. Please try refreshing the page.")
-      return null
-    }
-  }, [leadId, cascadeCompletion, checkWorkflowCompletion])
+    },
+    [processEvent],
+  )
 
-  // Main effect - only depends on leadId, not isComplete
+  // Update debug info periodically
   useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now()
+      setDebugInfo((prev) => ({
+        ...prev,
+        timeSinceLastEvent: now - lastEventTimeRef.current,
+        timeSinceStart: now - startTimeRef.current,
+        sseReadyState: eventSourceRef.current?.readyState || 0,
+      }))
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Check for workflow completion
+  useEffect(() => {
+    console.log("📊 Statuses changed:", statuses)
+    const completedSteps = Object.keys(statuses).filter(
+      (stepId) => statuses[stepId] === "complete" && workflowOrder.includes(stepId),
+    ).length
+    console.log("✅ Completed steps:", `${completedSteps}/${workflowOrder.length}`)
+
+    const workflowComplete = checkWorkflowCompletion(statuses)
+
+    if (workflowComplete && !isCompleteRef.current) {
+      console.log("🎉 Setting workflow as complete!")
+      isCompleteRef.current = true
+      setIsComplete(true)
+
+      // Close EventSource after completion
+      if (eventSourceRef.current) {
+        console.log("🔌 Closing EventSource after dashboard completion")
+        eventSourceRef.current.close()
+        eventSourceRef.current = null
+      }
+    }
+  }, [statuses, checkWorkflowCompletion])
+
+  // Main effect for leadId changes
+  useEffect(() => {
+    console.log("🏁 isComplete state changed:", isComplete)
+
     if (!leadId) {
-      resetState()
       return
     }
 
-    console.log("🚀 Starting automation for leadId:", leadId)
-    resetState()
-    startTimeRef.current = Date.now()
-    lastEventTimeRef.current = Date.now()
-
-    debugStore.logEvent("AUTOMATION_STARTED", {
-      leadId,
-      startTime: startTimeRef.current,
-      timestamp: new Date().toISOString(),
-    })
-
-    const initialLogEntry = {
-      timestamp: new Date().toISOString(),
-      step: "workflow-started",
-      status: "processing" as StatusUpdate["status"],
-      message: `Workflow started for lead: ${leadId}`,
-    }
-    setStatusLog([initialLogEntry])
-
-    // Create the initial EventSource connection
-    const eventSource = createEventSource()
-
-    // Listen for debug commands
-    const handleForceDashboard = () => {
-      console.log("🔧 Force dashboard triggered")
-      debugStore.logEvent("FORCE_DASHBOARD_RECOVERY", { leadId })
+    // Reset state for new leadId
+    if (!isCompleteRef.current) {
+      console.log("🚀 Starting automation for leadId:", leadId)
+      setStatuses({})
+      setStatusLog([])
+      setDashboardData(null)
       setError(null)
-      setIsComplete(true)
-      setDashboardData({
-        leadScore: 85,
-        category: "High Priority",
-        leadData: { name: "Test Lead", email: "test@example.com", phone: "", message: "Forced dashboard test" },
-        metrics: { responseTime: "2.3s", conversionProbability: "78%" },
-        processingTime: "45s",
-        emailContent: { subject: "Test Email", body: "Test content" },
-        discordMessage: { title: "Test Alert", description: "Test notification", fields: [] },
-        integrations: ["OpenAI", "Gmail", "Discord"],
-      })
+      startTimeRef.current = Date.now()
+      lastEventTimeRef.current = Date.now()
+
+      createEventSource(leadId)
     }
 
-    const handleResetDemo = () => {
-      console.log("🔧 Demo reset triggered")
-      debugStore.logEvent("DEMO_RESET_TRIGGERED", { leadId })
-      if (eventSourceRef.current && eventSourceRef.current.readyState !== EventSource.CLOSED) {
-        eventSourceRef.current.close()
-      }
-      resetState()
-    }
-
-    const handleTestSSE = () => {
-      if (eventSourceRef.current) {
-        debugStore.logEvent("SSE_CONNECTION_TEST", {
-          readyState: eventSourceRef.current.readyState,
-          url: eventSourceRef.current.url,
-          leadId,
-        })
-        console.log("🔧 SSE Connection Test:", {
-          readyState: eventSourceRef.current.readyState,
-          url: eventSourceRef.current.url,
-          leadId,
-        })
-      }
-    }
-
-    window.addEventListener("force-dashboard", handleForceDashboard)
-    window.addEventListener("reset-demo", handleResetDemo)
-    window.addEventListener("test-sse-connection", handleTestSSE)
-
+    // Cleanup function
     return () => {
-      console.log("🧹 Cleaning up automation for leadId:", leadId)
-      if (eventSourceRef.current && eventSourceRef.current.readyState !== EventSource.CLOSED) {
-        eventSourceRef.current.close()
-        debugStore.logEvent("SSE_CONNECTION_CLOSED_CLEANUP", { leadId })
+      if (!isCompleteRef.current) {
+        console.log("🧹 Cleaning up automation for leadId:", leadId)
+        if (eventSourceRef.current) {
+          eventSourceRef.current.close()
+          eventSourceRef.current = null
+        }
+        if (reconnectTimeoutRef.current) {
+          clearTimeout(reconnectTimeoutRef.current)
+          reconnectTimeoutRef.current = null
+        }
       }
-
-      window.removeEventListener("force-dashboard", handleForceDashboard)
-      window.removeEventListener("reset-demo", handleResetDemo)
-      window.removeEventListener("test-sse-connection", handleTestSSE)
     }
-  }, [leadId, resetState, createEventSource]) // Removed isComplete from dependencies
-
-  // Debug effect to monitor statuses changes
-  useEffect(() => {
-    console.log("📊 Statuses changed:", statuses)
-    const completedCount = Object.values(statuses).filter((status) => status === "complete").length
-    console.log(`✅ Completed steps: ${completedCount}/7`)
-  }, [statuses])
+  }, [leadId, createEventSource])
 
   return {
     statuses,
@@ -496,14 +332,6 @@ export const useAutomationProgress = (leadId: string | null) => {
     dashboardData,
     isComplete,
     error,
-    animationActive,
-    debugInfo: {
-      startTime: startTimeRef.current,
-      lastEventTime: lastEventTimeRef.current,
-      sseReadyState: eventSourceRef.current?.readyState,
-      timeSinceStart: startTimeRef.current ? Date.now() - startTimeRef.current : 0,
-      timeSinceLastEvent: lastEventTimeRef.current ? Date.now() - lastEventTimeRef.current : 0,
-      reconnectAttempts: reconnectAttempts.current,
-    },
+    debugInfo,
   }
 }
