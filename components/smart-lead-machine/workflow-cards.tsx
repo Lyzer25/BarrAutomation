@@ -197,10 +197,14 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
     if (isComplete) {
       console.log("🎉 Workflow complete! Starting completion animations...")
 
-      // Start animating all completed steps
-      const completedSteps = Object.keys(statuses).filter((stepId) => statuses[stepId] === "complete")
-      console.log("✨ Animating completed steps:", completedSteps)
-      setAnimatingSteps(new Set(completedSteps))
+      // Filter out non-workflow steps and start animating completed steps
+      const workflowStepIds = workflowSteps.map((step) => step.id)
+      const completedWorkflowSteps = Object.keys(statuses).filter(
+        (stepId) => statuses[stepId] === "complete" && workflowStepIds.includes(stepId),
+      )
+
+      console.log("✨ Animating completed workflow steps:", completedWorkflowSteps)
+      setAnimatingSteps(new Set(completedWorkflowSteps))
 
       // Show continue button after a delay to let animations play
       const timer = setTimeout(() => {
@@ -225,8 +229,10 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
   // Animate individual steps as they complete (during workflow)
   useEffect(() => {
     if (!isComplete) {
+      const workflowStepIds = workflowSteps.map((step) => step.id)
+
       Object.keys(statuses).forEach((stepId) => {
-        if (statuses[stepId] === "complete") {
+        if (statuses[stepId] === "complete" && workflowStepIds.includes(stepId)) {
           console.log("✅ Step completed during workflow:", stepId)
           setAnimatingSteps((prev) => new Set([...prev, stepId]))
 
@@ -255,6 +261,12 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
             completedSteps:{" "}
             {Object.keys(statuses)
               .filter((s) => statuses[s] === "complete")
+              .join(", ")}
+          </div>
+          <div>
+            workflowSteps:{" "}
+            {Object.keys(statuses)
+              .filter((s) => statuses[s] === "complete" && workflowSteps.some((ws) => ws.id === s))
               .join(", ")}
           </div>
         </div>
