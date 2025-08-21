@@ -1,7 +1,5 @@
-import dynamic from "next/dynamic";
 import React from "react";
-
-const RecoveryDemo = dynamic(() => import("@/components/recovery-demo/dashboard"), { ssr: false });
+import RecoveryDemoClientWrapper from "@/components/recovery-demo/client-wrapper";
 
 export default function RevenueRecoveryDemoPage() {
   return (
@@ -15,7 +13,7 @@ export default function RevenueRecoveryDemoPage() {
       </header>
 
       <main>
-        <RecoveryDemo />
+        <RecoveryDemoClientWrapper />
       </main>
     </div>
   );

@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['gsap']
-  },
+  serverExternalPackages: ['gsap'],
   eslint: {
     ignoreDuringBuilds: true,
   },
