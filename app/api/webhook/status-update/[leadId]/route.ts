@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { leadEventEmitter } from "@/lib/events"
 import { webhookLogger, extractRequestMetadata, createTimer } from "@/lib/webhook-logger"
 import type { StatusUpdate } from "@/types/automation-types"
+import { addStatusUpdate } from "@/lib/event-store"
 
 export async function POST(request: Request, { params }: { params: { leadId: string } }) {
   const timer = createTimer()
@@ -106,9 +107,21 @@ export async function POST(request: Request, { params }: { params: { leadId: str
     console.log(`   📊 Status: ${requestBody.status}`)
     console.log(`   💬 Message: ${requestBody.message || 'none'}`)
 
-    // Emit event to EventEmitter
+    // Emit event to EventEmitter and persist snapshot for new subscribers
     try {
       leadEventEmitter.emitUpdate(leadId, { type: "status-update", payload: requestBody })
+      // Persist snapshot so newly connected SSE clients receive the current state
+      try {
+        addStatusUpdate(leadId, {
+          step: requestBody.step,
+          status: requestBody.status,
+          message: requestBody.message,
+          timestamp: new Date().toISOString(),
+        })
+      } catch (persistErr) {
+        console.warn("⚠️ Failed to persist status update to event store:", persistErr)
+      }
+
       eventEmitted = true
       console.log(`📡 Event emitted successfully to EventEmitter`)
     } catch (emitError) {

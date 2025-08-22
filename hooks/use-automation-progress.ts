@@ -109,17 +109,31 @@ export function useAutomationProgress() {
             const data = JSON.parse(event.data)
             console.log("📨 SSE message received:", data)
 
+            // Normalize incoming payload shape so the client can handle both:
+            // 1) { type: 'status-update', payload: { step, status, message } }
+            // 2) { type: 'dashboard-update', payload: { ... } }
+            // 3) legacy or direct shapes where step/status are at the top level
+            const eventType = data.type || (data.payload && data.payload.type) || "unknown"
+            const payload = data.payload ?? data
+
             setDebugInfo((prev) => ({
               ...prev,
               sseReadyState: eventSource.readyState,
               timeSinceLastEvent: 0,
               eventCount: prev.eventCount + 1,
-              lastEventType: data.type || "unknown",
+              lastEventType: eventType || "unknown",
             }))
 
-            if (data.type === "status-update") {
+            if (eventType === "status-update") {
+              const { step, status, message } = payload as any
+
+              if (!step || !status) {
+                console.warn("⚠️ Received status-update without step/status:", payload)
+                return
+              }
+
               setStatuses((prevStatuses) => {
-                const newStatuses = { ...prevStatuses, [data.step]: data.status }
+                const newStatuses = { ...prevStatuses, [step]: status }
                 checkCompletion(newStatuses)
                 return newStatuses
               })
@@ -127,15 +141,19 @@ export function useAutomationProgress() {
               setStatusLog((prev) => [
                 ...prev,
                 {
-                  step: data.step,
-                  status: data.status,
-                  message: data.message || `${data.step} ${data.status}`,
+                  step,
+                  status,
+                  message: message || `${step} ${status}`,
                   timestamp: new Date().toISOString(),
                 },
               ])
-            } else if (data.type === "dashboard-data") {
-              console.log("📊 Dashboard data received:", data.data)
-              setDashboardData(data.data)
+            } else if (eventType === "dashboard-update" || eventType === "dashboard-data") {
+              // Accept payload directly (dashboard webhook sends payload)
+              console.log("📊 Dashboard data received:", payload)
+              setDashboardData(payload as any)
+            } else {
+              // Unknown event type; log for debugging
+              console.log("ℹ️ Unhandled SSE event type:", eventType, "payload:", payload)
             }
           } catch (err) {
             console.error("❌ Error parsing SSE message:", err)
