@@ -107,15 +107,38 @@ export async function POST(request: Request, { params }: { params: { leadId: str
     console.log(`   📊 Status: ${requestBody.status}`)
     console.log(`   💬 Message: ${requestBody.message || 'none'}`)
 
-    // Emit event to EventEmitter and persist snapshot for new subscribers
+    // Normalize incoming step aliases (map common n8n / upstream variants to canonical client step IDs),
+    // then emit event and persist snapshot for new subscribers
     try {
-      leadEventEmitter.emitUpdate(leadId, { type: "status-update", payload: requestBody })
-      // Persist snapshot so newly connected SSE clients receive the current state
+      // Map of known aliases -> canonical step ids expected by the frontend
+      const stepAliasMap: Record<string, string> = {
+        "ai-complete": "ai-qualification",
+        "ai_done": "ai-qualification",
+        "ai_result": "ai-qualification",
+        "ai-analysis-complete": "ai-qualification",
+        "dashboard-ready": "dashboard-complete",
+        "dashboard_ready": "dashboard-complete",
+        // add more aliases here if upstream uses different names
+      }
+
+      const incomingStep = requestBody.step
+      const canonicalStep = stepAliasMap[incomingStep] || incomingStep
+
+      if (canonicalStep !== incomingStep) {
+        console.log(`🔁 Normalizing step id: ${incomingStep} -> ${canonicalStep}`)
+      }
+
+      const payloadWithCanonical = { ...requestBody, step: canonicalStep }
+
+      // Emit normalized event
+      leadEventEmitter.emitUpdate(leadId, { type: "status-update", payload: payloadWithCanonical })
+
+      // Persist snapshot so newly connected SSE clients receive the current state (use canonical step)
       try {
         addStatusUpdate(leadId, {
-          step: requestBody.step,
-          status: requestBody.status,
-          message: requestBody.message,
+          step: canonicalStep,
+          status: payloadWithCanonical.status,
+          message: payloadWithCanonical.message,
           timestamp: new Date().toISOString(),
         })
       } catch (persistErr) {
@@ -123,7 +146,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       }
 
       eventEmitted = true
-      console.log(`📡 Event emitted successfully to EventEmitter`)
+      console.log(`📡 Event emitted successfully to EventEmitter (canonical step: ${canonicalStep})`)
     } catch (emitError) {
       console.log(`❌ Failed to emit event:`, emitError)
       // Continue processing even if event emission fails

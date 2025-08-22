@@ -37,6 +37,11 @@ export function useAutomationProgress() {
   const lastEventTimeRef = useRef<number>(Date.now())
   const activeLeadIdRef = useRef<string | null>(null)
 
+  // Reconnect/backoff refs
+  const reconnectAttemptsRef = useRef<number>(0)
+  const reconnectTimerRef = useRef<number | null>(null)
+  const isManuallyStoppedRef = useRef<boolean>(false)
+
   // Initialize default statuses
   const initializeStatuses = useCallback(() => {
     const defaultStatuses = {
@@ -78,7 +83,7 @@ export function useAutomationProgress() {
     return isWorkflowComplete
   }, [])
 
-  // Start automation
+  // Start automation with reconnect/backoff
   const startAutomation = useCallback(
     async (leadId: string) => {
       try {
@@ -86,85 +91,141 @@ export function useAutomationProgress() {
         activeLeadIdRef.current = leadId
         initializeStatuses()
 
-        // Close existing connection
+        // Reset manual stop and reconnect attempts
+        isManuallyStoppedRef.current = false
+        reconnectAttemptsRef.current = 0
+        if (reconnectTimerRef.current) {
+          clearTimeout(reconnectTimerRef.current)
+          reconnectTimerRef.current = null
+        }
+
+        // Close existing connection if present
         if (eventSourceRef.current) {
-          eventSourceRef.current.close()
-        }
-
-        // Start SSE connection
-        const eventSource = new EventSource(`/api/events/${leadId}`)
-        eventSourceRef.current = eventSource
-        startTimeRef.current = Date.now()
-        lastEventTimeRef.current = Date.now()
-
-        eventSource.onopen = () => {
-          console.log("📡 SSE connection opened")
-          setError(null)
-          setDebugInfo((prev) => ({ ...prev, sseReadyState: eventSource.readyState }))
-        }
-
-        eventSource.onmessage = (event) => {
           try {
-            lastEventTimeRef.current = Date.now()
-            const data = JSON.parse(event.data)
-            console.log("📨 SSE message received:", data)
-
-            // Normalize incoming payload shape so the client can handle both:
-            // 1) { type: 'status-update', payload: { step, status, message } }
-            // 2) { type: 'dashboard-update', payload: { ... } }
-            // 3) legacy or direct shapes where step/status are at the top level
-            const eventType = data.type || (data.payload && data.payload.type) || "unknown"
-            const payload = data.payload ?? data
-
-            setDebugInfo((prev) => ({
-              ...prev,
-              sseReadyState: eventSource.readyState,
-              timeSinceLastEvent: 0,
-              eventCount: prev.eventCount + 1,
-              lastEventType: eventType || "unknown",
-            }))
-
-            if (eventType === "status-update") {
-              const { step, status, message } = payload as any
-
-              if (!step || !status) {
-                console.warn("⚠️ Received status-update without step/status:", payload)
-                return
-              }
-
-              setStatuses((prevStatuses) => {
-                const newStatuses = { ...prevStatuses, [step]: status }
-                checkCompletion(newStatuses)
-                return newStatuses
-              })
-
-              setStatusLog((prev) => [
-                ...prev,
-                {
-                  step,
-                  status,
-                  message: message || `${step} ${status}`,
-                  timestamp: new Date().toISOString(),
-                },
-              ])
-            } else if (eventType === "dashboard-update" || eventType === "dashboard-data") {
-              // Accept payload directly (dashboard webhook sends payload)
-              console.log("📊 Dashboard data received:", payload)
-              setDashboardData(payload as any)
-            } else {
-              // Unknown event type; log for debugging
-              console.log("ℹ️ Unhandled SSE event type:", eventType, "payload:", payload)
-            }
-          } catch (err) {
-            console.error("❌ Error parsing SSE message:", err)
+            eventSourceRef.current.close()
+          } catch (e) {
+            /* ignore */
           }
         }
 
-        eventSource.onerror = (err) => {
-          console.error("❌ SSE connection error:", err)
-          setError("Connection lost. Please try again.")
-          setDebugInfo((prev) => ({ ...prev, sseReadyState: eventSource.readyState }))
+        // Helper to create and manage EventSource with reconnect/backoff
+        const createConnection = () => {
+          const url = `/api/events/${leadId}`
+          console.log("🔌 Creating EventSource to:", url)
+
+          // Ensure old connection closed
+          if (eventSourceRef.current) {
+            try {
+              eventSourceRef.current.close()
+            } catch (e) {
+              /* ignore */
+            }
+          }
+
+          const es = new EventSource(url)
+          eventSourceRef.current = es
+          startTimeRef.current = Date.now()
+          lastEventTimeRef.current = Date.now()
+
+          es.onopen = () => {
+            console.log("📡 SSE connection opened")
+            setError(null)
+            reconnectAttemptsRef.current = 0
+            if (reconnectTimerRef.current) {
+              clearTimeout(reconnectTimerRef.current)
+              reconnectTimerRef.current = null
+            }
+            setDebugInfo((prev) => ({ ...prev, sseReadyState: es.readyState }))
+          }
+
+          es.onmessage = (event) => {
+            try {
+              lastEventTimeRef.current = Date.now()
+              const data = JSON.parse(event.data)
+              console.log("📨 SSE message received:", data)
+
+              const eventType = data.type || (data.payload && data.payload.type) || "unknown"
+              const payload = data.payload ?? data
+
+              setDebugInfo((prev) => ({
+                ...prev,
+                sseReadyState: es.readyState,
+                timeSinceLastEvent: 0,
+                eventCount: prev.eventCount + 1,
+                lastEventType: eventType || "unknown",
+              }))
+
+              if (eventType === "status-update") {
+                const { step, status, message } = payload as any
+
+                if (!step || !status) {
+                  console.warn("⚠️ Received status-update without step/status:", payload)
+                  return
+                }
+
+                setStatuses((prevStatuses) => {
+                  const newStatuses = { ...prevStatuses, [step]: status }
+                  checkCompletion(newStatuses)
+                  return newStatuses
+                })
+
+                setStatusLog((prev) => [
+                  ...prev,
+                  {
+                    step,
+                    status,
+                    message: message || `${step} ${status}`,
+                    timestamp: new Date().toISOString(),
+                  },
+                ])
+              } else if (eventType === "dashboard-update" || eventType === "dashboard-data") {
+                console.log("📊 Dashboard data received:", payload)
+                setDashboardData(payload as any)
+                // also mark dashboard step complete if not already set
+                setStatuses((prev) => {
+                  if (prev["dashboard-complete"] !== "complete") {
+                    const newStatuses = { ...prev, ["dashboard-complete"]: "complete" }
+                    checkCompletion(newStatuses)
+                    return newStatuses
+                  }
+                  return prev
+                })
+              } else {
+                console.log("ℹ️ Unhandled SSE event type:", eventType, "payload:", payload)
+              }
+            } catch (err) {
+              console.error("❌ Error parsing SSE message:", err)
+            }
+          }
+
+          es.onerror = (err) => {
+            console.error("❌ SSE connection error:", err)
+            setError("Connection lost. Attempting to reconnect...")
+
+            // Avoid reconnecting if user requested stop
+            if (isManuallyStoppedRef.current) return
+
+            // Exponential backoff with jitter
+            const attempt = reconnectAttemptsRef.current + 1
+            reconnectAttemptsRef.current = attempt
+            const base = Math.min(30000, Math.pow(2, attempt) * 1000)
+            const jitter = Math.floor(Math.random() * 1000)
+            const delay = Math.min(30000, base + jitter)
+            console.log(`⏱️ Reconnect attempt ${attempt} scheduled in ${delay}ms`)
+
+            if (reconnectTimerRef.current) {
+              clearTimeout(reconnectTimerRef.current)
+            }
+            reconnectTimerRef.current = window.setTimeout(() => {
+              createConnection()
+            }, delay)
+
+            setDebugInfo((prev) => ({ ...prev, sseReadyState: es.readyState }))
+          }
         }
+
+        // Start the initial connection
+        createConnection()
       } catch (err) {
         console.error("❌ Error starting automation:", err)
         setError("Failed to start automation. Please try again.")
