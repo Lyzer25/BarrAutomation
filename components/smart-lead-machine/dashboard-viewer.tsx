@@ -585,24 +585,26 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
 
   const cardData: BentoCardProps[] = [
     {
-      title: leadData.name,
-      description: leadData.email,
+      title: leadData?.name || "Unknown Lead",
+      description: leadData?.email || "No email provided",
       label: "Lead Info",
       className: "col-span-2 row-span-2",
       children: (
         <>
           <div className="flex flex-col sm:flex-row justify-between items-start mb-6 gap-6">
             <div>
-              <h3 className="text-3xl font-mono font-bold text-white mb-2">{leadData.name}</h3>
-              <p className="text-xl text-blue-400 font-mono">{leadData.email}</p>
+              <h3 className="text-3xl font-mono font-bold text-white mb-2">{leadData?.name || "Unknown Lead"}</h3>
+              <p className="text-xl text-blue-400 font-mono">{leadData?.email || "No email provided"}</p>
             </div>
-            <Badge className={cn("text-lg font-mono whitespace-nowrap px-4 py-2", scoreColorClass)}>{category}</Badge>
+            <Badge className={cn("text-lg font-mono whitespace-nowrap px-4 py-2", scoreColorClass)}>
+              {category || "Unknown"}
+            </Badge>
           </div>
           <div className="space-y-4 mb-6">
-            <p className="text-lg font-mono text-gray-400">Lead Score: {leadScore}/100</p>
-            <LeadScoreBar score={Number(leadScore)} />
+            <p className="text-lg font-mono text-gray-400">Lead Score: {leadScore || 0}/100</p>
+            <LeadScoreBar score={Number(leadScore) || 0} />
           </div>
-          <p className="text-lg text-gray-300 font-mono italic">"{leadData.message}"</p>
+          <p className="text-lg text-gray-300 font-mono italic">"{leadData?.message || "No message provided"}"</p>
         </>
       ),
     },
@@ -612,16 +614,16 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
       className: "col-span-2",
       children: (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-          <MetricCard icon={<Clock className="w-10 h-10" />} label="Total Time" value={`${processingTime}s`} />
+          <MetricCard icon={<Clock className="w-10 h-10" />} label="Total Time" value={`${processingTime || "0"}s`} />
           <MetricCard
             icon={<BrainCircuit className="w-10 h-10" />}
             label="AI Response Time"
-            value={metrics.responseTime}
+            value={metrics?.responseTime || "N/A"}
           />
           <MetricCard
             icon={<CheckCircle className="w-10 h-10" />}
             label="Conversion Chance"
-            value={metrics.conversionProbability}
+            value={metrics?.conversionProbability || "N/A"}
           />
         </div>
       ),
@@ -647,10 +649,10 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                 exit={{ opacity: 0, height: 0 }}
                 className="border border-gray-700 rounded-lg p-6 bg-black max-h-96 overflow-y-auto"
               >
-                <h4 className="font-bold text-white font-mono text-xl mb-4">{emailContent.subject}</h4>
+                <h4 className="font-bold text-white font-mono text-xl mb-4">{emailContent.subject || "No Subject"}</h4>
                 <div
                   className="prose prose-lg prose-invert mt-2 text-gray-300 font-sans leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: emailContent.body }}
+                  dangerouslySetInnerHTML={{ __html: emailContent.body || "No content available" }}
                 />
               </motion.div>
             )}
@@ -671,15 +673,19 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                 exit={{ opacity: 0, height: 0 }}
                 className="border border-gray-700 rounded-lg p-6 bg-black max-h-96 overflow-y-auto"
               >
-                <p className="font-bold text-white font-mono text-xl mb-2">{discordMessage.title}</p>
-                <p className="text-lg text-gray-400 mt-1 font-mono mb-6">{discordMessage.description}</p>
+                <p className="font-bold text-white font-mono text-xl mb-2">{discordMessage.title || "No Title"}</p>
+                <p className="text-lg text-gray-400 mt-1 font-mono mb-6">
+                  {discordMessage.description || "No description"}
+                </p>
                 <div className="grid grid-cols-2 gap-6 mt-4">
                   {discordMessage.fields?.map((field: any, index: number) => (
                     <div key={index}>
-                      <p className="text-sm font-semibold text-gray-400 uppercase font-mono mb-2">{field.name}</p>
-                      <p className="text-lg text-white font-mono">{field.value}</p>
+                      <p className="text-sm font-semibold text-gray-400 uppercase font-mono mb-2">
+                        {field.name || "Unknown"}
+                      </p>
+                      <p className="text-lg text-white font-mono">{field.value || "N/A"}</p>
                     </div>
-                  ))}
+                  )) || <p className="text-gray-400">No fields available</p>}
                 </div>
               </motion.div>
             )}
@@ -693,10 +699,10 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
       children: (
         <>
           <p className="text-lg text-gray-400 font-mono mb-6">
-            This workflow used {integrations.length} tools. Click to see alternatives.
+            This workflow used {integrations?.length || 0} tools. Click to see alternatives.
           </p>
           <div className="flex flex-wrap gap-3">
-            {integrations.map((int: string) => {
+            {integrations?.map((int: string) => {
               const category = getIntegrationCategory(int)
               return (
                 <Popover key={int}>
@@ -738,7 +744,7 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                   )}
                 </Popover>
               )
-            })}
+            }) || <p className="text-gray-400">No integrations available</p>}
           </div>
         </>
       ),
