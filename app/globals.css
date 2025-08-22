@@ -29,23 +29,30 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
-
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 0 0% 0%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
+    --card: 0 0% 0%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 9%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
+    --muted: 0 0% 9%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
@@ -56,6 +63,20 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }
 
@@ -65,76 +86,92 @@
   }
   body {
     @apply bg-background text-foreground;
-  }
-  input,
-  textarea,
-  .shadcn-select-trigger {
-    @apply bg-black border-white/20 ring-offset-background focus-visible:ring-accent;
+    font-family: Arial, Helvetica, sans-serif;
   }
 }
 
-@layer utilities {
-  @keyframes pulse-glow {
-    0%,
-    100% {
-      transform: scale(1);
-      box-shadow: 0 0 5px 0px hsl(var(--accent) / 0.7);
-      opacity: 0.8;
-    }
-    50% {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px 5px hsl(var(--accent) / 0.5);
-      opacity: 1;
-    }
-  }
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-    animation-fill-mode: both;
-  }
+/* Dark theme for the entire site */
+body {
+  background-color: #000000;
+  color: #ffffff;
+}
 
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  .animate-fade-in {
-    animation: fade-in 0.5s ease-in-out forwards;
-  }
+/* Electric blue accent color */
+:root {
+  --accent-color: #00d2ff;
+  --accent-rgb: 0, 210, 255;
+}
 
-  @keyframes roll {
-    0% {
-      transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-    }
-    100% {
-      transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
-    }
+/* Custom animations */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
   }
-  .animate-roll {
-    animation: roll 2s linear infinite;
+  50% {
+    box-shadow: 0 0 30px rgba(0, 210, 255, 0.6);
   }
+}
 
-  @keyframes liquidFill {
-    0% {
-      height: 0%;
-      opacity: 0.8;
-    }
-    50% {
-      height: 50%;
-      opacity: 0.6;
-    }
-    100% {
-      height: 100%;
-      opacity: 0.4;
-    }
-  }
-  .liquid-fill {
-    animation: liquidFill 3s ease-out forwards;
-  }
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
 
-  .liquid-fill-delayed {
-    animation: liquidFill 3s ease-out forwards 0.5s;
+/* Liquid fill animation */
+@keyframes liquid-fill {
+  0% {
+    height: 0%;
   }
+  100% {
+    height: 100%;
+  }
+}
+
+@keyframes liquid-wave {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0px);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+.liquid-fill {
+  animation: liquid-fill 2s ease-out forwards;
+}
+
+.liquid-wave {
+  animation: liquid-wave 1.5s ease-in-out infinite;
+}
+
+/* Utility classes for liquid animation */
+.liquid-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-fill-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(0, 210, 255, 0.8) 0%, rgba(0, 210, 255, 0.6) 100%);
+  border-radius: inherit;
+}
+
+.liquid-wave-top {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 120%;
+  height: 10px;
+  background: rgba(0, 210, 255, 0.9);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+/* Custom utility classes for consistent styling */
+.text-subtle-gray {
+  color: #9ca3af;
 }
