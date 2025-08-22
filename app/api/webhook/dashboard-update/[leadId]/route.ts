@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { leadEventEmitter } from "@/lib/events"
 import { webhookLogger, extractRequestMetadata, createTimer } from "@/lib/webhook-logger"
 import type { DashboardData } from "@/types/automation-types"
+import { addStatusUpdate, setDashboardData } from "@/lib/event-store"
 
 export async function POST(request: Request, { params }: { params: { leadId: string } }) {
   const timer = createTimer()
@@ -179,9 +180,32 @@ export async function POST(request: Request, { params }: { params: { leadId: str
     console.log(`   👤 Lead Name: ${dashboardData.leadData?.name || 'Unknown'}`)
     console.log(`   📧 Lead Email: ${dashboardData.leadData?.email || 'Unknown'}`)
 
-    // Emit event to EventEmitter
+    // Emit event to EventEmitter, persist dashboard snapshot, and emit canonical dashboard-complete status
     try {
+      // Emit raw dashboard payload for clients that listen for dashboard-update
       leadEventEmitter.emitUpdate(leadId, { type: "dashboard-update", payload: dashboardData })
+
+      // Persist dashboard snapshot for new SSE subscribers
+      try {
+        setDashboardData(leadId, dashboardData)
+      } catch (persistErr) {
+        console.warn("⚠️ Failed to persist dashboard data to event store:", persistErr)
+      }
+
+      // Also emit a status-update event using the canonical step id expected by the UI
+      try {
+        const statusPayload = { step: "dashboard-complete", status: "complete", message: "Dashboard ready" }
+        leadEventEmitter.emitUpdate(leadId, { type: "status-update", payload: statusPayload })
+        // Persist the status update to the event store as well
+        try {
+          addStatusUpdate(leadId, { step: statusPayload.step, status: statusPayload.status, message: statusPayload.message, timestamp: new Date().toISOString() })
+        } catch (persistStatusErr) {
+          console.warn("⚠️ Failed to persist dashboard status to event store:", persistStatusErr)
+        }
+      } catch (statusEmitErr) {
+        console.warn("⚠️ Failed to emit dashboard-complete status update:", statusEmitErr)
+      }
+
       eventEmitted = true
       console.log(`📡 Dashboard event emitted successfully to EventEmitter`)
     } catch (emitError) {
