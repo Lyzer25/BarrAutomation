@@ -1,17 +1,18 @@
 "use client"
 
-import React, { useRef, useEffect, useState, useCallback } from "react";
-import { gsap } from "gsap";
-import type { DashboardData } from "@/types/automation-types";
-import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Clock, ArrowRight, MessageSquare, BrainCircuit, CheckCircle, Mail } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { mockDashboardData } from "@/lib/mock-dashboard";
+import type React from "react"
+import { useRef, useEffect, useState, useCallback } from "react"
+import { gsap } from "gsap"
+import type { DashboardData } from "@/types/automation-types"
+import { useRouter } from "next/navigation"
+import { motion, AnimatePresence } from "framer-motion"
+import { Clock, ArrowRight, MessageSquare, BrainCircuit, CheckCircle, Mail } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils"
+import { mockDashboardData } from "@/lib/mock-dashboard"
 
 const integrationAlternatives = {
   email: [
@@ -38,76 +39,72 @@ const integrationAlternatives = {
     { name: "Anthropic Claude", description: "Advanced AI assistant" },
     { name: "Google AI", description: "Machine learning services" },
   ],
-};
+}
 
 const getIntegrationCategory = (integrationName: string): keyof typeof integrationAlternatives | null => {
-  const name = integrationName.toLowerCase();
-  if (["gmail", "outlook", "sendgrid", "mailchimp"].includes(name)) return "email";
-  if (["sheets", "google sheets", "airtable", "notion", "database"].includes(name)) return "data";
-  if (["discord", "slack", "teams", "microsoft teams", "twilio", "telegram"].includes(name)) return "notification";
-  if (["openai", "anthropic", "claude", "google ai"].includes(name)) return "ai";
-  return null;
-};
+  const name = integrationName.toLowerCase()
+  if (["gmail", "outlook", "sendgrid", "mailchimp"].includes(name)) return "email"
+  if (["sheets", "google sheets", "airtable", "notion", "database"].includes(name)) return "data"
+  if (["discord", "slack", "teams", "microsoft teams", "twilio", "telegram"].includes(name)) return "notification"
+  if (["openai", "anthropic", "claude", "google ai"].includes(name)) return "ai"
+  return null
+}
 
 const LeadScoreBar = ({ score }: { score: number }) => {
-  const scoreColor = score > 80 ? "bg-green-500" : score >= 50 ? "bg-yellow-500" : "bg-blue-500";
+  const scoreColor = score > 80 ? "bg-green-500" : score >= 50 ? "bg-yellow-500" : "bg-blue-500"
   return (
-    <div className="w-full bg-gray-800 rounded-full h-2.5">
+    <div className="w-full bg-gray-800 rounded-full h-4">
       <motion.div
-        className={cn("h-2.5 rounded-full", scoreColor)}
+        className={cn("h-4 rounded-full", scoreColor)}
         initial={{ width: 0 }}
         animate={{ width: `${score}%` }}
         transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
       />
     </div>
-  );
-};
+  )
+}
 
 const MetricCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) => (
-  <div className="flex flex-col items-center justify-center text-center space-y-2 p-4">
+  <div className="flex flex-col items-center justify-center text-center space-y-3 p-6">
     <div className="text-blue-400">{icon}</div>
-    <p className="text-3xl font-mono font-bold text-white">{value}</p>
-    <p className="text-sm font-mono text-gray-400">{label}</p>
+    <p className="text-4xl font-mono font-bold text-white">{value}</p>
+    <p className="text-base font-mono text-gray-400">{label}</p>
   </div>
-);
+)
 
 export interface BentoCardProps {
-  color?: string;
-  title?: string;
-  description?: string;
-  label?: string;
-  textAutoHide?: boolean;
-  disableAnimations?: boolean;
-  children?: React.ReactNode;
-  className?: string;
+  color?: string
+  title?: string
+  description?: string
+  label?: string
+  textAutoHide?: boolean
+  disableAnimations?: boolean
+  children?: React.ReactNode
+  className?: string
 }
 
 export interface BentoProps {
-  textAutoHide?: boolean;
-  enableStars?: boolean;
-  enableSpotlight?: boolean;
-  enableBorderGlow?: boolean;
-  disableAnimations?: boolean;
-  spotlightRadius?: number;
-  particleCount?: number;
-  enableTilt?: boolean;
-  glowColor?: string;
-  clickEffect?: boolean;
-  enableMagnetism?: boolean;
+  textAutoHide?: boolean
+  enableStars?: boolean
+  enableSpotlight?: boolean
+  enableBorderGlow?: boolean
+  disableAnimations?: boolean
+  spotlightRadius?: number
+  particleCount?: number
+  enableTilt?: boolean
+  glowColor?: string
+  clickEffect?: boolean
+  enableMagnetism?: boolean
 }
 
-const DEFAULT_PARTICLE_COUNT = 12;
-const DEFAULT_SPOTLIGHT_RADIUS = 300;
-const DEFAULT_GLOW_COLOR = "132, 0, 255";
-const MOBILE_BREAKPOINT = 768;
+const DEFAULT_PARTICLE_COUNT = 12
+const DEFAULT_SPOTLIGHT_RADIUS = 300
+const DEFAULT_GLOW_COLOR = "132, 0, 255"
+const MOBILE_BREAKPOINT = 768
 
-const createParticleElement = (
-  x: number,
-  y: number,
-  color: string = DEFAULT_GLOW_COLOR
-): HTMLDivElement => {
-  const el = document.createElement("div");
-  el.className = "particle";
+const createParticleElement = (x: number, y: number, color: string = DEFAULT_GLOW_COLOR): HTMLDivElement => {
+  const el = document.createElement("div")
+  el.className = "particle"
   el.style.cssText = `
     position: absolute;
     width: 4px;
@@ -119,42 +116,36 @@ const createParticleElement = (
     z-index: 100;
     left: ${x}px;
     top: ${y}px;
-  `;
-  return el;
-};
+  `
+  return el
+}
 
 const calculateSpotlightValues = (radius: number) => ({
   proximity: radius * 0.5,
   fadeDistance: radius * 0.75,
-});
+})
 
-const updateCardGlowProperties = (
-  card: HTMLElement,
-  mouseX: number,
-  mouseY: number,
-  glow: number,
-  radius: number
-) => {
-  const rect = card.getBoundingClientRect();
-  const relativeX = ((mouseX - rect.left) / rect.width) * 100;
-  const relativeY = ((mouseY - rect.top) / rect.height) * 100;
+const updateCardGlowProperties = (card: HTMLElement, mouseX: number, mouseY: number, glow: number, radius: number) => {
+  const rect = card.getBoundingClientRect()
+  const relativeX = ((mouseX - rect.left) / rect.width) * 100
+  const relativeY = ((mouseY - rect.top) / rect.height) * 100
 
-  card.style.setProperty("--glow-x", `${relativeX}%`);
-  card.style.setProperty("--glow-y", `${relativeY}%`);
-  card.style.setProperty("--glow-intensity", glow.toString());
-  card.style.setProperty("--glow-radius", `${radius}px`);
-};
+  card.style.setProperty("--glow-x", `${relativeX}%`)
+  card.style.setProperty("--glow-y", `${relativeY}%`)
+  card.style.setProperty("--glow-intensity", glow.toString())
+  card.style.setProperty("--glow-radius", `${radius}px`)
+}
 
 const ParticleCard: React.FC<{
-  children: React.ReactNode;
-  className?: string;
-  disableAnimations?: boolean;
-  style?: React.CSSProperties;
-  particleCount?: number;
-  glowColor?: string;
-  enableTilt?: boolean;
-  clickEffect?: boolean;
-  enableMagnetism?: boolean;
+  children: React.ReactNode
+  className?: string
+  disableAnimations?: boolean
+  style?: React.CSSProperties
+  particleCount?: number
+  glowColor?: string
+  enableTilt?: boolean
+  clickEffect?: boolean
+  enableMagnetism?: boolean
 }> = ({
   children,
   className = "",
@@ -166,32 +157,28 @@ const ParticleCard: React.FC<{
   clickEffect = false,
   enableMagnetism = false,
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<HTMLDivElement[]>([]);
-  const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
-  const isHoveredRef = useRef(false);
-  const memoizedParticles = useRef<HTMLDivElement[]>([]);
-  const particlesInitialized = useRef(false);
-  const magnetismAnimationRef = useRef<gsap.core.Tween | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null)
+  const particlesRef = useRef<HTMLDivElement[]>([])
+  const timeoutsRef = useRef<NodeJS.Timeout[]>([])
+  const isHoveredRef = useRef(false)
+  const memoizedParticles = useRef<HTMLDivElement[]>([])
+  const particlesInitialized = useRef(false)
+  const magnetismAnimationRef = useRef<gsap.core.Tween | null>(null)
 
   const initializeParticles = useCallback(() => {
-    if (particlesInitialized.current || !cardRef.current) return;
+    if (particlesInitialized.current || !cardRef.current) return
 
-    const { width, height } = cardRef.current.getBoundingClientRect();
+    const { width, height } = cardRef.current.getBoundingClientRect()
     memoizedParticles.current = Array.from({ length: particleCount }, () =>
-      createParticleElement(
-        Math.random() * width,
-        Math.random() * height,
-        glowColor
-      )
-    );
-    particlesInitialized.current = true;
-  }, [particleCount, glowColor]);
+      createParticleElement(Math.random() * width, Math.random() * height, glowColor),
+    )
+    particlesInitialized.current = true
+  }, [particleCount, glowColor])
 
   const clearAllParticles = useCallback(() => {
-    timeoutsRef.current.forEach(clearTimeout);
-    timeoutsRef.current = [];
-    magnetismAnimationRef.current?.kill();
+    timeoutsRef.current.forEach(clearTimeout)
+    timeoutsRef.current = []
+    magnetismAnimationRef.current?.kill()
 
     particlesRef.current.forEach((particle) => {
       gsap.to(particle, {
@@ -200,33 +187,29 @@ const ParticleCard: React.FC<{
         duration: 0.3,
         ease: "back.in(1.7)",
         onComplete: () => {
-          particle.parentNode?.removeChild(particle);
+          particle.parentNode?.removeChild(particle)
         },
-      });
-    });
-    particlesRef.current = [];
-  }, []);
+      })
+    })
+    particlesRef.current = []
+  }, [])
 
   const animateParticles = useCallback(() => {
-    if (!cardRef.current || !isHoveredRef.current) return;
+    if (!cardRef.current || !isHoveredRef.current) return
 
     if (!particlesInitialized.current) {
-      initializeParticles();
+      initializeParticles()
     }
 
     memoizedParticles.current.forEach((particle, index) => {
       const timeoutId = setTimeout(() => {
-        if (!isHoveredRef.current || !cardRef.current) return;
+        if (!isHoveredRef.current || !cardRef.current) return
 
-        const clone = particle.cloneNode(true) as HTMLDivElement;
-        cardRef.current.appendChild(clone);
-        particlesRef.current.push(clone);
+        const clone = particle.cloneNode(true) as HTMLDivElement
+        cardRef.current.appendChild(clone)
+        particlesRef.current.push(clone)
 
-        gsap.fromTo(
-          clone,
-          { scale: 0, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" }
-        );
+        gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" })
 
         gsap.to(clone, {
           x: (Math.random() - 0.5) * 100,
@@ -236,7 +219,7 @@ const ParticleCard: React.FC<{
           ease: "none",
           repeat: -1,
           yoyo: true,
-        });
+        })
 
         gsap.to(clone, {
           opacity: 0.3,
@@ -244,21 +227,21 @@ const ParticleCard: React.FC<{
           ease: "power2.inOut",
           repeat: -1,
           yoyo: true,
-        });
-      }, index * 100);
+        })
+      }, index * 100)
 
-      timeoutsRef.current.push(timeoutId);
-    });
-  }, [initializeParticles]);
+      timeoutsRef.current.push(timeoutId)
+    })
+  }, [initializeParticles])
 
   useEffect(() => {
-    if (disableAnimations || !cardRef.current) return;
+    if (disableAnimations || !cardRef.current) return
 
-    const element = cardRef.current;
+    const element = cardRef.current
 
     const handleMouseEnter = () => {
-      isHoveredRef.current = true;
-      animateParticles();
+      isHoveredRef.current = true
+      animateParticles()
 
       if (enableTilt) {
         gsap.to(element, {
@@ -267,13 +250,13 @@ const ParticleCard: React.FC<{
           duration: 0.3,
           ease: "power2.out",
           transformPerspective: 1000,
-        });
+        })
       }
-    };
+    }
 
     const handleMouseLeave = () => {
-      isHoveredRef.current = false;
-      clearAllParticles();
+      isHoveredRef.current = false
+      clearAllParticles()
 
       if (enableTilt) {
         gsap.to(element, {
@@ -281,7 +264,7 @@ const ParticleCard: React.FC<{
           rotateY: 0,
           duration: 0.3,
           ease: "power2.out",
-        });
+        })
       }
 
       if (enableMagnetism) {
@@ -290,22 +273,22 @@ const ParticleCard: React.FC<{
           y: 0,
           duration: 0.3,
           ease: "power2.out",
-        });
+        })
       }
-    };
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!enableTilt && !enableMagnetism) return;
+      if (!enableTilt && !enableMagnetism) return
 
-      const rect = element.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+      const rect = element.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      const centerX = rect.width / 2
+      const centerY = rect.height / 2
 
       if (enableTilt) {
-        const rotateX = ((y - centerY) / centerY) * -10;
-        const rotateY = ((x - centerX) / centerX) * 10;
+        const rotateX = ((y - centerY) / centerY) * -10
+        const rotateY = ((x - centerX) / centerX) * 10
 
         gsap.to(element, {
           rotateX,
@@ -313,37 +296,37 @@ const ParticleCard: React.FC<{
           duration: 0.1,
           ease: "power2.out",
           transformPerspective: 1000,
-        });
+        })
       }
 
       if (enableMagnetism) {
-        const magnetX = (x - centerX) * 0.05;
-        const magnetY = (y - centerY) * 0.05;
+        const magnetX = (x - centerX) * 0.05
+        const magnetY = (y - centerY) * 0.05
 
         magnetismAnimationRef.current = gsap.to(element, {
           x: magnetX,
           y: magnetY,
           duration: 0.3,
           ease: "power2.out",
-        });
+        })
       }
-    };
+    }
 
     const handleClick = (e: MouseEvent) => {
-      if (!clickEffect) return;
+      if (!clickEffect) return
 
-      const rect = element.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const rect = element.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
 
       const maxDistance = Math.max(
         Math.hypot(x, y),
         Math.hypot(x - rect.width, y),
         Math.hypot(x, y - rect.height),
-        Math.hypot(x - rect.width, y - rect.height)
-      );
+        Math.hypot(x - rect.width, y - rect.height),
+      )
 
-      const ripple = document.createElement("div");
+      const ripple = document.createElement("div")
       ripple.style.cssText = `
         position: absolute;
         width: ${maxDistance * 2}px;
@@ -354,9 +337,9 @@ const ParticleCard: React.FC<{
         top: ${y - maxDistance}px;
         pointer-events: none;
         z-index: 1000;
-      `;
+      `
 
-      element.appendChild(ripple);
+      element.appendChild(ripple)
 
       gsap.fromTo(
         ripple,
@@ -370,32 +353,24 @@ const ParticleCard: React.FC<{
           duration: 0.8,
           ease: "power2.out",
           onComplete: () => ripple.remove(),
-        }
-      );
-    };
+        },
+      )
+    }
 
-    element.addEventListener("mouseenter", handleMouseEnter);
-    element.addEventListener("mouseleave", handleMouseLeave);
-    element.addEventListener("mousemove", handleMouseMove);
-    element.addEventListener("click", handleClick);
+    element.addEventListener("mouseenter", handleMouseEnter)
+    element.addEventListener("mouseleave", handleMouseLeave)
+    element.addEventListener("mousemove", handleMouseMove)
+    element.addEventListener("click", handleClick)
 
     return () => {
-      isHoveredRef.current = false;
-      element.removeEventListener("mouseenter", handleMouseEnter);
-      element.removeEventListener("mouseleave", handleMouseLeave);
-      element.removeEventListener("mousemove", handleMouseMove);
-      element.removeEventListener("click", handleClick);
-      clearAllParticles();
-    };
-  }, [
-    animateParticles,
-    clearAllParticles,
-    disableAnimations,
-    enableTilt,
-    enableMagnetism,
-    clickEffect,
-    glowColor,
-  ]);
+      isHoveredRef.current = false
+      element.removeEventListener("mouseenter", handleMouseEnter)
+      element.removeEventListener("mouseleave", handleMouseLeave)
+      element.removeEventListener("mousemove", handleMouseMove)
+      element.removeEventListener("click", handleClick)
+      clearAllParticles()
+    }
+  }, [animateParticles, clearAllParticles, disableAnimations, enableTilt, enableMagnetism, clickEffect, glowColor])
 
   return (
     <div
@@ -405,15 +380,15 @@ const ParticleCard: React.FC<{
     >
       {children}
     </div>
-  );
-};
+  )
+}
 
 const GlobalSpotlight: React.FC<{
-  gridRef: React.RefObject<HTMLDivElement | null>;
-  disableAnimations?: boolean;
-  enabled?: boolean;
-  spotlightRadius?: number;
-  glowColor?: string;
+  gridRef: React.RefObject<HTMLDivElement | null>
+  disableAnimations?: boolean
+  enabled?: boolean
+  spotlightRadius?: number
+  glowColor?: string
 }> = ({
   gridRef,
   disableAnimations = false,
@@ -421,14 +396,14 @@ const GlobalSpotlight: React.FC<{
   spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
   glowColor = DEFAULT_GLOW_COLOR,
 }) => {
-  const spotlightRef = useRef<HTMLDivElement | null>(null);
-  const isInsideSection = useRef(false);
+  const spotlightRef = useRef<HTMLDivElement | null>(null)
+  const isInsideSection = useRef(false)
 
   useEffect(() => {
-    if (disableAnimations || !gridRef?.current || !enabled) return;
+    if (disableAnimations || !gridRef?.current || !enabled) return
 
-    const spotlight = document.createElement("div");
-    spotlight.className = "global-spotlight";
+    const spotlight = document.createElement("div")
+    spotlight.className = "global-spotlight"
     spotlight.style.cssText = `
       position: fixed;
       width: 800px;
@@ -447,146 +422,132 @@ const GlobalSpotlight: React.FC<{
       opacity: 0;
       transform: translate(-50%, -50%);
       mix-blend-mode: screen;
-    `;
-    document.body.appendChild(spotlight);
-    spotlightRef.current = spotlight;
+    `
+    document.body.appendChild(spotlight)
+    spotlightRef.current = spotlight
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!spotlightRef.current || !gridRef.current) return;
+      if (!spotlightRef.current || !gridRef.current) return
 
-      const section = gridRef.current.closest(".bento-section");
-      const rect = section?.getBoundingClientRect();
+      const section = gridRef.current.closest(".bento-section")
+      const rect = section?.getBoundingClientRect()
       const mouseInside =
-        rect &&
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom;
+        rect && e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom
 
-      isInsideSection.current = mouseInside || false;
-      const cards = gridRef.current.querySelectorAll(".card");
+      isInsideSection.current = mouseInside || false
+      const cards = gridRef.current.querySelectorAll(".card")
 
       if (!mouseInside) {
         gsap.to(spotlightRef.current, {
           opacity: 0,
           duration: 0.3,
           ease: "power2.out",
-        });
+        })
         cards.forEach((card) => {
-          (card as HTMLElement).style.setProperty("--glow-intensity", "0");
-        });
-        return;
+          ;(card as HTMLElement).style.setProperty("--glow-intensity", "0")
+        })
+        return
       }
 
-      const { proximity, fadeDistance } =
-        calculateSpotlightValues(spotlightRadius);
-      let minDistance = Infinity;
+      const { proximity, fadeDistance } = calculateSpotlightValues(spotlightRadius)
+      let minDistance = Number.POSITIVE_INFINITY
 
       cards.forEach((card) => {
-        const cardElement = card as HTMLElement;
-        const cardRect = cardElement.getBoundingClientRect();
-        const centerX = cardRect.left + cardRect.width / 2;
-        const centerY = cardRect.top + cardRect.height / 2;
+        const cardElement = card as HTMLElement
+        const cardRect = cardElement.getBoundingClientRect()
+        const centerX = cardRect.left + cardRect.width / 2
+        const centerY = cardRect.top + cardRect.height / 2
         const distance =
-          Math.hypot(e.clientX - centerX, e.clientY - centerY) -
-          Math.max(cardRect.width, cardRect.height) / 2;
-        const effectiveDistance = Math.max(0, distance);
+          Math.hypot(e.clientX - centerX, e.clientY - centerY) - Math.max(cardRect.width, cardRect.height) / 2
+        const effectiveDistance = Math.max(0, distance)
 
-        minDistance = Math.min(minDistance, effectiveDistance);
+        minDistance = Math.min(minDistance, effectiveDistance)
 
-        let glowIntensity = 0;
+        let glowIntensity = 0
         if (effectiveDistance <= proximity) {
-          glowIntensity = 1;
+          glowIntensity = 1
         } else if (effectiveDistance <= fadeDistance) {
-          glowIntensity =
-            (fadeDistance - effectiveDistance) / (fadeDistance - proximity);
+          glowIntensity = (fadeDistance - effectiveDistance) / (fadeDistance - proximity)
         }
 
-        updateCardGlowProperties(
-          cardElement,
-          e.clientX,
-          e.clientY,
-          glowIntensity,
-          spotlightRadius
-        );
-      });
+        updateCardGlowProperties(cardElement, e.clientX, e.clientY, glowIntensity, spotlightRadius)
+      })
 
       gsap.to(spotlightRef.current, {
         left: e.clientX,
         top: e.clientY,
         duration: 0.1,
         ease: "power2.out",
-      });
+      })
 
       const targetOpacity =
         minDistance <= proximity
           ? 0.8
           : minDistance <= fadeDistance
             ? ((fadeDistance - minDistance) / (fadeDistance - proximity)) * 0.8
-            : 0;
+            : 0
 
       gsap.to(spotlightRef.current, {
         opacity: targetOpacity,
         duration: targetOpacity > 0 ? 0.2 : 0.5,
         ease: "power2.out",
-      });
-    };
+      })
+    }
 
     const handleMouseLeave = () => {
-      isInsideSection.current = false;
+      isInsideSection.current = false
       gridRef.current?.querySelectorAll(".card").forEach((card) => {
-        (card as HTMLElement).style.setProperty("--glow-intensity", "0");
-      });
+        ;(card as HTMLElement).style.setProperty("--glow-intensity", "0")
+      })
       if (spotlightRef.current) {
         gsap.to(spotlightRef.current, {
           opacity: 0,
           duration: 0.3,
           ease: "power2.out",
-        });
+        })
       }
-    };
+    }
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mouseleave", handleMouseLeave)
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-      spotlightRef.current?.parentNode?.removeChild(spotlightRef.current);
-    };
-  }, [gridRef, disableAnimations, enabled, spotlightRadius, glowColor]);
+      document.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mouseleave", handleMouseLeave)
+      spotlightRef.current?.parentNode?.removeChild(spotlightRef.current)
+    }
+  }, [gridRef, disableAnimations, enabled, spotlightRadius, glowColor])
 
-  return null;
-};
+  return null
+}
 
 const BentoCardGrid: React.FC<{
-  children: React.ReactNode;
-  gridRef?: React.RefObject<HTMLDivElement | null>;
+  children: React.ReactNode
+  gridRef?: React.RefObject<HTMLDivElement | null>
 }> = ({ children, gridRef }) => (
   <div
-    className="bento-section grid gap-2 p-3 max-w-[54rem] select-none relative"
-    style={{ fontSize: "clamp(1rem, 0.9rem + 0.5vw, 1.5rem)" }}
+    className="bento-section grid gap-6 p-8 max-w-[90rem] mx-auto select-none relative"
+    style={{ fontSize: "clamp(1.2rem, 1.1rem + 0.5vw, 1.8rem)" }}
     ref={gridRef}
   >
     {children}
   </div>
-);
+)
 
 const useMobileDetection = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const checkMobile = () =>
-      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    const checkMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT)
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
 
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
-  return isMobile;
-};
+  return isMobile
+}
 
 const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
   textAutoHide = true,
@@ -602,25 +563,25 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
   enableMagnetism = true,
   data,
 }) => {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const isMobile = useMobileDetection();
-  const shouldDisableAnimations = disableAnimations || isMobile;
-  const router = useRouter();
-  const [showEmail, setShowEmail] = useState(false);
-  const [showDiscord, setShowDiscord] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null)
+  const isMobile = useMobileDetection()
+  const shouldDisableAnimations = disableAnimations || isMobile
+  const router = useRouter()
+  const [showEmail, setShowEmail] = useState(false)
+  const [showDiscord, setShowDiscord] = useState(false)
 
-  const dashboard = data || mockDashboardData.dashboard;
-  const leadScore = dashboard.leadScore ?? mockDashboardData.dashboard.leadScore;
-  const category = dashboard.category ?? mockDashboardData.dashboard.category;
-  const leadData = dashboard.leadData ?? mockDashboardData.dashboard.leadData;
-  const metrics = dashboard.metrics ?? mockDashboardData.dashboard.metrics;
-  const processingTime = dashboard.processingTime ?? mockDashboardData.dashboard.processingTime;
-  const emailContent = dashboard.emailContent ?? mockDashboardData.dashboard.emailContent;
-  const discordMessage = dashboard.discordMessage ?? mockDashboardData.dashboard.discordMessage;
-  const integrations = dashboard.integrations ?? mockDashboardData.dashboard.integrations;
+  const dashboard = data || mockDashboardData.dashboard
+  const leadScore = dashboard.leadScore ?? mockDashboardData.dashboard.leadScore
+  const category = dashboard.category ?? mockDashboardData.dashboard.category
+  const leadData = dashboard.leadData ?? mockDashboardData.dashboard.leadData
+  const metrics = dashboard.metrics ?? mockDashboardData.dashboard.metrics
+  const processingTime = dashboard.processingTime ?? mockDashboardData.dashboard.processingTime
+  const emailContent = dashboard.emailContent ?? mockDashboardData.dashboard.emailContent
+  const discordMessage = dashboard.discordMessage ?? mockDashboardData.dashboard.discordMessage
+  const integrations = dashboard.integrations ?? mockDashboardData.dashboard.integrations
 
   const scoreColorClass =
-    Number(leadScore) > 80 ? "border-green-500" : Number(leadScore) >= 50 ? "border-yellow-500" : "border-blue-500";
+    Number(leadScore) > 80 ? "border-green-500" : Number(leadScore) >= 50 ? "border-yellow-500" : "border-blue-500"
 
   const cardData: BentoCardProps[] = [
     {
@@ -630,20 +591,18 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
       className: "col-span-2 row-span-2",
       children: (
         <>
-          <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start mb-6 gap-6">
             <div>
-              <h3 className="text-2xl font-mono font-bold text-white">{leadData.name}</h3>
-              <p className="text-blue-400 font-mono">{leadData.email}</p>
+              <h3 className="text-3xl font-mono font-bold text-white mb-2">{leadData.name}</h3>
+              <p className="text-xl text-blue-400 font-mono">{leadData.email}</p>
             </div>
-            <Badge className={cn("text-sm font-mono whitespace-nowrap", scoreColorClass)}>
-              {category}
-            </Badge>
+            <Badge className={cn("text-lg font-mono whitespace-nowrap px-4 py-2", scoreColorClass)}>{category}</Badge>
           </div>
-          <div className="space-y-2 mb-4">
-            <p className="text-sm font-mono text-gray-400">Lead Score: {leadScore}/100</p>
+          <div className="space-y-4 mb-6">
+            <p className="text-lg font-mono text-gray-400">Lead Score: {leadScore}/100</p>
             <LeadScoreBar score={Number(leadScore)} />
           </div>
-          <p className="text-sm text-gray-300 font-mono italic">"{leadData.message}"</p>
+          <p className="text-lg text-gray-300 font-mono italic">"{leadData.message}"</p>
         </>
       ),
     },
@@ -652,15 +611,15 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
       label: "Performance",
       className: "col-span-2",
       children: (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <MetricCard icon={<Clock className="w-8 h-8" />} label="Total Time" value={`${processingTime}s`} />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <MetricCard icon={<Clock className="w-10 h-10" />} label="Total Time" value={`${processingTime}s`} />
           <MetricCard
-            icon={<BrainCircuit className="w-8 h-8" />}
+            icon={<BrainCircuit className="w-10 h-10" />}
             label="AI Response Time"
             value={metrics.responseTime}
           />
           <MetricCard
-            icon={<CheckCircle className="w-8 h-8" />}
+            icon={<CheckCircle className="w-10 h-10" />}
             label="Conversion Chance"
             value={metrics.conversionProbability}
           />
@@ -672,9 +631,13 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
       label: "Results",
       className: "col-span-2 row-span-2",
       children: (
-        <div className="space-y-4">
-          <Button onClick={() => setShowEmail(!showEmail)} variant="outline" className="w-full justify-between">
-            <span className="font-mono">Peek at Sent Email</span> <Mail className="h-4 w-4" />
+        <div className="space-y-6">
+          <Button
+            onClick={() => setShowEmail(!showEmail)}
+            variant="outline"
+            className="w-full justify-between text-lg py-4"
+          >
+            <span className="font-mono">Peek at Sent Email</span> <Mail className="h-6 w-6" />
           </Button>
           <AnimatePresence>
             {showEmail && emailContent && (
@@ -682,19 +645,23 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="border border-gray-700 rounded-lg p-4 bg-black"
+                className="border border-gray-700 rounded-lg p-6 bg-black max-h-96 overflow-y-auto"
               >
-                <h4 className="font-bold text-white font-mono">{emailContent.subject}</h4>
+                <h4 className="font-bold text-white font-mono text-xl mb-4">{emailContent.subject}</h4>
                 <div
-                  className="prose prose-sm prose-invert mt-2 text-gray-300 font-sans"
+                  className="prose prose-lg prose-invert mt-2 text-gray-300 font-sans leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: emailContent.body }}
                 />
               </motion.div>
             )}
           </AnimatePresence>
 
-          <Button onClick={() => setShowDiscord(!showDiscord)} variant="outline" className="w-full justify-between">
-            <span className="font-mono">Reveal Team Notification</span> <MessageSquare className="h-4 w-4" />
+          <Button
+            onClick={() => setShowDiscord(!showDiscord)}
+            variant="outline"
+            className="w-full justify-between text-lg py-4"
+          >
+            <span className="font-mono">Reveal Team Notification</span> <MessageSquare className="h-6 w-6" />
           </Button>
           <AnimatePresence>
             {showDiscord && discordMessage && (
@@ -702,15 +669,15 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="border border-gray-700 rounded-lg p-4 bg-black"
+                className="border border-gray-700 rounded-lg p-6 bg-black max-h-96 overflow-y-auto"
               >
-                <p className="font-bold text-white font-mono">{discordMessage.title}</p>
-                <p className="text-sm text-gray-400 mt-1 font-mono">{discordMessage.description}</p>
-                <div className="grid grid-cols-2 gap-4 mt-4">
+                <p className="font-bold text-white font-mono text-xl mb-2">{discordMessage.title}</p>
+                <p className="text-lg text-gray-400 mt-1 font-mono mb-6">{discordMessage.description}</p>
+                <div className="grid grid-cols-2 gap-6 mt-4">
                   {discordMessage.fields?.map((field: any, index: number) => (
                     <div key={index}>
-                      <p className="text-xs font-semibold text-gray-400 uppercase font-mono">{field.name}</p>
-                      <p className="text-sm text-white font-mono">{field.value}</p>
+                      <p className="text-sm font-semibold text-gray-400 uppercase font-mono mb-2">{field.name}</p>
+                      <p className="text-lg text-white font-mono">{field.value}</p>
                     </div>
                   ))}
                 </div>
@@ -725,35 +692,33 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
       label: "Technology",
       children: (
         <>
-          <p className="text-sm text-gray-400 font-mono mb-4">
+          <p className="text-lg text-gray-400 font-mono mb-6">
             This workflow used {integrations.length} tools. Click to see alternatives.
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-3">
             {integrations.map((int: string) => {
-              const category = getIntegrationCategory(int);
+              const category = getIntegrationCategory(int)
               return (
                 <Popover key={int}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="font-mono cursor-pointer bg-transparent">
+                    <Button variant="outline" className="font-mono cursor-pointer bg-transparent text-lg px-4 py-3">
                       {int}
                     </Button>
                   </PopoverTrigger>
                   {category && (
-                    <PopoverContent className="w-64 bg-black border-2 border-gray-700 text-white p-4">
-                      <div className="space-y-3">
-                        <h4 className="font-mono font-medium leading-none">Category Alternatives:</h4>
-                        <div className="flex flex-wrap gap-2">
+                    <PopoverContent className="w-80 bg-black border-2 border-gray-700 text-white p-6">
+                      <div className="space-y-4">
+                        <h4 className="font-mono font-medium leading-none text-lg">Category Alternatives:</h4>
+                        <div className="flex flex-wrap gap-3">
                           <TooltipProvider>
                             {integrationAlternatives[category].map((alt) => (
                               <Tooltip key={alt.name} delayDuration={100}>
                                 <TooltipTrigger asChild>
-                                  <Badge
-                                    className="cursor-default font-mono hover:border-blue-500 hover:shadow-[0_0_8px_hsl(var(--accent)/0.5)] transition-all"
-                                  >
+                                  <Badge className="cursor-default font-mono hover:border-blue-500 hover:shadow-[0_0_8px_hsl(var(--accent)/0.5)] transition-all text-base px-3 py-2">
                                     {alt.name}
                                   </Badge>
                                 </TooltipTrigger>
-                                <TooltipContent className="bg-black border-gray-600 text-white">
+                                <TooltipContent className="bg-black border-gray-600 text-white text-base p-3">
                                   <p>{alt.description}</p>
                                 </TooltipContent>
                               </Tooltip>
@@ -761,18 +726,18 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                           </TooltipProvider>
                         </div>
                         <Button
-                          size="sm"
+                          size="lg"
                           variant="outline"
-                          className="w-full mt-4 font-mono bg-transparent"
+                          className="w-full mt-6 font-mono bg-transparent text-lg py-3"
                           onClick={() => router.push("/contact")}
                         >
-                          Customize This <ArrowRight className="ml-2 h-4 w-4" />
+                          Customize This <ArrowRight className="ml-2 h-5 w-5" />
                         </Button>
                       </div>
                     </PopoverContent>
                   )}
                 </Popover>
-              );
+              )
             })}
           </div>
         </>
@@ -783,7 +748,7 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
       label: "Customization",
       children: (
         <>
-          <div className="space-y-2 text-sm text-gray-300 font-mono">
+          <div className="space-y-4 text-lg text-gray-300 font-mono">
             <p>
               <strong className="text-white">For E-commerce:</strong> Analyze abandoned carts, send personalized
               recovery emails.
@@ -799,15 +764,15 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
           </div>
           <Button
             variant="outline"
-            className="w-full mt-4 font-mono bg-transparent"
+            className="w-full mt-6 font-mono bg-transparent text-lg py-4"
             onClick={() => router.push("/contact")}
           >
-            Build My Custom Version <ArrowRight className="ml-2 h-4 w-4" />
+            Build My Custom Version <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </>
       ),
     },
-  ];
+  ]
 
   return (
     <>
@@ -829,7 +794,7 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
           
           .card-responsive {
             display: grid;
-            gap: 0.5rem;
+            gap: 1.5rem;
           }
           
           @media (min-width: 600px) {
@@ -934,9 +899,9 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
       <BentoCardGrid gridRef={gridRef}>
         <div className="card-responsive">
           {cardData.map((card, index) => {
-            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
+            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[350px] w-full max-w-full p-8 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
               enableBorderGlow ? "card--border-glow" : ""
-            } ${card.className || ""}`;
+            } ${card.className || ""}`
 
             const cardStyle = {
               backgroundColor: card.color || "var(--background-dark)",
@@ -946,7 +911,7 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
               "--glow-y": "50%",
               "--glow-intensity": "0",
               "--glow-radius": "200px",
-            } as React.CSSProperties;
+            } as React.CSSProperties
 
             if (enableStars) {
               return (
@@ -963,7 +928,7 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                 >
                   {card.children}
                 </ParticleCard>
-              );
+              )
             }
 
             return (
@@ -972,20 +937,20 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                 className={baseClassName}
                 style={cardStyle}
                 ref={(el) => {
-                  if (!el) return;
+                  if (!el) return
 
                   const handleMouseMove = (e: MouseEvent) => {
-                    if (shouldDisableAnimations) return;
+                    if (shouldDisableAnimations) return
 
-                    const rect = el.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
+                    const rect = el.getBoundingClientRect()
+                    const x = e.clientX - rect.left
+                    const y = e.clientY - rect.top
+                    const centerX = rect.width / 2
+                    const centerY = rect.height / 2
 
                     if (enableTilt) {
-                      const rotateX = ((y - centerY) / centerY) * -10;
-                      const rotateY = ((x - centerX) / centerX) * 10;
+                      const rotateX = ((y - centerY) / centerY) * -10
+                      const rotateY = ((x - centerX) / centerX) * 10
 
                       gsap.to(el, {
                         rotateX,
@@ -993,24 +958,24 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                         duration: 0.1,
                         ease: "power2.out",
                         transformPerspective: 1000,
-                      });
+                      })
                     }
 
                     if (enableMagnetism) {
-                      const magnetX = (x - centerX) * 0.05;
-                      const magnetY = (y - centerY) * 0.05;
+                      const magnetX = (x - centerX) * 0.05
+                      const magnetY = (y - centerY) * 0.05
 
                       gsap.to(el, {
                         x: magnetX,
                         y: magnetY,
                         duration: 0.3,
                         ease: "power2.out",
-                      });
+                      })
                     }
-                  };
+                  }
 
                   const handleMouseLeave = () => {
-                    if (shouldDisableAnimations) return;
+                    if (shouldDisableAnimations) return
 
                     if (enableTilt) {
                       gsap.to(el, {
@@ -1018,7 +983,7 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                         rotateY: 0,
                         duration: 0.3,
                         ease: "power2.out",
-                      });
+                      })
                     }
 
                     if (enableMagnetism) {
@@ -1027,25 +992,25 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                         y: 0,
                         duration: 0.3,
                         ease: "power2.out",
-                      });
+                      })
                     }
-                  };
+                  }
 
                   const handleClick = (e: MouseEvent) => {
-                    if (!clickEffect || shouldDisableAnimations) return;
+                    if (!clickEffect || shouldDisableAnimations) return
 
-                    const rect = el.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
+                    const rect = el.getBoundingClientRect()
+                    const x = e.clientX - rect.left
+                    const y = e.clientY - rect.top
 
                     const maxDistance = Math.max(
                       Math.hypot(x, y),
                       Math.hypot(x - rect.width, y),
                       Math.hypot(x, y - rect.height),
-                      Math.hypot(x - rect.width, y - rect.height)
-                    );
+                      Math.hypot(x - rect.width, y - rect.height),
+                    )
 
-                    const ripple = document.createElement("div");
+                    const ripple = document.createElement("div")
                     ripple.style.cssText = `
                       position: absolute;
                       width: ${maxDistance * 2}px;
@@ -1056,9 +1021,9 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                       top: ${y - maxDistance}px;
                       pointer-events: none;
                       z-index: 1000;
-                    `;
+                    `
 
-                    el.appendChild(ripple);
+                    el.appendChild(ripple)
 
                     gsap.fromTo(
                       ripple,
@@ -1072,24 +1037,24 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                         duration: 0.8,
                         ease: "power2.out",
                         onComplete: () => ripple.remove(),
-                      }
-                    );
-                  };
+                      },
+                    )
+                  }
 
-                  el.addEventListener("mousemove", handleMouseMove);
-                  el.addEventListener("mouseleave", handleMouseLeave);
-                  el.addEventListener("click", handleClick);
+                  el.addEventListener("mousemove", handleMouseMove)
+                  el.addEventListener("mouseleave", handleMouseLeave)
+                  el.addEventListener("click", handleClick)
                 }}
               >
                 {card.children}
               </div>
-            );
+            )
           })}
         </div>
       </BentoCardGrid>
     </>
-  );
-};
+  )
+}
 
 export default function DashboardViewer({ data }: { data: DashboardData | null }) {
   return (
