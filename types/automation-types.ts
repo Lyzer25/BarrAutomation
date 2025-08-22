@@ -37,3 +37,18 @@ export type AutomationEvent =
   | { type: "status-update"; payload: StatusUpdate }
   | { type: "dashboard-update"; payload: DashboardData }
   | { type: "error"; payload: { message: string } }
+
+export interface AutomationStatus {
+  step: string
+  status: "not-started" | "in-progress" | "done" | "error"
+  message: string
+  timestamp: string
+}
+
+export interface StatusLogEntry {
+  timestamp: string
+  step: string
+  status: string
+  message: string
+  details?: any
+}

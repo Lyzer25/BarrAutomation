@@ -17,7 +17,6 @@ import {
   AlertCircle,
   ArrowRight,
 } from "lucide-react"
-import type { AutomationStatus, StatusLogEntry } from "@/types/automation-types"
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from "react"
 
@@ -82,14 +81,19 @@ const workflowSteps: WorkflowStep[] = [
 ]
 
 interface WorkflowCardsProps {
-  statuses: Record<string, AutomationStatus>
-  statusLog: StatusLogEntry[]
+  statuses: Record<string, string>
+  statusLog: Array<{
+    timestamp: string
+    step: string
+    status: string
+    message: string
+  }>
   error: string | null
   onContinue: () => void
   isComplete: boolean
 }
 
-const getStatusIcon = (status: AutomationStatus, isAnimating = false) => {
+const getStatusIcon = (status: string, isAnimating = false) => {
   switch (status) {
     case "complete":
       return <CheckCircle className={cn("w-5 h-5 text-green-400", isAnimating && "animate-pulse")} />
@@ -102,7 +106,7 @@ const getStatusIcon = (status: AutomationStatus, isAnimating = false) => {
   }
 }
 
-const getStatusBadge = (status: AutomationStatus, isAnimating = false) => {
+const getStatusBadge = (status: string, isAnimating = false) => {
   switch (status) {
     case "complete":
       return (
@@ -124,47 +128,19 @@ const getStatusBadge = (status: AutomationStatus, isAnimating = false) => {
   }
 }
 
-const formatTimestamp = (timestamp: string | number | Date): string => {
+const formatTimestamp = (timestamp: string | undefined): string => {
   try {
-    // Handle different timestamp formats
-    let date: Date
-
-    if (typeof timestamp === "string") {
-      // Try parsing as ISO string first
-      if (timestamp.includes("T") || timestamp.includes("-")) {
-        date = new Date(timestamp)
-      } else {
-        // If it's just a time string like "10:30:45", use today's date
-        const today = new Date()
-        const timeMatch = timestamp.match(/(\d{1,2}):(\d{2}):(\d{2})/)
-        if (timeMatch) {
-          date = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate(),
-            Number.parseInt(timeMatch[1]),
-            Number.parseInt(timeMatch[2]),
-            Number.parseInt(timeMatch[3]),
-          )
-        } else {
-          date = new Date(timestamp)
-        }
-      }
-    } else if (typeof timestamp === "number") {
-      date = new Date(timestamp)
-    } else {
-      date = new Date(timestamp)
+    if (!timestamp) {
+      return new Date().toLocaleTimeString()
     }
 
-    // Check if date is valid
+    const date = new Date(timestamp)
     if (isNaN(date.getTime())) {
-      console.warn("Invalid timestamp:", timestamp)
       return new Date().toLocaleTimeString()
     }
 
     return date.toLocaleTimeString()
   } catch (error) {
-    console.warn("Error formatting timestamp:", timestamp, error)
     return new Date().toLocaleTimeString()
   }
 }
@@ -286,20 +262,8 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
               {/* Liquid Fill Animation */}
               {status === "processing" && (
                 <div className="absolute inset-0 overflow-hidden">
-                  <div
-                    className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-500/30 to-green-400/20 transition-all duration-[3000ms] ease-out"
-                    style={{
-                      height: "100%",
-                      animation: "liquidFill 3s ease-out forwards",
-                    }}
-                  />
-                  <div
-                    className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-500/20 to-transparent"
-                    style={{
-                      height: "100%",
-                      animation: "liquidFill 3s ease-out forwards 0.5s",
-                    }}
-                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-500/30 to-green-400/20 transition-all duration-[3000ms] ease-out liquid-fill" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-500/20 to-transparent liquid-fill-wave" />
                 </div>
               )}
 
@@ -397,7 +361,7 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
         </Card>
       )}
 
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes liquidFill {
           0% {
             height: 0%;
@@ -411,6 +375,23 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
             height: 100%;
             opacity: 0.4;
           }
+        }
+
+        @keyframes liquidWave {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        .liquid-fill {
+          animation: liquidFill 3s ease-out forwards;
+        }
+
+        .liquid-fill-wave {
+          animation: liquidFill 3s ease-out forwards 0.5s, liquidWave 2s ease-in-out infinite;
         }
       `}</style>
     </div>
