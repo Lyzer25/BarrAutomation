@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { SAMPLES, TOOLTIPS, computeImpact, UseCaseKey } from '../../../data/dataEntrySamples';
 import { Button } from '../../../components/ui/button';
-import { Tooltip, TooltipTrigger, TooltipContent } from '../../../components/ui/tooltip';
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '../../../components/ui/tooltip';
 import { Card } from '../../../components/ui/card';
 
 /**
@@ -66,6 +66,7 @@ export default function DataEntryAutomationStudioPage() {
   }, [active, recordsPerDay]);
 
   return (
+    <TooltipProvider>
     <main className="container mx-auto px-4 py-10">
       {/* Header */}
       <header className="flex items-start justify-between gap-4 mb-8">
@@ -255,5 +256,6 @@ export default function DataEntryAutomationStudioPage() {
         </div>
       </section>
     </main>
+    </TooltipProvider>
   );
 }
