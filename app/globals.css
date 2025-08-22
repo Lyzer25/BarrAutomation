@@ -8,7 +8,7 @@
     --foreground: 0 0% 98%;
     --card: 0 0% 0%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
+    --popover: 0 0% 0%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
@@ -18,7 +18,7 @@
     --muted-foreground: 0 0% 63.9%;
     --accent: 180 100% 50%;
     --accent-foreground: 0 0% 0%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
@@ -43,16 +43,16 @@
 
 @layer utilities {
   .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+    animation: pulse-glow 2s infinite;
   }
 
   @keyframes pulse-glow {
     0%,
     100% {
-      box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+      box-shadow: 0 0 10px 0px theme("colors.accent.DEFAULT");
     }
     50% {
-      box-shadow: 0 0 30px rgba(0, 210, 255, 0.6);
+      box-shadow: 0 0 20px 5px theme("colors.accent.DEFAULT");
     }
   }
 
@@ -63,10 +63,10 @@
   @keyframes float {
     0%,
     100% {
-      transform: translateY(0px);
+      transform: translateY(0);
     }
     50% {
-      transform: translateY(-20px);
+      transform: translateY(-10px);
     }
   }
 
@@ -83,38 +83,39 @@
   }
 
   @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
     to {
       transform: rotate(360deg);
     }
   }
 
   .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+    animation: fade-in 0.5s ease-out forwards;
   }
 
-  @keyframes fadeIn {
+  @keyframes fade-in {
     from {
       opacity: 0;
-      transform: translateY(20px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 
   .animate-slide-up {
-    animation: slideUp 0.6s ease-out forwards;
+    animation: slide-up 0.5s ease-out forwards;
   }
 
-  @keyframes slideUp {
+  @keyframes slide-up {
     from {
+      transform: translateY(20px);
       opacity: 0;
-      transform: translateY(30px);
     }
     to {
-      opacity: 1;
       transform: translateY(0);
+      opacity: 1;
     }
   }
 
@@ -375,96 +376,30 @@
   .liquid-fill-wave {
     animation: liquidFill 3s ease-out forwards 0.5s, liquidWave 2s ease-in-out infinite;
   }
+}
 
-  @keyframes liquidFill {
-    0% {
-      height: 0%;
-      opacity: 0.8;
-    }
-    50% {
-      height: 50%;
-      opacity: 0.6;
-    }
-    100% {
-      height: 100%;
-      opacity: 0.4;
-    }
+/* Liquid Fill Animation Keyframes */
+@keyframes liquidFill {
+  0% {
+    height: 0%;
+    opacity: 0.8;
   }
-
-  @keyframes liquidWave {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
+  50% {
+    height: 50%;
+    opacity: 0.6;
   }
-
-  .animate-spotlight {
-    animation: spotlight 2s ease-in-out infinite;
+  100% {
+    height: 100%;
+    opacity: 0.4;
   }
+}
 
-  @keyframes spotlight {
-    0% {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1.2);
-    }
+@keyframes liquidWave {
+  0% {
+    transform: translateX(-100%);
   }
-
-  .card-hover {
-    transition: all 0.3s ease;
-  }
-
-  .card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
-    border: none;
-    color: white;
-    transition: all 0.3s ease;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
-  }
-
-  .text-shadow {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  }
-
-  .bg-grid {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  .bg-dots {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  .animate-spin {
-    animation: spin 1s linear infinite;
-  }
-
-  .glow {
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
-  }
-
-  .glow:hover {
-    box-shadow: 0 0 30px rgba(0, 210, 255, 0.5);
+  100% {
+    transform: translateX(100%);
   }
 }
 
@@ -479,17 +414,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background: #000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 210, 255, 0.5);
+  background: #333;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 210, 255, 0.7);
+  background: #555;
 }
 
 /* Spotlight effect */
@@ -522,7 +456,7 @@ html {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+  background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -569,23 +503,4 @@ html {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   opacity: 0.05;
   pointer-events: none;
-}
-
-/* Focus styles */
-.focus-visible:focus-visible {
-  outline: 2px solid #00d2ff;
-  outline-offset: 2px;
-}
-
-/* Selection styles */
-::selection {
-  background-color: rgba(0, 210, 255, 0.3);
-  color: white;
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
-  }
 }

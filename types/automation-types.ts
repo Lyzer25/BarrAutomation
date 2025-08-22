@@ -1,54 +1,60 @@
-export type StatusUpdate = {
-  step: string
-  status: "processing" | "complete" | "error"
-  message?: string
-  data?: Record<string, any>
+export interface LeadData {
+  name: string
+  email: string
+  company?: string
+  phone?: string
+  message: string
+  source: string
 }
 
-export type DashboardData = {
-  processingTime: string
-  leadScore: number | string
-  category: string
-  integrations: string[]
-  metrics: {
-    responseTime: string
-    conversionProbability: string
-  }
-  leadData?: {
+export interface EmailContent {
+  subject: string
+  body: string
+  recipient: string
+}
+
+export interface DiscordMessage {
+  title: string
+  description: string
+  fields: Array<{
     name: string
-    email: string
-    phone: string
-    message: string
-    [key: string]: any
-  }
-  emailContent: {
-    subject: string
-    body: string
-  }
-  discordMessage: {
-    title: string
-    description: string
-    fields: { name: string; value: string }[]
-  }
-  [key: string]: any
+    value: string
+    inline?: boolean
+  }>
+  color?: number
 }
 
-export type AutomationEvent =
-  | { type: "status-update"; payload: StatusUpdate }
-  | { type: "dashboard-update"; payload: DashboardData }
-  | { type: "error"; payload: { message: string } }
+export interface DashboardMetrics {
+  responseTime: string
+  conversionProbability: string
+  leadScore: number
+}
+
+export interface DashboardData {
+  dashboard: {
+    leadScore: number
+    category: string
+    leadData: LeadData
+    metrics: DashboardMetrics
+    processingTime: number
+    emailContent: EmailContent
+    discordMessage: DiscordMessage
+    integrations: string[]
+  }
+}
 
 export interface AutomationStatus {
   step: string
-  status: "not-started" | "in-progress" | "done" | "error"
-  message: string
+  status: "pending" | "processing" | "complete" | "error"
+  message?: string
   timestamp: string
+  data?: any
 }
 
-export interface StatusLogEntry {
-  timestamp: string
-  step: string
-  status: string
-  message: string
-  details?: any
+export interface WorkflowStep {
+  id: string
+  label: string
+  description: string
+  status: "pending" | "processing" | "complete" | "error"
+  timestamp?: string
 }

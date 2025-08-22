@@ -1,5 +1,5 @@
 "use client"
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Clock, DollarSign, BrainCircuit, CheckCircle, Rocket } from "lucide-react"
@@ -11,8 +11,6 @@ import DashboardViewer from "@/components/smart-lead-machine/dashboard-viewer"
 import DebugPanel from "@/components/debug/debug-panel"
 import ErrorBoundary from "@/components/smart-lead-machine/error-boundary"
 import { useAutomationProgress } from "@/hooks/use-automation-progress"
-import { debugStore } from "@/lib/debug-store"
-import { initializeKeyboardShortcuts, initializeURLDebugAccess } from "@/lib/debug-console"
 
 const DemoModal = dynamic(() => import("@/components/smart-lead-machine/demo-modal"))
 
@@ -21,62 +19,27 @@ export default function SmartLeadMachinePage() {
   const [activeLeadId, setActiveLeadId] = useState<string | null>(null)
   const [showDashboard, setShowDashboard] = useState(false)
 
-  const { statuses, statusLog, dashboardData, isComplete, error, debugInfo } = useAutomationProgress(activeLeadId)
+  const { statuses, statusLog, dashboardData, isComplete, error, startAutomation } = useAutomationProgress()
 
-  // Initialize debug system
-  useEffect(() => {
-    // Initialize keyboard shortcuts and URL debug access
-    const cleanupKeyboard = initializeKeyboardShortcuts()
-    initializeURLDebugAccess()
-
-    debugStore.logEvent("DEMO_PAGE_LOADED", {
-      timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      url: window.location.href,
-    })
-
-    return () => {
-      if (cleanupKeyboard) cleanupKeyboard()
-    }
-  }, [])
-
-  // Log automation state changes for debugging
-  useEffect(() => {
-    if (activeLeadId) {
-      debugStore.logEvent("AUTOMATION_STATE_CHANGE", {
-        leadId: activeLeadId,
-        statuses,
-        isComplete,
-        error,
-        debugInfo,
-      })
-    }
-  }, [activeLeadId, statuses, isComplete, error, debugInfo])
-
-  const handleDemoStarted = useCallback((leadId: string) => {
-    debugStore.logEvent("DEMO_STARTED", {
-      leadId,
-      timestamp: new Date().toISOString(),
-    })
-    setActiveLeadId(leadId)
-    setShowDashboard(false) // Reset dashboard view
-  }, [])
+  const handleDemoStarted = useCallback(
+    (leadId: string) => {
+      console.log("🚀 Demo started with leadId:", leadId)
+      setActiveLeadId(leadId)
+      setShowDashboard(false)
+      startAutomation(leadId)
+    },
+    [startAutomation],
+  )
 
   const handleContinueToDashboard = useCallback(() => {
-    debugStore.logEvent("CONTINUE_TO_DASHBOARD", {
-      leadId: activeLeadId,
-      timestamp: new Date().toISOString(),
-    })
+    console.log("🎯 Continue to dashboard")
     setShowDashboard(true)
-  }, [activeLeadId])
+  }, [])
 
   const handleBackToWorkflow = useCallback(() => {
-    debugStore.logEvent("BACK_TO_WORKFLOW", {
-      leadId: activeLeadId,
-      timestamp: new Date().toISOString(),
-    })
+    console.log("🔄 Back to workflow")
     setShowDashboard(false)
-  }, [activeLeadId])
+  }, [])
 
   return (
     <div className="bg-black text-white min-h-screen">
@@ -131,28 +94,6 @@ export default function SmartLeadMachinePage() {
                 onContinue={handleContinueToDashboard}
                 isComplete={isComplete}
               />
-
-              {/* Debug info overlay (only visible when debug mode is enabled) */}
-              {debugStore.isDebugEnabled() && (
-                <div className="mt-4 p-4 bg-gray-900 border border-gray-700 rounded-lg text-xs text-gray-300">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div>
-                      <div className="text-gray-400">SSE Status</div>
-                      <div className="text-white font-mono">
-                        {debugInfo.sseReadyState === 1 ? "Connected" : "Disconnected"}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-gray-400">Last Event</div>
-                      <div className="text-white font-mono">{Math.round(debugInfo.timeSinceLastEvent / 1000)}s ago</div>
-                    </div>
-                    <div>
-                      <div className="text-gray-400">Runtime</div>
-                      <div className="text-white font-mono">{Math.round(debugInfo.timeSinceStart / 1000)}s</div>
-                    </div>
-                  </div>
-                </div>
-              )}
             </motion.div>
           )}
 
