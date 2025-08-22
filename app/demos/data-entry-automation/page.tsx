@@ -246,9 +246,14 @@ export default function DataEntryAutomationStudioPage() {
           <Button
             variant="secondary"
             onClick={() => {
-              setText(SAMPLES[active].sampleText);
-              setExtracted(SAMPLES[active].extracted);
-              setMapping(JSON.parse(JSON.stringify(SAMPLES[active].mapping)));
+              const s = SAMPLES[active];
+              setText(s.sampleText);
+              setExtracted(s.extracted);
+              setMapping(JSON.parse(JSON.stringify(s.mapping)));
+              setRecordsPerDay(s.impact.recordsPerDay);
+              setWagePerHour(s.impact.wagePerHour);
+              setTimePerRecord(s.impact.timeMinutesPerRecord);
+              setOverheadPct(25);
             }}
           >
             Reset

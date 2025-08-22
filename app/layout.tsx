@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const robotoMono = Roboto_Mono({
@@ -28,10 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable)}>
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
-        <Toaster />
+        <TooltipProvider>
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+          <Toaster />
+        </TooltipProvider>
       </body>
     </html>
   )
