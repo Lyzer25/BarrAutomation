@@ -1,0 +1,19 @@
+From: "Olivia Turner" <olivia.turner@example.com>
+To: support@shop.example.com
+Subject: URGENT: Order #ORD-99234 - Wrong item received
+Date: Mon, 14 Jul 2025 09:32:10 -0500
+
+Hi Support,
+
+I received my order ORD-99234 yesterday but the item doesn't match what I ordered. I ordered "Model Z Thermal Battery" (SKU: Z-TH-2024), but the box contains "Model Y Battery" instead. The order was placed under Olivia Turner / olivia.turner@example.com / (555) 321-9876.
+
+Please advise on return shipping and replacement. My address is:
+Olivia Turner
+742 Evergreen Terrace
+Apt 5B
+Springfield, IL 62704
+
+This contains my order number and personal info — please redact before sending to external systems.
+
+Thanks,
+Olivia

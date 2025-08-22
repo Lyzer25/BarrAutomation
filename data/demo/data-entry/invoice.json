@@ -1,0 +1,16 @@
+{
+  "vendorName": "Acme Industrial Supplies, Inc.",
+  "vendorId": "ACME-9843",
+  "vendorAddress": "Acme Industrial Supplies, Inc.\nAttn: Accounts Payable\n1234 Manufacturing Way\nSuite 200\nRiverton, TX 75001",
+  "invoiceNumber": "INV-2025-0043",
+  "invoiceDate": "3/12/2025", 
+  "dueDate": "April 1, 2025",
+  "currency": "USD",
+  "subtotal": 1200.50,
+  "tax": 96.04,
+  "total": 1296.54,
+  "terms": "Net 30",
+  "lineItemsCsv": "invoice-lineitems.csv",
+  "notes": "Payment via ACH. Please include invoice number on remittance.",
+  "raw": "Vendor: Acme Industrial Supplies, Inc.\\nINV-2025-0043\\nDate: 3/12/2025\\nDue: April 1, 2025\\nItems: see attached CSV"
+}

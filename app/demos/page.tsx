@@ -54,6 +54,16 @@ const demos = [
       "Aggregates customer feedback from all channels, uses AI to understand sentiment, and routes issues to the right team member with a suggested response.",
     status: "Coming Soon",
   },
+  {
+    title: "Data-Entry Automation Studio",
+    industry: "Operations",
+    useCase: "Automates invoice entry, lead ingestion, and support email triage with AI-assisted mapping and validation.",
+    roi: "Saves 20+ hours/week",
+    description:
+      "Replace repetitive data-entry tasks across finance, sales, and support. Try sample invoices, messy leads CSVs, and real support emails.",
+    link: "/demos/data-entry-automation",
+    status: "Live",
+  },
 ]
 
 export default function DemosPage() {
