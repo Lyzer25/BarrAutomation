@@ -57,12 +57,18 @@ const demos = [
   {
     title: "Data-Entry Automation Studio",
     industry: "Operations",
-    useCase: "Automates invoice entry, lead ingestion, and support email triage with AI-assisted mapping and validation.",
+    useCase: "Watch AI convert messy inputs into clean, mapped records.",
     roi: "Saves 20+ hours/week",
     description:
       "Replace repetitive data-entry tasks across finance, sales, and support. Try sample invoices, messy leads CSVs, and real support emails.",
     link: "/demos/data-entry-automation",
     status: "Live",
+    // static stat chips displayed in card UI below
+    stats: {
+      timeSavedPerDay: "13 hrs",
+      errorReduction: "85%",
+      firstPassYield: "95%"
+    }
   },
 ]
 
@@ -107,6 +113,23 @@ export default function DemosPage() {
             <CardContent className="flex-grow">
               <p className="text-sm text-white/80 mb-4">{demo.description}</p>
               <p className="text-sm font-bold text-accent">{demo.roi}</p>
+
+              {demo.stats && (
+                <div className="mt-4 flex gap-2">
+                  <div className="text-xs bg-white/5 px-2 py-1 rounded">
+                    <div className="text-muted-foreground">Time saved/day</div>
+                    <div className="font-mono">{demo.stats.timeSavedPerDay}</div>
+                  </div>
+                  <div className="text-xs bg-white/5 px-2 py-1 rounded">
+                    <div className="text-muted-foreground">Error reduction</div>
+                    <div className="font-mono">{demo.stats.errorReduction}</div>
+                  </div>
+                  <div className="text-xs bg-white/5 px-2 py-1 rounded">
+                    <div className="text-muted-foreground">First‑pass yield</div>
+                    <div className="font-mono">{demo.stats.firstPassYield}</div>
+                  </div>
+                </div>
+              )}
             </CardContent>
             <CardFooter>
               {demo.link && demo.status === "Live" ? (
