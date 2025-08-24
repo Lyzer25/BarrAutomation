@@ -3,11 +3,12 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu, Bot } from "lucide-react"
+import { Menu } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import GooeyNav from "@/components/bits/Components/GooeyNav/GooeyNav"
 import "@/components/bits/Components/GooeyNav/GooeyNav.css"
+import Image from "next/image"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,14 +19,14 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname()
-  const initialActiveIndex = navLinks.findIndex(link => link.href === pathname)
+  const initialActiveIndex = navLinks.findIndex((link) => link.href === pathname)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <Bot className="h-8 w-8 text-accent" />
-          <span className="text-xl font-bold font-mono text-white">Barri.ai</span>
+        <Link href="/" className="flex items-center gap-3">
+          <Image src="/barr-logo.png" alt="Barr Automations" width={48} height={48} className="h-12 w-12" />
+          <span className="text-white font-semibold text-lg">Barr Automations</span>
         </Link>
         <div className="hidden md:flex items-center">
           <GooeyNav items={navLinks} initialActiveIndex={initialActiveIndex !== -1 ? initialActiveIndex : 0} />
