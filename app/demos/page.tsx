@@ -36,16 +36,6 @@ const demos = [
     status: "Live",
   },
   {
-    title: "Social Media Multiplier",
-    industry: "Marketing",
-    useCase: "Generates, posts, and monitors content across multiple platforms.",
-    roi: "400% increase in content output",
-    description:
-      "Turns a single idea into a week's worth of platform-specific content for IG, X, FB, and LinkedIn. Monitors replies and generates performance reports.",
-    link: "/demos/social-media-multiplier",
-    status: "In Development",
-  },
-  {
     title: "Customer Happiness Hub",
     industry: "Service Businesses",
     useCase: "Monitors reviews, classifies sentiment, and drafts auto-responses.",

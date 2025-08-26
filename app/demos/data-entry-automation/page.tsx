@@ -34,6 +34,7 @@ function ROICalculator({
   
   // AI constants
   const AI_TIME_MINUTES = 0.1; // 6 seconds per record
+  const AI_SETUP_COST = 5000; // One-time setup fee
   const AI_MONTHLY_COST = 1500; // Fixed $1500/month for AI service
   
   // AI can process 600 records per hour (6 seconds each)
@@ -57,7 +58,15 @@ function ROICalculator({
     
     // Savings
     const netMonthlySavings = monthlyCostManual - monthlyCostAutomated;
-    const roiPercent = monthlyCostManual > 0 ? (netMonthlySavings / monthlyCostAutomated) * 100 : 0;
+    
+    // Payback period (months to recover setup cost)
+    const paybackPeriod = netMonthlySavings > 0 ? AI_SETUP_COST / netMonthlySavings : 0;
+    
+    // First year ROI (includes setup cost)
+    const firstYearCostAI = AI_SETUP_COST + (AI_MONTHLY_COST * 12);
+    const firstYearCostManual = monthlyCostManual * 12;
+    const firstYearSavings = firstYearCostManual - firstYearCostAI;
+    const firstYearROI = firstYearCostAI > 0 ? (firstYearSavings / firstYearCostAI) * 100 : 0;
     
     // Time saved
     const timeSavedPerDay = ((manualTimeMinutes - AI_TIME_MINUTES) * recordsPerDay) / 60;
@@ -68,11 +77,13 @@ function ROICalculator({
       monthlyCostManual,
       monthlyCostAutomated,
       netMonthlySavings,
-      roiPercent,
+      firstYearROI,
+      paybackPeriod,
       timeSavedPerDay,
       humanRecordsPerDay,
       humansNeeded,
       aiCapacityPerDay: AI_MAX_CAPACITY_PER_DAY,
+      firstYearSavings,
     };
   }, [recordsPerDay, wagePerHour, manualTimeMinutes]);
 
@@ -168,24 +179,34 @@ function ROICalculator({
       </div>
 
       {/* Results Section */}
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-4 gap-4">
         <Card className="p-4 bg-white/5">
           <div className="text-xs text-muted-foreground mb-2">Monthly Savings</div>
           <div className={`text-2xl font-bold ${calculations.netMonthlySavings > 0 ? 'text-green-400' : 'text-red-400'}`}>
             ${Math.abs(calculations.netMonthlySavings).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </div>
           <div className="text-xs text-muted-foreground mt-1">
-            {calculations.netMonthlySavings > 0 ? 'Saved vs manual' : 'Break-even at higher volume'}
+            {calculations.netMonthlySavings > 0 ? 'After implementation' : 'Need higher volume'}
           </div>
         </Card>
 
         <Card className="p-4 bg-white/5">
-          <div className="text-xs text-muted-foreground mb-2">ROI</div>
-          <div className={`text-2xl font-bold ${calculations.roiPercent > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
-            {calculations.roiPercent > 0 ? `${calculations.roiPercent.toFixed(0)}%` : 'N/A'}
+          <div className="text-xs text-muted-foreground mb-2">First Year ROI</div>
+          <div className={`text-2xl font-bold ${calculations.firstYearROI > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
+            {calculations.firstYearROI > 0 ? `${calculations.firstYearROI.toFixed(0)}%` : 'N/A'}
           </div>
           <div className="text-xs text-muted-foreground mt-1">
-            Return on $1,500 investment
+            Including $5K setup
+          </div>
+        </Card>
+
+        <Card className="p-4 bg-white/5">
+          <div className="text-xs text-muted-foreground mb-2">Payback Period</div>
+          <div className={`text-2xl font-bold ${calculations.paybackPeriod > 0 && calculations.paybackPeriod < 12 ? 'text-green-400' : calculations.paybackPeriod >= 12 ? 'text-yellow-400' : 'text-gray-400'}`}>
+            {calculations.paybackPeriod > 0 ? `${calculations.paybackPeriod.toFixed(1)} mo` : 'N/A'}
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            To recover setup cost
           </div>
         </Card>
 
@@ -199,6 +220,22 @@ function ROICalculator({
           </div>
         </Card>
       </div>
+
+      {/* First Year Summary */}
+      <Card className="p-4 bg-gradient-to-r from-green-900/20 to-blue-900/20 border-green-500/20">
+        <div className="flex justify-between items-center">
+          <div>
+            <div className="text-sm text-muted-foreground">First Year Total Savings</div>
+            <div className={`text-3xl font-bold ${calculations.firstYearSavings > 0 ? 'text-green-400' : 'text-red-400'}`}>
+              ${Math.abs(calculations.firstYearSavings).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs text-muted-foreground">Investment Required</div>
+            <div className="text-lg">$5,000 setup + $1,500/mo</div>
+          </div>
+        </div>
+      </Card>
 
       {/* Capacity Comparison */}
       <div className="grid md:grid-cols-2 gap-4">
@@ -247,7 +284,11 @@ function ROICalculator({
               <span className="font-mono">${calculations.costPerRecordAutomated.toFixed(2)}</span>
             </div>
             <div className="flex justify-between mb-2">
-              <span className="text-muted-foreground">AI monthly cost (fixed):</span>
+              <span className="text-muted-foreground">AI setup cost (one-time):</span>
+              <span className="font-mono">${AI_SETUP_COST}</span>
+            </div>
+            <div className="flex justify-between mb-2">
+              <span className="text-muted-foreground">AI monthly cost:</span>
               <span className="font-mono">${AI_MONTHLY_COST}</span>
             </div>
             <div className="flex justify-between">
@@ -259,7 +300,7 @@ function ROICalculator({
       </div>
 
       <p className="text-xs text-muted-foreground text-center">
-        AI service includes unlimited processing at $1,500/month. Break-even typically occurs at 50-100 records/day.
+        AI service requires a one-time $5,000 setup fee plus $1,500/month for unlimited processing. Most businesses see ROI within 3-6 months.
       </p>
     </div>
   );
