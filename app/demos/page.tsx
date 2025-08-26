@@ -36,6 +36,15 @@ const demos = [
     status: "Live",
   },
   {
+    title: "AI Receptionist",
+    industry: "Hospitality & Services",
+    useCase: "Answers calls, books appointments, and manages Google Calendar.",
+    roi: "24/7 availability, zero missed calls",
+    description:
+      "Your always-on virtual front desk. Handles incoming calls, schedules appointments directly in Google Calendar, and provides instant responses. Perfect for restaurants, salons, and busy entrepreneurs.",
+    status: "In Development",
+  },
+  {
     title: "Customer Happiness Hub",
     industry: "Service Businesses",
     useCase: "Monitors reviews, classifies sentiment, and drafts auto-responses.",
