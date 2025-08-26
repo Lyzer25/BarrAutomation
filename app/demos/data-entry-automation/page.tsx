@@ -6,6 +6,8 @@ import { SAMPLES, TOOLTIPS, computeImpact, UseCaseKey } from '../../../data/data
 import { Button } from '../../../components/ui/button';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '../../../components/ui/tooltip';
 import { Card } from '../../../components/ui/card';
+import { Input } from '../../../components/ui/input';
+import { Label } from '../../../components/ui/label';
 
 /**
  * Guided, visual Data-Entry Automation Studio demo
@@ -15,6 +17,209 @@ import { Card } from '../../../components/ui/card';
  */
 
 const USE_CASE_KEYS: UseCaseKey[] = ['invoice', 'lead', 'email'];
+
+// ROI Calculator Component
+function ROICalculator({
+  initialRecordsPerDay,
+  initialWagePerHour,
+  initialManualTime,
+}: {
+  initialRecordsPerDay: number;
+  initialWagePerHour: number;
+  initialManualTime: number;
+}) {
+  const [recordsPerDay, setRecordsPerDay] = useState(initialRecordsPerDay);
+  const [wagePerHour, setWagePerHour] = useState(initialWagePerHour);
+  const [manualTimeMinutes, setManualTimeMinutes] = useState(initialManualTime);
+  
+  // AI processing time is constant (6 seconds = 0.1 minutes)
+  const AI_TIME_MINUTES = 0.1;
+
+  // Calculate derived values
+  const calculations = useMemo(() => {
+    // Cost per record
+    const costPerRecordManual = (wagePerHour / 60) * manualTimeMinutes;
+    const costPerRecordAutomated = (wagePerHour / 60) * AI_TIME_MINUTES;
+    
+    // Monthly costs (22 working days)
+    const monthlyCostManual = costPerRecordManual * recordsPerDay * 22;
+    const monthlyCostAutomated = costPerRecordAutomated * recordsPerDay * 22;
+    
+    // Savings
+    const netMonthlySavings = monthlyCostManual - monthlyCostAutomated;
+    const roiPercent = monthlyCostManual > 0 ? (netMonthlySavings / monthlyCostManual) * 100 : 0;
+    
+    // Time saved
+    const timeSavedPerDay = ((manualTimeMinutes - AI_TIME_MINUTES) * recordsPerDay) / 60;
+    
+    return {
+      costPerRecordManual,
+      costPerRecordAutomated,
+      monthlyCostManual,
+      monthlyCostAutomated,
+      netMonthlySavings,
+      roiPercent,
+      timeSavedPerDay,
+    };
+  }, [recordsPerDay, wagePerHour, manualTimeMinutes]);
+
+  return (
+    <div className="space-y-6">
+      {/* Input Section */}
+      <div className="grid md:grid-cols-3 gap-4">
+        <div>
+          <Label htmlFor="records-per-day" className="text-sm text-muted-foreground flex items-center gap-1">
+            Records/day
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button 
+                  tabIndex={0} 
+                  role="button"
+                  aria-label="More info about records per day"
+                  className="text-xs text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 rounded"
+                >
+                  ?
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>{TOOLTIPS.recordsPerDay}</TooltipContent>
+            </Tooltip>
+          </Label>
+          <Input
+            id="records-per-day"
+            type="number"
+            min={1}
+            max={10000}
+            value={recordsPerDay}
+            onChange={(e) => setRecordsPerDay(Math.max(1, parseInt(e.target.value) || 1))}
+            className="mt-1"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="wage-per-hour" className="text-sm text-muted-foreground flex items-center gap-1">
+            Wage $/hr
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button 
+                  tabIndex={0} 
+                  role="button"
+                  aria-label="More info about wage per hour"
+                  className="text-xs text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 rounded"
+                >
+                  ?
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>{TOOLTIPS.wage}</TooltipContent>
+            </Tooltip>
+          </Label>
+          <Input
+            id="wage-per-hour"
+            type="number"
+            min={1}
+            max={200}
+            step={0.5}
+            value={wagePerHour}
+            onChange={(e) => setWagePerHour(Math.max(1, parseFloat(e.target.value) || 1))}
+            className="mt-1"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="manual-time" className="text-sm text-muted-foreground flex items-center gap-1">
+            Manual time (min/record)
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button 
+                  tabIndex={0} 
+                  role="button"
+                  aria-label="More info about manual time per record"
+                  className="text-xs text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 rounded"
+                >
+                  ?
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>{TOOLTIPS.timePerRecord}</TooltipContent>
+            </Tooltip>
+          </Label>
+          <Input
+            id="manual-time"
+            type="number"
+            min={0.5}
+            max={60}
+            step={0.5}
+            value={manualTimeMinutes}
+            onChange={(e) => setManualTimeMinutes(Math.max(0.5, parseFloat(e.target.value) || 0.5))}
+            className="mt-1"
+          />
+        </div>
+      </div>
+
+      {/* Results Section */}
+      <div className="grid md:grid-cols-3 gap-4">
+        <Card className="p-4 bg-white/5">
+          <div className="text-xs text-muted-foreground mb-2">Time Saved/Day</div>
+          <div className="text-2xl font-bold text-green-400">
+            {calculations.timeSavedPerDay.toFixed(1)} hrs
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            vs {AI_TIME_MINUTES * 60} seconds per record with AI
+          </div>
+        </Card>
+
+        <Card className="p-4 bg-white/5">
+          <div className="text-xs text-muted-foreground mb-2">Monthly Savings</div>
+          <div className="text-2xl font-bold text-green-400">
+            ${calculations.netMonthlySavings.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            Based on 22 working days
+          </div>
+        </Card>
+
+        <Card className="p-4 bg-white/5">
+          <div className="text-xs text-muted-foreground mb-2">ROI</div>
+          <div className="text-2xl font-bold text-green-400">
+            {calculations.roiPercent.toFixed(0)}%
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            Cost reduction
+          </div>
+        </Card>
+      </div>
+
+      {/* Cost Breakdown */}
+      <div className="bg-white/5 rounded p-4">
+        <h5 className="text-sm font-medium mb-3">Cost Breakdown</h5>
+        <div className="grid md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <div className="flex justify-between mb-2">
+              <span className="text-muted-foreground">Manual cost per record:</span>
+              <span className="font-mono">${calculations.costPerRecordManual.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Manual monthly cost:</span>
+              <span className="font-mono">${calculations.monthlyCostManual.toFixed(0)}</span>
+            </div>
+          </div>
+          <div>
+            <div className="flex justify-between mb-2">
+              <span className="text-muted-foreground">AI cost per record:</span>
+              <span className="font-mono">${calculations.costPerRecordAutomated.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">AI monthly cost:</span>
+              <span className="font-mono">${calculations.monthlyCostAutomated.toFixed(0)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p className="text-xs text-muted-foreground text-center">
+        Use these numbers to estimate your current spend per record and the monthly savings when automated.
+      </p>
+    </div>
+  );
+}
 
 export default function DataEntryAutomationStudioPage() {
   const [active, setActive] = useState<UseCaseKey>('invoice');
@@ -43,7 +248,7 @@ export default function DataEntryAutomationStudioPage() {
     await new Promise((r) => setTimeout(r, 600 + Math.floor(Math.random() * 300)));
     const s = SAMPLES[active];
     setExtracted(s.extracted);
-    setMapping(s.mapping);
+    setMapping([...s.mapping]);
     setRuns((r) => r + 1);
     setRecordsProcessed((n) => n + (s.impact.recordsPerDay ? Math.max(1, Math.round(s.impact.recordsPerDay / 200)) : 1));
     setLoading(false);
@@ -170,12 +375,21 @@ export default function DataEntryAutomationStudioPage() {
                 ))}
               </div>
 
-              <h5 className="mt-4 font-medium">Field Mapping <span className="ml-2">
+              <h5 className="mt-4 font-medium">Field Mapping
                 <Tooltip>
-                  <TooltipTrigger asChild><span className="text-xs text-muted-foreground">?</span></TooltipTrigger>
+                  <TooltipTrigger asChild>
+                    <button 
+                      tabIndex={0} 
+                      role="button"
+                      aria-label="More info about field mapping"
+                      className="ml-2 text-xs text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 rounded"
+                    >
+                      ?
+                    </button>
+                  </TooltipTrigger>
                   <TooltipContent>{TOOLTIPS.mapping}</TooltipContent>
                 </Tooltip>
-              </span></h5>
+              </h5>
               <ul className="mt-2 text-sm text-muted-foreground space-y-1">
                 {mapping.map((m, i) => (
                   <li key={i}><strong>{m.from}</strong> → <span className="font-mono">{m.to}</span></li>
@@ -186,49 +400,18 @@ export default function DataEntryAutomationStudioPage() {
         </Card>
       </section>
 
-      {/* Impact Snapshot */}
+      {/* ROI Calculator */}
       <section className="p-4 rounded border border-white/6 mb-6">
-        <div className="flex items-center justify-between">
-          <h4 className="font-medium">Impact Snapshot</h4>
-          <div className="text-xs text-muted-foreground">Demo only</div>
+        <div className="flex items-center justify-between mb-4">
+          <h4 className="font-medium">ROI Calculator</h4>
+          <div className="text-xs text-muted-foreground">Calculate your savings</div>
         </div>
 
-        <div className="mt-4 grid md:grid-cols-4 gap-4">
-          <div>
-              <label className="text-sm text-muted-foreground flex items-center gap-2">
-                Records/day
-                <Tooltip>
-                  <TooltipTrigger asChild><span className="ml-1 text-xs text-muted-foreground">?</span></TooltipTrigger>
-                  <TooltipContent>{TOOLTIPS.recordsPerDay}</TooltipContent>
-                </Tooltip>
-              </label>
-            <input
-              aria-label="Records per day"
-              type="range"
-              min={10}
-              max={500}
-              value={recordsPerDay}
-              onChange={(e) => setRecordsPerDay(Number(e.target.value))}
-              className="w-full"
-            />
-            <div className="text-xs text-muted-foreground mt-1">{recordsPerDay}</div>
-          </div>
-
-          <div className="bg-white/5 rounded p-3">
-            <div className="text-xs text-muted-foreground">Time saved/day <Tooltip><TooltipTrigger asChild><span className="ml-1 text-xs">?</span></TooltipTrigger><TooltipContent>{TOOLTIPS.timeSaved}</TooltipContent></Tooltip></div>
-            <div className="text-lg font-semibold">{impact.hoursSavedPerDay.toFixed(1)} hrs</div>
-          </div>
-
-          <div className="bg-white/5 rounded p-3">
-            <div className="text-xs text-muted-foreground">Monthly savings <Tooltip><TooltipTrigger asChild><span className="ml-1 text-xs">?</span></TooltipTrigger><TooltipContent>{TOOLTIPS.wage}</TooltipContent></Tooltip></div>
-            <div className="text-lg font-semibold">${impact.monthlySavings}</div>
-          </div>
-
-          <div className="bg-white/5 rounded p-3">
-            <div className="text-xs text-muted-foreground">First‑pass yield <Tooltip><TooltipTrigger asChild><span className="ml-1 text-xs">?</span></TooltipTrigger><TooltipContent>{TOOLTIPS.firstPassYield}</TooltipContent></Tooltip></div>
-            <div className="text-lg font-semibold">{Math.round(SAMPLES[active].firstPassYield * 100)}%</div>
-          </div>
-        </div>
+        <ROICalculator
+          initialRecordsPerDay={recordsPerDay}
+          initialWagePerHour={SAMPLES[active].impact.wagePerHour}
+          initialManualTime={SAMPLES[active].impact.timeMinutesPerRecord}
+        />
       </section>
 
       {/* Notes */}
@@ -246,14 +429,9 @@ export default function DataEntryAutomationStudioPage() {
           <Button
             variant="secondary"
             onClick={() => {
-              const s = SAMPLES[active];
-              setText(s.sampleText);
-              setExtracted(s.extracted);
-              setMapping(JSON.parse(JSON.stringify(s.mapping)));
-              setRecordsPerDay(s.impact.recordsPerDay);
-              setWagePerHour(s.impact.wagePerHour);
-              setTimePerRecord(s.impact.timeMinutesPerRecord);
-              setOverheadPct(25);
+              setText(SAMPLES[active].sampleText);
+              setExtracted(SAMPLES[active].extracted);
+              setMapping(JSON.parse(JSON.stringify(SAMPLES[active].mapping)));
             }}
           >
             Reset

@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
-import { TooltipProvider } from "@/components/ui/tooltip"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const robotoMono = Roboto_Mono({
@@ -16,9 +15,9 @@ const robotoMono = Roboto_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Barr Automations — Real-Time AI Automation for Business", // Updated title from Barri.ai to Barr Automations
+  title: "Barri.ai — Real-Time AI Automation for Business",
   description: "From 45 minutes to 30 seconds — automate your sales, service, onboarding, reporting, or anything else.",
-  generator: "v0.dev",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -29,12 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable)}>
-        <TooltipProvider>
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-          <Toaster />
-        </TooltipProvider>
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+        <Toaster />
       </body>
     </html>
   )
