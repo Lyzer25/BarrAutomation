@@ -32,22 +32,32 @@ function ROICalculator({
   const [wagePerHour, setWagePerHour] = useState(initialWagePerHour);
   const [manualTimeMinutes, setManualTimeMinutes] = useState(initialManualTime);
   
-  // AI processing time is constant (6 seconds = 0.1 minutes)
-  const AI_TIME_MINUTES = 0.1;
+  // AI constants
+  const AI_TIME_MINUTES = 0.1; // 6 seconds per record
+  const AI_MONTHLY_COST = 1500; // Fixed $1500/month for AI service
+  
+  // AI can process 600 records per hour (6 seconds each)
+  // Assuming 24/7 availability but practical limit of 10,000 per day
+  const AI_MAX_CAPACITY_PER_DAY = 10000;
 
   // Calculate derived values
   const calculations = useMemo(() => {
-    // Cost per record
-    const costPerRecordManual = (wagePerHour / 60) * manualTimeMinutes;
-    const costPerRecordAutomated = (wagePerHour / 60) * AI_TIME_MINUTES;
+    // Human capacity
+    const humanHoursPerDay = 8; // Standard work day
+    const humanRecordsPerDay = Math.floor((humanHoursPerDay * 60) / manualTimeMinutes);
+    const humansNeeded = Math.ceil(recordsPerDay / humanRecordsPerDay);
     
-    // Monthly costs (22 working days)
+    // Cost calculations
+    const costPerRecordManual = (wagePerHour / 60) * manualTimeMinutes;
     const monthlyCostManual = costPerRecordManual * recordsPerDay * 22;
-    const monthlyCostAutomated = costPerRecordAutomated * recordsPerDay * 22;
+    
+    // AI cost is fixed at $1500/month regardless of volume
+    const monthlyCostAutomated = AI_MONTHLY_COST;
+    const costPerRecordAutomated = recordsPerDay > 0 ? AI_MONTHLY_COST / (recordsPerDay * 22) : 0;
     
     // Savings
     const netMonthlySavings = monthlyCostManual - monthlyCostAutomated;
-    const roiPercent = monthlyCostManual > 0 ? (netMonthlySavings / monthlyCostManual) * 100 : 0;
+    const roiPercent = monthlyCostManual > 0 ? (netMonthlySavings / monthlyCostAutomated) * 100 : 0;
     
     // Time saved
     const timeSavedPerDay = ((manualTimeMinutes - AI_TIME_MINUTES) * recordsPerDay) / 60;
@@ -60,6 +70,9 @@ function ROICalculator({
       netMonthlySavings,
       roiPercent,
       timeSavedPerDay,
+      humanRecordsPerDay,
+      humansNeeded,
+      aiCapacityPerDay: AI_MAX_CAPACITY_PER_DAY,
     };
   }, [recordsPerDay, wagePerHour, manualTimeMinutes]);
 
@@ -157,32 +170,55 @@ function ROICalculator({
       {/* Results Section */}
       <div className="grid md:grid-cols-3 gap-4">
         <Card className="p-4 bg-white/5">
-          <div className="text-xs text-muted-foreground mb-2">Time Saved/Day</div>
-          <div className="text-2xl font-bold text-green-400">
-            {calculations.timeSavedPerDay.toFixed(1)} hrs
-          </div>
-          <div className="text-xs text-muted-foreground mt-1">
-            vs {AI_TIME_MINUTES * 60} seconds per record with AI
-          </div>
-        </Card>
-
-        <Card className="p-4 bg-white/5">
           <div className="text-xs text-muted-foreground mb-2">Monthly Savings</div>
-          <div className="text-2xl font-bold text-green-400">
-            ${calculations.netMonthlySavings.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          <div className={`text-2xl font-bold ${calculations.netMonthlySavings > 0 ? 'text-green-400' : 'text-red-400'}`}>
+            ${Math.abs(calculations.netMonthlySavings).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </div>
           <div className="text-xs text-muted-foreground mt-1">
-            Based on 22 working days
+            {calculations.netMonthlySavings > 0 ? 'Saved vs manual' : 'Break-even at higher volume'}
           </div>
         </Card>
 
         <Card className="p-4 bg-white/5">
           <div className="text-xs text-muted-foreground mb-2">ROI</div>
-          <div className="text-2xl font-bold text-green-400">
-            {calculations.roiPercent.toFixed(0)}%
+          <div className={`text-2xl font-bold ${calculations.roiPercent > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
+            {calculations.roiPercent > 0 ? `${calculations.roiPercent.toFixed(0)}%` : 'N/A'}
           </div>
           <div className="text-xs text-muted-foreground mt-1">
-            Cost reduction
+            Return on $1,500 investment
+          </div>
+        </Card>
+
+        <Card className="p-4 bg-white/5">
+          <div className="text-xs text-muted-foreground mb-2">Humans Needed</div>
+          <div className="text-2xl font-bold text-blue-400">
+            {calculations.humansNeeded}
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            vs 1 AI system
+          </div>
+        </Card>
+      </div>
+
+      {/* Capacity Comparison */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <Card className="p-4 bg-white/5">
+          <div className="text-xs text-muted-foreground mb-2">Human Capacity</div>
+          <div className="text-lg font-semibold">
+            {calculations.humanRecordsPerDay} records/day
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            Per person (8 hour workday)
+          </div>
+        </Card>
+
+        <Card className="p-4 bg-white/5">
+          <div className="text-xs text-muted-foreground mb-2">AI Capacity</div>
+          <div className="text-lg font-semibold text-green-400">
+            {calculations.aiCapacityPerDay.toLocaleString()} records/day
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            24/7 availability
           </div>
         </Card>
       </div>
@@ -196,9 +232,13 @@ function ROICalculator({
               <span className="text-muted-foreground">Manual cost per record:</span>
               <span className="font-mono">${calculations.costPerRecordManual.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between mb-2">
               <span className="text-muted-foreground">Manual monthly cost:</span>
               <span className="font-mono">${calculations.monthlyCostManual.toFixed(0)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Staff required:</span>
+              <span className="font-mono">{calculations.humansNeeded} person(s)</span>
             </div>
           </div>
           <div>
@@ -206,16 +246,20 @@ function ROICalculator({
               <span className="text-muted-foreground">AI cost per record:</span>
               <span className="font-mono">${calculations.costPerRecordAutomated.toFixed(2)}</span>
             </div>
+            <div className="flex justify-between mb-2">
+              <span className="text-muted-foreground">AI monthly cost (fixed):</span>
+              <span className="font-mono">${AI_MONTHLY_COST}</span>
+            </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">AI monthly cost:</span>
-              <span className="font-mono">${calculations.monthlyCostAutomated.toFixed(0)}</span>
+              <span className="text-muted-foreground">Processing time:</span>
+              <span className="font-mono">{AI_TIME_MINUTES * 60}s per record</span>
             </div>
           </div>
         </div>
       </div>
 
       <p className="text-xs text-muted-foreground text-center">
-        Use these numbers to estimate your current spend per record and the monthly savings when automated.
+        AI service includes unlimited processing at $1,500/month. Break-even typically occurs at 50-100 records/day.
       </p>
     </div>
   );
