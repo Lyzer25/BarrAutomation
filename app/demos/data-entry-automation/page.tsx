@@ -28,9 +28,11 @@ function ROICalculator({
   initialWagePerHour: number;
   initialManualTime: number;
 }) {
-  const [recordsPerDay, setRecordsPerDay] = useState(initialRecordsPerDay);
-  const [wagePerHour, setWagePerHour] = useState(initialWagePerHour);
-  const [manualTimeMinutes, setManualTimeMinutes] = useState(initialManualTime);
+  // Use string state for inputs so they can be empty / 0
+  const [recordsPerDayStr, setRecordsPerDayStr] = useState(String(initialRecordsPerDay));
+  const [wagePerHourStr, setWagePerHourStr] = useState(String(initialWagePerHour));
+  const [manualTimeMinutesStr, setManualTimeMinutesStr] = useState(String(initialManualTime));
+  const [dataEntryEmployeesStr, setDataEntryEmployeesStr] = useState('1'); // "Number of data entry employees" (default 1)
   
   // AI constants
   const AI_TIME_MINUTES = 0.1; // 6 seconds per record
@@ -43,35 +45,48 @@ function ROICalculator({
 
   // Calculate derived values
   const calculations = useMemo(() => {
-    // Human capacity
+    // Parse user inputs (strings -> numbers). Allow empty/0 safely.
+    const recordsPerDayNum = Math.max(0, Number(recordsPerDayStr) || 0);
+    const wagePerHourNum = Math.max(0, Number(wagePerHourStr) || 0);
+    const manualTimeMinutesNum = Math.max(0, Number(manualTimeMinutesStr) || 0);
+    const numEmployees = Math.max(0, Math.floor(Number(dataEntryEmployeesStr) || 0));
+
+    // Human capacity (per person)
     const humanHoursPerDay = 8; // Standard work day
-    const humanRecordsPerDay = Math.floor((humanHoursPerDay * 60) / manualTimeMinutes);
-    const humansNeeded = Math.ceil(recordsPerDay / humanRecordsPerDay);
-    
-    // Cost calculations
-    const costPerRecordManual = (wagePerHour / 60) * manualTimeMinutes;
-    const monthlyCostManual = costPerRecordManual * recordsPerDay * 22;
-    
-    // AI cost is fixed at $1500/month regardless of volume
+    const humanRecordsPerDay = manualTimeMinutesNum > 0 ? Math.floor((humanHoursPerDay * 60) / manualTimeMinutesNum) : 0;
+
+    // Per-record manual cost (for transparency)
+    const costPerRecordManual = manualTimeMinutesNum > 0 ? (wagePerHourNum / 60) * manualTimeMinutesNum : 0;
+
+    // Manual monthly cost (Option A): staff-based
+    const monthlyCostManual = numEmployees * wagePerHourNum * humanHoursPerDay * 22;
+
+    // AI cost is fixed at AI_MONTHLY_COST/month
     const monthlyCostAutomated = AI_MONTHLY_COST;
-    const costPerRecordAutomated = recordsPerDay > 0 ? AI_MONTHLY_COST / (recordsPerDay * 22) : 0;
-    
+    const costPerRecordAutomated = recordsPerDayNum > 0 ? AI_MONTHLY_COST / (recordsPerDayNum * 22) : 0;
+
     // Savings
     const netMonthlySavings = monthlyCostManual - monthlyCostAutomated;
-    
+
     // Payback period (months to recover setup cost)
     const paybackPeriod = netMonthlySavings > 0 ? AI_SETUP_COST / netMonthlySavings : 0;
-    
+
     // First year ROI (includes setup cost)
     const firstYearCostAI = AI_SETUP_COST + (AI_MONTHLY_COST * 12);
     const firstYearCostManual = monthlyCostManual * 12;
     const firstYearSavings = firstYearCostManual - firstYearCostAI;
     const firstYearROI = firstYearCostAI > 0 ? (firstYearSavings / firstYearCostAI) * 100 : 0;
-    
+
     // Time saved
-    const timeSavedPerDay = ((manualTimeMinutes - AI_TIME_MINUTES) * recordsPerDay) / 60;
-    
+    const timeSavedPerDay = ((manualTimeMinutesNum - AI_TIME_MINUTES) * recordsPerDayNum) / 60;
+
     return {
+      // parsed values exposed for rendering
+      recordsPerDayNum,
+      wagePerHourNum,
+      manualTimeMinutesNum,
+      numEmployees,
+
       costPerRecordManual,
       costPerRecordAutomated,
       monthlyCostManual,
@@ -81,11 +96,10 @@ function ROICalculator({
       paybackPeriod,
       timeSavedPerDay,
       humanRecordsPerDay,
-      humansNeeded,
       aiCapacityPerDay: AI_MAX_CAPACITY_PER_DAY,
       firstYearSavings,
     };
-  }, [recordsPerDay, wagePerHour, manualTimeMinutes]);
+  }, [recordsPerDayStr, wagePerHourStr, manualTimeMinutesStr, dataEntryEmployeesStr]);
 
   return (
     <div className="space-y-6">
@@ -111,10 +125,10 @@ function ROICalculator({
           <Input
             id="records-per-day"
             type="number"
-            min={1}
+            min={0}
             max={10000}
-            value={recordsPerDay}
-            onChange={(e) => setRecordsPerDay(Math.max(1, parseInt(e.target.value) || 1))}
+            value={recordsPerDayStr}
+            onChange={(e) => setRecordsPerDayStr(e.target.value)}
             className="mt-1"
           />
         </div>
@@ -139,11 +153,11 @@ function ROICalculator({
           <Input
             id="wage-per-hour"
             type="number"
-            min={1}
+            min={0}
             max={200}
             step={0.5}
-            value={wagePerHour}
-            onChange={(e) => setWagePerHour(Math.max(1, parseFloat(e.target.value) || 1))}
+            value={wagePerHourStr}
+            onChange={(e) => setWagePerHourStr(e.target.value)}
             className="mt-1"
           />
         </div>
@@ -168,14 +182,44 @@ function ROICalculator({
           <Input
             id="manual-time"
             type="number"
-            min={0.5}
+            min={0}
             max={60}
-            step={0.5}
-            value={manualTimeMinutes}
-            onChange={(e) => setManualTimeMinutes(Math.max(0.5, parseFloat(e.target.value) || 0.5))}
+            step={0.1}
+            value={manualTimeMinutesStr}
+            onChange={(e) => setManualTimeMinutesStr(e.target.value)}
             className="mt-1"
           />
         </div>
+      </div>
+
+      {/* Number of data entry employees */}
+      <div className="mt-3 md:mt-0">
+        <Label htmlFor="data-entry-employees" className="text-sm text-muted-foreground flex items-center gap-1">
+          Number of data entry employees
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                tabIndex={0}
+                role="button"
+                aria-label="More info about number of data entry employees"
+                className="ml-2 text-xs text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 rounded"
+              >
+                ?
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Set how many employees currently perform data-entry. Use 0 to model an AI-only scenario.</TooltipContent>
+          </Tooltip>
+        </Label>
+        <Input
+          id="data-entry-employees"
+          type="number"
+          min={0}
+          max={1000}
+          step={1}
+          value={dataEntryEmployeesStr}
+          onChange={(e) => setDataEntryEmployeesStr(e.target.value)}
+          className="mt-1 w-36"
+        />
       </div>
 
       {/* Results Section */}
@@ -211,9 +255,9 @@ function ROICalculator({
         </Card>
 
         <Card className="p-4 bg-white/5">
-          <div className="text-xs text-muted-foreground mb-2">Humans Needed</div>
+          <div className="text-xs text-muted-foreground mb-2">Number of data entry employees</div>
           <div className="text-2xl font-bold text-blue-400">
-            {calculations.humansNeeded}
+            {calculations.numEmployees}
           </div>
           <div className="text-xs text-muted-foreground mt-1">
             vs 1 AI system
@@ -273,9 +317,9 @@ function ROICalculator({
               <span className="text-muted-foreground">Manual monthly cost:</span>
               <span className="font-mono">${calculations.monthlyCostManual.toFixed(0)}</span>
             </div>
-            <div className="flex justify-between">
+              <div className="flex justify-between">
               <span className="text-muted-foreground">Staff required:</span>
-              <span className="font-mono">{calculations.humansNeeded} person(s)</span>
+              <span className="font-mono">{calculations.numEmployees} person(s)</span>
             </div>
           </div>
           <div>
