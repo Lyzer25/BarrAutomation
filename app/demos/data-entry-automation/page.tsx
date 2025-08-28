@@ -33,32 +33,50 @@ function ROICalculator({
   const [wagePerHourStr, setWagePerHourStr] = useState(String(initialWagePerHour));
   const [manualTimeMinutesStr, setManualTimeMinutesStr] = useState(String(initialManualTime));
   const [dataEntryEmployeesStr, setDataEntryEmployeesStr] = useState('1'); // "Number of data entry employees" (default 1)
-  
+
+  // Input filter helper: prevents non-numeric keystrokes while allowing editing keys.
+  // allowDecimal = true for wage/time fields
+  const filterNumeric =
+    (allowDecimal: boolean = false) =>
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+      if (allowedKeys.includes(e.key)) return;
+      if (/^[0-9]$/.test(e.key)) return;
+      if (allowDecimal && (e.key === '.' || e.key === ',')) return;
+      // Prevent any other characters
+      e.preventDefault();
+    };
+
   // AI constants
   const AI_TIME_MINUTES = 0.1; // 6 seconds per record
   const AI_SETUP_COST = 5000; // One-time setup fee
   const AI_MONTHLY_COST = 1500; // Fixed $1500/month for AI service
-  
+
   // AI can process 600 records per hour (6 seconds each)
   // Assuming 24/7 availability but practical limit of 10,000 per day
   const AI_MAX_CAPACITY_PER_DAY = 10000;
 
   // Calculate derived values
   const calculations = useMemo(() => {
-    // Parse user inputs (strings -> numbers). Allow empty/0 safely.
-    const recordsPerDayNum = Math.max(0, Number(recordsPerDayStr) || 0);
-    const wagePerHourNum = Math.max(0, Number(wagePerHourStr) || 0);
-    const manualTimeMinutesNum = Math.max(0, Number(manualTimeMinutesStr) || 0);
-    const numEmployees = Math.max(0, Math.floor(Number(dataEntryEmployeesStr) || 0));
+    // Parse user inputs (strings -> numbers). Allow empty/0 safely and preserve "0" as valid.
+    const recordsPerDayNum = recordsPerDayStr === '' ? 0 : Math.max(0, Math.floor(Number(recordsPerDayStr) || 0));
+    const wagePerHourNum = wagePerHourStr === '' ? 0 : Math.max(0, Number(wagePerHourStr) || 0);
+    const manualTimeMinutesNum = manualTimeMinutesStr === '' ? 0 : Math.max(0, Number(manualTimeMinutesStr) || 0);
+    const numEmployees = dataEntryEmployeesStr === '' ? 0 : Math.max(0, Math.floor(Number(dataEntryEmployeesStr) || 0));
 
-    // Human capacity (per person)
-    const humanHoursPerDay = 8; // Standard work day
+    // Human capacity (per person) and totals
+    const humanHoursPerDay = 8; // Standard work day (confirmed)
     const humanRecordsPerDay = manualTimeMinutesNum > 0 ? Math.floor((humanHoursPerDay * 60) / manualTimeMinutesNum) : 0;
+    const humanTotalCapacity = humanRecordsPerDay * numEmployees;
+
+    // Coverage and recommended staff
+    const coveragePct = recordsPerDayNum > 0 ? Math.min(100, Math.round((humanTotalCapacity / recordsPerDayNum) * 100)) : 0;
+    const recommendedEmployees = humanRecordsPerDay > 0 ? Math.ceil(recordsPerDayNum / humanRecordsPerDay) : 0;
 
     // Per-record manual cost (for transparency)
     const costPerRecordManual = manualTimeMinutesNum > 0 ? (wagePerHourNum / 60) * manualTimeMinutesNum : 0;
 
-    // Manual monthly cost (Option A): staff-based
+    // Manual monthly cost (staff-based)
     const monthlyCostManual = numEmployees * wagePerHourNum * humanHoursPerDay * 22;
 
     // AI cost is fixed at AI_MONTHLY_COST/month
@@ -72,13 +90,17 @@ function ROICalculator({
     const paybackPeriod = netMonthlySavings > 0 ? AI_SETUP_COST / netMonthlySavings : 0;
 
     // First year ROI (includes setup cost)
-    const firstYearCostAI = AI_SETUP_COST + (AI_MONTHLY_COST * 12);
+    const firstYearCostAI = AI_SETUP_COST + AI_MONTHLY_COST * 12;
     const firstYearCostManual = monthlyCostManual * 12;
     const firstYearSavings = firstYearCostManual - firstYearCostAI;
     const firstYearROI = firstYearCostAI > 0 ? (firstYearSavings / firstYearCostAI) * 100 : 0;
 
-    // Time saved
+    // Time saved (hours/day)
     const timeSavedPerDay = ((manualTimeMinutesNum - AI_TIME_MINUTES) * recordsPerDayNum) / 60;
+
+    // Human processing time (total team hours per day and per person)
+    const humanProcessingTimeHoursTotal = (manualTimeMinutesNum * recordsPerDayNum) / 60;
+    const humanProcessingTimeHoursPerPerson = numEmployees > 0 ? humanProcessingTimeHoursTotal / numEmployees : humanProcessingTimeHoursTotal;
 
     return {
       // parsed values exposed for rendering
@@ -96,6 +118,11 @@ function ROICalculator({
       paybackPeriod,
       timeSavedPerDay,
       humanRecordsPerDay,
+      humanTotalCapacity,
+      coveragePct,
+      recommendedEmployees,
+      humanProcessingTimeHoursTotal,
+      humanProcessingTimeHoursPerPerson,
       aiCapacityPerDay: AI_MAX_CAPACITY_PER_DAY,
       firstYearSavings,
     };
@@ -125,10 +152,13 @@ function ROICalculator({
           <Input
             id="records-per-day"
             type="number"
+            inputMode="numeric"
+            pattern="[0-9]*"
             min={0}
             max={10000}
             value={recordsPerDayStr}
             onChange={(e) => setRecordsPerDayStr(e.target.value)}
+            onKeyDown={filterNumeric(false)}
             className="mt-1"
           />
         </div>
@@ -153,11 +183,14 @@ function ROICalculator({
           <Input
             id="wage-per-hour"
             type="number"
+            inputMode="decimal"
+            pattern="[0-9]*[.,]?[0-9]*"
             min={0}
             max={200}
             step={0.5}
             value={wagePerHourStr}
             onChange={(e) => setWagePerHourStr(e.target.value)}
+            onKeyDown={filterNumeric(true)}
             className="mt-1"
           />
         </div>
@@ -182,11 +215,14 @@ function ROICalculator({
           <Input
             id="manual-time"
             type="number"
+            inputMode="decimal"
+            pattern="[0-9]*[.,]?[0-9]*"
             min={0}
             max={60}
             step={0.1}
             value={manualTimeMinutesStr}
             onChange={(e) => setManualTimeMinutesStr(e.target.value)}
+            onKeyDown={filterNumeric(true)}
             className="mt-1"
           />
         </div>
@@ -213,11 +249,14 @@ function ROICalculator({
         <Input
           id="data-entry-employees"
           type="number"
+          inputMode="numeric"
+          pattern="[0-9]*"
           min={0}
           max={1000}
           step={1}
           value={dataEntryEmployeesStr}
           onChange={(e) => setDataEntryEmployeesStr(e.target.value)}
+          onKeyDown={filterNumeric(false)}
           className="mt-1 w-36"
         />
       </div>
@@ -284,12 +323,35 @@ function ROICalculator({
       {/* Capacity Comparison */}
       <div className="grid md:grid-cols-2 gap-4">
         <Card className="p-4 bg-white/5">
-          <div className="text-xs text-muted-foreground mb-2">Human Capacity</div>
-          <div className="text-lg font-semibold">
-            {calculations.humanRecordsPerDay} records/day
+          <div className="flex justify-between items-start">
+            <div>
+              <div className="text-xs text-muted-foreground mb-2">Human Capacity</div>
+              <div className="text-lg font-semibold">
+                {calculations.humanRecordsPerDay} records/day <span className="text-sm text-white/60">per person</span>
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">Per person (8 hour workday)</div>
+            </div>
+
+            <div className="text-right">
+              <div className="text-xs text-muted-foreground mb-1">Team total</div>
+              <div className="text-lg font-semibold">{calculations.humanTotalCapacity} records/day</div>
+              <div className="text-xs text-muted-foreground mt-1">for {calculations.numEmployees} person(s)</div>
+            </div>
           </div>
-          <div className="text-xs text-muted-foreground mt-1">
-            Per person (8 hour workday)
+
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="text-xs text-muted-foreground">Coverage</div>
+            <div className={`text-xs font-semibold ${calculations.coveragePct >= 100 ? 'text-green-400' : calculations.coveragePct >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
+              {calculations.coveragePct}% of required volume
+            </div>
+
+            <div className="text-xs text-muted-foreground">Recommended staff</div>
+            <div className="text-xs">{calculations.recommendedEmployees} person(s)</div>
+
+            <div className="text-xs text-muted-foreground">Team processing time</div>
+            <div className="text-xs">
+              {calculations.humanProcessingTimeHoursTotal.toFixed(1)} hrs/day total • {calculations.humanProcessingTimeHoursPerPerson.toFixed(1)} hrs/day per person
+            </div>
           </div>
         </Card>
 
@@ -317,9 +379,13 @@ function ROICalculator({
               <span className="text-muted-foreground">Manual monthly cost:</span>
               <span className="font-mono">${calculations.monthlyCostManual.toFixed(0)}</span>
             </div>
-              <div className="flex justify-between">
+            <div className="flex justify-between mb-2">
               <span className="text-muted-foreground">Staff required:</span>
               <span className="font-mono">{calculations.numEmployees} person(s)</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Team processing time:</span>
+              <span className="font-mono">{calculations.humanProcessingTimeHoursTotal.toFixed(1)} hrs/day</span>
             </div>
           </div>
           <div>
