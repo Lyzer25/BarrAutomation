@@ -1,18 +1,19 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 
 const logos = [
-  { name: "OpenAI", src: "/placeholder.svg?height=40&width=120&text=OpenAI" },
-  { name: "Stripe", src: "/placeholder.svg?height=40&width=120&text=Stripe" },
-  { name: "Shopify", src: "/placeholder.svg?height=40&width=120&text=Shopify" },
-  { name: "Slack", src: "/placeholder.svg?height=40&width=120&text=Slack" },
-  { name: "Discord", src: "/placeholder.svg?height=40&width=120&text=Discord" },
-  { name: "Gmail", src: "/placeholder.svg?height=40&width=120&text=Gmail" },
-  { name: "HubSpot", src: "/placeholder.svg?height=40&width=120&text=HubSpot" },
-  { name: "Salesforce", src: "/placeholder.svg?height=40&width=120&text=Salesforce" },
-  { name: "Zapier", src: "/placeholder.svg?height=40&width=120&text=Zapier" },
-  { name: "Airtable", src: "/placeholder.svg?height=40&width=120&text=Airtable" },
+  { name: "OpenAI", domain: "openai.com" },
+  { name: "Stripe", domain: "stripe.com" },
+  { name: "Shopify", domain: "shopify.com" },
+  { name: "Slack", domain: "slack.com" },
+  { name: "Discord", domain: "discord.com" },
+  { name: "Gmail", domain: "gmail.com" },
+  { name: "HubSpot", domain: "hubspot.com" },
+  { name: "Salesforce", domain: "salesforce.com" },
+  { name: "Zapier", domain: "zapier.com" },
+  { name: "Airtable", domain: "airtable.com" },
 ]
 
 export default function LogoCarousel() {
@@ -26,12 +27,14 @@ export default function LogoCarousel() {
     return (
       <div className="flex justify-center items-center space-x-8 opacity-50">
         {logos.slice(0, 5).map((logo, index) => (
-          <img
+          <div
             key={index}
-            src={logo.src || "/placeholder.svg"}
-            alt={logo.name}
-            className="h-8 w-auto grayscale hover:grayscale-0 transition-all duration-300"
-          />
+            className="h-8 w-24 bg-muted rounded flex items-center justify-center"
+          >
+            <span className="text-xs text-muted-foreground font-medium">
+              {logo.name}
+            </span>
+          </div>
         ))}
       </div>
     )
@@ -44,12 +47,30 @@ export default function LogoCarousel() {
     <div className="relative overflow-hidden">
       <div className="flex space-x-8 animate-scroll">
         {duplicatedLogos.map((logo, index) => (
-          <img
-            key={index}
-            src={logo.src || "/placeholder.svg"}
-            alt={logo.name}
-            className="h-8 w-auto flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300"
-          />
+          <div key={index} className="h-8 w-24 flex-shrink-0 flex items-center justify-center">
+            <Image
+              src={`https://logo.clearbit.com/${logo.domain}`}
+              alt={`${logo.name} Logo`}
+              width={96}
+              height={32}
+              className="h-8 w-auto grayscale hover:grayscale-0 transition-all duration-300"
+              onError={(e) => {
+                // Fallback to text if logo fails to load
+                const target = e.target as HTMLImageElement
+                target.style.display = 'none'
+                const fallback = target.nextElementSibling as HTMLElement
+                if (fallback) fallback.style.display = 'flex'
+              }}
+            />
+            <div 
+              className="h-8 w-24 bg-muted rounded flex items-center justify-center hidden"
+              style={{ display: 'none' }}
+            >
+              <span className="text-xs text-muted-foreground font-medium">
+                {logo.name}
+              </span>
+            </div>
+          </div>
         ))}
       </div>
       <style jsx>{`

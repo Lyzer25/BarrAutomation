@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import ChromaGrid from "@/components/bits/Components/ChromaGrid"
 
 const demos = [
   {
@@ -83,92 +84,24 @@ export default function DemosPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-        {demos.map((demo, index) => (
-          <Card
-            key={index}
-            className="bg-black border border-white/10 flex flex-col hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10 transition-all"
-          >
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle className="text-white">{demo.title}</CardTitle>
-                <div className="flex flex-col items-end gap-2">
-                  <span className="text-xs font-mono bg-accent/20 text-accent px-2 py-1 rounded">{demo.industry}</span>
-                  <Badge
-                    variant={demo.status === "Live" ? "default" : "secondary"}
-                    className={
-                      demo.status === "Live"
-                        ? "bg-green-500/20 text-green-300 border-green-500/30"
-                        : demo.status === "In Development"
-                          ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
-                          : "bg-gray-500/20 text-gray-300 border-gray-500/30"
-                    }
-                  >
-                    {demo.status}
-                  </Badge>
-                </div>
-              </div>
-              <CardDescription className="text-subtle-gray pt-2">{demo.useCase}</CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <p className="text-sm text-white/80 mb-4">{demo.description}</p>
-              <p className="text-sm font-bold text-accent">{demo.roi}</p>
-
-              {demo.stats && (
-                <div className="mt-4 flex gap-2">
-                  <div className="text-xs bg-white/5 px-2 py-1 rounded">
-                    <div className="text-muted-foreground">Time saved/day</div>
-                    <div className="font-mono">{demo.stats.timeSavedPerDay}</div>
-                  </div>
-                  <div className="text-xs bg-white/5 px-2 py-1 rounded">
-                    <div className="text-muted-foreground">Error reduction</div>
-                    <div className="font-mono">{demo.stats.errorReduction}</div>
-                  </div>
-                  <div className="text-xs bg-white/5 px-2 py-1 rounded">
-                    <div className="text-muted-foreground">First‑pass yield</div>
-                    <div className="font-mono">{demo.stats.firstPassYield}</div>
-                  </div>
-                </div>
-              )}
-            </CardContent>
-            <CardFooter>
-              {demo.link && demo.status === "Live" ? (
-                <Button asChild variant="secondary" className="w-full">
-                  <Link href={demo.link}>
-                    Try Live Demo <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              ) : demo.link && demo.status === "In Development" ? (
-                <Button asChild variant="secondary" className="w-full">
-                  <Link href={demo.link}>
-                    Try Demo <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              ) : (
-                <Button variant="secondary" className="w-full" disabled>
-                  {demo.status === "In Development" ? "In Development" : "Coming Soon"}{" "}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              )}
-            </CardFooter>
-          </Card>
-        ))}
-
-        <Card className="bg-accent/5 border-2 border-accent/50 flex flex-col justify-between md:col-span-2 lg:col-span-1 p-6 rounded-xl">
-          <div>
-            <h3 className="text-white font-bold text-lg">Looking for Something Custom?</h3>
-            <p className="text-white/60 mt-2 text-sm">
-              We design bespoke automations tailored to your exact needs. Typical builds take 2-4 weeks. From Zapier
-              migrations to autonomous GPT agents, we can build it.
-            </p>
-          </div>
-          <Button asChild className="mt-4 w-full">
-            <Link href="/contact">
-              Start a Custom Build <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </Card>
+      <div className="mt-12">
+        <ChromaGrid items={demos} />
       </div>
+
+      <Card className="bg-accent/5 border-2 border-accent/50 flex flex-col justify-between md:col-span-2 lg:col-span-1 p-6 rounded-xl mt-8">
+        <div>
+          <h3 className="text-white font-bold text-lg">Looking for Something Custom?</h3>
+          <p className="text-white/60 mt-2 text-sm">
+            We design bespoke automations tailored to your exact needs. Typical builds take 2-4 weeks. From Zapier
+            migrations to autonomous GPT agents, we can build it.
+          </p>
+        </div>
+        <Button asChild className="mt-4 w-full">
+          <Link href="/contact">
+            Start a Custom Build <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
+      </Card>
     </div>
   )
 }
