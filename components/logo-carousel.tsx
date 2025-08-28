@@ -53,7 +53,7 @@ export default function LogoCarousel() {
               alt={`${logo.name} Logo`}
               width={96}
               height={32}
-              className="h-8 w-auto grayscale hover:grayscale-0 transition-all duration-300"
+              className="h-8 w-auto transition-all duration-300"
               onError={(e) => {
                 // Fallback to text if logo fails to load
                 const target = e.target as HTMLImageElement

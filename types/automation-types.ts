@@ -58,3 +58,29 @@ export interface WorkflowStep {
   status: "pending" | "processing" | "complete" | "error"
   timestamp?: string
 }
+
+// Contact Form Types
+export type ContactBasics = {
+  fullName: string
+  email: string
+  phone?: string
+  company?: string
+  website?: string
+  message: string
+}
+
+export type DiscoveryAnswers = {
+  hoursFocus?: string
+  followupPain?: string[]
+  repeatedLookups?: string
+  singlePointProcess?: string
+  morningKPIs?: string
+  integrations?: string[]
+}
+
+export type ContactPayload = ContactBasics & DiscoveryAnswers & {
+  page: 'contact'
+  userAgent?: string
+  ip?: string
+  trap?: string // honeypot field
+}

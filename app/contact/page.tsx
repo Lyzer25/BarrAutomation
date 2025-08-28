@@ -1,102 +1,107 @@
 "use client"
 
-import { useActionState } from "react"
-import { useFormStatus } from "react-dom"
-import { submitContactForm, type FormState } from "./actions"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useEffect } from "react"
+import React, { useState } from "react"
 import { useToast } from "@/components/ui/use-toast"
-
-const initialState: FormState = {
-  message: "",
-  success: false,
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus()
-  return (
-    <Button type="submit" disabled={pending} className="w-full">
-      {pending ? "Submitting..." : "Send Message"}
-    </Button>
-  )
-}
+import ContactForm from "@/components/contact/ContactForm"
+import DiscoveryStepper from "@/components/contact/DiscoveryStepper"
+import type { ContactBasicsInput, DiscoveryAnswersInput } from "@/lib/validators/contact"
 
 export default function ContactPage() {
-  const [state, formAction] = useActionState(submitContactForm, initialState)
+  const [currentSection, setCurrentSection] = useState<'contact' | 'discovery'>('contact')
+  const [contactBasics, setContactBasics] = useState<ContactBasicsInput | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
 
-  useEffect(() => {
-    if (state.message && state.success) {
-      toast({
-        title: "Message Sent!",
-        description: state.message,
+  const handleContactSubmit = (data: ContactBasicsInput) => {
+    setContactBasics(data)
+    setCurrentSection('discovery')
+    
+    // Smooth scroll to discovery section
+    setTimeout(() => {
+      document.getElementById('discovery-section')?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
       })
-    } else if (state.message && !state.success) {
+    }, 100)
+  }
+
+  const handleDiscoverySubmit = async (data: ContactBasicsInput & DiscoveryAnswersInput) => {
+    setIsSubmitting(true)
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (result.ok) {
+        toast({
+          title: "Thanks! We'll reach out shortly.",
+          description: "We'll follow up within 1 business day with next steps.",
+        })
+        
+        // Reset forms
+        setContactBasics(null)
+        setCurrentSection('contact')
+        
+        // Scroll back to top
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        throw new Error(result.error || 'Submission failed')
+      }
+    } catch (error) {
+      console.error('contact_submit_error:', error)
       toast({
-        title: "Error",
-        description: state.message,
+        title: "Submission Error",
+        description: "Something went wrong. Please try again or contact us directly.",
         variant: "destructive",
       })
+    } finally {
+      setIsSubmitting(false)
     }
-  }, [state, toast])
+  }
 
   return (
-    <div className="container mx-auto px-4 py-16 max-w-2xl">
-      <div className="text-center">
-        <h1 className="font-mono text-4xl font-thin text-white md:text-5xl">Let's Build Your Automation</h1>
-        <p className="mt-4 text-lg text-subtle-gray">
-          We turn ideas into real, working automations using AI, Make, n8n, and custom code.
-        </p>
+    <div className="container mx-auto px-4 py-16">
+      {/* Section A: Quick Contact */}
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center">
+          <h1 className="font-mono text-4xl font-thin text-white md:text-5xl">Let's Build Your Automation</h1>
+          <p className="mt-4 text-lg text-subtle-gray">
+            Tell us how to reach you, then a few quick questions to point us to the highest-impact solution.
+          </p>
+        </div>
+
+        <div className="mt-12">
+          <ContactForm 
+            onSubmit={handleContactSubmit}
+            isLoading={isSubmitting}
+          />
+        </div>
       </div>
 
-      <form action={formAction} className="mt-12 space-y-6">
-        <div>
-          <Label htmlFor="name" className="text-white">
-            Name
-          </Label>
-          <Input id="name" name="name" type="text" required className="mt-2 bg-black border-white/20" />
-          {state.errors?.name && <p className="text-red-500 text-sm mt-1">{state.errors.name[0]}</p>}
-        </div>
-        <div>
-          <Label htmlFor="email" className="text-white">
-            Email
-          </Label>
-          <Input id="email" name="email" type="email" required className="mt-2 bg-black border-white/20" />
-          {state.errors?.email && <p className="text-red-500 text-sm mt-1">{state.errors.email[0]}</p>}
-        </div>
-        <div>
-          <Label htmlFor="company" className="text-white">
-            Company (Optional)
-          </Label>
-          <Input id="company" name="company" type="text" className="mt-2 bg-black border-white/20" />
-        </div>
-        <div>
-          <Label htmlFor="message" className="text-white">
-            Message
-          </Label>
-          <Textarea id="message" name="message" required className="mt-2 bg-black border-white/20" rows={5} />
-          {state.errors?.message && <p className="text-red-500 text-sm mt-1">{state.errors.message[0]}</p>}
-        </div>
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="isCustom"
-            name="isCustom"
-            className="border-white/50 data-[state=checked]:bg-accent data-[state=checked]:text-white"
-          />
-          <Label
-            htmlFor="isCustom"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-white"
-          >
-            I need a fully custom solution
-          </Label>
-        </div>
+      {/* Section B: Discovery Stepper */}
+      {contactBasics && (
+        <div id="discovery-section" className="max-w-4xl mx-auto mt-20">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-semibold text-white">Discovery Questions</h2>
+            <p className="mt-2 text-subtle-gray">
+              Help us understand your automation needs better
+            </p>
+          </div>
 
-        <SubmitButton />
-      </form>
+          <DiscoveryStepper
+            contactBasics={contactBasics}
+            onSubmit={handleDiscoverySubmit}
+            isLoading={isSubmitting}
+          />
+        </div>
+      )}
     </div>
   )
 }
