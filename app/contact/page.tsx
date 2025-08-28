@@ -73,7 +73,7 @@ export default function ContactPage() {
         <div className="text-center">
           <h1 className="font-mono text-4xl font-thin text-white md:text-5xl">Let's Build Your Automation</h1>
           <p className="mt-4 text-lg text-subtle-gray">
-            Tell us how to reach you, then a few quick questions to point us to the highest-impact solution.
+            Tell us how to reach you, then answer a few quick questions to get your personalized automation solution.
           </p>
         </div>
 

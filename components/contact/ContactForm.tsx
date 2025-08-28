@@ -130,7 +130,7 @@ export default function ContactForm({ onSubmit, isLoading }: ContactFormProps) {
         disabled={!isValid || isLoading}
         className="w-full bg-accent text-black hover:bg-accent/90 disabled:opacity-50"
       >
-        {isLoading ? "Processing..." : "Continue to Discovery"}
+        {isLoading ? "Processing..." : "Start My Solution"}
       </Button>
 
       <p className="text-xs text-white/60 text-center">
