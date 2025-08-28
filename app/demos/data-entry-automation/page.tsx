@@ -151,11 +151,9 @@ function ROICalculator({
           </Label>
           <Input
             id="records-per-day"
-            type="number"
+            type="text"
             inputMode="numeric"
             pattern="[0-9]*"
-            min={0}
-            max={10000}
             value={recordsPerDayStr}
             onChange={(e) => setRecordsPerDayStr(e.target.value)}
             onKeyDown={filterNumeric(false)}
@@ -182,12 +180,9 @@ function ROICalculator({
           </Label>
           <Input
             id="wage-per-hour"
-            type="number"
+            type="text"
             inputMode="decimal"
             pattern="[0-9]*[.,]?[0-9]*"
-            min={0}
-            max={200}
-            step={0.5}
             value={wagePerHourStr}
             onChange={(e) => setWagePerHourStr(e.target.value)}
             onKeyDown={filterNumeric(true)}
@@ -214,12 +209,9 @@ function ROICalculator({
           </Label>
           <Input
             id="manual-time"
-            type="number"
+            type="text"
             inputMode="decimal"
             pattern="[0-9]*[.,]?[0-9]*"
-            min={0}
-            max={60}
-            step={0.1}
             value={manualTimeMinutesStr}
             onChange={(e) => setManualTimeMinutesStr(e.target.value)}
             onKeyDown={filterNumeric(true)}
@@ -248,12 +240,9 @@ function ROICalculator({
         </Label>
         <Input
           id="data-entry-employees"
-          type="number"
+          type="text"
           inputMode="numeric"
           pattern="[0-9]*"
-          min={0}
-          max={1000}
-          step={1}
           value={dataEntryEmployeesStr}
           onChange={(e) => setDataEntryEmployeesStr(e.target.value)}
           onKeyDown={filterNumeric(false)}
