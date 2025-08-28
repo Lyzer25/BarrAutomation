@@ -51,7 +51,8 @@ const demos = [
     roi: "98% faster response time",
     description:
       "Aggregates customer feedback from all channels, uses AI to understand sentiment, and routes issues to the right team member with a suggested response.",
-    status: "Coming Soon",
+    link: "/demos/customer-happiness-hub",
+    status: "Live",
   },
   {
     title: "Data-Entry Automation Studio",
