@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
@@ -72,9 +72,27 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   const watchedHours = watch("hoursFocus")
   const watchedFollowup = watch("followupPain")
 
+  // Update form value when otherHours changes
+  useEffect(() => {
+    if (watchedHours === "Other" && otherHours) {
+      setValue("hoursFocus", otherHours)
+    }
+  }, [otherHours, watchedHours, setValue])
+
+  // Update form value when otherFollowup changes
+  useEffect(() => {
+    if (watchedFollowup?.includes("Other") && otherFollowup) {
+      const current = watchedFollowup || []
+      const withoutOther = current.filter(item => item !== "Other")
+      const newSelection = [...withoutOther, otherFollowup]
+      setValue("followupPain", newSelection)
+    }
+  }, [otherFollowup, watchedFollowup, setValue])
+
   const handleHoursSelect = (option: string) => {
     if (option === "Other") {
-      setValue("hoursFocus", otherHours)
+      // Don't set the value yet, wait for user to type in the other field
+      setValue("hoursFocus", "Other")
     } else {
       setValue("hoursFocus", option)
       setOtherHours("")
@@ -86,12 +104,12 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
     let newSelection: string[]
     
     if (option === "Other") {
-      if (current.includes(otherFollowup)) {
-        newSelection = current.filter(item => item !== otherFollowup)
-      } else if (otherFollowup) {
-        newSelection = [...current, otherFollowup]
+      // If "Other" is already selected, remove it
+      if (current.includes("Other")) {
+        newSelection = current.filter(item => item !== "Other" && item !== otherFollowup)
       } else {
-        newSelection = current
+        // Add "Other" to selection
+        newSelection = [...current, "Other"]
       }
     } else {
       if (current.includes(option)) {
@@ -171,9 +189,14 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
                   id="otherHours"
                   value={otherHours}
                   onChange={(e) => setOtherHours(e.target.value)}
-                  className="mt-2 bg-black/50 border-white/20"
+                  className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
                   placeholder="e.g., Customer Success, Product Development"
                 />
+                {otherHours && (
+                  <p className="text-xs text-accent mt-1">
+                    ✓ Will use: "{otherHours}"
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -201,18 +224,25 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
                 </button>
               ))}
             </div>
-            <div className="mt-4">
-              <Label htmlFor="otherFollowup" className="text-white">
-                Other (optional):
-              </Label>
-              <Input
-                id="otherFollowup"
-                value={otherFollowup}
-                onChange={(e) => setOtherFollowup(e.target.value)}
-                className="mt-2 bg-black/50 border-white/20"
-                placeholder="e.g., Project deadlines, Client communication"
-              />
-            </div>
+            {(watchedFollowup || []).includes("Other") && (
+              <div className="mt-4">
+                <Label htmlFor="otherFollowup" className="text-white">
+                  Please specify:
+                </Label>
+                <Input
+                  id="otherFollowup"
+                  value={otherFollowup}
+                  onChange={(e) => setOtherFollowup(e.target.value)}
+                  className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+                  placeholder="e.g., Project deadlines, Client communication"
+                />
+                {otherFollowup && (
+                  <p className="text-xs text-accent mt-1">
+                    ✓ Will use: "{otherFollowup}"
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         )
 
