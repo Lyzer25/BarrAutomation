@@ -455,7 +455,7 @@ export default function DataEntryAutomationStudioPage() {
   }, [active, recordsPerDay]);
 
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={100}>
     <main className="container mx-auto px-4 py-10">
       {/* Header */}
       <header className="flex items-start justify-between gap-4 mb-8">
