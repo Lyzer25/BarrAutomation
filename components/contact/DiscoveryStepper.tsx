@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
@@ -72,23 +72,6 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   const watchedHours = watch("hoursFocus")
   const watchedFollowup = watch("followupPain")
 
-  // Update form value when otherHours changes
-  useEffect(() => {
-    if (watchedHours === "Other" && otherHours) {
-      setValue("hoursFocus", otherHours)
-    }
-  }, [otherHours, watchedHours, setValue])
-
-  // Update form value when otherFollowup changes
-  useEffect(() => {
-    if (watchedFollowup?.includes("Other") && otherFollowup) {
-      const current = watchedFollowup || []
-      const withoutOther = current.filter(item => item !== "Other")
-      const newSelection = [...withoutOther, otherFollowup]
-      setValue("followupPain", newSelection)
-    }
-  }, [otherFollowup, watchedFollowup, setValue])
-
   const handleHoursSelect = (option: string) => {
     if (option === "Other") {
       // Don't set the value yet, wait for user to type in the other field
@@ -152,7 +135,25 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   }
 
   const handleFinalSubmit = (data: DiscoveryAnswersInput) => {
-    const fullPayload = { ...contactBasics, ...data }
+    // Handle "Other" values before submission
+    let processedData = { ...data }
+    
+    // Replace "Other" with actual value for hoursFocus
+    if (data.hoursFocus === "Other" && otherHours) {
+      processedData.hoursFocus = otherHours
+    }
+    
+    // Replace "Other" with actual value for followupPain
+    if (data.followupPain?.includes("Other")) {
+      const withoutOther = data.followupPain.filter(item => item !== "Other")
+      if (otherFollowup) {
+        processedData.followupPain = [...withoutOther, otherFollowup]
+      } else {
+        processedData.followupPain = withoutOther
+      }
+    }
+    
+    const fullPayload = { ...contactBasics, ...processedData }
     onSubmit(fullPayload)
   }
 

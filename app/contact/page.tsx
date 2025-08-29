@@ -54,13 +54,23 @@ export default function ContactPage() {
       } else {
         throw new Error(result.error || 'Submission failed')
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('contact_submit_error:', error)
-      toast({
-        title: "Submission Error",
-        description: "Something went wrong. Please try again or contact us directly.",
-        variant: "destructive",
-      })
+      
+      // Handle rate limiting specifically
+      if (error.message?.includes('Too many requests')) {
+        toast({
+          title: "Please wait a moment",
+          description: "You're submitting too quickly. Please wait 10 seconds and try again.",
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Submission Error",
+          description: "Something went wrong. Please try again or contact us directly.",
+          variant: "destructive",
+        })
+      }
     } finally {
       setIsSubmitting(false)
     }

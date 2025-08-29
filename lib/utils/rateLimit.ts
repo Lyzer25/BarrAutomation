@@ -1,7 +1,12 @@
-const RATE_MS = 60_000 // 1 minute
+const RATE_MS = 10_000 // 10 seconds (more reasonable for testing)
 const hits = new Map<string, number>()
 
 export function checkRateLimit(ip: string): boolean {
+  // Skip rate limiting in development mode
+  if (process.env.NODE_ENV === 'development') {
+    return true
+  }
+  
   const now = Date.now()
   const last = hits.get(ip) || 0
   

@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     // Rate limiting
     if (!checkRateLimit(ip)) {
       return NextResponse.json(
-        { ok: false, error: 'Too many requests. Please try again in a minute.' },
+        { ok: false, error: 'Too many requests. Please try again in 10 seconds.' },
         { status: 429 }
       )
     }
