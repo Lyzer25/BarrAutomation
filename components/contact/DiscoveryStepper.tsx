@@ -64,6 +64,8 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
     handleSubmit,
     watch,
     setValue,
+    getValues,
+    trigger,
     formState: { errors },
   } = useForm<DiscoveryAnswersInput>({
     resolver: zodResolver(discoveryAnswersSchema),
@@ -119,16 +121,47 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
     }
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     console.log('handleNext called, current step:', activeStep)
-    console.log('Current form data:', { watchedHours, watchedFollowup, otherHours, otherFollowup })
+    console.log('Current form data:', { watchedHours, watchedFollowup, otherHours, otherFollowup, selectedIntegrations, valuesPreview: getValues() })
     
-    // Validate current step before proceeding
+    // Attempt to trigger validation for the currently relevant field(s)
+    let triggered = true
+    try {
+      switch (activeStep) {
+        case 0:
+          triggered = await trigger('hoursFocus')
+          break
+        case 1:
+          triggered = await trigger('followupPain')
+          break
+        case 2:
+          // Ensure the repeatedLookups value is registered and validated before moving on
+          triggered = await trigger('repeatedLookups')
+          break
+        case 3:
+          triggered = await trigger('singlePointProcess')
+          break
+        case 4:
+          triggered = await trigger('morningKPIs')
+          break
+        case 5:
+          triggered = await trigger('integrations')
+          break
+        default:
+          triggered = true
+      }
+    } catch (err) {
+      console.error('Error triggering validation for step', activeStep, err)
+      triggered = false
+    }
+    
+    // Combine react-hook-form trigger result with our local validation fallback
+    const localValid = validateCurrentStep()
+    const canProceed = triggered && localValid
+    console.log('triggered:', triggered, 'localValid:', localValid, 'canProceed:', canProceed)
+    
     if (activeStep < STEPS.length - 1) {
-      // Check if current step has required data
-      const canProceed = validateCurrentStep()
-      console.log('Can proceed:', canProceed)
-      
       if (canProceed) {
         setStepErrors("")
         const nextStep = activeStep + 1
@@ -201,8 +234,14 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
         processedData.followupPain = withoutOther
       }
     }
+
+    // Ensure integrations reflect the selectedIntegrations state if the form didn't capture them
+    if ((!processedData.integrations || processedData.integrations.length === 0) && selectedIntegrations.length > 0) {
+      processedData.integrations = selectedIntegrations
+    }
     
     const fullPayload = { ...contactBasics, ...processedData }
+    console.log('Final discovery payload:', fullPayload)
     onSubmit(fullPayload)
   }
 
