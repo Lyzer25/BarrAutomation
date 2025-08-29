@@ -57,6 +57,7 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   const [otherHours, setOtherHours] = useState("")
   const [otherFollowup, setOtherFollowup] = useState("")
   const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([])
+  const [stepErrors, setStepErrors] = useState<string>("")
 
   const {
     register,
@@ -119,8 +120,56 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   }
 
   const handleNext = () => {
+    console.log('handleNext called, current step:', activeStep)
+    console.log('Current form data:', { watchedHours, watchedFollowup, otherHours, otherFollowup })
+    
+    // Validate current step before proceeding
     if (activeStep < STEPS.length - 1) {
-      setActiveStep(activeStep + 1)
+      // Check if current step has required data
+      const canProceed = validateCurrentStep()
+      console.log('Can proceed:', canProceed)
+      
+      if (canProceed) {
+        setStepErrors("")
+        const nextStep = activeStep + 1
+        console.log('Moving to step:', nextStep)
+        setActiveStep(nextStep)
+      } else {
+        // Show validation error
+        const errorMessage = getValidationErrorMessage()
+        console.log('Validation error:', errorMessage)
+        setStepErrors(errorMessage)
+      }
+    }
+  }
+
+  const getValidationErrorMessage = (): string => {
+    switch (activeStep) {
+      case 0: // Hours Focus
+        return "Please select where 20 extra hours/week would matter most, or specify 'Other'"
+      case 1: // Follow-up Pain
+        return "Please select at least one area where delays hurt your business"
+      default:
+        return "Please complete the current step before continuing"
+    }
+  }
+
+  const validateCurrentStep = (): boolean => {
+    switch (activeStep) {
+      case 0: // Hours Focus
+        return !!(watchedHours && watchedHours !== "Other" || (watchedHours === "Other" && otherHours))
+      case 1: // Follow-up Pain
+        return (watchedFollowup || []).length > 0
+      case 2: // Repeated Lookups (optional)
+        return true
+      case 3: // Single Point Process (optional)
+        return true
+      case 4: // Morning KPIs (optional)
+        return true
+      case 5: // Integrations (optional)
+        return true
+      default:
+        return true
     }
   }
 
@@ -200,6 +249,13 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
                 )}
               </div>
             )}
+            
+            {/* Error message */}
+            {stepErrors && activeStep === 0 && (
+              <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                <p className="text-red-300 text-sm">{stepErrors}</p>
+              </div>
+            )}
           </div>
         )
 
@@ -242,6 +298,13 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
                     ✓ Will use: "{otherFollowup}"
                   </p>
                 )}
+              </div>
+            )}
+            
+            {/* Error message */}
+            {stepErrors && activeStep === 1 && (
+              <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                <p className="text-red-300 text-sm">{stepErrors}</p>
               </div>
             )}
           </div>
@@ -382,14 +445,42 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
 
   return (
     <form onSubmit={handleSubmit(handleFinalSubmit)}>
+      {/* Progress indicator */}
+      <div className="mb-6 text-center">
+        <div className="text-sm text-white/60 mb-2">
+          Step {activeStep + 1} of {STEPS.length}
+        </div>
+        <div className="w-full bg-white/10 rounded-full h-2">
+          <div 
+            className="bg-accent h-2 rounded-full transition-all duration-300"
+            style={{ width: `${((activeStep + 1) / STEPS.length) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Debug panel - only in development */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mb-4 p-3 bg-white/5 border border-white/10 rounded-lg text-xs">
+          <div className="text-white/60 mb-2">Debug Info:</div>
+          <div className="grid grid-cols-2 gap-2 text-white/80">
+            <div>Current Step: {activeStep}</div>
+            <div>Hours Focus: {watchedHours || 'None'}</div>
+            <div>Follow-up Pain: {(watchedFollowup || []).join(', ') || 'None'}</div>
+            <div>Other Hours: {otherHours || 'None'}</div>
+            <div>Other Follow-up: {otherFollowup || 'None'}</div>
+            <div>Can Proceed: {validateCurrentStep() ? 'Yes' : 'No'}</div>
+          </div>
+        </div>
+      )}
+
       <Stepper
         steps={STEPS}
         active={activeStep}
         onBack={handleBack}
         onNext={handleNext}
-        onSkip={activeStep < 5 ? handleSkip : undefined}
+        onSkip={activeStep < 6 ? handleSkip : undefined}
         canBack={activeStep > 0}
-        canNext={activeStep < 6}
+        canNext={activeStep < STEPS.length - 1}
       >
         {renderStepContent()}
       </Stepper>
