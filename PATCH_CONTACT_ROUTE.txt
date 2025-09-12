@@ -1,3 +1,25 @@
+I could not run git or npm/pnpm in this environment. I updated app/api/contact/route.ts in the working tree, but you need to commit & push from your machine so Vercel can deploy.
+
+Options to apply the change locally (pick one):
+
+Option A — recommended: overwrite the file locally with this content, then commit & push
+1. Save the file below as app/api/contact/route.ts (overwrite the existing file).
+2. Run:
+   git add app/api/contact/route.ts
+   git commit -m "feat(api): send contact submissions via Resend with improved logging and error handling"
+   git push origin main
+
+Option B — create patch and apply with git (if you prefer a patch)
+1. Create a file named PATCH_CONTACT_ROUTE.diff containing the unified diff (not provided here).
+2. Apply with:
+   git apply PATCH_CONTACT_ROUTE.diff
+   git add app/api/contact/route.ts
+   git commit -m "feat(api): send contact submissions via Resend with improved logging and error handling"
+   git push origin main
+
+Below is the full updated file content. Overwrite app/api/contact/route.ts with this exact content.
+
+----- START FILE: app/api/contact/route.ts -----
 import { NextRequest, NextResponse } from 'next/server'
 import { contactPayloadSchema } from '@/lib/validators/contact'
 import { checkRateLimit } from '@/lib/utils/rateLimit'
@@ -175,3 +197,6 @@ export async function POST(req: NextRequest) {
     )
   }
 }
+----- END FILE -----
+
+If you want, I can also generate a proper unified diff (PATCH) file here for you to apply with git apply. Reply "generate patch" and I will write PATCH_CONTACT_ROUTE.diff into the repository root.
