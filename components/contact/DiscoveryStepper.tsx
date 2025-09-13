@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { Stepper } from "@/components/ui/stepper"
 import { discoveryAnswersSchema, type DiscoveryAnswersInput } from "@/lib/validators/contact"
 import { ContactBasicsInput } from "@/lib/validators/contact"
+import { integrationData } from "@/lib/integrations"
 
 interface DiscoveryStepperProps {
   contactBasics: ContactBasicsInput
@@ -28,36 +29,13 @@ const STEPS = [
   { id: "review", title: "Review & Send" },
 ]
 
-const HOURS_OPTIONS = [
-  "Sales",
-  "Service/Support", 
-  "Ops/Admin",
-  "Marketing",
-  "Finance",
-  "Other"
-]
-
-const FOLLOWUP_OPTIONS = [
-  "Lead response",
-  "Abandoned carts",
-  "Onboarding",
-  "Billing",
-  "Ticket routing",
-  "Other"
-]
-
-const INTEGRATION_OPTIONS = [
-  "Slack", "Telegram", "Gmail", "Google Sheets", "Google Calendar", "Trello", "Jira", 
-  "HubSpot", "Monica CRM", "Stripe", "Shopify", "Discord", "Twilio", "Notion", 
-  "Airtable", "MySQL", "Postgres", "S3", "Webhook", "HTTP Request", "QuickBooks", "Xero", "Calendly"
-]
-
 export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }: DiscoveryStepperProps) {
   const [activeStep, setActiveStep] = useState(0)
   const [otherHours, setOtherHours] = useState("")
   const [otherFollowup, setOtherFollowup] = useState("")
   const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([])
   const [stepErrors, setStepErrors] = useState<string>("")
+  const [integrationQuery, setIntegrationQuery] = useState("")
 
   const {
     register,
@@ -75,9 +53,23 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   const watchedHours = watch("hoursFocus")
   const watchedFollowup = watch("followupPain")
 
+  // Build full integration list from canonical source
+  const allIntegrationKeys = useMemo(() => Object.keys(integrationData), [])
+  const filteredIntegrationKeys = useMemo(() => {
+    if (!integrationQuery) return allIntegrationKeys
+    const q = integrationQuery.toLowerCase()
+    return allIntegrationKeys.filter((k) => {
+      const meta = integrationData[k]
+      return (
+        k.toLowerCase().includes(q) ||
+        (meta?.name || "").toLowerCase().includes(q) ||
+        (meta?.description || "").toLowerCase().includes(q)
+      )
+    })
+  }, [integrationQuery, allIntegrationKeys])
+
   const handleHoursSelect = (option: string) => {
     if (option === "Other") {
-      // Don't set the value yet, wait for user to type in the other field
       setValue("hoursFocus", "Other")
     } else {
       setValue("hoursFocus", option)
@@ -88,13 +80,11 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   const handleFollowupSelect = (option: string) => {
     const current = watchedFollowup || []
     let newSelection: string[]
-    
+
     if (option === "Other") {
-      // If "Other" is already selected, remove it
       if (current.includes("Other")) {
         newSelection = current.filter(item => item !== "Other" && item !== otherFollowup)
       } else {
-        // Add "Other" to selection
         newSelection = [...current, "Other"]
       }
     } else {
@@ -104,7 +94,7 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
         newSelection = [...current, option]
       }
     }
-    
+
     setValue("followupPain", newSelection)
   }
 
@@ -124,7 +114,7 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   const handleNext = async () => {
     console.log('handleNext called, current step:', activeStep)
     console.log('Current form data:', { watchedHours, watchedFollowup, otherHours, otherFollowup, selectedIntegrations, valuesPreview: getValues() })
-    
+
     // Attempt to trigger validation for the currently relevant field(s)
     let triggered = true
     try {
@@ -136,7 +126,6 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
           triggered = await trigger('followupPain')
           break
         case 2:
-          // Ensure the repeatedLookups value is registered and validated before moving on
           triggered = await trigger('repeatedLookups')
           break
         case 3:
@@ -155,20 +144,40 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
       console.error('Error triggering validation for step', activeStep, err)
       triggered = false
     }
-    
-    // Combine react-hook-form trigger result with our local validation fallback
+
     const localValid = validateCurrentStep()
     const canProceed = triggered && localValid
     console.log('triggered:', triggered, 'localValid:', localValid, 'canProceed:', canProceed)
-    
-    if (activeStep < STEPS.length - 1) {
+
+    // If we're on the final step, programmatically submit the form
+    const lastIndex = STEPS.length - 1
+    if (activeStep === lastIndex) {
+      // Submit the form (this will call handleFinalSubmit)
+      handleSubmit(handleFinalSubmit)()
+      return
+    }
+
+    if (activeStep < lastIndex) {
       if (canProceed) {
         setStepErrors("")
+        // Clear the field for the current step to avoid leaking text into subsequent steps
+        // (addresses the reported textbox-not-clearing issue when advancing)
+        switch (activeStep) {
+          case 2:
+            setValue('repeatedLookups', '')
+            break
+          case 3:
+            setValue('singlePointProcess', '')
+            break
+          case 4:
+            setValue('morningKPIs', '')
+            break
+        }
+
         const nextStep = activeStep + 1
         console.log('Moving to step:', nextStep)
         setActiveStep(nextStep)
       } else {
-        // Show validation error
         const errorMessage = getValidationErrorMessage()
         console.log('Validation error:', errorMessage)
         setStepErrors(errorMessage)
@@ -178,9 +187,9 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
 
   const getValidationErrorMessage = (): string => {
     switch (activeStep) {
-      case 0: // Hours Focus
+      case 0:
         return "Please select where 20 extra hours/week would matter most, or specify 'Other'"
-      case 1: // Follow-up Pain
+      case 1:
         return "Please select at least one area where delays hurt your business"
       default:
         return "Please complete the current step before continuing"
@@ -189,17 +198,17 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
 
   const validateCurrentStep = (): boolean => {
     switch (activeStep) {
-      case 0: // Hours Focus
+      case 0:
         return !!(watchedHours && watchedHours !== "Other" || (watchedHours === "Other" && otherHours))
-      case 1: // Follow-up Pain
+      case 1:
         return (watchedFollowup || []).length > 0
-      case 2: // Repeated Lookups (optional)
+      case 2:
         return true
-      case 3: // Single Point Process (optional)
+      case 3:
         return true
-      case 4: // Morning KPIs (optional)
+      case 4:
         return true
-      case 5: // Integrations (optional)
+      case 5:
         return true
       default:
         return true
@@ -217,15 +226,12 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
   }
 
   const handleFinalSubmit = (data: DiscoveryAnswersInput) => {
-    // Handle "Other" values before submission
     let processedData = { ...data }
-    
-    // Replace "Other" with actual value for hoursFocus
+
     if (data.hoursFocus === "Other" && otherHours) {
       processedData.hoursFocus = otherHours
     }
-    
-    // Replace "Other" with actual value for followupPain
+
     if (data.followupPain?.includes("Other")) {
       const withoutOther = data.followupPain.filter(item => item !== "Other")
       if (otherFollowup) {
@@ -235,11 +241,10 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
       }
     }
 
-    // Ensure integrations reflect the selectedIntegrations state if the form didn't capture them
     if ((!processedData.integrations || processedData.integrations.length === 0) && selectedIntegrations.length > 0) {
       processedData.integrations = selectedIntegrations
     }
-    
+
     const fullPayload = { ...contactBasics, ...processedData }
     console.log('Final discovery payload:', fullPayload)
     onSubmit(fullPayload)
@@ -247,14 +252,14 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
 
   const renderStepContent = () => {
     switch (activeStep) {
-      case 0: // Hours Focus
+      case 0:
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white mb-4">
               Where would 20 extra hours/week matter most?
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {HOURS_OPTIONS.map((option) => (
+              {["Sales","Service/Support","Ops/Admin","Marketing","Finance","Other"].map((option) => (
                 <button
                   key={option}
                   type="button"
@@ -288,8 +293,6 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
                 )}
               </div>
             )}
-            
-            {/* Error message */}
             {stepErrors && activeStep === 0 && (
               <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
                 <p className="text-red-300 text-sm">{stepErrors}</p>
@@ -298,14 +301,14 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
           </div>
         )
 
-      case 1: // Follow-up Pain
+      case 1:
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white mb-4">
               Where do delays or missed follow-ups hurt?
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {FOLLOWUP_OPTIONS.map((option) => (
+              {["Lead response","Abandoned carts","Onboarding","Billing","Ticket routing","Other"].map((option) => (
                 <button
                   key={option}
                   type="button"
@@ -339,8 +342,6 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
                 )}
               </div>
             )}
-            
-            {/* Error message */}
             {stepErrors && activeStep === 1 && (
               <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
                 <p className="text-red-300 text-sm">{stepErrors}</p>
@@ -349,7 +350,7 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
           </div>
         )
 
-      case 2: // Repeated Lookups
+      case 2:
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white mb-4">
@@ -367,7 +368,7 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
           </div>
         )
 
-      case 3: // Single Point Process
+      case 3:
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white mb-4">
@@ -385,7 +386,7 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
           </div>
         )
 
-      case 4: // Morning KPIs
+      case 4:
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white mb-4">
@@ -403,41 +404,53 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
           </div>
         )
 
-      case 5: // Integrations
+      case 5:
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white mb-4">
               Which tools do you use that we should connect?
             </h3>
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-2 max-h-64 overflow-y-auto">
-              {INTEGRATION_OPTIONS.map((integration) => (
-                <button
-                  key={integration}
-                  type="button"
-                  onClick={() => handleIntegrationToggle(integration)}
-                  className={`p-2 rounded border text-xs transition-all duration-200 ${
-                    selectedIntegrations.includes(integration)
-                      ? "border-accent bg-accent/20 text-accent"
-                      : "border-white/20 text-white hover:border-white/40"
-                  }`}
-                >
-                  {integration}
-                </button>
-              ))}
+
+            <div className="mb-3">
+              <Input
+                placeholder="Search integrations (name, description, or key)"
+                value={integrationQuery}
+                onChange={(e) => setIntegrationQuery(e.target.value)}
+                className="bg-black/50 border-white/20"
+              />
             </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-72 overflow-y-auto">
+              {filteredIntegrationKeys.map((integrationKey) => {
+                const meta = integrationData[integrationKey]
+                const isSelected = selectedIntegrations.includes(integrationKey)
+                return (
+                  <button
+                    key={integrationKey}
+                    type="button"
+                    onClick={() => handleIntegrationToggle(integrationKey)}
+                    className={`p-2 rounded border text-xs text-left transition-all duration-200 ${isSelected ? "border-accent bg-accent/20 text-accent" : "border-white/20 text-white hover:border-white/40"}`}
+                  >
+                    <div className="font-medium text-sm">{meta?.name || integrationKey}</div>
+                    <div className="text-white/60 text-xs truncate">{meta?.description}</div>
+                  </button>
+                )
+              })}
+            </div>
+
             <p className="text-white/60 text-xs">
               Selected: {selectedIntegrations.length} tools
             </p>
           </div>
         )
 
-      case 6: // Review
+      case 6:
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-white mb-4">
               Review Your Discovery
             </h3>
-            
+
             <div className="space-y-4">
               <div className="bg-white/5 p-4 rounded-lg">
                 <h4 className="font-medium text-white mb-2">Contact Details</h4>
@@ -490,7 +503,7 @@ export default function DiscoveryStepper({ contactBasics, onSubmit, isLoading }:
           Step {activeStep + 1} of {STEPS.length}
         </div>
         <div className="w-full bg-white/10 rounded-full h-2">
-          <div 
+          <div
             className="bg-accent h-2 rounded-full transition-all duration-300"
             style={{ width: `${((activeStep + 1) / STEPS.length) * 100}%` }}
           />
