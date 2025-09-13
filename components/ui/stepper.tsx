@@ -60,6 +60,7 @@ export function Stepper({
       {/* Navigation */}
       <div className="mt-6 flex justify-between items-center">
         <button
+          type="button"
           onClick={onBack}
           disabled={!canBack}
           className={cn(
@@ -75,6 +76,7 @@ export function Stepper({
         <div className="flex gap-3">
           {onSkip && (
             <button
+              type="button"
               onClick={onSkip}
               className="px-6 py-2 rounded-lg border border-white/20 text-white/60 hover:text-white hover:border-white/40 transition-all duration-200"
             >
@@ -82,6 +84,7 @@ export function Stepper({
             </button>
           )}
           <button
+            type="button"
             onClick={onNext}
             disabled={!canNext}
             className={cn(
