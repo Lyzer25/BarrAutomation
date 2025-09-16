@@ -119,9 +119,15 @@ export async function POST(req: NextRequest) {
         const sendResult = await sendEmailWithResend(payload)
         console.log('contact_submit_resend_success:', { id: (sendResult?.id ?? null), to: process.env.CONTACT_TO_EMAIL ?? 'barrautomations@gmail.com' })
         return NextResponse.json({ ok: true })
-      } catch (err) {
+      } catch (err: any) {
         console.error('contact_submit_resend_error:', err)
-        // If resend fails, try n8n fallback if configured below, otherwise return error
+        // Return the provider error to the client temporarily for debugging.
+        // This reveals the Resend error (e.g., Unauthorized, invalid sender) so we can act.
+        const message = err?.message ? String(err.message) : String(err)
+        return NextResponse.json(
+          { ok: false, error: `Resend error: ${message}` },
+          { status: 502 }
+        )
       }
     }
 
