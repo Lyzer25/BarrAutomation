@@ -18,7 +18,10 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: "Barri.ai — Real-Time AI Automation for Business",
   description: "From 45 minutes to 30 seconds — automate your sales, service, onboarding, reporting, or anything else.",
-    generator: 'v0.dev'
+  icons: {
+    icon: "/barrautomationslogo.png",
+  },
+  generator: "v0.dev",
 }
 
 export default function RootLayout({

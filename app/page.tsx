@@ -1,12 +1,14 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
-import AnimatedBackground from "@/components/animated-background"
+import PixelBlast from "@/components/ui/PixelBlast"
 import LogoCarousel from "@/components/logo-carousel"
 import Link from "next/link"
 import { Zap, BrainCircuit, Bot, BarChart } from "lucide-react"
 
 const stats = [
   { icon: Zap, value: "30-Second", label: "Workflow Execution" },
-  { icon: BrainCircuit, value: "GPT-4 + Claude", label: "Powered Logic" },
+  { icon: BrainCircuit, value: "All the most modern AI's", label: "Powered Logic" },
   { icon: Bot, value: "Fully Custom", label: "AI Agents" },
   { icon: BarChart, value: "240%+", label: "Increase in Efficiency" },
 ]
@@ -25,9 +27,25 @@ const whatWeBuild = [
 
 export default function HomePage() {
   return (
-    <div className="relative w-full overflow-hidden">
-      <AnimatedBackground />
-      <div className="relative z-10">
+    <div className="relative w-full min-h-screen overflow-hidden">
+      <PixelBlast
+        variant="square"
+        pixelSize={2}
+        color="#7C0A02"
+        patternScale={3.5}
+        patternDensity={1.1}
+        pixelSizeJitter={0.4}
+        liquid
+        liquidStrength={0.12}
+        liquidRadius={1.2}
+        liquidWobbleSpeed={5}
+        speed={0.8}
+        edgeFade={0}
+        transparent
+        className="absolute inset-0 -z-10 w-full h-full"
+      />
+
+      <div className="relative z-0">
         {/* Hero Section */}
         <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20">
           <h1 className="font-mono text-4xl font-thin tracking-tighter text-white md:text-6xl lg:text-7xl">

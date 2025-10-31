@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Clock, DollarSign, BrainCircuit, CheckCircle, Rocket } from "lucide-react"
 import AnimatedStat from "@/components/smart-lead-machine/animated-stat"
-import IntegrationEcosystem from "@/components/smart-lead-machine/integration-ecosystem"
 import dynamic from "next/dynamic"
 import WorkflowCards from "@/components/smart-lead-machine/workflow-cards"
 import DashboardViewer from "@/components/smart-lead-machine/dashboard-viewer"
@@ -122,10 +121,6 @@ export default function SmartLeadMachinePage() {
 
       {/* Debug Panel - Hidden by default, accessible via debug commands */}
       <DebugPanel />
-
-      <div className="container mx-auto px-4 py-16">
-        <IntegrationEcosystem />
-      </div>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -44,17 +44,17 @@ export default function ChromaGrid({ items }: ChromaGridProps) {
         >
           {/* Chroma Grid Background Effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-transparent via-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
+
           {/* Animated Border */}
           <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent/20 via-accent/10 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
+
           {/* Glow Effect */}
           <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent/30 via-transparent to-accent/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl" />
 
           <Card className="relative bg-black/80 backdrop-blur-sm border border-white/10 flex flex-col h-full transition-all duration-500 group-hover:border-accent/50 group-hover:shadow-2xl group-hover:shadow-accent/20 overflow-hidden">
             {/* Chroma Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             <CardHeader className="relative z-10">
               <div className="flex justify-between items-start">
                 <CardTitle className="text-white group-hover:text-accent transition-colors duration-300">
@@ -92,7 +92,7 @@ export default function ChromaGrid({ items }: ChromaGridProps) {
               </p>
 
               {item.stats && (
-                <motion.div 
+                <motion.div
                   className="mt-4 flex gap-2"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: hoveredIndex === index ? 1 : 0.8, y: hoveredIndex === index ? 0 : 5 }}
@@ -128,15 +128,25 @@ export default function ChromaGrid({ items }: ChromaGridProps) {
 
             <CardFooter className="relative z-10">
               {item.link && item.status === "Live" ? (
-                <Button asChild variant="secondary" className="w-full group-hover:bg-accent group-hover:text-black transition-all duration-300">
+                <Button
+                  asChild
+                  variant="secondary"
+                  className="w-full group-hover:bg-accent group-hover:text-white hover:bg-red-600 hover:text-white transition-all duration-300"
+                >
                   <Link href={item.link}>
-                    Try Live Demo <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    Try Live Demo{" "}
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </Link>
                 </Button>
               ) : item.link && item.status === "In Development" ? (
-                <Button asChild variant="secondary" className="w-full group-hover:bg-accent group-hover:text-black transition-all duration-300">
+                <Button
+                  asChild
+                  variant="secondary"
+                  className="w-full group-hover:bg-accent group-hover:text-white hover:bg-red-600 hover:text-white transition-all duration-300"
+                >
                   <Link href={item.link}>
-                    Try Demo <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    Try Demo{" "}
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </Link>
                 </Button>
               ) : (

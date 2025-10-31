@@ -1,1 +1,1 @@
-export { default } from './ChromaGrid'
+export { default } from "./ChromaGrid.tsx"

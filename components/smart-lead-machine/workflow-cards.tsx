@@ -98,7 +98,7 @@ const getStatusIcon = (status: string, isAnimating = false) => {
     case "complete":
       return <CheckCircle className={cn("w-5 h-5 text-green-400", isAnimating && "animate-pulse")} />
     case "processing":
-      return <Clock className="w-5 h-5 text-blue-400 animate-spin" />
+      return <Clock className="w-5 h-5 text-red-400 animate-spin" />
     case "error":
       return <AlertCircle className="w-5 h-5 text-red-400" />
     default:
@@ -120,7 +120,7 @@ const getStatusBadge = (status: string, isAnimating = false) => {
         </Badge>
       )
     case "processing":
-      return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">Processing</Badge>
+      return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Processing</Badge>
     case "error":
       return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Error</Badge>
     default:
@@ -252,7 +252,7 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
                     ? "border-green-400 bg-green-500/10 shadow-lg shadow-green-400/20"
                     : "border-green-500 bg-green-500/10"
                   : status === "processing"
-                    ? "border-blue-500 bg-blue-500/10"
+                    ? "border-red-500 bg-red-500/10"
                     : status === "error"
                       ? "border-red-500 bg-red-500/10"
                       : "border-gray-600 bg-gray-800/50",
@@ -278,7 +278,7 @@ export default function WorkflowCards({ statuses, statusLog, error, onContinue, 
                             ? "bg-green-400/30 shadow-lg shadow-green-400/20"
                             : "bg-green-500/20"
                           : status === "processing"
-                            ? "bg-blue-500/20"
+                            ? "bg-red-500/20"
                             : status === "error"
                               ? "bg-red-500/20"
                               : "bg-gray-500/20",

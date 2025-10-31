@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import ChromaGrid from "@/components/bits/Components/ChromaGrid"
+import ChromaGrid from "@/components/bits/Components/ChromaGrid/ChromaGrid"
+import IntegrationEcosystem from "@/components/smart-lead-machine/integration-ecosystem"
 
 const demos = [
   {
@@ -68,8 +68,8 @@ const demos = [
     stats: {
       timeSavedPerDay: "13 hrs",
       errorReduction: "85%",
-      firstPassYield: "95%"
-    }
+      firstPassYield: "95%",
+    },
   },
 ]
 
@@ -102,6 +102,10 @@ export default function DemosPage() {
           </Link>
         </Button>
       </Card>
+
+      <div className="mt-16">
+        <IntegrationEcosystem />
+      </div>
     </div>
   )
 }

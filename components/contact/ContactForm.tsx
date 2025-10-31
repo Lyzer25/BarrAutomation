@@ -1,6 +1,4 @@
 "use client"
-
-import React from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
@@ -10,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { contactBasicsSchema, type ContactBasicsInput } from "@/lib/validators/contact"
 
 interface ContactFormProps {
-  onSubmit: (data: ContactBasicsInput) => void
+  onSubmit: (data: ContactBasicsInput, type: "simple" | "custom") => void
   isLoading?: boolean
 }
 
@@ -24,16 +22,18 @@ export default function ContactForm({ onSubmit, isLoading }: ContactFormProps) {
     mode: "onChange",
   })
 
+  const handleSimpleContact = (data: ContactBasicsInput) => {
+    onSubmit(data, "simple")
+  }
+
+  const handleCustomSolution = (data: ContactBasicsInput) => {
+    onSubmit(data, "custom")
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form className="space-y-6">
       {/* Honeypot field - hidden from users */}
-      <input
-        type="text"
-        {...register("trap")}
-        className="absolute left-[-9999px]"
-        tabIndex={-1}
-        autoComplete="off"
-      />
+      <input type="text" {...register("trap")} className="absolute left-[-9999px]" tabIndex={-1} autoComplete="off" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
@@ -46,9 +46,7 @@ export default function ContactForm({ onSubmit, isLoading }: ContactFormProps) {
             className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
             placeholder="John Doe"
           />
-          {errors.fullName && (
-            <p className="text-red-400 text-sm mt-1">{errors.fullName.message}</p>
-          )}
+          {errors.fullName && <p className="text-red-400 text-sm mt-1">{errors.fullName.message}</p>}
         </div>
 
         <div>
@@ -62,9 +60,7 @@ export default function ContactForm({ onSubmit, isLoading }: ContactFormProps) {
             className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
             placeholder="john@company.com"
           />
-          {errors.email && (
-            <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
         </div>
       </div>
 
@@ -104,9 +100,7 @@ export default function ContactForm({ onSubmit, isLoading }: ContactFormProps) {
           className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
           placeholder="https://company.com"
         />
-        {errors.website && (
-          <p className="text-red-400 text-sm mt-1">{errors.website.message}</p>
-        )}
+        {errors.website && <p className="text-red-400 text-sm mt-1">{errors.website.message}</p>}
       </div>
 
       <div>
@@ -120,22 +114,31 @@ export default function ContactForm({ onSubmit, isLoading }: ContactFormProps) {
           className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
           placeholder="Tell us about your automation needs..."
         />
-        {errors.message && (
-          <p className="text-red-400 text-sm mt-1">{errors.message.message}</p>
-        )}
+        {errors.message && <p className="text-red-400 text-sm mt-1">{errors.message.message}</p>}
       </div>
 
-      <Button
-        type="submit"
-        disabled={!isValid || isLoading}
-        className="w-full bg-accent text-black hover:bg-accent/90 disabled:opacity-50"
-      >
-        {isLoading ? "Processing..." : "Start My Solution"}
-      </Button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Button
+          type="button"
+          onClick={handleSubmit(handleSimpleContact)}
+          disabled={!isValid || isLoading}
+          variant="outline"
+          className="w-full border-white/20 text-white hover:bg-white/10 disabled:opacity-50 bg-transparent"
+        >
+          {isLoading ? "Processing..." : "Contact Us"}
+        </Button>
 
-      <p className="text-xs text-white/60 text-center">
-        We'll follow up within 1 business day. No spam, ever.
-      </p>
+        <Button
+          type="button"
+          onClick={handleSubmit(handleCustomSolution)}
+          disabled={!isValid || isLoading}
+          className="w-full bg-accent text-white hover:bg-accent/90 disabled:opacity-50"
+        >
+          {isLoading ? "Processing..." : "Build My Custom Solution"}
+        </Button>
+      </div>
+
+      <p className="text-xs text-white/60 text-center">We'll follow up within 1 business day. No spam, ever.</p>
     </form>
   )
 }

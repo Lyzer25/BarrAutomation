@@ -18,7 +18,7 @@ This document describes how to set up the n8n workflow to handle contact form su
 ### 2. Set/Code Node (Format Data)
 Format the incoming data for email and spreadsheet:
 
-```javascript
+\`\`\`javascript
 // Format for email
 const emailData = {
   to: $json.headers["x-contact-destination"] || "barrautomations@gmail.com",
@@ -69,7 +69,7 @@ const sheetData = {
 };
 
 return { emailData, sheetData };
-```
+\`\`\`
 
 ### 3. Gmail Node
 - **To**: `{{$json.emailData.to}}`
@@ -104,7 +104,7 @@ return { emailData, sheetData };
 ## Expected Request JSON
 The webhook will receive a POST request with this structure:
 
-```json
+\`\`\`json
 {
   "fullName": "John Doe",
   "email": "john@company.com",
@@ -123,7 +123,7 @@ The webhook will receive a POST request with this structure:
   "ip": "192.168.1.1",
   "trap": ""
 }
-```
+\`\`\`
 
 ## Environment Variables
 Set these in your n8n environment:

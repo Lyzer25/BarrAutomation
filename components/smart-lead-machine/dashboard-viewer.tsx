@@ -50,8 +50,16 @@ const getIntegrationCategory = (integrationName: string): keyof typeof integrati
   return null
 }
 
+const MetricCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) => (
+  <div className="flex flex-col items-center justify-center text-center space-y-3 p-6">
+    <div className="text-red-400">{icon}</div>
+    <p className="text-4xl font-mono font-bold text-white">{value}</p>
+    <p className="text-base font-mono text-gray-400">{label}</p>
+  </div>
+)
+
 const LeadScoreBar = ({ score }: { score: number }) => {
-  const scoreColor = score > 80 ? "bg-green-500" : score >= 50 ? "bg-yellow-500" : "bg-blue-500"
+  const scoreColor = score > 80 ? "bg-green-500" : score >= 50 ? "bg-yellow-500" : "bg-red-500"
   return (
     <div className="w-full bg-gray-800 rounded-full h-4">
       <motion.div
@@ -64,37 +72,29 @@ const LeadScoreBar = ({ score }: { score: number }) => {
   )
 }
 
-const MetricCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) => (
-  <div className="flex flex-col items-center justify-center text-center space-y-3 p-6">
-    <div className="text-blue-400">{icon}</div>
-    <p className="text-4xl font-mono font-bold text-white">{value}</p>
-    <p className="text-base font-mono text-gray-400">{label}</p>
-  </div>
-)
-
-export interface BentoCardProps {
-  color?: string
-  title?: string
-  description?: string
-  label?: string
-  textAutoHide?: boolean
-  disableAnimations?: boolean
-  children?: React.ReactNode
-  className?: string
+const BentoCardProps = {
+  color: undefined,
+  title: undefined,
+  description: undefined,
+  label: undefined,
+  textAutoHide: undefined,
+  disableAnimations: undefined,
+  children: undefined,
+  className: undefined,
 }
 
-export interface BentoProps {
-  textAutoHide?: boolean
-  enableStars?: boolean
-  enableSpotlight?: boolean
-  enableBorderGlow?: boolean
-  disableAnimations?: boolean
-  spotlightRadius?: number
-  particleCount?: number
-  enableTilt?: boolean
-  glowColor?: string
-  clickEffect?: boolean
-  enableMagnetism?: boolean
+const BentoProps = {
+  textAutoHide: undefined,
+  enableStars: undefined,
+  enableSpotlight: undefined,
+  enableBorderGlow: undefined,
+  disableAnimations: undefined,
+  spotlightRadius: undefined,
+  particleCount: undefined,
+  enableTilt: undefined,
+  glowColor: undefined,
+  clickEffect: undefined,
+  enableMagnetism: undefined,
 }
 
 const DEFAULT_PARTICLE_COUNT = 12
@@ -549,7 +549,7 @@ const useMobileDetection = () => {
   return isMobile
 }
 
-const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
+const MagicBento: React.FC<any & { data: DashboardData | null }> = ({
   textAutoHide = true,
   enableStars = true,
   enableSpotlight = true,
@@ -581,9 +581,9 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
   const integrations = dashboard.integrations ?? mockDashboardData.dashboard.integrations
 
   const scoreColorClass =
-    Number(leadScore) > 80 ? "border-green-500" : Number(leadScore) >= 50 ? "border-yellow-500" : "border-blue-500"
+    Number(leadScore) > 80 ? "border-green-500" : Number(leadScore) >= 50 ? "border-yellow-500" : "border-red-500"
 
-  const cardData: BentoCardProps[] = [
+  const cardData: any[] = [
     {
       title: leadData?.name || "Unknown Lead",
       description: leadData?.email || "No email provided",
@@ -594,7 +594,7 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
           <div className="flex flex-col sm:flex-row justify-between items-start mb-6 gap-6">
             <div>
               <h3 className="text-3xl font-mono font-bold text-white mb-2">{leadData?.name || "Unknown Lead"}</h3>
-              <p className="text-xl text-blue-400 font-mono">{leadData?.email || "No email provided"}</p>
+              <p className="text-xl text-red-400 font-mono">{leadData?.email || "No email provided"}</p>
             </div>
             <Badge className={cn("text-lg font-mono whitespace-nowrap px-4 py-2", scoreColorClass)}>
               {category || "Unknown"}
@@ -720,7 +720,7 @@ const MagicBento: React.FC<BentoProps & { data: DashboardData | null }> = ({
                             {integrationAlternatives[category].map((alt) => (
                               <Tooltip key={alt.name} delayDuration={100}>
                                 <TooltipTrigger asChild>
-                                  <Badge className="cursor-default font-mono hover:border-blue-500 hover:shadow-[0_0_8px_hsl(var(--accent)/0.5)] transition-all text-base px-3 py-2">
+                                  <Badge className="cursor-default font-mono hover:border-red-500 hover:shadow-[0_0_8px_hsl(var(--accent)/0.5)] transition-all text-base px-3 py-2">
                                     {alt.name}
                                   </Badge>
                                 </TooltipTrigger>

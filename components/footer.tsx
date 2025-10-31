@@ -1,12 +1,18 @@
 import Link from "next/link"
-import { Bot } from "lucide-react"
+import Image from "next/image"
 
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 py-8">
       <div className="container mx-auto px-4 text-center text-subtle-gray">
         <div className="flex justify-center items-center mb-4">
-          <Bot className="h-6 w-6 text-accent mr-2" />
+          <Image
+            src="/barrautomationslogo.png"
+            alt="Barr Automations Logo"
+            width={32}
+            height={32}
+            className="h-8 w-8 mr-2"
+          />
           <p className="text-lg font-bold font-mono text-white">Barri.ai</p>
         </div>
         <p className="text-sm">Building custom, intelligent automations for modern businesses.</p>
