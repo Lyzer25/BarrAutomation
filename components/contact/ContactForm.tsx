@@ -6,21 +6,32 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { contactBasicsSchema, type ContactBasicsInput } from "@/lib/validators/contact"
+import { forwardRef, useImperativeHandle } from "react"
 
 interface ContactFormProps {
   onSubmit: (data: ContactBasicsInput, type: "simple" | "custom") => void
   isLoading?: boolean
 }
 
-export default function ContactForm({ onSubmit, isLoading }: ContactFormProps) {
+export interface ContactFormHandle {
+  reset: () => void
+}
+
+const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit, isLoading }, ref) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm<ContactBasicsInput>({
     resolver: zodResolver(contactBasicsSchema),
     mode: "onChange",
   })
+
+  // Expose reset method to parent component
+  useImperativeHandle(ref, () => ({
+    reset: () => reset(),
+  }))
 
   const handleSimpleContact = (data: ContactBasicsInput) => {
     onSubmit(data, "simple")
@@ -141,4 +152,8 @@ export default function ContactForm({ onSubmit, isLoading }: ContactFormProps) {
       <p className="text-xs text-white/60 text-center">We'll follow up within 1 business day. No spam, ever.</p>
     </form>
   )
-}
+})
+
+ContactForm.displayName = "ContactForm"
+
+export default ContactForm
