@@ -7,6 +7,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { LandingBackgroundWrapper } from "./landing-bg-wrapper"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const robotoMono = Roboto_Mono({
@@ -33,10 +34,12 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable)}>
         <TooltipProvider>
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-          <Toaster />
+          <LandingBackgroundWrapper>
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+            <Toaster />
+          </LandingBackgroundWrapper>
         </TooltipProvider>
       </body>
     </html>
