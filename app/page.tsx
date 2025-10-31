@@ -5,6 +5,10 @@ import LogoCarousel from "@/components/logo-carousel"
 import Link from "next/link"
 import { Zap, BrainCircuit, Bot, BarChart } from "lucide-react"
 
+// Static generation with 1-hour revalidation
+export const dynamic = 'force-static'
+export const revalidate = 3600
+
 const stats = [
   { icon: Zap, value: "30-Second", label: "Workflow Execution" },
   { icon: BrainCircuit, value: "All the most modern AI's", label: "Powered Logic" },

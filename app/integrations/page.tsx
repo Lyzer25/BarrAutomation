@@ -5,6 +5,10 @@ import IntegrationGrid from "./integration-grid"
 import IntegrationFilters from "@/components/integrations/integration-filters"
 import { integrationData } from "@/lib/integrations"
 
+// Static generation with 1-hour revalidation
+export const dynamic = 'force-static'
+export const revalidate = 3600
+
 export default function IntegrationsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [activeCategory, setActiveCategory] = useState("🚀 Most Common")
