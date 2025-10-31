@@ -1,34 +1,37 @@
-# Barri.ai - Real-Time AI Automation Platform
+# Barr Automations
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+> Real-Time AI Automation for Business. Workflows That Execute in Seconds.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/6xxx3l1t35n1p3rxxx9-gmailcoms-projects/v0-barri)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/Ud2AfMMa4wx)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 
 ## Overview
 
-Barri.ai transforms raw leads into qualified opportunities in real-time using AI automation. This Next.js application features a complete Smart Lead Machine demo with real-time dashboard updates powered by n8n workflows.
+Barr Automations transforms raw leads into qualified opportunities in real-time using AI automation. This Next.js application features a complete Smart Lead Machine demo with real-time dashboard updates powered by n8n workflows.
 
 ### 🚀 Features
 
-- **Smart Lead Machine Demo**: Interactive demo showing AI-powered lead qualification
+- **Smart Lead Machine**: Interactive demo showing AI-powered lead qualification
+- **PixelBlast Background**: Animated WebGL background using Three.js & React Three Fiber
 - **Real-time Dashboard**: Live updates via Server-Sent Events (SSE)
-- **N8N Integration**: Seamless workflow automation with n8n
-- **Modern UI**: Built with Next.js 15, React 19, and Tailwind CSS
-- **Component Library**: Complete shadcn/ui implementation
+- **Discovery Stepper**: Multi-step client needs assessment
+- **N8N Integration**: Seamless workflow automation with n8n webhooks
+- **Contact Management**: Integrated forms with Resend email delivery
+- **Modern UI**: Built with Next.js 15, React 19, and Tailwind CSS 4
+- **Component Library**: Complete shadcn/ui + Radix UI implementation
 - **Responsive Design**: Mobile-first responsive layout
-- **Dark Theme**: Professional dark theme with electric blue accents
+- **Dark Theme**: Professional dark theme with crimson accents
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15.2.4 with App Router
-- **Frontend**: React 19, TypeScript
-- **Styling**: Tailwind CSS, shadcn/ui components
-- **Animations**: Framer Motion
-- **Charts**: Recharts
-- **Icons**: Lucide React
+- **Framework**: Next.js 15.2 (App Router)
+- **Language**: TypeScript 5
+- **Styling**: Tailwind CSS 4.1 + shadcn/ui
+- **3D Graphics**: Three.js + React Three Fiber + postprocessing
+- **Animations**: Framer Motion + GSAP
+- **Forms**: React Hook Form + Zod validation
+- **Email**: Resend API
+- **Automation**: n8n webhooks
 - **Deployment**: Vercel
-- **Automation**: n8n integration
 
 ## 🏃‍♂️ Quick Start
 
@@ -55,7 +58,7 @@ pnpm install
 
 3. **Set up environment variables**:
 \`\`\`bash
-cp .env.local.example .env.local
+cp .env.example .env.local
 # Edit .env.local with your configuration
 \`\`\`
 
@@ -70,14 +73,23 @@ pnpm dev
 
 ## ⚙️ Environment Configuration
 
-This application requires environment variables for proper functionality. See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed setup instructions.
+This application requires environment variables for proper functionality. See `.env.example` for all required variables and [SECURITY.md](./SECURITY.md) for security best practices.
 
-### Required Variables
+### Critical Variables
 
-- `N8N_WEBHOOK_URL`: Your n8n webhook endpoint
-- `NEXT_PUBLIC_APP_URL`: Your app's public URL
-- `WEBHOOK_BASE_URL`: Base URL for webhook endpoints  
-- `WEBHOOK_SECRET_KEY`: Secret key for webhook authentication
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `WEBHOOK_SECRET_KEY` | Secret key for webhook authentication (min 32 chars) | Yes (Prod) |
+| `RESEND_API_KEY` | Resend email service API key | Yes |
+| `N8N_WEBHOOK_URL` | n8n automation webhook endpoint | Yes |
+| `NEXT_PUBLIC_APP_URL` | Public URL of the application | No (auto-detect) |
+
+### Generating Secure Keys
+
+```bash
+# Generate a secure webhook secret key
+openssl rand -base64 48
+```
 
 ## 🔗 N8N Integration
 
@@ -171,27 +183,38 @@ curl -X POST https://your-domain.com/api/webhook/status-update/test123 \
 - **DemoModal**: Lead capture form
 - **useAutomationProgress**: Hook for managing real-time updates
 
+## 🔒 Security
+
+See [SECURITY.md](./SECURITY.md) for comprehensive security policies and best practices.
+
+**Important:**
+- Never commit `.env` files
+- Rotate secrets immediately if accidentally exposed
+- Keep dependencies updated with `npm audit`
+- Use environment-based logging (development only)
+
 ## 🤝 Contributing
 
-This repository is automatically synced with v0.dev. To contribute:
-
-1. Make changes via [v0.dev interface](https://v0.dev/chat/projects/Ud2AfMMa4wx)
-2. Changes are automatically pushed to this repository
-3. Vercel deploys the latest version automatically
+1. Create a feature branch from `main`
+2. Make your changes following TypeScript and ESLint standards
+3. Run tests and linting before submitting
+4. Submit a pull request with a clear description
 
 ## 📝 License
 
-This project is private and proprietary to Barri.ai.
+Proprietary - © 2025 Barr Automations. All rights reserved.
 
 ## 🆘 Support
 
-For issues or questions:
+For support inquiries:
 
-1. Check [DEPLOYMENT.md](./DEPLOYMENT.md) for configuration help
-2. Review Vercel function logs for debugging
-3. Test webhook endpoints manually
-4. Verify n8n workflow configuration
+- **Email**: barrautomations@gmail.com
+- **Website**: https://barrautomations.com
+- **Security Issues**: See [SECURITY.md](./SECURITY.md)
 
 ---
 
-**Live Demo**: [https://barrautomations.com/demos/smart-lead-machine](https://barrautomations.com/demos/smart-lead-machine)
+**Live Website**: [https://barrautomations.com](https://barrautomations.com)
+**Demo**: [https://barrautomations.com/demos/smart-lead-machine](https://barrautomations.com/demos/smart-lead-machine)
+
+**Built with ❤️ by Barr Automations**

@@ -90,7 +90,9 @@ export async function POST(req: NextRequest) {
     // Validate payload
     const validatedFields = contactPayloadSchema.safeParse(body)
     if (!validatedFields.success) {
-      console.error('contact_submit_invalid_payload:', validatedFields.error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Contact validation failed:', validatedFields.error)
+      }
       return NextResponse.json(
         { ok: false, error: 'Invalid form data' },
         { status: 400 }
@@ -105,27 +107,18 @@ export async function POST(req: NextRequest) {
       ip,
     }
 
-    // Log receipt for debugging
-    console.log('contact_submit_received:', {
-      fullName: payload.fullName,
-      email: payload.email,
-      ip,
-      page: payload.page,
-    })
-
     // Preferred path: use Resend to send email directly if configured
     if (process.env.RESEND_API_KEY) {
       try {
-        const sendResult = await sendEmailWithResend(payload)
-        console.log('contact_submit_resend_success:', { id: (sendResult?.id ?? null), to: process.env.CONTACT_TO_EMAIL ?? 'barrautomations@gmail.com' })
+        await sendEmailWithResend(payload)
         return NextResponse.json({ ok: true })
-      } catch (err: any) {
-        console.error('contact_submit_resend_error:', err)
-        // Return the provider error to the client temporarily for debugging.
-        // This reveals the Resend error (e.g., Unauthorized, invalid sender) so we can act.
-        const message = err?.message ? String(err.message) : String(err)
+      } catch (err) {
+        // Log error server-side only
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Resend error:', err)
+        }
         return NextResponse.json(
-          { ok: false, error: `Resend error: ${message}` },
+          { ok: false, error: 'Failed to send email' },
           { status: 502 }
         )
       }
@@ -146,34 +139,30 @@ export async function POST(req: NextRequest) {
         })
 
         if (!response.ok) {
-          const text = await response.text().catch(() => '')
-          throw new Error(`n8n webhook error: ${response.status} ${text}`)
-        }
-
-        if (process.env.NODE_ENV === 'development') {
-          console.log('contact_submit_n8n_success:', {
-            fullName: payload.fullName,
-            email: payload.email,
-            ip,
-          })
+          throw new Error(`Webhook request failed: ${response.status}`)
         }
 
         return NextResponse.json({ ok: true })
       } catch (error) {
-        console.error('n8n webhook error:', error)
-        // If n8n fails, do not silently swallow — return error so client knows
+        if (process.env.NODE_ENV === 'development') {
+          console.error('n8n webhook error:', error)
+        }
         return NextResponse.json({ ok: false, error: 'Failed to deliver contact submission' }, { status: 502 })
       }
     }
 
     // If we reach here and neither Resend nor n8n succeeded/configured, return an error
-    console.error('contact_submit_no_delivery_path: RESEND_API_KEY and N8N_CONTACT_WEBHOOK_URL not configured or both failed')
+    if (process.env.NODE_ENV === 'development') {
+      console.error('No delivery method configured (RESEND_API_KEY or N8N_CONTACT_WEBHOOK_URL)')
+    }
     return NextResponse.json(
-      { ok: false, error: 'No delivery method configured. Please contact support.' },
-      { status: 500 }
+      { ok: false, error: 'Service temporarily unavailable' },
+      { status: 503 }
     )
-  } catch (error: any) {
-    console.error('contact_submit_error:', error)
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Contact submission error:', error)
+    }
 
     return NextResponse.json(
       { ok: false, error: 'Server error. Please try again.' },

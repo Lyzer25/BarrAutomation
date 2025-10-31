@@ -1,6 +1,6 @@
 /**
  * Configuration
- * Production configuration values for automatic deployment
+ * Uses environment variables for secure configuration
  */
 
 interface Config {
@@ -13,13 +13,22 @@ interface Config {
 }
 
 function createConfig(): Config {
+  const nodeEnv = process.env.NODE_ENV || 'development'
+  const isDev = nodeEnv === 'development'
+  const isProd = nodeEnv === 'production'
+
   const config: Config = {
-    n8nWebhookUrl: 'https://lyzer25.app.n8n.cloud/webhook/new-lead',
-    appUrl: 'https://barrautomations.com',
-    webhookBaseUrl: 'https://barrautomations.com/api/webhook',
-    webhookSecretKey: 'wh_sec_8f9a2b1c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6',
-    isDevelopment: false,
-    isProduction: true,
+    n8nWebhookUrl: process.env.N8N_WEBHOOK_URL || 'https://lyzer25.app.n8n.cloud/webhook/new-lead',
+    appUrl: process.env.NEXT_PUBLIC_APP_URL || (isProd ? 'https://barrautomations.com' : 'http://localhost:3000'),
+    webhookBaseUrl: process.env.NEXT_PUBLIC_WEBHOOK_BASE_URL || (isProd ? 'https://barrautomations.com/api/webhook' : 'http://localhost:3000/api/webhook'),
+    webhookSecretKey: process.env.WEBHOOK_SECRET_KEY || '',
+    isDevelopment: isDev,
+    isProduction: isProd,
+  }
+
+  // Validate critical environment variables in production
+  if (isProd && !process.env.WEBHOOK_SECRET_KEY) {
+    throw new Error('WEBHOOK_SECRET_KEY environment variable is required in production')
   }
 
   return config
