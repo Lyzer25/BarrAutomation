@@ -19,7 +19,7 @@ const demos = [
   {
     title: "Revenue Recovery Robot",
     industry: "Ecommerce",
-    useCase: "Shopify abandoned cart detection with personalized AI reactivation.",
+    useCase: "Ecommerce abandoned cart detection with personalized AI reactivation.",
     roi: "Recovers 15-25% of lost carts",
     description:
       "Automatically detects abandoned carts, analyzes customer history, and sends hyper-personalized SMS/email campaigns to win back sales.",
