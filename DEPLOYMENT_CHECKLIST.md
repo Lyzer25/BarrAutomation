@@ -8,12 +8,12 @@
 
 ### 1. Generate Secure Keys ⏱️ 2 minutes
 
-```bash
+\`\`\`bash
 # Generate webhook secret key
 openssl rand -base64 48
 
 # Save this key - you'll need it in the next step
-```
+\`\`\`
 
 ### 2. Configure Vercel Environment Variables ⏱️ 5 minutes
 
@@ -46,12 +46,12 @@ In your n8n workflow, update webhook URLs to:
 
 ### 4. Deploy to Vercel ⏱️ 1 minute
 
-```bash
+\`\`\`bash
 # Push to main branch (triggers auto-deploy)
 git add .
 git commit -m "Production deployment ready"
 git push origin main
-```
+\`\`\`
 
 **Or** click "Deploy" in Vercel Dashboard
 
@@ -81,12 +81,12 @@ git push origin main
 - [ ] Check dashboard displays correctly
 
 #### Test 4: API Health Check
-```bash
+\`\`\`bash
 # Test webhook endpoint
 curl https://barrautomations.com/api/webhook/health
 
 # Should return 200 OK
-```
+\`\`\`
 
 ### 6. Monitor Vercel Logs ⏱️ 2 minutes
 
@@ -120,10 +120,10 @@ If something goes wrong:
 3. Click "..." menu → "Promote to Production"
 
 ### Manual Rollback
-```bash
+\`\`\`bash
 git revert HEAD
 git push origin main
-```
+\`\`\`
 
 ---
 

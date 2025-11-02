@@ -13,7 +13,8 @@ export default function Footer() {
             height={32}
             className="h-8 w-8 mr-2"
           />
-          <p className="text-lg font-bold font-mono text-white">Barri.ai</p>
+          <p className="text-lg font-bold font-mono text-white">Barr Automations
+</p>
         </div>
         <p className="text-sm">Building custom, intelligent automations for modern businesses.</p>
         <div className="mt-4 flex justify-center gap-4 text-sm">

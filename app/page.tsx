@@ -33,7 +33,7 @@ export default function HomePage() {
           Real-Time AI Automation for Business. Workflows That Execute in Seconds.
         </h1>
         <p className="mt-6 max-w-3xl text-lg text-subtle-gray md:text-xl">
-          From 45 minutes to 30 seconds — automate your sales, service, onboarding, reporting, or anything else.
+          From 45 minutes to 30 seconds — automate your sales, service, onboarding, reporting, Inventory, logistics, workflows or anything else.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-4">
           <Button size="lg" asChild>

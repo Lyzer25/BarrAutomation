@@ -86,10 +86,10 @@ This application requires environment variables for proper functionality. See `.
 
 ### Generating Secure Keys
 
-```bash
+\`\`\`bash
 # Generate a secure webhook secret key
 openssl rand -base64 48
-```
+\`\`\`
 
 ## 🔗 N8N Integration
 

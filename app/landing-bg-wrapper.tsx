@@ -40,5 +40,3 @@ export function LandingBackgroundWrapper({ children }: LandingBackgroundWrapperP
     </div>
   )
 }
-
-

@@ -68,13 +68,13 @@ Before deploying to production:
 
 ### Generating Secure Keys
 
-```bash
+\`\`\`bash
 # Generate a secure webhook secret key
 openssl rand -base64 48
 
 # Or use Node.js
 node -e "console.log(require('crypto').randomBytes(48).toString('base64'))"
-```
+\`\`\`
 
 ### Vercel Environment Variables
 

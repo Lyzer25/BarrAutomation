@@ -32,14 +32,14 @@ Comprehensive security audit and code quality improvements have been completed. 
 - `lib/config.ts` - Complete refactor to use environment variables
 
 **Action Required**:
-```bash
+\`\`\`bash
 # Generate new secure key
 openssl rand -base64 48
 
 # Add to Vercel Environment Variables:
 WEBHOOK_SECRET_KEY=<generated_key>
 N8N_WEBHOOK_URL=https://your-instance.app.n8n.cloud/webhook/new-lead
-```
+\`\`\`
 
 ### 2. Console Logging Sanitized ✅
 **Priority**: HIGH
@@ -208,7 +208,7 @@ Replaced custom implementation with official React Bits version:
 
 Add these in Vercel Dashboard → Settings → Environment Variables:
 
-```bash
+\`\`\`bash
 # CRITICAL - Generate new secure key
 WEBHOOK_SECRET_KEY=<openssl rand -base64 48>
 
@@ -225,22 +225,22 @@ N8N_CONTACT_WEBHOOK_URL=https://lyzer25.app.n8n.cloud/webhook/contact
 # Application URLs (Vercel auto-populates these, but can override)
 NEXT_PUBLIC_APP_URL=https://barrautomations.com
 NEXT_PUBLIC_WEBHOOK_BASE_URL=https://barrautomations.com/api/webhook
-```
+\`\`\`
 
 ### 2. Deploy to Vercel
 
-```bash
+\`\`\`bash
 # Commit all changes
 git add .
 git commit -m "Security hardening and production readiness"
 git push origin main
 
 # Vercel will auto-deploy
-```
+\`\`\`
 
 ### 3. Post-Deployment Verification
 
-```bash
+\`\`\`bash
 # Test API endpoints
 curl https://barrautomations.com/api/webhook/health
 
@@ -249,7 +249,7 @@ curl https://barrautomations.com/api/webhook/health
 
 # Test contact form
 # Visit https://barrautomations.com/contact
-```
+\`\`\`
 
 ---
 
