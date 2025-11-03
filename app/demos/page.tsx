@@ -6,12 +6,10 @@ import dynamic from "next/dynamic"
 
 // Lazy load heavy components for better performance
 const ChromaGrid = dynamic(() => import("@/components/bits/Components/ChromaGrid/ChromaGrid"), {
-  ssr: false,
   loading: () => <div className="min-h-[400px] animate-pulse bg-white/5 rounded-xl" />,
 })
 
 const IntegrationEcosystem = dynamic(() => import("@/components/smart-lead-machine/integration-ecosystem"), {
-  ssr: false,
   loading: () => <div className="min-h-[300px] animate-pulse bg-white/5 rounded-xl" />,
 })
 
