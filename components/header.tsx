@@ -4,11 +4,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { Menu, ChevronDown } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { cn } from "@/lib/utils"
 import GooeyNav from "@/components/bits/Components/GooeyNav/GooeyNav"
 import "@/components/bits/Components/GooeyNav/GooeyNav.css"
+import { useState } from "react"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -17,9 +18,17 @@ const navLinks = [
   { href: "/contact", label: "Contact Us" },
 ]
 
+const productsLinks = [
+  { href: "/products/web-development", label: "Web Development" },
+  { href: "/products/software-tools", label: "Software & Internal Tools" },
+  { href: "/products/scripts-automation", label: "Scripts & Automations" },
+  { href: "/products/ai-automations", label: "AI Automations" },
+]
+
 export default function Header() {
   const pathname = usePathname()
   const initialActiveIndex = navLinks.findIndex((link) => link.href === pathname)
+  const [showProductsDropdown, setShowProductsDropdown] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-sm">
@@ -34,14 +43,46 @@ export default function Header() {
           />
           <span className="text-xl font-bold font-mono text-white">Barr Automations</span>
         </Link>
-        <div className="hidden md:flex items-center">
+        
+        <div className="hidden md:flex items-center gap-6">
           <GooeyNav items={navLinks} initialActiveIndex={initialActiveIndex !== -1 ? initialActiveIndex : 0} />
+          
+          {/* Products Dropdown */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setShowProductsDropdown(true)}
+            onMouseLeave={() => setShowProductsDropdown(false)}
+          >
+            <button className="flex items-center gap-1 text-white hover:text-accent transition-colors font-medium">
+              Products
+              <ChevronDown className="h-4 w-4" />
+            </button>
+            
+            {showProductsDropdown && (
+              <div className="absolute top-full left-0 mt-2 w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
+                {productsLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "block px-4 py-3 text-sm transition-colors hover:bg-white/5 hover:text-accent border-b border-white/5 last:border-b-0",
+                      pathname === link.href ? "text-accent bg-white/5" : "text-white"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+        
         <div className="hidden md:block">
           <Button asChild>
             <Link href="/contact">Build My Solution</Link>
           </Button>
         </div>
+        
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
@@ -63,6 +104,23 @@ export default function Header() {
                     {link.label}
                   </Link>
                 ))}
+                
+                {/* Products Section in Mobile Menu */}
+                <div className="border-t border-white/10 pt-4">
+                  <div className="text-sm font-semibold text-gray-400 mb-3">Products</div>
+                  {productsLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "block py-2 transition-colors hover:text-accent",
+                        pathname === link.href ? "text-accent" : "text-white",
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
               </nav>
             </SheetContent>
           </Sheet>
