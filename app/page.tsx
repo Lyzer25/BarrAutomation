@@ -29,9 +29,6 @@ export default function HomePage() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="mb-8"
           >
-            <div className="inline-block mb-4 px-4 py-2 border border-accent/30 rounded-full bg-accent/5">
-              <span className="text-accent font-mono text-sm tracking-wider">CUSTOM DEVELOPMENT SOLUTIONS</span>
-            </div>
             <h1 className="font-mono text-6xl font-thin tracking-tighter text-white md:text-7xl lg:text-8xl leading-[1.1]">
               Transform Your Business
               <br />
