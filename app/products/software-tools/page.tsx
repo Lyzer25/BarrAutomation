@@ -43,21 +43,21 @@ export default function SoftwareToolingPage() {
 
   const caseStudies = [
     {
-      industry: "SaaS Platform",
-      challenge: "Need for scalable multi-tenant architecture",
-      solution: "Custom SaaS platform with user management and billing",
-      results: ["100+ active customers", "99.9% uptime", "$500K ARR in year 1"]
+      industry: "Healthcare Platform",
+      challenge: "Need for HIPAA compliance and real-time scheduling",
+      solution: "Custom patient management system with HIPAA compliance and real-time scheduling",
+      results: ["99.9% uptime", "Enhanced patient care", "Efficient scheduling"]
     },
     {
-      industry: "E-Commerce",
-      challenge: "Disconnected inventory across 5 warehouses",
-      solution: "Custom real-time sync system with automated reordering",
-      results: ["Zero stockouts", "35% reduction in inventory costs", "3x faster fulfillment"]
+      industry: "Warehouse Management",
+      challenge: "Disconnected inventory across multiple locations",
+      solution: "Real-time inventory tracking with automated reordering and multi-location sync",
+      results: ["35% reduction in inventory costs", "Zero stockouts", "Improved efficiency"]
     },
     {
       industry: "Financial Services",
       challenge: "Manual compliance reporting taking weeks",
-      solution: "Custom automated reporting dashboard with audit trails",
+      solution: "Automated compliance reporting dashboard with audit trails and real-time alerts",
       results: ["From 3 weeks to 30 minutes", "100% compliance rate", "Audit-ready 24/7"]
     }
   ]
@@ -91,7 +91,7 @@ export default function SoftwareToolingPage() {
           </h1>
           
           <p className="mt-6 text-lg text-subtle-gray max-w-3xl mx-auto">
-            From custom CRMs to enterprise automation systems, we build the internal tools that transform your operations. Scalable, secure, and designed for your exact needs.
+            From custom CRMs to warehouse management systems, from internal dashboards to industry-specific platforms - we build software solutions tailored to your exact business needs.
           </p>
           
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -141,12 +141,7 @@ export default function SoftwareToolingPage() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { icon: Workflow, title: "Process Automation", desc: "Eliminate repetitive tasks and streamline workflows", stat: "75% time saved" },
-            { icon: Database, title: "Data Integration", desc: "Connect all your systems and unify your data", stat: "100+ integrations" },
-            { icon: BarChart3, title: "Custom Dashboards", desc: "Real-time insights tailored to your business", stat: "Real-time updates" },
-            { icon: Shield, title: "Enterprise Security", desc: "Bank-grade security for your internal tools", stat: "SOC2 compliant" }
-          ].map((solution, index) => (
+          {solutions.map((solution, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -163,11 +158,11 @@ export default function SoftwareToolingPage() {
                     {solution.title}
                   </CardTitle>
                   <CardDescription className="text-subtle-gray group-hover:text-white/80 transition-colors">
-                    {solution.desc}
+                    {solution.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm font-bold text-accent">{solution.stat}</p>
+                  <p className="text-sm font-bold text-accent">{solution.stats}</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -175,17 +170,17 @@ export default function SoftwareToolingPage() {
         </div>
       </section>
 
-      {/* SaaS Pricing Packages Section */}
+      {/* Custom Software Development Packages Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-12">
-          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">SaaS Development Packages</h2>
+          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Custom Software Development</h2>
           <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
-            Launch your software-as-a-service platform with our comprehensive development packages
+            Flexible pricing for custom software solutions tailored to your business needs
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {/* Starter SaaS Package */}
+          {/* Small Tool Package */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -195,31 +190,32 @@ export default function SoftwareToolingPage() {
             <Card className="bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full">
               <CardHeader>
                 <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
-                  STARTER SAAS
+                  SMALL TOOL
                 </div>
                 <CardTitle className="text-white text-3xl">
-                  <span className="text-4xl font-bold">$5,000</span>
-                  <span className="text-subtle-gray text-lg ml-2">upfront</span>
+                  <span className="text-4xl font-bold">$2,500</span>
+                  <span className="text-subtle-gray text-lg ml-2">- $7,500</span>
                 </CardTitle>
                 <CardDescription className="text-accent font-mono text-sm">
-                  + $150/month hosting & support
+                  + $50-$150/month hosting & support
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <p className="text-subtle-gray text-sm">
-                  Perfect for MVPs and validating your SaaS idea with core functionality
+                  Perfect for single-purpose tools and simple internal applications
                 </p>
                 
                 <ul className="space-y-3">
                   {[
-                    "User authentication & management",
-                    "Subscription billing integration",
-                    "Admin dashboard",
-                    "Basic API endpoints",
-                    "Database setup & hosting",
-                    "SSL & domain configuration",
-                    "Email notifications",
-                    "Mobile responsive design"
+                    "Custom dashboards",
+                    "Data entry forms",
+                    "Simple CRM systems",
+                    "Reporting tools",
+                    "Basic API integrations",
+                    "User authentication",
+                    "Database setup",
+                    "Mobile responsive design",
+                    "Basic support included"
                   ].map((feature, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
                       <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
@@ -235,7 +231,7 @@ export default function SoftwareToolingPage() {
             </Card>
           </motion.div>
 
-          {/* Professional SaaS Package */}
+          {/* Medium Platform Package */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -248,33 +244,33 @@ export default function SoftwareToolingPage() {
               </div>
               <CardHeader>
                 <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
-                  PROFESSIONAL SAAS
+                  MEDIUM PLATFORM
                 </div>
                 <CardTitle className="text-white text-3xl">
-                  <span className="text-4xl font-bold">$15,000</span>
-                  <span className="text-subtle-gray text-lg ml-2">upfront</span>
+                  <span className="text-4xl font-bold">$10,000</span>
+                  <span className="text-subtle-gray text-lg ml-2">- $25,000</span>
                 </CardTitle>
                 <CardDescription className="text-accent font-mono text-sm">
-                  + $300/month hosting & support
+                  + $200-$400/month hosting & support
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <p className="text-subtle-gray text-sm">
-                  Production-ready SaaS with advanced features and scalability built-in
+                  Comprehensive solutions with multiple integrated features and workflows
                 </p>
                 
                 <ul className="space-y-3">
                   {[
-                    "Everything in Starter, plus:",
-                    "Multi-tenant architecture",
-                    "Advanced user roles & permissions",
-                    "Custom integrations (Stripe, etc.)",
-                    "Real-time features (WebSockets)",
-                    "Analytics dashboard",
-                    "Automated backups & monitoring",
-                    "API rate limiting & caching",
-                    "Custom reporting tools",
-                    "Priority support & maintenance"
+                    "Everything in Small Tool, plus:",
+                    "Complex business logic",
+                    "Multi-user role systems",
+                    "Advanced integrations",
+                    "Real-time features",
+                    "Custom workflows",
+                    "Analytics & reporting",
+                    "Automated notifications",
+                    "Data import/export",
+                    "Priority support"
                   ].map((feature, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
                       <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
@@ -290,7 +286,7 @@ export default function SoftwareToolingPage() {
             </Card>
           </motion.div>
 
-          {/* Enterprise SaaS Package */}
+          {/* Enterprise Solution Package */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -300,32 +296,32 @@ export default function SoftwareToolingPage() {
             <Card className="bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full">
               <CardHeader>
                 <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
-                  ENTERPRISE SAAS
+                  ENTERPRISE SOLUTION
                 </div>
                 <CardTitle className="text-white text-3xl">
-                  <span className="text-4xl font-bold">Custom</span>
+                  <span className="text-4xl font-bold">$25,000+</span>
                 </CardTitle>
                 <CardDescription className="text-accent font-mono text-sm">
-                  Pricing based on scope
+                  Custom pricing per project scope
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <p className="text-subtle-gray text-sm">
-                  Enterprise-grade solutions with unlimited customization and dedicated support
+                  Full-scale enterprise systems with unlimited complexity and customization
                 </p>
                 
                 <ul className="space-y-3">
                   {[
-                    "Everything in Professional, plus:",
-                    "White-label solutions",
-                    "Custom workflow automation",
+                    "Everything in Medium, plus:",
+                    "Multi-system integration",
+                    "Industry-specific features",
                     "Advanced security (SSO, 2FA)",
-                    "Microservices architecture",
-                    "Load balancing & auto-scaling",
+                    "Custom architecture design",
+                    "Scalability & performance",
+                    "Legacy system migration",
                     "Dedicated infrastructure",
                     "24/7 premium support",
-                    "SLA guarantees",
-                    "Ongoing feature development"
+                    "Ongoing development & updates"
                   ].map((feature, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
                       <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
@@ -353,28 +349,28 @@ export default function SoftwareToolingPage() {
             <CardHeader className="text-center">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <TrendingUp className="w-6 h-6 text-accent" />
-                <CardTitle className="text-white text-2xl">Revenue Share Partnership</CardTitle>
+                <CardTitle className="text-white text-2xl">Partnership & Revenue Share</CardTitle>
               </div>
               <CardDescription className="text-white/80 text-base">
-                Limited funding? We believe in your vision. Let's grow together.
+                Have a great idea but limited funding? We can work out flexible payment structures.
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center space-y-4">
               <div className="grid md:grid-cols-2 gap-6 text-left">
                 <div>
-                  <h4 className="text-accent font-bold mb-2">What You Pay:</h4>
+                  <h4 className="text-accent font-bold mb-2">Flexible Options:</h4>
                   <ul className="space-y-2 text-white/80 text-sm">
                     <li className="flex items-center gap-2">
                       <DollarSign className="w-4 h-4 text-accent" />
-                      Minimal upfront costs
+                      Reduced upfront costs
                     </li>
                     <li className="flex items-center gap-2">
                       <DollarSign className="w-4 h-4 text-accent" />
-                      Monthly hosting fee
+                      Revenue share agreements
                     </li>
                     <li className="flex items-center gap-2">
                       <DollarSign className="w-4 h-4 text-accent" />
-                      Revenue share on your success
+                      Deferred payment plans
                     </li>
                   </ul>
                 </div>
@@ -383,24 +379,24 @@ export default function SoftwareToolingPage() {
                   <ul className="space-y-2 text-white/80 text-sm">
                     <li className="flex items-center gap-2">
                       <Zap className="w-4 h-4 text-accent" />
-                      Full SaaS platform development
+                      Full custom development
                     </li>
                     <li className="flex items-center gap-2">
                       <Zap className="w-4 h-4 text-accent" />
-                      Ongoing feature development
+                      Ongoing feature support
                     </li>
                     <li className="flex items-center gap-2">
                       <Zap className="w-4 h-4 text-accent" />
-                      Dedicated partnership support
+                      True partnership approach
                     </li>
                   </ul>
                 </div>
               </div>
               <p className="text-xs text-white/60 mt-4">
-                Revenue share terms are negotiated on a per-deal basis. Contact us to discuss your project.
+                All terms are negotiated on a per-deal basis based on project scope and business model. Let's discuss what works for you.
               </p>
               <Button asChild size="lg" className="animate-pulse-glow">
-                <Link href="/contact">Discuss Partnership</Link>
+                <Link href="/contact">Discuss Your Project</Link>
               </Button>
             </CardContent>
           </Card>
@@ -418,23 +414,7 @@ export default function SoftwareToolingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                industry: "SaaS Platform",
-                result: "99.9% uptime achieved",
-                description: "Scalable multi-tenant architecture with user management and billing"
-              },
-              {
-                industry: "E-Commerce",
-                result: "35% reduction in costs",
-                description: "Real-time inventory sync across 5 warehouses with automated reordering"
-              },
-              {
-                industry: "Financial Services",
-                result: "From 3 weeks to 30 minutes",
-                description: "Automated compliance reporting dashboard with audit trails"
-              }
-            ].map((study, index) => (
+            {caseStudies.map((study, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
