@@ -82,5 +82,54 @@ export type ContactPayload = ContactBasics & DiscoveryAnswers & {
   page: 'contact'
   userAgent?: string
   ip?: string
-  trap?: string // honeypot field
+  trap?: string
+  category?: 'web-dev' | 'software-tools' | 'scripts' | 'ai-automations'
+}
+
+export type WebDevPayload = {
+  fullName: string
+  email: string
+  phone?: string
+  company?: string
+  projectType: string
+  timeline: string
+  budget: string
+  existingWebsite?: string
+  message: string
+  category: 'web-dev'
+  page: 'contact'
+  userAgent?: string
+  ip?: string
+}
+
+export type SoftwareToolsPayload = {
+  fullName: string
+  email: string
+  phone?: string
+  company: string
+  softwareType: string
+  userCount: string
+  timeline: string
+  integrations?: string
+  message: string
+  category: 'software-tools'
+  page: 'contact'
+  userAgent?: string
+  ip?: string
+}
+
+export type ScriptsPayload = {
+  fullName: string
+  email: string
+  phone?: string
+  company?: string
+  scriptType: string
+  frequency: string
+  urgency: string
+  currentProcess?: string
+  message: string
+  category: 'scripts'
+  page: 'contact'
+  userAgent?: string
+  ip?: string
 }
