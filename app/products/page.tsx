@@ -2,7 +2,9 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Globe, Server, Terminal, Sparkles, ArrowRight, Check } from 'lucide-react'
+import { Globe, Server, Terminal, Sparkles, ArrowRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function ProductsPage() {
   const products = [
@@ -49,62 +51,59 @@ export default function ProductsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative px-6 py-24 mx-auto max-w-7xl">
+      <section className="container mx-auto px-4 py-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center"
+          className="text-center max-w-4xl mx-auto"
         >
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="text-white">Our </span>
+          <h1 className="font-mono text-4xl font-thin text-white md:text-6xl lg:text-7xl">
+            Our{' '}
             <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
               Products
             </span>
           </h1>
           
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-            From stunning websites to enterprise software and AI-powered automations, 
-            we build custom solutions that transform your business. Choose the service that fits your needs.
+          <p className="mt-6 text-lg text-subtle-gray max-w-3xl mx-auto">
+            From stunning websites to enterprise software and AI-powered automations, we build custom solutions that transform your business. Choose the service that fits your needs.
           </p>
         </motion.div>
       </section>
 
       {/* Products Grid */}
-      <section className="px-6 py-12 mx-auto max-w-7xl">
+      <section className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 gap-8">
           {products.map((product, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
               <Link href={product.href}>
-                <div className={`group relative h-full p-8 rounded-2xl border bg-gradient-to-br ${product.bgGradient} hover:${product.borderColor} border-gray-800 transition-all duration-300 hover:shadow-2xl`}>
-                  <div className={`w-16 h-16 rounded-xl bg-gradient-to-r ${product.gradient} p-4 mb-6`}>
-                    <product.icon className="w-full h-full text-white" />
-                  </div>
-                  
-                  <h2 className="text-3xl font-bold text-white mb-4">{product.title}</h2>
-                  <p className="text-gray-300 mb-6 text-lg">{product.description}</p>
-                  
-                  <div className="grid grid-cols-2 gap-3 mb-6">
-                    {product.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center text-sm text-gray-400">
-                        <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0" />
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="flex items-center text-gray-300 group-hover:text-white transition-colors">
-                    <span className="font-semibold mr-2">Learn More</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
+                <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
+                  <CardHeader>
+                    <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-6">
+                      <product.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <CardTitle className="text-3xl text-white group-hover:text-accent transition-colors">
+                      {product.title}
+                    </CardTitle>
+                    <CardDescription className="text-subtle-gray group-hover:text-white/80 transition-colors text-lg">
+                      {product.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center text-subtle-gray group-hover:text-white transition-colors">
+                      <span className="font-semibold mr-2">Learn More</span>
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Card>
               </Link>
             </motion.div>
           ))}
@@ -112,62 +111,53 @@ export default function ProductsPage() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="px-6 py-20 mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-12"
-        >
-          <h2 className="text-4xl font-bold text-center mb-12 text-white">
-            Why Choose <span className="text-red-500">Barr Automations</span>
+      <section className="container mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">
+            Why Choose <span className="text-accent">Barr Automations</span>
           </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { title: "Custom Solutions", desc: "Every project is tailored to your specific needs and goals" },
-              { title: "Fast Delivery", desc: "We work efficiently to get your solution deployed quickly" },
-              { title: "Ongoing Support", desc: "We're here to help even after your project launches" }
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center text-2xl font-bold text-white">
-                  {index + 1}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-                <p className="text-gray-400">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { number: "01", title: "Custom Solutions", desc: "Every project is tailored to your specific needs and goals" },
+            { number: "02", title: "Fast Delivery", desc: "We work efficiently to get your solution deployed quickly" },
+            { number: "03", title: "Ongoing Support", desc: "We're here to help even after your project launches" }
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <div className="text-6xl font-bold text-accent/20 font-mono mb-4">{item.number}</div>
+              <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+              <p className="text-subtle-gray">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
       </section>
 
       {/* CTA Section */}
-      <section className="px-6 py-24 mx-auto max-w-7xl">
+      <section className="container mx-auto px-4 py-24">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-3xl p-12 text-center"
+          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-xl p-12 text-center"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Get Started?
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Let's discuss your project and find the perfect solution for your needs.
+            Let's discuss your project and find the perfect solution for your needs
           </p>
-          <Link href="/contact">
-            <button className="inline-flex items-center px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition-colors">
-              Contact Us Today
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </button>
-          </Link>
+          <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-gray-100">
+            <Link href="/contact">
+              Contact Us Today <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+          </Button>
         </motion.div>
       </section>
     </div>

@@ -1,96 +1,113 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Globe, Smartphone, Gauge, ArrowRight, Check } from 'lucide-react'
 import Link from 'next/link'
+import { Globe, Smartphone, Gauge, ArrowRight, Check, Code, Palette, Rocket } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
-export default function WebsiteDevelopmentPage() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
-
+export default function WebDevelopmentPage() {
   const services = [
     {
       icon: Globe,
-      title: "Corporate Websites",
-      description: "Professional web presence that converts visitors into customers",
-      features: ["Custom design", "SEO optimized", "CMS integration", "Analytics setup"]
-    },
-    {
-      icon: Gauge,
-      title: "Web Applications",
-      description: "Full-featured applications that scale with your business",
-      features: ["React/Next.js", "Real-time features", "API integration", "Cloud deployment"]
+      title: "Custom Web Applications",
+      description: "Full-stack web apps built with modern frameworks like Next.js, React, and Node.js",
+      features: ["Responsive Design", "Cloud Deployment", "API Integration", "Real-time Features"]
     },
     {
       icon: Smartphone,
-      title: "E-Commerce Solutions",
-      description: "Online stores that drive revenue and delight customers",
-      features: ["Payment processing", "Inventory management", "Mobile-first", "Conversion optimized"]
+      title: "Mobile-First Design",
+      description: "Beautiful, fast websites optimized for every device and screen size",
+      features: ["Progressive Web Apps", "Touch-Optimized", "Offline Support", "App-Like Experience"]
+    },
+    {
+      icon: Gauge,
+      title: "Performance Optimization",
+      description: "Lightning-fast load times and seamless user experiences that convert",
+      features: ["Core Web Vitals", "SEO Optimized", "CDN Integration", "Image Optimization"]
     }
   ]
 
-  const techStack = [
-    "React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", 
-    "PostgreSQL", "MongoDB", "AWS", "Vercel", "Stripe", "Shopify", "WordPress"
-  ]
-
-  const stats = [
-    { number: "50ms", label: "Average Load Time" },
-    { number: "99.9%", label: "Uptime Guarantee" },
-    { number: "100%", label: "Mobile Responsive" },
-    { number: "A+", label: "Security Rating" }
+  const processSteps = [
+    { number: "01", title: "Discovery & Planning", desc: "We learn your business goals and map out the perfect solution" },
+    { number: "02", title: "Design & Prototype", desc: "Custom designs tailored to your brand and tested with real users" },
+    { number: "03", title: "Development & Testing", desc: "Clean code, rigorous testing, and continuous communication" },
+    { number: "04", title: "Launch & Support", desc: "Smooth deployment with ongoing maintenance and updates" }
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative px-6 py-24 mx-auto max-w-7xl">
+      <section className="container mx-auto px-4 py-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center"
+          className="text-center max-w-4xl mx-auto"
         >
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent mb-6">
-            Custom Websites That Work
-            <br />
-            <span className="text-3xl md:text-5xl text-white">As Hard As You Do</span>
+          <div className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full mb-6 text-sm font-mono">
+            <Globe className="w-4 h-4" />
+            Web Development
+          </div>
+          
+          <h1 className="font-mono text-4xl font-thin text-white md:text-6xl lg:text-7xl">
+            Custom Web Solutions That Drive{' '}
+            <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
+              Real Results
+            </span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-            From stunning landing pages to complex web applications, we build digital experiences 
-            that captivate users and drive results. Fast, secure, and built to scale with your unique needs.
+          
+          <p className="mt-6 text-lg text-subtle-gray max-w-3xl mx-auto">
+            From landing pages to complex web applications, we build fast, beautiful, and scalable websites tailored to your business needs.
           </p>
           
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-4xl font-bold text-red-400">{stat.number}</div>
-                <div className="text-gray-400 mt-2">{stat.label}</div>
-              </motion.div>
-            ))}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild className="animate-pulse-glow">
+              <Link href="/contact">Start Your Project</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href="/demos">View Our Work</Link>
+            </Button>
           </div>
         </motion.div>
       </section>
 
+      {/* Stats Section */}
+      <section className="py-12 bg-black/50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { value: "50+", label: "Projects Delivered" },
+              { value: "99.9%", label: "Uptime Guarantee" },
+              { value: "<1s", label: "Page Load Time" },
+              { value: "100%", label: "Custom Solutions" }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="flex flex-col items-center"
+              >
+                <p className="text-3xl md:text-4xl font-bold text-white">{stat.value}</p>
+                <p className="text-sm text-subtle-gray mt-2">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Services Grid */}
-      <section className="px-6 py-20 mx-auto max-w-7xl">
-        <motion.h2 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-4xl font-bold text-center mb-16 text-white"
-        >
-          Built for <span className="text-red-400">Every Need</span>
-        </motion.h2>
-        
-        <div className="grid md:grid-cols-3 gap-8">
+      <section className="container mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">What We Build</h2>
+          <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
+            Every project is custom-built from scratch to match your exact requirements
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <motion.div
               key={index}
@@ -98,184 +115,108 @@ export default function WebsiteDevelopmentPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              onMouseEnter={() => setHoveredCard(index)}
-              onMouseLeave={() => setHoveredCard(null)}
-              className={`relative p-8 rounded-2xl border transition-all duration-300 ${
-                hoveredCard === index 
-                  ? 'bg-gradient-to-br from-gray-800 to-gray-900 border-red-400 shadow-2xl shadow-red-400/20' 
-                  : 'bg-gray-900/50 border-gray-800'
-              }`}
             >
-              <service.icon className={`w-12 h-12 mb-6 transition-colors ${
-                hoveredCard === index ? 'text-red-400' : 'text-gray-400'
-              }`} />
-              <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
-              <p className="text-gray-400 mb-6">{service.description}</p>
-              <ul className="space-y-2">
-                {service.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center text-gray-300">
-                    <Check className="w-5 h-5 text-green-400 mr-2" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+              <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
+                    <service.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle className="text-white group-hover:text-accent transition-colors">
+                    {service.title}
+                  </CardTitle>
+                  <CardDescription className="text-subtle-gray group-hover:text-white/80 transition-colors">
+                    {service.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center text-sm text-white/80">
+                        <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* Process Section */}
-      <section className="px-6 py-20 mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-12"
-        >
-          <h2 className="text-4xl font-bold text-center mb-16 text-white">
-            From Concept to <span className="text-red-400">Launch in Weeks</span>
-          </h2>
-          
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { step: "01", title: "Discovery", desc: "Understanding your goals and users" },
-              { step: "02", title: "Design", desc: "Creating stunning, intuitive interfaces" },
-              { step: "03", title: "Development", desc: "Building with cutting-edge tech" },
-              { step: "04", title: "Launch", desc: "Deployment, monitoring & support" }
-            ].map((item, index) => (
-              <div key={index} className="text-center">
-                <div className="text-5xl font-bold text-red-400 mb-4">{item.step}</div>
-                <h3 className="text-xl font-semibold text-white mb-2">{item.title}</h3>
-                <p className="text-gray-400">{item.desc}</p>
-              </div>
-            ))}
+      <section className="py-20 bg-black/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Our Process</h2>
+            <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
+              Transparent, collaborative, and designed for success
+            </p>
           </div>
-        </motion.div>
-      </section>
 
-      {/* Tech Stack */}
-      <section className="px-6 py-20 mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <h2 className="text-4xl font-bold mb-8 text-white">
-            Powered by <span className="text-red-400">Modern Technology</span>
-          </h2>
-          <p className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto">
-            We use the latest frameworks and tools to ensure your website is fast, 
-            secure, and ready for the future.
-          </p>
-          
-          <div className="flex flex-wrap justify-center gap-4">
-            {techStack.map((tech, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {processSteps.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="px-6 py-3 bg-gray-800 rounded-full text-gray-300 hover:bg-gray-700 hover:text-red-400 transition-colors"
+                transition={{ delay: index * 0.1 }}
+                className="relative"
               >
-                {tech}
+                <div className="text-6xl font-bold text-accent/20 font-mono mb-4">{step.number}</div>
+                <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
+                <p className="text-sm text-subtle-gray">{step.desc}</p>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* Pricing Tiers */}
-      <section className="px-6 py-20 mx-auto max-w-7xl">
-        <h2 className="text-4xl font-bold text-center mb-16 text-white">
-          Transparent <span className="text-red-400">Pricing</span>
-        </h2>
-        
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              name: "Starter",
-              price: "$2,500",
-              description: "Perfect for small businesses",
-              features: ["5-page website", "Mobile responsive", "Basic SEO", "Contact forms", "1 month support"]
-            },
-            {
-              name: "Professional",
-              price: "$7,500",
-              description: "For growing companies",
-              features: ["15-page website", "Custom animations", "Advanced SEO", "CMS integration", "3 months support", "Analytics dashboard"],
-              popular: true
-            },
-            {
-              name: "Enterprise",
-              price: "Custom",
-              description: "Complex web applications",
-              features: ["Unlimited pages", "Custom features", "API development", "Cloud infrastructure", "12 months support", "Performance optimization", "Security audit"]
-            }
-          ].map((tier, index) => (
+      {/* Technologies Section */}
+      <section className="container mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Modern Tech Stack</h2>
+          <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
+            We use the latest technologies to build fast, secure, and scalable applications
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          {['Next.js', 'React', 'TypeScript', 'Tailwind', 'Node.js', 'PostgreSQL'].map((tech, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className={`relative p-8 rounded-2xl border ${
-                tier.popular 
-                  ? 'bg-gradient-to-br from-red-900/20 to-orange-900/20 border-red-400' 
-                  : 'bg-gray-900/50 border-gray-800'
-              }`}
+              transition={{ delay: index * 0.05 }}
+              className="bg-white/5 hover:bg-accent/10 border border-white/10 hover:border-accent/30 rounded-lg p-4 text-center transition-all duration-300"
             >
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-red-400 text-black text-sm font-bold rounded-full">
-                  MOST POPULAR
-                </div>
-              )}
-              <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
-              <div className="text-4xl font-bold text-red-400 mb-2">{tier.price}</div>
-              <p className="text-gray-400 mb-6">{tier.description}</p>
-              <ul className="space-y-3 mb-8">
-                {tier.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center text-gray-300">
-                    <Check className="w-5 h-5 text-green-400 mr-2 flex-shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/contact">
-                <button className={`w-full py-3 rounded-lg font-semibold transition-all ${
-                  tier.popular
-                    ? 'bg-red-400 text-white hover:bg-red-300'
-                    : 'bg-gray-800 text-white hover:bg-gray-700'
-                }`}>
-                  Get Started
-                </button>
-              </Link>
+              <p className="text-sm font-mono text-white">{tech}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="px-6 py-24 mx-auto max-w-7xl">
+      <section className="container mx-auto px-4 py-24">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-3xl p-12 text-center"
+          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-xl p-12 text-center"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Build Something Amazing?
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Let's discuss your project and see how we can transform your vision into reality.
+            Let's turn your vision into a powerful web application that drives growth
           </p>
-          <Link href="/contact">
-            <button className="inline-flex items-center px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition-colors">
-              Start Your Project
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </button>
-          </Link>
+          <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-gray-100">
+            <Link href="/contact">
+              Get Started Today <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+          </Button>
         </motion.div>
       </section>
     </div>

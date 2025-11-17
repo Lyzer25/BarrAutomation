@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Terminal, Bot, Zap, Clock, DollarSign, FileCode, GitMerge, Bug, Gauge, ArrowRight, Check, Star, Sparkles } from 'lucide-react'
+import { Terminal, Bot, Zap, Clock, ArrowRight, Check, Star } from 'lucide-react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function ScriptsAutomationPage() {
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -29,7 +31,7 @@ export default function ScriptsAutomationPage() {
     },
     {
       category: 'data',
-      icon: FileCode,
+      icon: Terminal,
       title: "Data Processing",
       description: "Transform and clean your data",
       time: "24 hours",
@@ -38,7 +40,7 @@ export default function ScriptsAutomationPage() {
     },
     {
       category: 'integration',
-      icon: GitMerge,
+      icon: Clock,
       title: "API Integration",
       description: "Connect any two services",
       time: "72 hours",
@@ -47,7 +49,7 @@ export default function ScriptsAutomationPage() {
     },
     {
       category: 'monitoring',
-      icon: Gauge,
+      icon: Bot,
       title: "Monitoring Scripts",
       description: "Keep an eye on your systems",
       time: "48 hours",
@@ -56,7 +58,7 @@ export default function ScriptsAutomationPage() {
     },
     {
       category: 'fix',
-      icon: Bug,
+      icon: Zap,
       title: "Bug Fixes",
       description: "Quick fixes for existing code",
       time: "Same day",
@@ -108,73 +110,66 @@ export default function ScriptsAutomationPage() {
     : scriptTypes.filter(s => s.category === selectedCategory)
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative px-6 py-24 mx-auto max-w-7xl">
+      <section className="container mx-auto px-4 py-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center"
+          className="text-center max-w-4xl mx-auto"
         >
-          <div className="inline-flex items-center px-4 py-2 bg-red-900/30 border border-red-500/30 rounded-full text-red-400 text-sm font-semibold mb-8">
-            <Sparkles className="w-4 h-4 mr-2" />
-            FAST TURNAROUND • FIXED PRICING • NO COMPLEXITY
+          <div className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full mb-6 text-sm font-mono">
+            <Terminal className="w-4 h-4" />
+            Scripts & Automations
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="text-white">Quick Scripts &</span>
-            <br />
-            <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-              Smart Automations
+          <h1 className="font-mono text-4xl font-thin text-white md:text-6xl lg:text-7xl">
+            Quick Scripts &{' '}
+            <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
+              Fast Solutions
             </span>
           </h1>
           
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-            Need something automated fast? From simple scripts to complex workflows, 
-            we deliver custom working solutions in hours, not weeks. Fixed prices, rapid delivery.
+          <p className="mt-6 text-lg text-subtle-gray max-w-3xl mx-auto">
+            Need something automated fast? From simple scripts to complex workflows, we deliver custom working solutions in hours, not weeks. Fixed prices, rapid delivery.
           </p>
           
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 mb-16">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
-              className="text-center"
-            >
-              <div className="text-4xl font-bold text-red-400">24hr</div>
-              <div className="text-gray-400 mt-2">Average Delivery</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-center"
-            >
-              <div className="text-4xl font-bold text-red-400">$250</div>
-              <div className="text-gray-400 mt-2">Starting Price</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 }}
-              className="text-center"
-            >
-              <div className="text-4xl font-bold text-red-400">500+</div>
-              <div className="text-gray-400 mt-2">Scripts Delivered</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4 }}
-              className="text-center"
-            >
-              <div className="text-4xl font-bold text-red-400">4.9★</div>
-              <div className="text-gray-400 mt-2">Client Rating</div>
-            </motion.div>
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild className="animate-pulse-glow">
+              <Link href="/contact">Get Instant Quote</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href="/demos">View Script Gallery</Link>
+            </Button>
           </div>
         </motion.div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-12 bg-black/50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { value: "24hr", label: "Average Delivery" },
+              { value: "$250", label: "Starting Price" },
+              { value: "500+", label: "Scripts Delivered" },
+              { value: "4.9★", label: "Client Rating" }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="flex flex-col items-center"
+              >
+                <p className="text-3xl md:text-4xl font-bold text-white">{stat.value}</p>
+                <p className="text-sm text-subtle-gray mt-2">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Category Filter */}
@@ -197,128 +192,84 @@ export default function ScriptsAutomationPage() {
       </section>
 
       {/* Script Types Grid */}
-      <section className="px-6 py-12 mx-auto max-w-7xl">
+      <section className="container mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">What We Build</h2>
+          <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
+            Custom scripts and automations delivered fast
+          </p>
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredScripts.map((script, index) => (
-            <motion.div
-              key={index}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
-              className="group bg-gray-900/50 border border-gray-800 rounded-2xl p-6 hover:border-red-500/50 transition-all duration-300"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-red-500 to-orange-500 p-2.5">
-                  <script.icon className="w-full h-full text-white" />
-                </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-red-400">{script.price}</div>
-                  <div className="text-sm text-gray-400">{script.time}</div>
-                </div>
-              </div>
-              
-              <h3 className="text-xl font-bold text-white mb-2">{script.title}</h3>
-              <p className="text-gray-400 mb-4">{script.description}</p>
-              
-              <div className="space-y-2 mb-4">
-                <div className="text-sm font-semibold text-gray-500">Common uses:</div>
-                {script.examples.map((example, idx) => (
-                  <div key={idx} className="flex items-center text-sm text-gray-300">
-                    <Check className="w-4 h-4 text-green-400 mr-2" />
-                    {example}
-                  </div>
-                ))}
-              </div>
-              
-              <Link href="/contact">
-                <button className="w-full py-2.5 bg-gray-800 text-white rounded-lg hover:bg-red-500 hover:text-white transition-all font-semibold">
-                  Get Started
-                </button>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Popular Scripts Showcase */}
-      <section className="px-6 py-20 mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-8 md:p-12"
-        >
-          <h2 className="text-3xl font-bold text-white mb-8">
-            <Terminal className="inline w-8 h-8 mr-3 text-red-400" />
-            Most Popular Custom Scripts This Month
-          </h2>
-          
-          <div className="space-y-4">
-            {popularScripts.map((script, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-center justify-between p-4 bg-black/30 rounded-xl hover:bg-black/50 transition-colors"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="text-2xl font-bold text-gray-600">#{index + 1}</div>
-                  <div>
-                    <h4 className="font-semibold text-white">{script.name}</h4>
-                    <div className="flex items-center space-x-3 mt-1">
-                      <span className="text-sm text-gray-400">{script.downloads} uses</span>
-                      <div className="flex items-center">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="text-sm text-gray-400 ml-1">{script.rating}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <Link href="/contact">
-                  <button className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors font-semibold">
-                    View Details
-                  </button>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* How It Works */}
-      <section className="px-6 py-20 mx-auto max-w-7xl">
-        <h2 className="text-4xl font-bold text-center mb-16 text-white">
-          Simple Process, <span className="text-red-400">Fast Results</span>
-        </h2>
-        
-        <div className="grid md:grid-cols-4 gap-8">
-          {[
-            { icon: Terminal, title: "Describe Your Need", desc: "Tell us what you need automated or built" },
-            { icon: DollarSign, title: "Get Instant Quote", desc: "Fixed price, no surprises" },
-            { icon: Bot, title: "Rapid Development", desc: "We start immediately on your custom solution" },
-            { icon: Zap, title: "Deploy & Support", desc: "Working solution + 30 days support" }
-          ].map((step, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="text-center"
             >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 p-4">
-                <step.icon className="w-full h-full text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
-              <p className="text-gray-400">{step.desc}</p>
-              {index < 3 && (
-                <ArrowRight className="w-6 h-6 text-gray-600 mx-auto mt-4 hidden md:block" />
-              )}
+              <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
+                <CardHeader>
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
+                      <script.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-accent">{script.price}</div>
+                      <div className="text-xs text-subtle-gray">{script.time}</div>
+                    </div>
+                  </div>
+                  <CardTitle className="text-white group-hover:text-accent transition-colors">
+                    {script.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {script.examples.map((example, idx) => (
+                      <div key={idx} className="flex items-center text-sm text-white/80">
+                        <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0" />
+                        {example}
+                      </div>
+                    ))}
+                  </div>
+                  <Button asChild className="w-full mt-4" variant="secondary">
+                    <Link href="/contact">Get Started</Link>
+                  </Button>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="py-20 bg-black/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Simple Process, Fast Results</h2>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              { number: "01", title: "Describe Your Need", desc: "Tell us what you need automated" },
+              { number: "02", title: "Get Instant Quote", desc: "Fixed price, no surprises" },
+              { number: "03", title: "Rapid Development", desc: "We start on your solution immediately" },
+              { number: "04", title: "Deploy & Support", desc: "Working solution + 30 days support" }
+            ].map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="text-6xl font-bold text-accent/20 font-mono mb-4">{step.number}</div>
+                <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
+                <p className="text-sm text-subtle-gray">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -353,97 +304,25 @@ export default function ScriptsAutomationPage() {
         </div>
       </section>
 
-      {/* Pricing Table */}
-      <section className="px-6 py-20 mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-900/20 to-orange-900/20 rounded-3xl p-12 border border-red-500/20"
-        >
-          <h2 className="text-4xl font-bold text-center mb-12 text-white">
-            Transparent Pricing
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="text-6xl font-bold text-red-400 mb-4">$150</div>
-              <h3 className="text-2xl font-bold text-white mb-2">Micro Scripts</h3>
-              <p className="text-gray-400 mb-4">Simple one-file solutions</p>
-              <ul className="space-y-2 text-left">
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />Under 100 lines</li>
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />Same day delivery</li>
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />Basic testing</li>
-              </ul>
-            </div>
-            
-            <div className="text-center border-2 border-red-500 rounded-2xl p-8 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-red-500 text-white text-sm font-bold rounded-full">
-                MOST POPULAR
-              </div>
-              <div className="text-6xl font-bold text-red-400 mb-4">$350</div>
-              <h3 className="text-2xl font-bold text-white mb-2">Standard Scripts</h3>
-              <p className="text-gray-400 mb-4">Multi-file automations</p>
-              <ul className="space-y-2 text-left">
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />100-500 lines</li>
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />48hr delivery</li>
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />Full testing</li>
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />Documentation</li>
-              </ul>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-6xl font-bold text-red-400 mb-4">$750+</div>
-              <h3 className="text-2xl font-bold text-white mb-2">Complex Workflows</h3>
-              <p className="text-gray-400 mb-4">Full automation systems</p>
-              <ul className="space-y-2 text-left">
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />500+ lines</li>
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />3-5 day delivery</li>
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />Integration testing</li>
-                <li className="text-gray-300"><Check className="inline w-4 h-4 text-green-400 mr-2" />30-day support</li>
-              </ul>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
       {/* CTA Section */}
-      <section className="px-6 py-24 mx-auto max-w-7xl">
+      <section className="container mx-auto px-4 py-24">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-3xl p-12 text-center"
+          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-xl p-12 text-center"
         >
-          <div className="inline-flex items-center px-4 py-2 bg-black/20 rounded-full text-white/90 text-sm font-semibold mb-6">
-            <Clock className="w-4 h-4 mr-2" />
-            AVERAGE RESPONSE TIME: 30 MINUTES
-          </div>
-          
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Got Something to Automate?
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Describe your task and get a quote in minutes. Most custom scripts delivered within 24-48 hours.
           </p>
-          
-          <div className="flex flex-wrap justify-center gap-4">
+          <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-gray-100">
             <Link href="/contact">
-              <button className="inline-flex items-center px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition-colors">
-                Get Instant Quote
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </button>
+              Get Instant Quote <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/demos">
-              <button className="px-8 py-4 bg-white/20 text-white font-bold rounded-lg hover:bg-white/30 transition-colors backdrop-blur">
-                View Script Gallery
-              </button>
-            </Link>
-          </div>
-          
-          <p className="text-sm text-white/70 mt-8">
-            💡 Pro tip: Bundle multiple scripts for 20% off total price
-          </p>
+          </Button>
         </motion.div>
       </section>
     </div>
