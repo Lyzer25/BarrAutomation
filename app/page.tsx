@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from "next/link"
-import { Code, Wrench, Zap, Brain, ArrowRight, Check, Sparkles } from 'lucide-react'
+import { Code, Wrench, Zap, Brain, ArrowRight, Check } from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -15,31 +15,35 @@ export default function HomePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-5xl"
+          className="max-w-6xl"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="mb-6"
+            className="mb-8"
           >
-            <h1 className="font-mono text-5xl font-thin tracking-tighter text-white md:text-7xl lg:text-8xl">
-              Custom Development{' '}
-              <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-                Solutions
+            <div className="inline-block mb-4 px-4 py-2 border border-accent/30 rounded-full bg-accent/5">
+              <span className="text-accent font-mono text-sm tracking-wider">CUSTOM DEVELOPMENT SOLUTIONS</span>
+            </div>
+            <h1 className="font-mono text-6xl font-thin tracking-tighter text-white md:text-7xl lg:text-8xl leading-[1.1]">
+              Transform Your Business
+              <br />
+              <span className="text-accent">
+                With Custom Code
               </span>
             </h1>
           </motion.div>
           
-          <p className="mt-8 max-w-3xl mx-auto text-xl text-subtle-gray md:text-2xl leading-relaxed">
-            We build websites, software, scripts, and AI solutions tailored specifically to your business needs. No templates. No shortcuts. Just custom development that works.
+          <p className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light">
+            Specialized custom development for web applications, internal software, process automation, and AI solutions. Built specifically for your business needs.
           </p>
           
-          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild className="animate-pulse-glow text-lg px-8 py-6">
-              <Link href="/contact">Start Your Project</Link>
+          <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
+            <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-white text-base px-10 py-7 rounded-lg font-semibold shadow-lg shadow-accent/20 hover:shadow-xl hover:shadow-accent/30 transition-all duration-300">
+              <Link href="/contact">Schedule Consultation</Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="text-lg px-8 py-6">
+            <Button size="lg" variant="outline" asChild className="border-white/20 text-white hover:bg-white/5 hover:border-white/40 text-base px-10 py-7 rounded-lg font-semibold transition-all duration-300">
               <Link href="/products">Explore Services</Link>
             </Button>
           </div>
@@ -47,47 +51,46 @@ export default function HomePage() {
       </section>
 
       {/* Services Grid */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="font-mono text-3xl font-thin text-white md:text-5xl">What We Build</h2>
-          <p className="mt-4 text-lg text-subtle-gray max-w-2xl mx-auto">
-            Four core services, infinite custom possibilities
+      <section className="container mx-auto px-4 py-32">
+        <div className="text-center mb-20">
+          <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5">
+            <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Services</span>
+          </div>
+          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">What We Build</h2>
+          <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light">
+            Four specialized services delivering custom solutions for modern businesses
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
           {[
             {
               icon: Code,
               title: "Web Development",
               desc: "Custom websites and e-commerce platforms built from scratch",
               features: ["Business websites", "E-commerce stores", "Enterprise management"],
-              link: "/products/web-development",
-              gradient: "from-blue-500 to-cyan-500"
+              link: "/products/web-development"
             },
             {
               icon: Wrench,
               title: "Software & Tools",
               desc: "Internal business tools and custom software platforms",
               features: ["Dashboards & CRMs", "Internal workflows", "Custom applications"],
-              link: "/products/software-tools",
-              gradient: "from-purple-500 to-pink-500"
+              link: "/products/software-tools"
             },
             {
               icon: Zap,
               title: "Scripts & Automation",
               desc: "Quick scripts and process automations to save time",
               features: ["Data processing", "Task automation", "Report generation"],
-              link: "/products/scripts-automation",
-              gradient: "from-green-500 to-emerald-500"
+              link: "/products/scripts-automation"
             },
             {
               icon: Brain,
               title: "AI Solutions",
               desc: "Custom AI models, chatbots, and intelligent systems",
               features: ["Custom AI models", "Chatbots & assistants", "Predictive analytics"],
-              link: "/products/ai-automations",
-              gradient: "from-red-500 to-orange-500"
+              link: "/products/ai-automations"
             }
           ].map((service, index) => (
             <motion.div
@@ -98,29 +101,29 @@ export default function HomePage() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
               <Link href={service.link}>
-                <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20 cursor-pointer">
-                  <CardHeader>
-                    <div className={`w-16 h-16 bg-gradient-to-r ${service.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                      <service.icon className="w-8 h-8 text-white" />
+                <Card className="group bg-black/40 backdrop-blur-sm border border-white/10 hover:border-accent/40 transition-all duration-300 h-full hover:bg-black/60 cursor-pointer overflow-hidden">
+                  <CardHeader className="pb-4">
+                    <div className="w-14 h-14 bg-accent/10 border border-accent/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:border-accent/30 transition-all duration-300">
+                      <service.icon className="w-7 h-7 text-accent" />
                     </div>
-                    <CardTitle className="text-2xl text-white group-hover:text-accent transition-colors">
+                    <CardTitle className="text-2xl text-white group-hover:text-accent transition-colors font-mono font-thin">
                       {service.title}
                     </CardTitle>
-                    <CardDescription className="text-subtle-gray group-hover:text-white/80 transition-colors text-base">
+                    <CardDescription className="text-white/60 group-hover:text-white/80 transition-colors text-base font-light leading-relaxed">
                       {service.desc}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3 mb-6">
                       {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center text-sm text-white/80">
-                          <Check className="w-4 h-4 text-green-400 mr-3 flex-shrink-0" />
+                        <li key={idx} className="flex items-center text-sm text-white/70 font-light">
+                          <Check className="w-4 h-4 text-accent mr-3 flex-shrink-0" />
                           {feature}
                         </li>
                       ))}
                     </ul>
-                    <div className="flex items-center text-accent group-hover:gap-2 transition-all">
-                      <span className="text-sm font-semibold">Learn More</span>
+                    <div className="flex items-center text-accent group-hover:gap-2 transition-all text-sm font-semibold">
+                      <span>Learn More</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </CardContent>
@@ -132,20 +135,24 @@ export default function HomePage() {
       </section>
 
       {/* Why Custom Section */}
-      <section className="py-20 bg-black/30">
+      <section className="py-32 border-y border-white/5">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-20"
             >
-              <h2 className="font-mono text-3xl font-thin text-white md:text-5xl mb-6">
+              <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5">
+                <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Approach</span>
+              </div>
+              <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">
                 Why Custom Development?
               </h2>
-              <p className="text-lg text-subtle-gray">
-                Off-the-shelf solutions force you to adapt your business to their limitations. Custom development adapts to you.
+              <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
+                Off-the-shelf solutions force you to adapt your business to their limitations.<br className="hidden md:block" /> 
+                Custom development adapts to you.
               </p>
             </motion.div>
 
@@ -153,15 +160,15 @@ export default function HomePage() {
               {[
                 {
                   title: "Built for You",
-                  desc: "Every feature designed specifically for your workflow, not generic templates"
+                  desc: "Every feature designed specifically for your workflow, not generic templates that require compromise"
                 },
                 {
                   title: "Scale with Growth",
-                  desc: "Solutions that grow with your business, not software subscriptions that hold you hostage"
+                  desc: "Solutions that grow with your business without platform limitations or subscription increases"
                 },
                 {
                   title: "Own Your Tech",
-                  desc: "Full ownership of your code and data, no vendor lock-in or platform dependencies"
+                  desc: "Full ownership of your code and data with no vendor lock-in or platform dependencies"
                 }
               ].map((benefit, index) => (
                 <motion.div
@@ -170,13 +177,13 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-center"
+                  className="text-center p-8 rounded-xl border border-white/5 bg-white/[0.02] hover:border-accent/20 hover:bg-white/[0.04] transition-all duration-300"
                 >
-                  <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Sparkles className="w-6 h-6 text-accent" />
+                  <div className="w-12 h-12 bg-accent/10 border border-accent/20 rounded-lg flex items-center justify-center mx-auto mb-6">
+                    <div className="w-2 h-2 bg-accent rounded-full"></div>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3">{benefit.title}</h3>
-                  <p className="text-subtle-gray">{benefit.desc}</p>
+                  <h3 className="text-xl font-mono font-thin text-white mb-4">{benefit.title}</h3>
+                  <p className="text-white/60 font-light leading-relaxed">{benefit.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -185,14 +192,17 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20">
+      <section className="py-32">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="font-mono text-3xl font-thin text-white md:text-5xl">Simple Process</h2>
-            <p className="mt-4 text-lg text-subtle-gray">From idea to deployed solution</p>
+          <div className="text-center mb-20">
+            <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5">
+              <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Process</span>
+            </div>
+            <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">Simple Process</h2>
+            <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
           </div>
 
-          <div className="max-w-4xl mx-auto grid md:grid-cols-4 gap-8">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-4 gap-8">
             {[
               { number: "01", title: "Discuss", desc: "Tell us what you need" },
               { number: "02", title: "Plan", desc: "We design the solution" },
@@ -205,11 +215,14 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center"
+                className="text-center relative"
               >
-                <div className="text-7xl font-bold text-accent/20 font-mono mb-4">{step.number}</div>
-                <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
-                <p className="text-sm text-subtle-gray">{step.desc}</p>
+                {index < 3 && (
+                  <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-[1px] bg-gradient-to-r from-white/20 to-transparent" />
+                )}
+                <div className="text-6xl font-bold text-accent/20 font-mono mb-4">{step.number}</div>
+                <h3 className="text-xl font-mono font-thin text-white mb-2">{step.title}</h3>
+                <p className="text-sm text-white/60 font-light">{step.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -217,30 +230,33 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-24">
+      <section className="container mx-auto px-4 py-24 pb-32">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl p-12 md:p-16 text-center"
+          className="relative bg-gradient-to-br from-accent/90 via-accent to-accent/80 rounded-2xl p-12 md:p-20 text-center overflow-hidden"
         >
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Ready to Build Something Custom?
-          </h2>
-          <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto">
-            Whether it's a website, software tool, automation script, or AI solution — let's discuss what you need.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-gray-100 text-lg px-8 py-6">
-              <Link href="/contact">
-                Get Started <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10 text-lg px-8 py-6">
-              <Link href="/demos">
-                View Demos
-              </Link>
-            </Button>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent)] pointer-events-none" />
+          <div className="relative z-10">
+            <h2 className="text-4xl md:text-5xl font-mono font-thin text-white mb-6 leading-tight">
+              Ready to Build Something Custom?
+            </h2>
+            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
+              Whether it's a website, software tool, automation script, or AI solution — let's discuss what you need.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-5 justify-center">
+              <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+                <Link href="/contact">
+                  Schedule Consultation <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="border-2 border-white text-white hover:bg-white/10 text-base px-10 py-7 rounded-lg font-semibold transition-all duration-300">
+                <Link href="/demos">
+                  View Demos
+                </Link>
+              </Button>
+            </div>
           </div>
         </motion.div>
       </section>
