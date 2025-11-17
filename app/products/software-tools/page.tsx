@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Server, Database, Workflow, Shield, BarChart3, ArrowRight, Check, Zap } from 'lucide-react'
+import { Server, Database, Workflow, Shield, BarChart3, ArrowRight, Check, Zap, DollarSign, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -43,10 +43,10 @@ export default function SoftwareToolingPage() {
 
   const caseStudies = [
     {
-      industry: "Mining Operations",
-      challenge: "Manual monitoring of 500+ ASIC miners",
-      solution: "Custom automated diagnostic system with predictive maintenance",
-      results: ["90% reduction in downtime", "240% increase in efficiency", "$2M annual savings"]
+      industry: "SaaS Platform",
+      challenge: "Need for scalable multi-tenant architecture",
+      solution: "Custom SaaS platform with user management and billing",
+      results: ["100+ active customers", "99.9% uptime", "$500K ARR in year 1"]
     },
     {
       industry: "E-Commerce",
@@ -175,6 +175,239 @@ export default function SoftwareToolingPage() {
         </div>
       </section>
 
+      {/* SaaS Pricing Packages Section */}
+      <section className="container mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">SaaS Development Packages</h2>
+          <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
+            Launch your software-as-a-service platform with our comprehensive development packages
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {/* Starter SaaS Package */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0 }}
+          >
+            <Card className="bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full">
+              <CardHeader>
+                <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
+                  STARTER SAAS
+                </div>
+                <CardTitle className="text-white text-3xl">
+                  <span className="text-4xl font-bold">$5,000</span>
+                  <span className="text-subtle-gray text-lg ml-2">upfront</span>
+                </CardTitle>
+                <CardDescription className="text-accent font-mono text-sm">
+                  + $150/month hosting & support
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <p className="text-subtle-gray text-sm">
+                  Perfect for MVPs and validating your SaaS idea with core functionality
+                </p>
+                
+                <ul className="space-y-3">
+                  {[
+                    "User authentication & management",
+                    "Subscription billing integration",
+                    "Admin dashboard",
+                    "Basic API endpoints",
+                    "Database setup & hosting",
+                    "SSL & domain configuration",
+                    "Email notifications",
+                    "Mobile responsive design"
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm">
+                      <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                      <span className="text-white/80">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button asChild className="w-full animate-pulse-glow">
+                  <Link href="/contact">Get Started</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Professional SaaS Package */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            <Card className="bg-gradient-to-b from-accent/10 to-black/80 backdrop-blur-sm border-2 border-accent hover:border-accent/80 transition-all duration-500 h-full relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-black px-4 py-1 rounded-full text-xs font-bold">
+                MOST POPULAR
+              </div>
+              <CardHeader>
+                <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
+                  PROFESSIONAL SAAS
+                </div>
+                <CardTitle className="text-white text-3xl">
+                  <span className="text-4xl font-bold">$15,000</span>
+                  <span className="text-subtle-gray text-lg ml-2">upfront</span>
+                </CardTitle>
+                <CardDescription className="text-accent font-mono text-sm">
+                  + $300/month hosting & support
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <p className="text-subtle-gray text-sm">
+                  Production-ready SaaS with advanced features and scalability built-in
+                </p>
+                
+                <ul className="space-y-3">
+                  {[
+                    "Everything in Starter, plus:",
+                    "Multi-tenant architecture",
+                    "Advanced user roles & permissions",
+                    "Custom integrations (Stripe, etc.)",
+                    "Real-time features (WebSockets)",
+                    "Analytics dashboard",
+                    "Automated backups & monitoring",
+                    "API rate limiting & caching",
+                    "Custom reporting tools",
+                    "Priority support & maintenance"
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm">
+                      <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                      <span className="text-white/80 font-semibold">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button asChild className="w-full bg-accent hover:bg-accent/90">
+                  <Link href="/contact">Get Started</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Enterprise SaaS Package */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <Card className="bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full">
+              <CardHeader>
+                <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
+                  ENTERPRISE SAAS
+                </div>
+                <CardTitle className="text-white text-3xl">
+                  <span className="text-4xl font-bold">Custom</span>
+                </CardTitle>
+                <CardDescription className="text-accent font-mono text-sm">
+                  Pricing based on scope
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <p className="text-subtle-gray text-sm">
+                  Enterprise-grade solutions with unlimited customization and dedicated support
+                </p>
+                
+                <ul className="space-y-3">
+                  {[
+                    "Everything in Professional, plus:",
+                    "White-label solutions",
+                    "Custom workflow automation",
+                    "Advanced security (SSO, 2FA)",
+                    "Microservices architecture",
+                    "Load balancing & auto-scaling",
+                    "Dedicated infrastructure",
+                    "24/7 premium support",
+                    "SLA guarantees",
+                    "Ongoing feature development"
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm">
+                      <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                      <span className="text-white/80">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/contact">Schedule Consultation</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+
+        {/* Revenue Share Option */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 max-w-4xl mx-auto"
+        >
+          <Card className="bg-gradient-to-r from-accent/20 to-orange-500/20 backdrop-blur-sm border-2 border-accent/50">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <TrendingUp className="w-6 h-6 text-accent" />
+                <CardTitle className="text-white text-2xl">Revenue Share Partnership</CardTitle>
+              </div>
+              <CardDescription className="text-white/80 text-base">
+                Limited funding? We believe in your vision. Let's grow together.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              <div className="grid md:grid-cols-2 gap-6 text-left">
+                <div>
+                  <h4 className="text-accent font-bold mb-2">What You Pay:</h4>
+                  <ul className="space-y-2 text-white/80 text-sm">
+                    <li className="flex items-center gap-2">
+                      <DollarSign className="w-4 h-4 text-accent" />
+                      Minimal upfront costs
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <DollarSign className="w-4 h-4 text-accent" />
+                      Monthly hosting fee
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <DollarSign className="w-4 h-4 text-accent" />
+                      Revenue share on your success
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-accent font-bold mb-2">What You Get:</h4>
+                  <ul className="space-y-2 text-white/80 text-sm">
+                    <li className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-accent" />
+                      Full SaaS platform development
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-accent" />
+                      Ongoing feature development
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-accent" />
+                      Dedicated partnership support
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <p className="text-xs text-white/60 mt-4">
+                Revenue share terms are negotiated on a per-deal basis. Contact us to discuss your project.
+              </p>
+              <Button asChild size="lg" className="animate-pulse-glow">
+                <Link href="/contact">Discuss Partnership</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </section>
+
+      {/* Proven Results */}
       <section className="py-20 bg-black/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -187,9 +420,9 @@ export default function SoftwareToolingPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                industry: "Mining Operations",
-                result: "90% reduction in downtime",
-                description: "Custom automated diagnostic system with predictive maintenance"
+                industry: "SaaS Platform",
+                result: "99.9% uptime achieved",
+                description: "Scalable multi-tenant architecture with user management and billing"
               },
               {
                 industry: "E-Commerce",
