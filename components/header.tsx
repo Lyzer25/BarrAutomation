@@ -13,7 +13,6 @@ import { useState } from "react"
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/demos", label: "Demos" },
   { href: "/integrations", label: "Integrations" },
   { href: "/contact", label: "Contact Us" },
 ]
@@ -25,10 +24,15 @@ const productsLinks = [
   { href: "/products/ai-automations", label: "AI Automations" },
 ]
 
+const demosLinks = [
+  { href: "/demos/ai-demos", label: "AI Demos" },
+]
+
 export default function Header() {
   const pathname = usePathname()
   const initialActiveIndex = navLinks.findIndex((link) => link.href === pathname)
   const [showProductsDropdown, setShowProductsDropdown] = useState(false)
+  const [showDemosDropdown, setShowDemosDropdown] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-sm">
@@ -45,8 +49,17 @@ export default function Header() {
         </Link>
         
         <div className="hidden md:flex items-center gap-6">
-          <GooeyNav items={navLinks} initialActiveIndex={initialActiveIndex !== -1 ? initialActiveIndex : 0} />
+          <Link
+            href="/"
+            className={cn(
+              "text-white hover:text-accent transition-colors font-medium",
+              pathname === "/" && "text-accent"
+            )}
+          >
+            Home
+          </Link>
           
+          {/* Products Dropdown */}
           <div 
             className="relative"
             onMouseEnter={() => setShowProductsDropdown(true)}
@@ -58,8 +71,8 @@ export default function Header() {
             </button>
             
             {showProductsDropdown && (
-              <div className="absolute top-full left-0 pt-2">
-                <div className="w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
+              <div className="absolute top-full left-0">
+                <div className="w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden pt-2">
                   {productsLinks.map((link) => (
                     <Link
                       key={link.href}
@@ -76,6 +89,57 @@ export default function Header() {
               </div>
             )}
           </div>
+          
+          {/* Demos Dropdown */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setShowDemosDropdown(true)}
+            onMouseLeave={() => setShowDemosDropdown(false)}
+          >
+            <button className="flex items-center gap-1 text-white hover:text-accent transition-colors font-medium">
+              Demos
+              <ChevronDown className="h-4 w-4" />
+            </button>
+            
+            {showDemosDropdown && (
+              <div className="absolute top-full left-0">
+                <div className="w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden pt-2">
+                  {demosLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "block px-4 py-3 text-sm transition-colors hover:bg-white/5 hover:text-accent border-b border-white/5 last:border-b-0",
+                        pathname === link.href ? "text-accent bg-white/5" : "text-white"
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <Link
+            href="/integrations"
+            className={cn(
+              "text-white hover:text-accent transition-colors font-medium",
+              pathname === "/integrations" && "text-accent"
+            )}
+          >
+            Integrations
+          </Link>
+          
+          <Link
+            href="/contact"
+            className={cn(
+              "text-white hover:text-accent transition-colors font-medium",
+              pathname === "/contact" && "text-accent"
+            )}
+          >
+            Contact Us
+          </Link>
         </div>
         
         <div className="hidden md:block">
@@ -93,18 +157,15 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right">
               <nav className="grid gap-6 text-lg font-medium mt-8">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "transition-colors hover:text-accent",
-                      pathname === link.href ? "text-accent" : "text-white",
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                <Link
+                  href="/"
+                  className={cn(
+                    "transition-colors hover:text-accent",
+                    pathname === "/" ? "text-accent" : "text-white",
+                  )}
+                >
+                  Home
+                </Link>
                 
                 {/* Products Section in Mobile Menu */}
                 <div className="border-t border-white/10 pt-4">
@@ -122,6 +183,43 @@ export default function Header() {
                     </Link>
                   ))}
                 </div>
+                
+                {/* Demos Section in Mobile Menu */}
+                <div className="border-t border-white/10 pt-4">
+                  <div className="text-sm font-semibold text-gray-400 mb-3">Demos</div>
+                  {demosLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "block py-2 transition-colors hover:text-accent",
+                        pathname === link.href ? "text-accent" : "text-white",
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+                
+                <Link
+                  href="/integrations"
+                  className={cn(
+                    "transition-colors hover:text-accent",
+                    pathname === "/integrations" ? "text-accent" : "text-white",
+                  )}
+                >
+                  Integrations
+                </Link>
+                
+                <Link
+                  href="/contact"
+                  className={cn(
+                    "transition-colors hover:text-accent",
+                    pathname === "/contact" ? "text-accent" : "text-white",
+                  )}
+                >
+                  Contact Us
+                </Link>
               </nav>
             </SheetContent>
           </Sheet>
