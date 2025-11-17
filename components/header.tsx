@@ -47,19 +47,18 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-6">
           <GooeyNav items={navLinks} initialActiveIndex={initialActiveIndex !== -1 ? initialActiveIndex : 0} />
           
-          {/* Products Dropdown */}
           <div 
             className="relative"
             onMouseEnter={() => setShowProductsDropdown(true)}
             onMouseLeave={() => setShowProductsDropdown(false)}
           >
-            <button className="flex items-center gap-1 text-white hover:text-accent transition-colors font-medium">
+            <button className="flex items-center gap-1 text-white hover:text-accent transition-colors font-medium pb-6">
               Products
               <ChevronDown className="h-4 w-4" />
             </button>
             
             {showProductsDropdown && (
-              <div className="absolute top-full left-0 mt-2 w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
+              <div className="absolute top-full left-0 w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
                 {productsLinks.map((link) => (
                   <Link
                     key={link.href}
