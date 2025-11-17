@@ -119,10 +119,6 @@ export default function ScriptsAutomationPage() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full mb-6 text-sm font-mono">
-            <Terminal className="w-4 h-4" />
-            Scripts & Automations
-          </div>
           
           <h1 className="font-mono text-4xl font-thin text-white md:text-6xl lg:text-7xl">
             Quick Scripts &{' '}

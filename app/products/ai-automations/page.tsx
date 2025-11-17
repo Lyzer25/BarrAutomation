@@ -27,11 +27,6 @@ export default function AIAutomationsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full mb-6 text-sm font-mono">
-            <Sparkles className="w-4 h-4" />
-            AI Automations & Solutions
-          </div>
-          
           <h1 className="font-mono text-4xl font-thin tracking-tighter text-white md:text-6xl lg:text-7xl">
             Custom AI Solutions{' '}
             <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
