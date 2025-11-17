@@ -1,42 +1,46 @@
-'use client'
+"use client"
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles, Brain, MessageSquare, Workflow, ArrowRight, Check, Bot } from 'lucide-react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import LogoCarousel from "@/components/logo-carousel"
+import Link from "next/link"
+import { Zap, BrainCircuit, Bot, BarChart, Brain, MessageSquare, Workflow, Sparkles, Check, ArrowRight } from 'lucide-react'
+
+const stats = [
+  { icon: Zap, value: "Custom", label: "AI Solutions" },
+  { icon: BrainCircuit, value: "95%+", label: "Target Accuracy" },
+  { icon: Bot, value: "24/7", label: "AI Availability" },
+  { icon: BarChart, value: "10x", label: "Potential Efficiency" },
+]
 
 export default function AIAutomationsPage() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const [activeCase, setActiveCase] = useState(0)
 
   return (
-    <div className="min-h-screen">
+    <>
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-24">
+      <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-4xl mx-auto"
         >
           <div className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full mb-6 text-sm font-mono">
             <Sparkles className="w-4 h-4" />
-            AI Automations
+            AI Automations & Solutions
           </div>
           
-          <h1 className="font-mono text-4xl font-thin text-white md:text-6xl lg:text-7xl">
+          <h1 className="font-mono text-4xl font-thin tracking-tighter text-white md:text-6xl lg:text-7xl">
             Custom AI Solutions{' '}
             <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-              Built for You
+              Built for Your Business
             </span>
           </h1>
-          
-          <p className="mt-6 text-lg text-subtle-gray max-w-3xl mx-auto">
-            From intelligent chatbots to predictive analytics, we build custom AI solutions that transform your operations. Leverage the power of AI tailored to your unique needs.
+          <p className="mt-6 max-w-3xl text-lg text-subtle-gray md:text-xl">
+            From intelligent chatbots to predictive analytics — we build custom AI solutions that transform your operations with machine learning, natural language processing, and computer vision tailored to your unique needs.
           </p>
-          
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild className="animate-pulse-glow">
               <Link href="/contact">Discuss Your AI Project</Link>
@@ -48,16 +52,11 @@ export default function AIAutomationsPage() {
         </motion.div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Grid */}
       <section className="py-12 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: "Custom", label: "AI Solutions" },
-              { value: "95%+", label: "Target Accuracy" },
-              { value: "10x", label: "Potential Efficiency" },
-              { value: "24/7", label: "AI Availability" }
-            ].map((stat, index) => (
+            {stats.map((stat, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -66,18 +65,29 @@ export default function AIAutomationsPage() {
                 transition={{ delay: index * 0.1 }}
                 className="flex flex-col items-center"
               >
-                <p className="text-3xl md:text-4xl font-bold text-white">{stat.value}</p>
-                <p className="text-sm text-subtle-gray mt-2">{stat.label}</p>
+                <stat.icon className="h-10 w-10 text-accent mb-2" />
+                <p className="text-2xl md:text-3xl font-bold text-white">{stat.value}</p>
+                <p className="text-sm text-subtle-gray">{stat.label}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Logo Carousel Section */}
+      <section className="py-12 bg-black/20">
+        <div className="container mx-auto px-4">
+          <h3 className="text-center font-mono text-2xl text-white mb-8">
+            AI Integrations With The Tools You Already Use
+          </h3>
+          <LogoCarousel />
+        </div>
+      </section>
+
       {/* AI Solutions Grid */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-20 bg-black/20">
         <div className="text-center mb-12">
-          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Custom AI Solutions</h2>
+          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Custom AI Capabilities</h2>
           <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
             Every AI solution is custom-built for your specific use case
           </p>
@@ -138,11 +148,11 @@ export default function AIAutomationsPage() {
             Example AI Use Cases
           </h2>
           <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
-            See how custom AI solutions can transform businesses across industries
+            See how custom AI solutions could transform businesses across industries
           </p>
           
           {/* Tab Navigation */}
-          <div className="flex justify-center flex-wrap space-x-4 mb-12">
+          <div className="flex justify-center flex-wrap gap-4 mb-12">
             {[
               { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
               { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
@@ -166,7 +176,7 @@ export default function AIAutomationsPage() {
           <motion.div
             key={activeCase}
             initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
             className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 md:p-12"
           >
@@ -216,10 +226,10 @@ export default function AIAutomationsPage() {
 
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { number: "01", title: "Discovery", desc: "Understanding your data and goals" },
+              { number: "01", title: "Discovery", desc: "Understanding your data and business goals" },
               { number: "02", title: "Design", desc: "Custom AI architecture planning" },
-              { number: "03", title: "Training", desc: "Model development and fine-tuning" },
-              { number: "04", title: "Deploy", desc: "Integration and optimization" }
+              { number: "03", title: "Development", desc: "Model training and fine-tuning" },
+              { number: "04", title: "Deploy", desc: "Integration and ongoing optimization" }
             ].map((step, index) => (
               <motion.div
                 key={index}
@@ -258,6 +268,6 @@ export default function AIAutomationsPage() {
           </Button>
         </motion.div>
       </section>
-    </div>
+    </>
   )
 }
