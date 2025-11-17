@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Globe, Smartphone, Gauge, ArrowRight, Check, Code, Palette, Rocket } from 'lucide-react'
+import { Globe, Smartphone, Gauge, ArrowRight, Check, Code, Palette, Rocket, ShoppingCart, Warehouse } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -25,6 +25,66 @@ export default function WebDevelopmentPage() {
       title: "Performance Optimization",
       description: "Lightning-fast load times and seamless user experiences that convert",
       features: ["Core Web Vitals", "SEO Optimized", "CDN Integration", "Image Optimization"]
+    }
+  ]
+
+  const packages = [
+    {
+      icon: Globe,
+      name: "Business Website",
+      description: "Perfect for restaurants, local businesses, and informational sites",
+      basePrice: "$750",
+      monthlyPrice: "$20/month",
+      features: [
+        "Up to 5 custom pages",
+        "Contact form integration",
+        "Mobile-responsive design",
+        "SEO optimization",
+        "Google Maps integration",
+        "Social media links"
+      ],
+      upgrade: {
+        title: "Reservation System Upgrade",
+        price: "$1,000 + $100/month",
+        features: ["Online booking system", "Calendar integration", "Email notifications", "Customer management"]
+      }
+    },
+    {
+      icon: ShoppingCart,
+      name: "E-Commerce Platform",
+      description: "Full-featured online store with product and order management",
+      basePrice: "$2,500",
+      monthlyPrice: "$100/month",
+      features: [
+        "Product catalog & inventory",
+        "Shopping cart & checkout",
+        "Payment processing integration",
+        "Order management dashboard",
+        "Customer accounts",
+        "Analytics & reporting"
+      ],
+      alternative: {
+        title: "Revenue Share Model",
+        price: "$500 upfront + $20/month",
+        note: "Plus royalties on sales (pricing negotiated per deal)",
+        features: ["Lower upfront cost", "We share your success", "Custom terms available"]
+      }
+    },
+    {
+      icon: Warehouse,
+      name: "Enterprise Management",
+      description: "Complete business solution with inventory, warehouse, and multi-site management",
+      basePrice: "Custom Pricing",
+      monthlyPrice: "Per Deal Basis",
+      features: [
+        "Warehouse management system",
+        "Inventory tracking & forecasting",
+        "Internal employee portal",
+        "Public-facing website",
+        "Custom integrations",
+        "End-to-end business automation"
+      ],
+      note: "Tailored solutions combining all our custom development capabilities. Pricing varies based on your specific needs and complexity."
     }
   ]
 
@@ -137,6 +197,97 @@ export default function WebDevelopmentPage() {
                       </li>
                     ))}
                   </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing Packages Section */}
+      <section className="container mx-auto px-4 py-20 bg-black/20">
+        <div className="text-center mb-12">
+          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Solution Packages</h2>
+          <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
+            Flexible pricing options designed to fit your business needs and budget
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          {packages.map((pkg, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
+                    <pkg.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle className="text-white group-hover:text-accent transition-colors text-2xl">
+                    {pkg.name}
+                  </CardTitle>
+                  <CardDescription className="text-subtle-gray group-hover:text-white/80 transition-colors">
+                    {pkg.description}
+                  </CardDescription>
+                  <div className="pt-4 border-t border-white/10 mt-4">
+                    <div className="text-3xl font-bold text-white">{pkg.basePrice}</div>
+                    <div className="text-sm text-accent mt-1">{pkg.monthlyPrice}</div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <ul className="space-y-3">
+                    {pkg.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start text-sm text-white/80">
+                        <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {pkg.upgrade && (
+                    <div className="pt-4 border-t border-white/10">
+                      <div className="text-sm font-semibold text-accent mb-2">{pkg.upgrade.title}</div>
+                      <div className="text-lg font-bold text-white mb-2">{pkg.upgrade.price}</div>
+                      <ul className="space-y-2">
+                        {pkg.upgrade.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-start text-xs text-white/70">
+                            <Check className="w-3 h-3 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {pkg.alternative && (
+                    <div className="pt-4 border-t border-white/10">
+                      <div className="text-sm font-semibold text-accent mb-2">{pkg.alternative.title}</div>
+                      <div className="text-lg font-bold text-white mb-1">{pkg.alternative.price}</div>
+                      <div className="text-xs text-white/60 mb-2">{pkg.alternative.note}</div>
+                      <ul className="space-y-2">
+                        {pkg.alternative.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-start text-xs text-white/70">
+                            <Check className="w-3 h-3 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {pkg.note && (
+                    <div className="pt-4 border-t border-white/10">
+                      <p className="text-xs text-white/60 italic">{pkg.note}</p>
+                    </div>
+                  )}
+
+                  <Button className="w-full mt-4" variant="outline" asChild>
+                    <Link href="/contact">Discuss This Package</Link>
+                  </Button>
                 </CardContent>
               </Card>
             </motion.div>
