@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from "next/link"
 import { Code, Wrench, Zap, Brain, ArrowRight, Check } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Custom Development Solutions | Barr Automation',
+  description: 'Specialized custom development for web applications, internal software, process automation, and AI solutions. Built specifically for your business needs.',
+}
 
 export default function HomePage() {
   return (
