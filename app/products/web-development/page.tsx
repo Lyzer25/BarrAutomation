@@ -137,7 +137,7 @@ export default function WebDevelopmentPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "50+", label: "Projects Delivered" },
+              { value: "Fast", label: "Development Speed" },
               { value: "99.9%", label: "Uptime Guarantee" },
               { value: "<1s", label: "Page Load Time" },
               { value: "100%", label: "Custom Solutions" }
@@ -163,7 +163,7 @@ export default function WebDevelopmentPage() {
         <div className="text-center mb-12">
           <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">What We Build</h2>
           <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
-            Every project is custom-built from scratch to match your exact requirements
+            Every solution is custom-built from scratch to match your exact requirements
           </p>
         </div>
 

@@ -43,22 +43,22 @@ export default function SoftwareToolingPage() {
 
   const caseStudies = [
     {
-      industry: "Healthcare Platform",
+      industry: "Healthcare Platform Example",
       challenge: "Need for HIPAA compliance and real-time scheduling",
       solution: "Custom patient management system with HIPAA compliance and real-time scheduling",
-      results: ["99.9% uptime", "Enhanced patient care", "Efficient scheduling"]
+      results: ["Target 99.9% uptime", "Enhanced patient care", "Efficient scheduling"]
     },
     {
-      industry: "Warehouse Management",
+      industry: "Warehouse Management Example",
       challenge: "Disconnected inventory across multiple locations",
       solution: "Real-time inventory tracking with automated reordering and multi-location sync",
-      results: ["35% reduction in inventory costs", "Zero stockouts", "Improved efficiency"]
+      results: ["Reduce inventory costs", "Prevent stockouts", "Improve efficiency"]
     },
     {
-      industry: "Financial Services",
+      industry: "Financial Services Example",
       challenge: "Manual compliance reporting taking weeks",
       solution: "Automated compliance reporting dashboard with audit trails and real-time alerts",
-      results: ["From 3 weeks to 30 minutes", "100% compliance rate", "Audit-ready 24/7"]
+      results: ["Reduce reporting time", "Ensure compliance", "Audit-ready 24/7"]
     }
   ]
 
@@ -110,10 +110,10 @@ export default function SoftwareToolingPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "100+", label: "Tools Delivered" },
-              { value: "75%", label: "Time Saved" },
-              { value: "99.9%", label: "Uptime" },
-              { value: "24/7", label: "Support" }
+              { value: "Custom", label: "Built For You" },
+              { value: "75%+", label: "Time Savings" },
+              { value: "99.9%", label: "Uptime Target" },
+              { value: "24/7", label: "Support Available" }
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -225,7 +225,7 @@ export default function SoftwareToolingPage() {
                 </ul>
 
                 <Button asChild className="w-full animate-pulse-glow">
-                  <Link href="/contact">Get Started</Link>
+                  <Link href="/contact">Discuss This Package</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -280,7 +280,7 @@ export default function SoftwareToolingPage() {
                 </ul>
 
                 <Button asChild className="w-full bg-accent hover:bg-accent/90">
-                  <Link href="/contact">Get Started</Link>
+                  <Link href="/contact">Discuss This Package</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -331,7 +331,7 @@ export default function SoftwareToolingPage() {
                 </ul>
 
                 <Button asChild variant="outline" className="w-full">
-                  <Link href="/contact">Schedule Consultation</Link>
+                  <Link href="/contact">Discuss This Package</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -403,13 +403,13 @@ export default function SoftwareToolingPage() {
         </motion.div>
       </section>
 
-      {/* Proven Results */}
+      {/* Potential Solutions */}
       <section className="py-20 bg-black/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Proven Results</h2>
+            <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Potential Solutions</h2>
             <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
-              See how custom software has transformed businesses across industries
+              Example scenarios showing how custom software can transform businesses
             </p>
           </div>
 
@@ -427,11 +427,18 @@ export default function SoftwareToolingPage() {
                     <div className="text-xs font-mono bg-accent/20 text-accent px-2 py-1 rounded w-fit mb-2">
                       {study.industry}
                     </div>
-                    <CardTitle className="text-white text-2xl">{study.result}</CardTitle>
+                    <CardTitle className="text-white text-2xl">{study.solution}</CardTitle>
                     <CardDescription className="text-subtle-gray">
-                      {study.description}
+                      {study.challenge}
                     </CardDescription>
                   </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-white/80 text-sm">
+                      {study.results.map((result, i) => (
+                        <li key={i}>{result}</li>
+                      ))}
+                    </ul>
+                  </CardContent>
                 </Card>
               </motion.div>
             ))}

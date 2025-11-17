@@ -53,9 +53,9 @@ export default function AIAutomationsPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "50+", label: "AI Projects Delivered" },
-              { value: "95%", label: "Average Accuracy" },
-              { value: "10x", label: "Efficiency Gain" },
+              { value: "Custom", label: "AI Solutions" },
+              { value: "95%+", label: "Target Accuracy" },
+              { value: "10x", label: "Potential Efficiency" },
               { value: "24/7", label: "AI Availability" }
             ].map((stat, index) => (
               <motion.div
@@ -135,18 +135,18 @@ export default function AIAutomationsPage() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl font-bold text-center mb-4 text-white">
-            Real-World AI Success Stories
+            Example AI Use Cases
           </h2>
           <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
-            See how custom AI solutions have transformed businesses across industries
+            See how custom AI solutions can transform businesses across industries
           </p>
           
           {/* Tab Navigation */}
           <div className="flex justify-center flex-wrap space-x-4 mb-12">
             {[
-              { industry: "E-Commerce", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["95% accuracy", "10x faster processing", "Saved 40 hours/week"] },
-              { industry: "Healthcare", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction", "99.8% accuracy", "Fully HIPAA compliant"] },
-              { industry: "Finance", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "85% false positive reduction", "$500k saved annually"] }
+              { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
+              { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
+              { industry: "Finance Example", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "Reduce false positives", "Significant cost savings"] }
             ].map((useCase, index) => (
               <button
                 key={index}
@@ -174,26 +174,26 @@ export default function AIAutomationsPage() {
               <div>
                 <h4 className="text-sm font-semibold text-red-400 mb-2">THE CHALLENGE</h4>
                 <p className="text-gray-300">{[
-                  { industry: "E-Commerce", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["95% accuracy", "10x faster processing", "Saved 40 hours/week"] },
-                  { industry: "Healthcare", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction", "99.8% accuracy", "Fully HIPAA compliant"] },
-                  { industry: "Finance", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "85% false positive reduction", "$500k saved annually"] }
+                  { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
+                  { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
+                  { industry: "Finance Example", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "Reduce false positives", "Significant cost savings"] }
                 ][activeCase].challenge}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-red-400 mb-2">OUR CUSTOM SOLUTION</h4>
+                <h4 className="text-sm font-semibold text-red-400 mb-2">CUSTOM SOLUTION APPROACH</h4>
                 <p className="text-gray-300">{[
-                  { industry: "E-Commerce", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["95% accuracy", "10x faster processing", "Saved 40 hours/week"] },
-                  { industry: "Healthcare", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction", "99.8% accuracy", "Fully HIPAA compliant"] },
-                  { industry: "Finance", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "85% false positive reduction", "$500k saved annually"] }
+                  { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
+                  { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
+                  { industry: "Finance Example", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "Reduce false positives", "Significant cost savings"] }
                 ][activeCase].solution}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-red-400 mb-2">THE RESULTS</h4>
+                <h4 className="text-sm font-semibold text-red-400 mb-2">POTENTIAL RESULTS</h4>
                 <ul className="space-y-2">
                   {[
-                    { industry: "E-Commerce", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["95% accuracy", "10x faster processing", "Saved 40 hours/week"] },
-                    { industry: "Healthcare", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction", "99.8% accuracy", "Fully HIPAA compliant"] },
-                    { industry: "Finance", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "85% false positive reduction", "$500k saved annually"] }
+                    { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
+                    { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
+                    { industry: "Finance Example", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "Reduce false positives", "Significant cost savings"] }
                   ][activeCase].results.map((result, idx) => (
                     <li key={idx} className="flex items-center text-gray-300">
                       <Check className="w-5 h-5 text-green-400 mr-2 flex-shrink-0" />

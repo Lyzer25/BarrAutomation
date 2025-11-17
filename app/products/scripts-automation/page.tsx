@@ -68,30 +68,30 @@ export default function ScriptsAutomationPage() {
   ]
 
   const popularScripts = [
-    { name: "Google Sheets Automation", downloads: 1420, rating: 4.9 },
-    { name: "Bitcoin Miner Monitor", downloads: 890, rating: 5.0 },
-    { name: "Inventory Sync Script", downloads: 756, rating: 4.8 },
-    { name: "PDF Report Generator", downloads: 623, rating: 4.9 },
-    { name: "Slack Notification Bot", downloads: 512, rating: 4.7 }
+    { name: "Google Sheets Automation", category: "automation", rating: null },
+    { name: "System Monitor", category: "monitoring", rating: null },
+    { name: "Inventory Sync Script", category: "integration", rating: null },
+    { name: "PDF Report Generator", category: "data", rating: null },
+    { name: "Slack Notification Bot", category: "automation", rating: null }
   ]
 
   const testimonials = [
     {
-      text: "Barr built us a custom mining monitoring script that saved us $50k in prevented downtime. Delivered in 2 days!",
-      author: "Mining Operations Manager",
-      company: "CryptoMine Inc.",
+      text: "A custom monitoring script could save thousands in prevented downtime, delivered in days not weeks.",
+      author: "Example Use Case",
+      company: "Operations Manager",
       rating: 5
     },
     {
-      text: "Needed a quick data migration script. Got it same day, worked perfectly. Will definitely use again.",
-      author: "CTO",
-      company: "TechStartup",
+      text: "Data migration scripts can be delivered same day and work seamlessly with your existing systems.",
+      author: "Example Use Case",
+      company: "Technology Team",
       rating: 5
     },
     {
-      text: "The automation scripts cut our manual work by 90%. Best ROI we've seen from such a small investment.",
-      author: "Operations Director",
-      company: "E-Commerce Co.",
+      text: "Automation scripts can cut manual work by up to 90%, providing excellent ROI.",
+      author: "Example Use Case",
+      company: "Business Operations",
       rating: 5
     }
   ]
@@ -151,10 +151,10 @@ export default function ScriptsAutomationPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "24hr", label: "Average Delivery" },
+              { value: "24hr", label: "Target Delivery" },
               { value: "$250", label: "Starting Price" },
-              { value: "500+", label: "Scripts Delivered" },
-              { value: "4.9★", label: "Client Rating" }
+              { value: "Fast", label: "Quick Turnaround" },
+              { value: "Custom", label: "Tailored Solutions" }
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -234,7 +234,7 @@ export default function ScriptsAutomationPage() {
                     ))}
                   </div>
                   <Button asChild className="w-full mt-4" variant="secondary">
-                    <Link href="/contact">Get Started</Link>
+                    <Link href="/contact">Discuss This Package</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -276,7 +276,7 @@ export default function ScriptsAutomationPage() {
       {/* Testimonials */}
       <section className="px-6 py-20 mx-auto max-w-7xl">
         <h2 className="text-4xl font-bold text-center mb-16 text-white">
-          What Clients Say
+          What We Can Build For You
         </h2>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -289,12 +289,7 @@ export default function ScriptsAutomationPage() {
               transition={{ delay: index * 0.1 }}
               className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6"
             >
-              <div className="flex mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <p className="text-gray-300 mb-4 italic">"{testimonial.text}"</p>
+              <p className="text-gray-300 mb-4">{testimonial.text}</p>
               <div className="border-t border-gray-800 pt-4">
                 <div className="font-semibold text-white">{testimonial.author}</div>
                 <div className="text-sm text-gray-400">{testimonial.company}</div>
