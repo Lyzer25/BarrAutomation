@@ -30,7 +30,7 @@ export default function HomePage() {
               Transform Your Business
               <br />
               <span className="text-accent">
-                With Custom Code
+                With Custom Solutions
               </span>
             </h1>
           </motion.div>
