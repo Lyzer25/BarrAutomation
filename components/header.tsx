@@ -48,7 +48,7 @@ export default function Header() {
           <GooeyNav items={navLinks} initialActiveIndex={initialActiveIndex !== -1 ? initialActiveIndex : 0} />
           
           <div 
-            className="relative group"
+            className="relative"
             onMouseEnter={() => setShowProductsDropdown(true)}
             onMouseLeave={() => setShowProductsDropdown(false)}
           >
@@ -57,23 +57,22 @@ export default function Header() {
               <ChevronDown className="h-4 w-4" />
             </button>
             
-            {/* Invisible bridge to prevent dropdown from closing */}
-            <div className="absolute top-full left-0 w-full h-2" />
-            
             {showProductsDropdown && (
-              <div className="absolute top-full left-0 w-64 mt-2 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
-                {productsLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "block px-4 py-3 text-sm transition-colors hover:bg-white/5 hover:text-accent border-b border-white/5 last:border-b-0",
-                      pathname === link.href ? "text-accent bg-white/5" : "text-white"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+              <div className="absolute top-full left-0 pt-2">
+                <div className="w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
+                  {productsLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "block px-4 py-3 text-sm transition-colors hover:bg-white/5 hover:text-accent border-b border-white/5 last:border-b-0",
+                        pathname === link.href ? "text-accent bg-white/5" : "text-white"
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
