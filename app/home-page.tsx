@@ -1,65 +1,134 @@
 "use client"
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from "next/link"
 import { Code, Wrench, Zap, Brain, ArrowRight, Check } from 'lucide-react'
+import { FadeInView } from '@/components/animations/fade-in-view'
+import { StaggerContainer, StaggerItem } from '@/components/animations/stagger-container'
+import { MagneticButton } from '@/components/animations/magnetic-button'
 
 export default function HomePage() {
+  const { scrollY } = useScroll()
+  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+  const scale = useTransform(scrollY, [0, 300], [1, 0.95])
+
   return (
     <>
       {/* Hero Section */}
-      <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20">
+      <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-6xl"
+          className="absolute inset-0 opacity-30"
+          animate={{
+            background: [
+              'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 50%)',
+            ],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+        />
+
+        <motion.div
+          style={{ opacity, scale }}
+          className="max-w-6xl relative z-10"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="mb-8"
           >
-            <h1 className="font-mono text-6xl font-thin tracking-tighter text-white md:text-7xl lg:text-8xl leading-[1.1]">
-              Transform Your Business
-              <br />
-              <span className="text-accent">
+            <h1 className="font-mono text-6xl font-thin tracking-tighter text-white md:text-7xl lg:text-8xl leading-[1.05]">
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="block"
+              >
+                Transform Your Business
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="block text-accent mt-2"
+              >
                 With Custom Solutions
-              </span>
+              </motion.span>
             </h1>
           </motion.div>
           
-          <p className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light"
+          >
             Specialized custom development for web applications, internal software, process automation, and AI solutions. Built specifically for your business needs.
-          </p>
+          </motion.p>
           
-          <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
-            <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-white text-base px-10 py-7 rounded-lg font-semibold shadow-lg shadow-accent/20 hover:shadow-xl hover:shadow-accent/30 transition-all duration-300">
-              <Link href="/contact">Schedule Consultation</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="border-white/20 text-white hover:bg-white/5 hover:border-white/40 text-base px-10 py-7 rounded-lg font-semibold transition-all duration-300">
-              <Link href="/products">Explore Services</Link>
-            </Button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="mt-12 flex flex-col sm:flex-row gap-6 justify-center"
+          >
+            <MagneticButton strength={0.2}>
+              <Button size="lg" asChild className="relative bg-accent hover:bg-accent/90 text-white text-base px-10 py-7 rounded-lg font-semibold overflow-hidden group">
+                <Link href="/contact">
+                  <span className="relative z-10">Schedule Consultation</span>
+                  <motion.div
+                    className="absolute inset-0 bg-white/10"
+                    initial={{ x: '-100%' }}
+                    whileHover={{ x: '100%' }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </Link>
+              </Button>
+            </MagneticButton>
+            <MagneticButton strength={0.2}>
+              <Button size="lg" variant="outline" asChild className="border-white/20 text-white hover:bg-white/5 hover:border-accent/40 text-base px-10 py-7 rounded-lg font-semibold transition-all duration-300">
+                <Link href="/products">Explore Services</Link>
+              </Button>
+            </MagneticButton>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-6 h-10 border-2 border-white/20 rounded-full p-1"
+          >
+            <motion.div
+              animate={{ y: [0, 16, 0], opacity: [1, 0, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1 h-2 bg-accent rounded-full mx-auto"
+            />
+          </motion.div>
         </motion.div>
       </section>
 
       {/* Services Grid */}
       <section className="container mx-auto px-4 py-32">
-        <div className="text-center mb-20">
-          <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5">
+        <FadeInView className="text-center mb-20">
+          <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
             <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Services</span>
           </div>
           <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">What We Build</h2>
-          <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light">
+          <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
           </p>
-        </div>
+        </FadeInView>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+        <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto" staggerDelay={0.15}>
           {[
             {
               icon: Code,
@@ -90,45 +159,66 @@ export default function HomePage() {
               link: "/products/ai-automations"
             }
           ].map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-            >
+            <StaggerItem key={index}>
               <Link href={service.link}>
-                <Card className="group bg-black/40 backdrop-blur-sm border border-white/10 hover:border-accent/40 transition-all duration-300 h-full hover:bg-black/60 cursor-pointer overflow-hidden">
-                  <CardHeader className="pb-4">
-                    <div className="w-14 h-14 bg-accent/10 border border-accent/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:border-accent/30 transition-all duration-300">
-                      <service.icon className="w-7 h-7 text-accent" />
-                    </div>
-                    <CardTitle className="text-2xl text-white group-hover:text-accent transition-colors font-mono font-thin">
-                      {service.title}
-                    </CardTitle>
-                    <CardDescription className="text-white/60 group-hover:text-white/80 transition-colors text-base font-light leading-relaxed">
-                      {service.desc}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-3 mb-6">
-                      {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center text-sm text-white/70 font-light">
-                          <Check className="w-4 h-4 text-accent mr-3 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="flex items-center text-accent group-hover:gap-2 transition-all text-sm font-semibold">
-                      <span>Learn More</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </CardContent>
-                </Card>
+                <motion.div
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                  <Card className="group bg-black/40 backdrop-blur-sm border border-white/10 hover:border-accent/40 transition-all duration-500 h-full cursor-pointer overflow-hidden relative">
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-accent/0 via-accent/0 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      initial={false}
+                      animate={{
+                        background: [
+                          'linear-gradient(135deg, rgba(239, 68, 68, 0) 0%, rgba(239, 68, 68, 0) 100%)',
+                          'linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0) 100%)',
+                        ],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+                    />
+                    
+                    <CardHeader className="pb-4 relative z-10">
+                      <motion.div
+                        whileHover={{ rotate: 360, scale: 1.1 }}
+                        transition={{ duration: 0.6 }}
+                        className="w-14 h-14 bg-accent/10 border border-accent/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:border-accent/30 transition-all duration-300"
+                      >
+                        <service.icon className="w-7 h-7 text-accent" />
+                      </motion.div>
+                      <CardTitle className="text-2xl text-white group-hover:text-accent transition-colors font-mono font-thin">
+                        {service.title}
+                      </CardTitle>
+                      <CardDescription className="text-white/60 group-hover:text-white/80 transition-colors text-base font-light leading-relaxed">
+                        {service.desc}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="relative z-10">
+                      <ul className="space-y-3 mb-6">
+                        {service.features.map((feature, idx) => (
+                          <motion.li
+                            key={idx}
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="flex items-center text-sm text-white/70 font-light"
+                          >
+                            <Check className="w-4 h-4 text-accent mr-3 flex-shrink-0" />
+                            {feature}
+                          </motion.li>
+                        ))}
+                      </ul>
+                      <div className="flex items-center text-accent group-hover:gap-2 transition-all text-sm font-semibold">
+                        <span>Learn More</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               </Link>
-            </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </section>
 
       {/* Why Custom Section */}
@@ -191,13 +281,13 @@ export default function HomePage() {
       {/* How It Works */}
       <section className="py-32">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5">
+          <FadeInView className="text-center mb-20">
+            <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
               <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Process</span>
             </div>
             <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">Simple Process</h2>
             <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
-          </div>
+          </FadeInView>
 
           <div className="max-w-5xl mx-auto grid md:grid-cols-4 gap-8">
             {[
@@ -206,21 +296,36 @@ export default function HomePage() {
               { number: "03", title: "Build", desc: "Custom development begins" },
               { number: "04", title: "Launch", desc: "Deploy and iterate" }
             ].map((step, index) => (
-              <motion.div
+              <FadeInView
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                delay={index * 0.15}
                 className="text-center relative"
               >
                 {index < 3 && (
-                  <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-[1px] bg-gradient-to-r from-white/20 to-transparent" />
+                  <motion.div
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    transition={{ delay: index * 0.15 + 0.3, duration: 0.6 }}
+                    className="hidden md:block absolute top-12 left-[60%] w-[80%] h-[2px] bg-gradient-to-r from-accent/40 to-transparent origin-left"
+                  />
                 )}
-                <div className="text-6xl font-bold text-accent/20 font-mono mb-4">{step.number}</div>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  className="text-6xl font-bold text-accent/20 font-mono mb-4 relative"
+                >
+                  {step.number}
+                  <motion.div
+                    className="absolute inset-0 text-accent/40 blur-xl"
+                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    {step.number}
+                  </motion.div>
+                </motion.div>
                 <h3 className="text-xl font-mono font-thin text-white mb-2">{step.title}</h3>
                 <p className="text-sm text-white/60 font-light">{step.desc}</p>
-              </motion.div>
+              </FadeInView>
             ))}
           </div>
         </div>
