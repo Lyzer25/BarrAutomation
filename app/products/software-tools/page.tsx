@@ -28,8 +28,8 @@ export default function SoftwareToolingPage() {
         className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px)
+            linear-gradient(rgba(239, 68, 68, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(239, 68, 68, 0.08) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
         }}
@@ -39,7 +39,7 @@ export default function SoftwareToolingPage() {
       <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <motion.path
           d="M 100 200 L 300 200 L 300 400 L 500 400"
-          stroke="rgba(59, 130, 246, 0.2)"
+          stroke="rgba(239, 68, 68, 0.2)"
           strokeWidth="2"
           fill="none"
           initial={{ pathLength: 0, opacity: 0 }}
@@ -48,7 +48,7 @@ export default function SoftwareToolingPage() {
         />
         <motion.path
           d="M 1000 150 L 800 150 L 800 300 L 600 300"
-          stroke="rgba(239, 68, 68, 0.2)"
+          stroke="rgba(220, 38, 38, 0.2)"
           strokeWidth="2"
           fill="none"
           initial={{ pathLength: 0, opacity: 0 }}
@@ -67,7 +67,7 @@ export default function SoftwareToolingPage() {
       ].map(({ Icon, x, y, delay }, idx) => (
         <motion.div
           key={idx}
-          className="absolute w-16 h-16 rounded-xl bg-[#0A0A0A]/80 backdrop-blur-sm border border-blue-500/20 flex items-center justify-center"
+          className="absolute w-16 h-16 rounded-xl bg-[#0A0A0A]/80 backdrop-blur-sm border border-red-500/20 flex items-center justify-center"
           style={{ left: x, top: y }}
           initial={{ opacity: 0, scale: 0, rotate: -180 }}
           animate={{
@@ -81,7 +81,7 @@ export default function SoftwareToolingPage() {
             rotate: { duration: 1, delay },
           }}
         >
-          <Icon className="w-7 h-7 text-blue-400/60" />
+          <Icon className="w-7 h-7 text-red-400/60" />
         </motion.div>
       ))}
 
@@ -94,15 +94,15 @@ export default function SoftwareToolingPage() {
       ].map((pos, idx) => (
         <motion.div
           key={idx}
-          className="absolute w-2 h-2 rounded-full bg-blue-500/50"
+          className="absolute w-2 h-2 rounded-full bg-red-500/50"
           style={{ left: pos.x, top: pos.y }}
           animate={{
             scale: [1, 2, 1],
             opacity: [0.5, 1, 0.5],
             boxShadow: [
-              "0 0 0px rgba(59, 130, 246, 0.5)",
-              "0 0 20px rgba(59, 130, 246, 0.8)",
-              "0 0 0px rgba(59, 130, 246, 0.5)",
+              "0 0 0px rgba(239, 68, 68, 0.5)",
+              "0 0 20px rgba(239, 68, 68, 0.8)",
+              "0 0 0px rgba(239, 68, 68, 0.5)",
             ],
           }}
           transition={{
@@ -142,7 +142,7 @@ export default function SoftwareToolingPage() {
         style={{
           left: "10%",
           top: "20%",
-          background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, transparent 70%)",
           filter: "blur(40px)",
         }}
         animate={{
@@ -280,9 +280,9 @@ export default function SoftwareToolingPage() {
             >
               <span className="block">Build the tools</span>
               <span
-                className="block bg-gradient-to-r from-blue-400 via-blue-500 to-red-500 bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-red-600 via-red-500 to-red-400 bg-clip-text text-transparent"
                 style={{
-                  textShadow: "0 0 80px rgba(59, 130, 246, 0.3)",
+                  textShadow: "0 0 80px rgba(239, 68, 68, 0.3)",
                 }}
               >
                 your business needs.
@@ -348,7 +348,7 @@ export default function SoftwareToolingPage() {
                   transition={{ delay: 1.2 + idx * 0.1 }}
                   className="flex items-center gap-3 px-5 py-3 rounded-xl bg-[#0A0A0A]/60 backdrop-blur-sm border border-white/10"
                 >
-                  <item.icon className="w-5 h-5 text-blue-400" />
+                  <item.icon className="w-5 h-5 text-red-400" />
                   <span className="text-sm text-white/70 font-medium">{item.label}</span>
                 </motion.div>
               ))}
@@ -371,7 +371,7 @@ export default function SoftwareToolingPage() {
             <motion.div
               animate={{ y: [0, 16, 0], opacity: [1, 0, 1] }}
               transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-              className="w-1 h-2 bg-blue-500 rounded-full mx-auto"
+              className="w-1 h-2 bg-red-500 rounded-full mx-auto"
             />
           </motion.div>
         </motion.div>
