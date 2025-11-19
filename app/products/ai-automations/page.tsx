@@ -437,7 +437,7 @@ export default function AIAutomationsPage() {
           <h2 className="text-4xl font-bold text-center mb-4 text-white">
             Example AI Use Cases
           </h2>
-          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+          <p className="text-center text-white/60 mb-12 max-w-2xl mx-auto">
             See how custom AI solutions could transform businesses across industries
           </p>
           
@@ -448,55 +448,59 @@ export default function AIAutomationsPage() {
               { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
               { industry: "Finance Example", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "Reduce false positives", "Significant cost savings"] }
             ].map((useCase, index) => (
-              <button
+              <motion.button
                 key={index}
                 onClick={() => setActiveCase(index)}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`px-6 py-3 rounded-full font-semibold transition-all backdrop-blur-sm ${
                   activeCase === index
-                    ? 'bg-red-medium text-white'
-                    : 'bg-gray-800 text-gray-400 hover:text-white'
+                    ? 'bg-red-medium text-white shadow-lg shadow-red-medium/20'
+                    : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10 border border-white/10'
                 }`}
               >
                 {useCase.industry}
-              </button>
+              </motion.button>
             ))}
           </div>
           
           {/* Tab Content */}
           <motion.div
             key={activeCase}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 md:p-12"
+            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl"
           >
             <div className="grid md:grid-cols-3 gap-8">
               <div>
-                <h4 className="text-sm font-semibold text-red-medium mb-2">THE CHALLENGE</h4>
-                <p className="text-gray-300">{[
+                <h4 className="text-xs font-bold text-red-medium mb-3 uppercase tracking-wider">THE CHALLENGE</h4>
+                <p className="text-white/80 leading-relaxed">{[
                   { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
                   { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
                   { industry: "Finance Example", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "Reduce false positives", "Significant cost savings"] }
                 ][activeCase].challenge}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-red-medium mb-2">CUSTOM SOLUTION APPROACH</h4>
-                <p className="text-gray-300">{[
+                <h4 className="text-xs font-bold text-red-medium mb-3 uppercase tracking-wider">CUSTOM SOLUTION APPROACH</h4>
+                <p className="text-white/80 leading-relaxed">{[
                   { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
                   { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
                   { industry: "Finance Example", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "Reduce false positives", "Significant cost savings"] }
                 ][activeCase].solution}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-red-medium mb-2">POTENTIAL RESULTS</h4>
-                <ul className="space-y-2">
+                <h4 className="text-xs font-bold text-red-medium mb-3 uppercase tracking-wider">POTENTIAL RESULTS</h4>
+                <ul className="space-y-3">
                   {[
                     { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
                     { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
                     { industry: "Finance Example", challenge: "Fraud detection taking too long", solution: "Custom real-time AI fraud detection system", results: ["Real-time detection", "Reduce false positives", "Significant cost savings"] }
                   ][activeCase].results.map((result, idx) => (
-                    <li key={idx} className="flex items-center text-gray-300">
-                      <Check className="w-5 h-5 text-green-400 mr-2 flex-shrink-0" />
+                    <li key={idx} className="flex items-center text-white/80">
+                      <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center mr-3 flex-shrink-0">
+                        <Check className="w-3 h-3 text-green-400" />
+                      </div>
                       {result}
                     </li>
                   ))}
