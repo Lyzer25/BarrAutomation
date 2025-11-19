@@ -17,7 +17,7 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none z-0" />
+        {/* Removed the large background blur to focus on component falloff */}
         
         <motion.div
           style={{ opacity, scale }}
@@ -34,7 +34,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                className="block"
+                className="block drop-shadow-[0_0_25px_rgba(255,255,255,0.1)]"
               >
                 Transform Your Business
               </motion.span>
@@ -42,7 +42,8 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block text-accent mt-2 drop-shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+                // Enhanced drop-shadow for stronger light falloff effect
+                className="block text-accent mt-2 drop-shadow-[0_0_35px_rgba(239,68,68,0.4)]"
               >
                 With Custom Solutions
               </motion.span>
@@ -53,7 +54,8 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light"
+            // Added subtle text shadow to description
+            className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"
           >
             Specialized custom development for web applications, internal software, process automation, and AI solutions. Built specifically for your business needs.
           </motion.p>
@@ -64,8 +66,10 @@ export default function HomePage() {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-500">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative group">
+              {/* Added a backlight glow behind the button */}
+              <div className="absolute inset-0 bg-white/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transition-all duration-500">
                 <Link href="/contact">
                   <span className="relative z-10 flex items-center gap-2">
                     Schedule Consultation
@@ -76,7 +80,7 @@ export default function HomePage() {
             </motion.div>
             
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+              <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] hover:shadow-[0_0_25px_rgba(255,255,255,0.1)]">
                 <Link href="/products">Explore Services</Link>
               </Button>
             </motion.div>
@@ -92,12 +96,12 @@ export default function HomePage() {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-white/20 rounded-full p-1 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
+            className="w-6 h-10 border-2 border-white/20 rounded-full p-1 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
           >
             <motion.div
               animate={{ y: [0, 16, 0], opacity: [1, 0, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-2 bg-accent rounded-full mx-auto shadow-[0_0_5px_rgba(239,68,68,0.8)]"
+              className="w-1 h-2 bg-accent rounded-full mx-auto shadow-[0_0_10px_rgba(239,68,68,0.8)]"
             />
           </motion.div>
         </motion.div>
@@ -105,13 +109,13 @@ export default function HomePage() {
 
       {/* Services Grid */}
       <section className="container mx-auto px-4 py-32 relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl bg-red-500/3 rounded-full blur-[100px] pointer-events-none z-0" />
+        {/* Removed large background blur */}
         
         <FadeInView className="text-center mb-20 relative z-10">
           <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
             <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Services</span>
           </div>
-          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6 drop-shadow-lg">What We Build</h2>
+          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">What We Build</h2>
           <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
           </p>
@@ -154,8 +158,12 @@ export default function HomePage() {
                   whileHover={{ y: -5, scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                  className="relative group"
                 >
-                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl depth-shadow hover:depth-shadow-lg hover:shadow-[0_0_30px_rgba(239,68,68,0.1)]">
+                  {/* Added a specific backlight for each card to simulate light falloff */}
+                  <div className="absolute inset-0 bg-red-500/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 scale-95 group-hover:scale-105" />
+                  
+                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl depth-shadow hover:shadow-[0_0_50px_-10px_rgba(239,68,68,0.15)]">
                     <motion.div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
                       style={{
@@ -180,11 +188,11 @@ export default function HomePage() {
                       <motion.div
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
-                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.3)] group-hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]"
+                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.3)] group-hover:shadow-[0_0_30px_rgba(239,68,68,0.6)]"
                       >
                         <service.icon className="w-6 h-6 text-white group-hover:text-white transition-colors" />
                       </motion.div>
-                      <CardTitle className="text-2xl text-white font-medium tracking-tight">
+                      <CardTitle className="text-2xl text-white font-medium tracking-tight group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-all">
                         {service.title}
                       </CardTitle>
                       <CardDescription className="text-white/50 group-hover:text-white/70 transition-colors text-base font-light leading-relaxed mt-2">
@@ -201,7 +209,7 @@ export default function HomePage() {
                             transition={{ delay: idx * 0.1 }}
                             className="flex items-center text-sm text-white/60 font-light"
                           >
-                            <div className="w-1.5 h-1.5 rounded-full bg-accent/50 mr-3 flex-shrink-0 shadow-[0_0_5px_rgba(239,68,68,0.5)]" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-accent/50 mr-3 flex-shrink-0 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                             {feature}
                           </motion.li>
                         ))}
@@ -221,7 +229,7 @@ export default function HomePage() {
 
       {/* Why Custom Section */}
       <section className="py-32 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-red-500/3 rounded-full blur-[150px] pointer-events-none z-0" />
+        {/* Removed large background blur */}
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
@@ -234,7 +242,7 @@ export default function HomePage() {
               <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                 <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Our Approach</span>
               </div>
-              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-lg">
+              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                 Why Custom Development?
               </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
@@ -264,8 +272,11 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group depth-shadow border-glow hover:shadow-[0_0_30px_rgba(239,68,68,0.05)]"
+                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group depth-shadow border-glow hover:shadow-[0_0_40px_-10px_rgba(239,68,68,0.1)] relative"
                 >
+                  {/* Added backlight glow */}
+                  <div className="absolute inset-0 bg-red-500/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                  
                   <motion.div
                     className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                     style={{
@@ -274,10 +285,10 @@ export default function HomePage() {
                     }}
                   />
                   <div className="relative z-10">
-                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500 red-ambient-light shadow-[0_0_15px_rgba(0,0,0,0.3)]">
-                      <div className="w-2 h-2 bg-accent rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500 red-ambient-light shadow-[0_0_15px_rgba(0,0,0,0.3)] group-hover:shadow-[0_0_25px_rgba(239,68,68,0.4)]">
+                      <div className="w-2 h-2 bg-accent rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
                     </div>
-                    <h3 className="text-xl font-medium text-white mb-4 tracking-tight">{benefit.title}</h3>
+                    <h3 className="text-xl font-medium text-white mb-4 tracking-tight group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] transition-all">{benefit.title}</h3>
                     <p className="text-white/50 font-light leading-relaxed">{benefit.desc}</p>
                   </div>
                 </motion.div>
@@ -294,7 +305,7 @@ export default function HomePage() {
             <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
               <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Process</span>
             </div>
-            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-lg">Simple Process</h2>
+            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">Simple Process</h2>
             <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
           </FadeInView>
 
@@ -331,9 +342,9 @@ export default function HomePage() {
                   whileHover={{ y: -5, scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 300 }}
-                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group depth-shadow red-ambient-light shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_25px_rgba(239,68,68,0.2)] transition-shadow duration-500"
+                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group depth-shadow red-ambient-light shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_35px_rgba(239,68,68,0.3)] transition-shadow duration-500"
                 >
-                  <span className="text-2xl font-mono text-white/80 group-hover:text-accent transition-colors duration-300">{step.number}</span>
+                  <span className="text-2xl font-mono text-white/80 group-hover:text-accent transition-colors duration-300 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]">{step.number}</span>
                   <motion.div
                     className="absolute inset-0 rounded-full border-2 border-accent/0 group-hover:border-accent/30 transition-all duration-500"
                     animate={{
@@ -343,7 +354,7 @@ export default function HomePage() {
                     style={{ filter: 'blur(4px)' }}
                   />
                 </motion.div>
-                <h3 className="text-xl font-medium text-white mb-3 tracking-tight">{step.title}</h3>
+                <h3 className="text-xl font-medium text-white mb-3 tracking-tight group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] transition-all">{step.title}</h3>
                 <p className="text-sm text-white/50 font-light leading-relaxed">{step.desc}</p>
               </FadeInView>
             ))}
@@ -358,9 +369,10 @@ export default function HomePage() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden depth-shadow-lg shadow-[0_0_50px_rgba(239,68,68,0.05)]"
+          // Enhanced shadow for the entire container
+          className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden depth-shadow-lg shadow-[0_0_60px_-10px_rgba(239,68,68,0.1)]"
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-500/5 rounded-full blur-[100px] pointer-events-none z-0" />
+          {/* Removed large background blur */}
           
           <div className="relative z-10 max-w-4xl mx-auto">
             <motion.div
@@ -381,7 +393,7 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                    className="block"
+                    className="block drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                   >
                     Transform Your Business
                   </motion.span>
@@ -389,7 +401,7 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                    className="block text-accent mt-2 drop-shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+                    className="block text-accent mt-2 drop-shadow-[0_0_35px_rgba(239,68,68,0.4)]"
                   >
                     With Custom Solutions
                   </motion.span>
