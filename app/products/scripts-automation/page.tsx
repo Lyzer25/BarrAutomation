@@ -259,7 +259,7 @@ export default function ScriptsAutomationPage() {
           </motion.div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
+            <Link href="/contact?type=scripts">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -373,7 +373,7 @@ export default function ScriptsAutomationPage() {
                     </div>
                   ))}
                 </div>
-                <Link href="/contact">
+                <Link href="/contact?type=scripts">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -457,7 +457,7 @@ export default function ScriptsAutomationPage() {
           <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
             Most custom scripts delivered within 24-48 hours
           </p>
-          <Link href="/contact">
+          <Link href="/contact?type=scripts">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

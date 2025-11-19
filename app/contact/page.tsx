@@ -1,20 +1,22 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import ContactForm, { type ContactFormHandle } from "@/components/contact/ContactForm"
 import DiscoveryStepper from "@/components/contact/DiscoveryStepper"
 import WebDevContactForm, { type WebDevContactFormHandle } from "@/components/contact/WebDevContactForm"
-import SoftwareToolsContactForm, { type SoftwareToolsContactFormHandle } from "@/components/contact/SoftwareToolsContactForm"
+import SoftwareToolsContactForm, {
+  type SoftwareToolsContactFormHandle,
+} from "@/components/contact/SoftwareToolsContactForm"
 import ScriptsContactForm, { type ScriptsContactFormHandle } from "@/components/contact/ScriptsContactForm"
 import type { ContactBasicsInput, DiscoveryAnswersInput } from "@/lib/validators/contact"
-import { CheckCircle2, ArrowLeft, Code, Cpu, Zap, Sparkles } from 'lucide-react'
+import { CheckCircle2, ArrowLeft, Code, Cpu, Zap, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 type InquiryCategory = "web-dev" | "software-tools" | "scripts" | "ai-automations"
 
 export default function ContactPage() {
-  const [selectedCategory, setSelectedCategory] = useState<InquiryCategory>("ai-automations")
+  const [selectedCategory, setSelectedCategory] = useState<InquiryCategory | null>(null)
   const [currentSection, setCurrentSection] = useState<"contact" | "discovery" | "success">("contact")
   const [contactBasics, setContactBasics] = useState<ContactBasicsInput | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -30,6 +32,16 @@ export default function ContactPage() {
     { id: "scripts" as InquiryCategory, label: "Scripts & Automation", icon: Zap },
     { id: "ai-automations" as InquiryCategory, label: "AI Automations", icon: Sparkles },
   ]
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const category = params.get("type") as InquiryCategory
+    if (category && ["web-dev", "software-tools", "scripts", "ai-automations"].includes(category)) {
+      setSelectedCategory(category)
+    } else if (selectedCategory === null) {
+      setSelectedCategory("ai-automations")
+    }
+  }, [])
 
   const handleSimpleContactSubmit = async (data: any) => {
     setIsSubmitting(true)
@@ -166,9 +178,7 @@ export default function ContactPage() {
           <div className="flex justify-center mb-6">
             <CheckCircle2 className="w-20 h-20 text-green-500" />
           </div>
-          <h1 className="font-mono text-4xl font-thin text-white md:text-5xl mb-4">
-            Message Sent Successfully!
-          </h1>
+          <h1 className="font-mono text-4xl font-thin text-white md:text-5xl mb-4">Message Sent Successfully!</h1>
           <p className="text-lg text-subtle-gray mb-8">
             Thank you for reaching out. We'll get back to you within 1 business day.
           </p>
@@ -222,7 +232,11 @@ export default function ContactPage() {
               <WebDevContactForm ref={webDevFormRef} onSubmit={handleSimpleContactSubmit} isLoading={isSubmitting} />
             )}
             {selectedCategory === "software-tools" && (
-              <SoftwareToolsContactForm ref={softwareToolsFormRef} onSubmit={handleSimpleContactSubmit} isLoading={isSubmitting} />
+              <SoftwareToolsContactForm
+                ref={softwareToolsFormRef}
+                onSubmit={handleSimpleContactSubmit}
+                isLoading={isSubmitting}
+              />
             )}
             {selectedCategory === "scripts" && (
               <ScriptsContactForm ref={scriptsFormRef} onSubmit={handleSimpleContactSubmit} isLoading={isSubmitting} />

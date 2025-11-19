@@ -269,7 +269,7 @@ export default function WebDevelopmentPage() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link href="/contact">
+              <Link href="/contact?type=web-dev">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -779,7 +779,7 @@ export default function WebDevelopmentPage() {
 
               {pkg.note && <p className="text-xs text-white/50 italic mb-6">{pkg.note}</p>}
 
-              <Link href="/contact">
+              <Link href="/contact?type=web-dev">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -835,7 +835,7 @@ export default function WebDevelopmentPage() {
           <p className="text-xl text-white/75 mb-10 leading-relaxed max-w-2xl mx-auto">
             Let's turn your vision into a powerful web application
           </p>
-          <Link href="/contact">
+          <Link href="/contact?type=web-dev">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

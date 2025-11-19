@@ -296,7 +296,7 @@ export default function SoftwareToolingPage() {
               transition={{ delay: 0.8, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-6 justify-center items-center"
             >
-              <Link href="/contact">
+              <Link href="/contact?type=software-tools">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -487,7 +487,7 @@ export default function SoftwareToolingPage() {
                 ))}
               </ul>
 
-              <Link href="/contact">
+              <Link href="/contact?type=software-tools">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -544,7 +544,7 @@ export default function SoftwareToolingPage() {
                 ))}
               </ul>
 
-              <Link href="/contact">
+              <Link href="/contact?type=software-tools">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -599,7 +599,7 @@ export default function SoftwareToolingPage() {
                 ))}
               </ul>
 
-              <Link href="/contact">
+              <Link href="/contact?type=software-tools">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -696,7 +696,7 @@ export default function SoftwareToolingPage() {
           <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
             Let's build custom software that drives growth
           </p>
-          <Link href="/contact">
+          <Link href="/contact?type=software-tools">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
