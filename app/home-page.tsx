@@ -42,7 +42,6 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                // Enhanced drop-shadow for stronger light falloff effect
                 className="block text-accent mt-2 drop-shadow-[0_0_35px_rgba(239,68,68,0.4)]"
               >
                 With Custom Solutions
@@ -54,7 +53,6 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            // Added subtle text shadow to description
             className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"
           >
             Specialized custom development for web applications, internal software, process automation, and AI solutions. Built specifically for your business needs.
@@ -172,7 +170,7 @@ export default function HomePage() {
                     />
                     
                     <motion.div
-                      className="absolute inset-0 rounded-3xl opacity-50 pointer-events-none"
+                      className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                       animate={{
                         opacity: [0.3, 0.5, 0.3],
                       }}
@@ -274,7 +272,6 @@ export default function HomePage() {
                   transition={{ delay: index * 0.1 }}
                   className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group depth-shadow border-glow hover:shadow-[0_0_40px_-10px_rgba(239,68,68,0.1)] relative"
                 >
-                  {/* Added backlight glow */}
                   <div className="absolute inset-0 bg-red-500/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
                   
                   <motion.div
@@ -369,7 +366,6 @@ export default function HomePage() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          // Enhanced shadow for the entire container
           className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden depth-shadow-lg shadow-[0_0_60px_-10px_rgba(239,68,68,0.1)]"
         >
           {/* Removed large background blur */}
