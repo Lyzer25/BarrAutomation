@@ -195,7 +195,7 @@ export default function ContactPage() {
 
       {/* Contact Form Section */}
       {currentSection === "contact" && (
-        <div className={selectedCategory === "web-dev" ? "max-w-7xl mx-auto" : "max-w-2xl mx-auto"}>
+        <div className="max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="font-mono text-4xl font-thin text-white md:text-5xl">Get In Touch</h1>
             <p className="mt-4 text-lg text-subtle-gray">
