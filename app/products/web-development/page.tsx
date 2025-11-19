@@ -14,10 +14,13 @@ import {
   CreditCard,
   Mail,
 } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 export default function WebDevelopmentPage() {
   const [activeDashboard, setActiveDashboard] = useState(0)
+  const [isScrollLocked, setIsScrollLocked] = useState(false)
+  const heroRef = useRef<HTMLElement>(null)
+  const lastScrollTime = useRef(0)
 
   const dashboards = [
     {
@@ -92,12 +95,65 @@ export default function WebDevelopmentPage() {
     },
   ]
 
-  // Auto-scroll through dashboards
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveDashboard((prev) => (prev + 1) % dashboards.length)
-    }, 5000) // Increased to 5s for more complex views
-    return () => clearInterval(interval)
+    const handleWheel = (e: WheelEvent) => {
+      if (!heroRef.current) return
+
+      const heroRect = heroRef.current.getBoundingClientRect()
+      const isInHeroSection = heroRect.top <= 0 && heroRect.bottom >= window.innerHeight
+
+      // Debounce scroll events
+      const now = Date.now()
+      if (now - lastScrollTime.current < 500) return
+
+      if (isInHeroSection && !isScrollLocked) {
+        e.preventDefault()
+        lastScrollTime.current = now
+
+        if (e.deltaY > 0) {
+          // Scrolling down
+          if (activeDashboard < dashboards.length - 1) {
+            setActiveDashboard((prev) => prev + 1)
+          } else {
+            // Reached the last card, unlock and scroll page
+            setIsScrollLocked(false)
+            window.scrollBy({ top: window.innerHeight, behavior: "smooth" })
+          }
+        } else {
+          // Scrolling up
+          if (activeDashboard > 0) {
+            setActiveDashboard((prev) => prev - 1)
+          } else {
+            // At first card, allow scrolling up
+            setIsScrollLocked(false)
+          }
+        }
+      } else if (isInHeroSection && activeDashboard === 0 && e.deltaY < 0) {
+        // Allow scrolling back up when at first card
+        setIsScrollLocked(false)
+      } else if (isInHeroSection) {
+        setIsScrollLocked(true)
+      }
+    }
+
+    window.addEventListener("wheel", handleWheel, { passive: false })
+    return () => window.removeEventListener("wheel", handleWheel)
+  }, [activeDashboard, isScrollLocked, dashboards.length])
+
+  // Reset scroll lock when scrolling away from hero
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!heroRef.current) return
+      const heroRect = heroRef.current.getBoundingClientRect()
+      const isInHeroSection = heroRect.top <= 0 && heroRect.bottom >= window.innerHeight
+
+      if (!isInHeroSection) {
+        setIsScrollLocked(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const browserMockups = [
@@ -221,7 +277,10 @@ export default function WebDevelopmentPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      <section className="relative container mx-auto px-4 pt-32 pb-20 overflow-hidden">
+      <section
+        ref={heroRef}
+        className="relative container mx-auto px-4 pt-32 pb-20 overflow-hidden min-h-screen flex items-center"
+      >
         {/* Animated grid background */}
         <div className="absolute inset-0 opacity-20">
           <div
