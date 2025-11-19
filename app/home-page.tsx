@@ -18,32 +18,182 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
         
+        {/* Background grid pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,59,48,0.03),transparent_50%)]" />
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)',
+          backgroundSize: '40px 40px'
+        }} />
+
+        {/* Floating glassmorphic elements */}
+        <motion.div
+          animate={{ 
+            y: [0, -20, 0],
+            rotate: [0, 5, 0]
+          }}
+          transition={{ 
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute left-[5%] top-[20%] w-72 h-96 rounded-[3rem] bg-gradient-to-br from-red-500/10 to-red-900/5 backdrop-blur-3xl border border-white/5 z-0 hidden lg:block"
+          style={{
+            boxShadow: '0 8px 32px 0 rgba(255, 59, 48, 0.15), inset 0 0 60px rgba(255, 59, 48, 0.05)'
+          }}
+        />
+
+        <motion.div
+          animate={{ 
+            y: [0, 30, 0],
+            rotate: [0, -5, 0]
+          }}
+          transition={{ 
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute right-[5%] top-[15%] w-80 h-80 rounded-full bg-gradient-to-br from-red-600/10 to-transparent backdrop-blur-3xl border border-white/5 z-0 hidden lg:block"
+          style={{
+            boxShadow: '0 8px 32px 0 rgba(255, 59, 48, 0.15), inset 0 0 60px rgba(255, 59, 48, 0.05)'
+          }}
+        />
+
+        <motion.div
+          animate={{ 
+            y: [0, -15, 0],
+            x: [0, 10, 0]
+          }}
+          transition={{ 
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute left-[15%] bottom-[20%] w-64 h-72 rounded-[2.5rem] bg-gradient-to-br from-red-500/5 to-red-900/10 backdrop-blur-3xl border border-white/5 z-0 hidden lg:block"
+          style={{
+            boxShadow: '0 8px 32px 0 rgba(255, 59, 48, 0.1), inset 0 0 60px rgba(255, 59, 48, 0.05)'
+          }}
+        />
+
+        {/* Code snippet - left side */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="absolute left-[8%] top-[35%] w-80 bg-[#0A0A0A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 font-mono text-sm text-left z-10 hidden xl:block"
+          style={{
+            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4)'
+          }}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-3 h-3 rounded-full bg-red-500/80" />
+            <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+            <div className="w-3 h-3 rounded-full bg-green-500/80" />
+          </div>
+          <pre className="text-white/60 leading-relaxed">
+            <span className="text-red-400">const</span> <span className="text-blue-300">solution</span> = {'{'}
+            {'\n  '}client: <span className="text-green-300">&quot;Your Business&quot;</span>,
+            {'\n  '}type: <span className="text-green-300">&quot;Custom Built&quot;</span>,
+            {'\n  '}features: [
+            {'\n    '}<span className="text-green-300">&quot;AI Automation&quot;</span>,
+            {'\n    '}<span className="text-green-300">&quot;Web Apps&quot;</span>,
+            {'\n    '}<span className="text-green-300">&quot;Process Tools&quot;</span>
+            {'\n  }]
+            {'\n}'};
+          </pre>
+        </motion.div>
+
+        {/* UI Components preview - right side */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.9, duration: 0.8 }}
+          className="absolute right-[8%] bottom-[25%] w-72 bg-[#0A0A0A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 z-10 hidden xl:block"
+          style={{
+            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4)'
+          }}
+        >
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-white/60 text-sm">Deploy Status</span>
+              <span className="px-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 text-xs font-medium">Live</span>
+            </div>
+            <div className="space-y-2">
+              <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "95%" }}
+                  transition={{ delay: 1.2, duration: 1.5 }}
+                  className="h-full bg-gradient-to-r from-red-500 to-red-600"
+                />
+              </div>
+              <div className="flex justify-between text-xs text-white/40">
+                <span>Automation Active</span>
+                <span>95%</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-6">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="px-4 py-2 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium"
+              >
+                Configure
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white/60 text-sm font-medium"
+              >
+                Monitor
+              </motion.button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Main content */}
         <motion.div
           style={{ opacity, scale }}
           className="max-w-6xl relative z-10"
         >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-6"
+          >
+            <div className="inline-block px-4 py-2 border border-red-500/20 rounded-full bg-red-500/5 backdrop-blur-sm">
+              <span className="text-red-400 font-mono text-xs tracking-widest uppercase">Custom Development</span>
+            </div>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, filter: 'blur(10px)', y: 30 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="mb-8"
           >
-            <h1 className="font-mono text-6xl font-thin tracking-tighter text-white md:text-7xl lg:text-8xl leading-[1.05]">
+            <h1 className="font-mono text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.1]">
               <motion.span
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
                 className="block"
               >
-                Transform Your Business
+                Built for your business,
               </motion.span>
               <motion.span
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block text-accent mt-2"
+                className="block text-white/50 mt-2"
               >
-                With Custom Solutions
+                the most powerful custom
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+                className="block text-white/50"
+              >
+                development solutions.
               </motion.span>
             </h1>
           </motion.div>
@@ -51,16 +201,17 @@ export default function HomePage() {
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light"
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="mt-8 max-w-3xl mx-auto text-base md:text-lg text-white/50 leading-relaxed font-light"
           >
-            Specialized custom development for web applications, internal software, process automation, and AI solutions. Built specifically for your business needs.
+            Barr Automations builds custom web applications, AI chatbots, internal tools, and process automation. 
+            Trusted by businesses who need solutions that actually fit their workflow.
           </motion.p>
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
+            transition={{ delay: 1, duration: 0.6 }}
             className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
             <motion.div 
@@ -103,7 +254,7 @@ export default function HomePage() {
             <motion.div
               animate={{ y: [0, 16, 0], opacity: [1, 0, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-2 bg-accent rounded-full mx-auto"
+              className="w-1 h-2 bg-red-500 rounded-full mx-auto"
             />
           </motion.div>
         </motion.div>
@@ -328,7 +479,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <motion.div 
                 whileHover={{ scale: 1.05 }} 
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.95 }} 
                 className="relative"
               >
                 <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium">
