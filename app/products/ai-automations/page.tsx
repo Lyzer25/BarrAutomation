@@ -16,41 +16,166 @@ export default function AIAutomationsPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      <section className="container mx-auto px-4 py-32">
+      <section className="container mx-auto px-4 py-24 md:py-32">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left Side - Heading and Illustration */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center lg:text-left"
+          >
+            <h1 className="font-sans text-5xl md:text-7xl font-bold tracking-tight text-white mb-12 leading-tight">
+              Built to automate together{' '}
+              <span className="block mt-2">as one.</span>
+            </h1>
+            
+            {/* Abstract AI Workflow Illustration */}
+            <div className="relative h-[300px] md:h-[400px] mt-12">
+              {/* Dotted background pattern */}
+              <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+                <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1" fill="white" />
+                </pattern>
+                <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)" />
+              </svg>
+              
+              {/* Workflow Loop */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Main workflow path - rounded rectangle */}
+                <path
+                  d="M 150 200 L 150 120 Q 150 100 170 100 L 430 100 Q 450 100 450 120 L 450 280 Q 450 300 430 300 L 170 300 Q 150 300 150 280 Z"
+                  stroke="#ffffff"
+                  strokeWidth="3"
+                  fill="none"
+                  opacity="0.6"
+                />
+                
+                {/* Dotted connecting arcs */}
+                <path
+                  d="M 100 200 Q 100 150 150 150"
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  strokeDasharray="4 4"
+                  fill="none"
+                  opacity="0.3"
+                />
+                <path
+                  d="M 450 150 Q 500 150 500 200"
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  strokeDasharray="4 4"
+                  fill="none"
+                  opacity="0.3"
+                />
+              </svg>
+              
+              {/* Icons on the path */}
+              {/* Left Icon - Brain/AI */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.3, type: "spring" }}
+                className="absolute left-[15%] top-1/2 -translate-y-1/2 w-16 h-16 bg-black border-2 border-white/80 rounded-2xl flex items-center justify-center"
+              >
+                <Brain className="w-8 h-8 text-white" />
+              </motion.div>
+              
+              {/* Right Icon - Workflow */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.5, type: "spring" }}
+                className="absolute right-[15%] top-1/2 -translate-y-1/2 w-16 h-16 bg-black border-2 border-white/80 rounded-2xl flex items-center justify-center"
+              >
+                <Workflow className="w-8 h-8 text-white" />
+              </motion.div>
+              
+              {/* Top Center - Red Accent Node */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.7, type: "spring" }}
+                className="absolute left-1/2 -translate-x-1/2 top-[25%] w-14 h-14 bg-red-medium rounded-full flex items-center justify-center shadow-lg shadow-red-medium/30"
+              >
+                <Sparkles className="w-7 h-7 text-white" />
+              </motion.div>
+            </div>
+          </motion.div>
+          
+          {/* Right Side - Feature Cards */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-6"
+          >
+            {[
+              {
+                icon: Brain,
+                iconBg: "bg-green-500",
+                title: "AI handles most customer queries.",
+                desc: "Resolving complex queries and handing off to your team when needed."
+              },
+              {
+                icon: MessageSquare,
+                iconBg: "bg-red-medium",
+                title: "Human agents focus on priority issues.",
+                desc: "Using AI-powered tools to investigate and resolve them more efficiently."
+              },
+              {
+                icon: Sparkles,
+                iconBg: "bg-blue-500",
+                title: "The system improves with every resolution.",
+                desc: "AI gets better by learning from your best answers, and human agents get better by using AI—resulting in better service for your customers."
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 + index * 0.1 }}
+                className="bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 rounded-2xl p-6"
+              >
+                <div className={`w-10 h-10 ${feature.iconBg} rounded-lg flex items-center justify-center mb-4`}>
+                  <feature.icon className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-white text-xl font-bold mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-white/60 text-base leading-relaxed">
+                  {feature.desc}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+        
+        {/* CTA Buttons Below Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-5xl mx-auto"
+          transition={{ delay: 0.8 }}
+          className="mt-16 flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <h1 className="font-sans text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6">
-            AI Automations
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-white/60 font-light leading-relaxed max-w-3xl mx-auto">
-            Custom AI solutions built specifically for your business needs
-          </p>
-          
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
-              >
-                Discuss Your AI Project
-              </motion.button>
-            </Link>
-            <Link href="/demos">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white/10 text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/15 transition-colors"
-              >
-                View AI Demos
-              </motion.button>
-            </Link>
-          </div>
+          <Link href="/contact">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
+            >
+              Discuss Your AI Project
+            </motion.button>
+          </Link>
+          <Link href="/demos">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white/10 text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/15 transition-colors border border-white/20"
+            >
+              View AI Demos
+            </motion.button>
+          </Link>
         </motion.div>
       </section>
 
