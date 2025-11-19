@@ -77,7 +77,7 @@ export default function HomePage() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="absolute left-[8%] top-[35%] w-80 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 font-mono text-sm text-left z-10 hidden xl:block"
+          className="absolute left-[8%] top-[35%] w-80 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 font-mono text-sm text-left z-10 hidden xl:block bg-chart-4 opacity-5"
           style={{
             boxShadow: '0 8px 32px 0 rgba(239, 68, 68, 0.15), 0 0 0 1px rgba(239, 68, 68, 0.1)'
           }}
