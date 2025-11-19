@@ -249,18 +249,6 @@ export default function WebDevelopmentPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-block mb-6"
-            >
-              <span className="text-xs font-semibold bg-red-500/10 text-red-400 px-4 py-2 rounded-full border border-red-500/20">
-                Web Development Excellence
-              </span>
-            </motion.div>
-
             {/* Main Heading with gradient glow */}
             <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-none">
               Beautiful websites.

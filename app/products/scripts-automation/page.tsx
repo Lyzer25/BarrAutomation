@@ -200,18 +200,6 @@ export default function ScriptsAutomationPage() {
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl mx-auto relative z-10"
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block mb-8"
-          >
-            <div className="px-6 py-2 rounded-full border border-red-500/30 bg-red-500/10 backdrop-blur-sm">
-              <span className="text-red-400 text-sm font-semibold tracking-wide">Automation Excellence</span>
-            </div>
-          </motion.div>
-
           {/* Main heading with gradient */}
           <h1 className="font-sans text-6xl md:text-8xl font-bold tracking-tight mb-6">
             <span className="block text-white">Automate</span>

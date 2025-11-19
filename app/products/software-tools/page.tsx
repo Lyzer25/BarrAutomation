@@ -260,17 +260,6 @@ export default function SoftwareToolingPage() {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="text-center max-w-6xl mx-auto"
           >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-red-500/30 bg-red-500/10 backdrop-blur-sm mb-8"
-            >
-              <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              <span className="text-sm font-medium text-red-400">Software & Internal Tools</span>
-            </motion.div>
-
             {/* Main Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
