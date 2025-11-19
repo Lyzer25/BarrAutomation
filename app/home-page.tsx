@@ -22,9 +22,9 @@ export default function HomePage() {
           className="absolute inset-0 opacity-30"
           animate={{
             background: [
-              'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 50%)',
-              'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 50%)',
             ],
           }}
           transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
@@ -35,24 +35,24 @@ export default function HomePage() {
           className="max-w-6xl relative z-10"
         >
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, filter: 'blur(10px)', y: 30 }}
+            animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="mb-8"
           >
             <h1 className="font-mono text-6xl font-thin tracking-tighter text-white md:text-7xl lg:text-8xl leading-[1.05]">
               <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
+                initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
                 className="block"
               >
                 Transform Your Business
               </motion.span>
               <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
+                initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
                 className="block text-accent mt-2"
               >
                 With Custom Solutions
@@ -61,8 +61,8 @@ export default function HomePage() {
           </motion.div>
           
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
             className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light"
           >
@@ -73,23 +73,20 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="mt-12 flex flex-col sm:flex-row gap-6 justify-center"
+            className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <MagneticButton strength={0.2}>
-              <Button size="lg" asChild className="relative bg-accent hover:bg-accent/90 text-white text-base px-10 py-7 rounded-lg font-semibold overflow-hidden group">
+            <MagneticButton strength={0.4}>
+              <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-500">
                 <Link href="/contact">
-                  <span className="relative z-10">Schedule Consultation</span>
-                  <motion.div
-                    className="absolute inset-0 bg-white/10"
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: '100%' }}
-                    transition={{ duration: 0.5 }}
-                  />
+                  <span className="relative z-10 flex items-center gap-2">
+                    Schedule Consultation
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </span>
                 </Link>
               </Button>
             </MagneticButton>
-            <MagneticButton strength={0.2}>
-              <Button size="lg" variant="outline" asChild className="border-white/20 text-white hover:bg-white/5 hover:border-accent/40 text-base px-10 py-7 rounded-lg font-semibold transition-all duration-300">
+            <MagneticButton strength={0.4}>
+              <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300">
                 <Link href="/products">Explore Services</Link>
               </Button>
             </MagneticButton>
