@@ -612,32 +612,6 @@ export default function WebDevelopmentPage() {
                 </div>
               </div>
             </motion.div>
-
-            {/* Feature pills floating around */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1 }}
-              className="absolute -left-4 top-1/4 bg-black/80 backdrop-blur-xl border border-white/20 rounded-full px-4 py-2 shadow-xl hidden md:block"
-            >
-              <p className="text-sm text-white font-semibold">Responsive Design</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.2 }}
-              className="absolute -right-4 top-1/3 bg-black/80 backdrop-blur-xl border border-white/20 rounded-full px-4 py-2 shadow-xl hidden md:block"
-            >
-              <p className="text-sm text-white font-semibold">SEO Optimized</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.4 }}
-              className="absolute left-1/4 -bottom-4 bg-black/80 backdrop-blur-xl border border-white/20 rounded-full px-4 py-2 shadow-xl hidden md:block"
-            >
-              <p className="text-sm text-white font-semibold">Modern Stack</p>
-            </motion.div>
           </div>
         </div>
       </section>
