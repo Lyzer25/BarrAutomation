@@ -113,21 +113,21 @@ export default function AIAutomationsPage() {
             {[
               {
                 icon: Brain,
-                iconBg: "bg-green-500",
-                title: "AI handles most customer queries.",
-                desc: "Resolving complex queries and handing off to your team when needed."
+                iconBg: "bg-red-medium",
+                title: "Custom AI built specifically for you.",
+                desc: "No templates, no limitations. Every AI solution is designed from the ground up to solve your exact business challenges."
               },
               {
-                icon: MessageSquare,
-                iconBg: "bg-red-medium",
-                title: "Human agents focus on priority issues.",
-                desc: "Using AI-powered tools to investigate and resolve them more efficiently."
+                icon: Workflow,
+                iconBg: "bg-red-dark",
+                title: "Seamless integration with your workflow.",
+                desc: "We build AI that works within your existing systems and processes, not against them. Deploy anywhere, scale infinitely."
               },
               {
                 icon: Sparkles,
-                iconBg: "bg-blue-500",
-                title: "The system improves with every resolution.",
-                desc: "AI gets better by learning from your best answers, and human agents get better by using AI—resulting in better service for your customers."
+                iconBg: "bg-red-light",
+                title: "Own your AI, own your future.",
+                desc: "Full ownership of your custom models and code. No vendor lock-in, no subscription traps. Your data stays yours, your competitive edge stays protected."
               }
             ].map((feature, index) => (
               <motion.div
@@ -135,7 +135,7 @@ export default function AIAutomationsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + index * 0.1 }}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 rounded-2xl p-6"
+                className="bg-white/5 backdrop-blur-sm border border-white/10 hover:border-red-medium/30 transition-all duration-300 rounded-2xl p-6"
               >
                 <div className={`w-10 h-10 ${feature.iconBg} rounded-lg flex items-center justify-center mb-4`}>
                   <feature.icon className="w-5 h-5 text-white" />
