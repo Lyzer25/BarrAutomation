@@ -180,38 +180,6 @@ export default function AIAutomationsPage() {
         </motion.div>
       </section>
 
-      {/* Stats Grid */}
-      <section className="py-12 bg-black/50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="flex flex-col items-center"
-              >
-                <stat.icon className="h-10 w-10 text-accent mb-2" />
-                <p className="text-2xl md:text-3xl font-bold text-white">{stat.value}</p>
-                <p className="text-sm text-subtle-gray">{stat.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Logo Carousel */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h3 className="text-center text-xl text-white/60 mb-12 font-light">
-            AI integrations with the tools you already use
-          </h3>
-          <LogoCarousel />
-        </div>
-      </section>
-
       <section className="py-24 bg-gradient-to-b from-black via-black/95 to-black">
         <div className="container mx-auto px-4">
           <motion.div
@@ -388,6 +356,16 @@ export default function AIAutomationsPage() {
               </motion.button>
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Logo Carousel */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h3 className="text-center text-xl text-white/60 mb-12 font-light">
+            AI integrations with the tools you already use
+          </h3>
+          <LogoCarousel />
         </div>
       </section>
 
