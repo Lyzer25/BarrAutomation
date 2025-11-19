@@ -34,72 +34,75 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
     }))
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 backdrop-blur-md bg-white/5 border border-white/10 rounded-xl p-8"
+      >
         <input type="text" {...register("trap")} className="absolute left-[-9999px]" tabIndex={-1} autoComplete="off" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <Label htmlFor="fullName" className="text-white">
+            <Label htmlFor="fullName" className="text-white text-sm font-medium mb-2 block">
               Full Name *
             </Label>
             <Input
               id="fullName"
               {...register("fullName")}
-              className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+              className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
               placeholder="John Doe"
             />
-            {errors.fullName && <p className="text-red-400 text-sm mt-1">{errors.fullName.message}</p>}
+            {errors.fullName && <p className="text-red-400 text-sm mt-1.5">{errors.fullName.message}</p>}
           </div>
 
           <div>
-            <Label htmlFor="email" className="text-white">
+            <Label htmlFor="email" className="text-white text-sm font-medium mb-2 block">
               Email *
             </Label>
             <Input
               id="email"
               type="email"
               {...register("email")}
-              className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+              className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
               placeholder="john@company.com"
             />
-            {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-red-400 text-sm mt-1.5">{errors.email.message}</p>}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <Label htmlFor="phone" className="text-white">
+            <Label htmlFor="phone" className="text-white text-sm font-medium mb-2 block">
               Phone (Optional)
             </Label>
             <Input
               id="phone"
               {...register("phone")}
-              className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+              className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
               placeholder="+1 (555) 123-4567"
             />
           </div>
 
           <div>
-            <Label htmlFor="company" className="text-white">
+            <Label htmlFor="company" className="text-white text-sm font-medium mb-2 block">
               Company (Optional)
             </Label>
             <Input
               id="company"
               {...register("company")}
-              className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+              className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
               placeholder="Acme Corp"
             />
           </div>
         </div>
 
         <div>
-          <Label htmlFor="scriptType" className="text-white">
+          <Label htmlFor="scriptType" className="text-white text-sm font-medium mb-2 block">
             Script/Automation Type *
           </Label>
           <select
             id="scriptType"
             {...register("scriptType")}
-            className="mt-2 w-full bg-black/50 border-white/20 focus:border-accent/50 rounded-md p-2 text-white"
+            className="w-full bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 rounded-md p-2.5 text-white h-11"
           >
             <option value="">Select a type...</option>
             <option value="data-processing">Data Processing</option>
@@ -110,18 +113,18 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
             <option value="web-scraping">Web Scraping</option>
             <option value="other">Other/Custom</option>
           </select>
-          {errors.scriptType && <p className="text-red-400 text-sm mt-1">{errors.scriptType.message}</p>}
+          {errors.scriptType && <p className="text-red-400 text-sm mt-1.5">{errors.scriptType.message}</p>}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <Label htmlFor="frequency" className="text-white">
+            <Label htmlFor="frequency" className="text-white text-sm font-medium mb-2 block">
               How Often? *
             </Label>
             <select
               id="frequency"
               {...register("frequency")}
-              className="mt-2 w-full bg-black/50 border-white/20 focus:border-accent/50 rounded-md p-2 text-white"
+              className="w-full bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 rounded-md p-2.5 text-white h-11"
             >
               <option value="">Select frequency...</option>
               <option value="one-time">One-time project</option>
@@ -130,17 +133,17 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
               <option value="monthly">Monthly</option>
               <option value="on-demand">On-demand</option>
             </select>
-            {errors.frequency && <p className="text-red-400 text-sm mt-1">{errors.frequency.message}</p>}
+            {errors.frequency && <p className="text-red-400 text-sm mt-1.5">{errors.frequency.message}</p>}
           </div>
 
           <div>
-            <Label htmlFor="urgency" className="text-white">
+            <Label htmlFor="urgency" className="text-white text-sm font-medium mb-2 block">
               Urgency Level *
             </Label>
             <select
               id="urgency"
               {...register("urgency")}
-              className="mt-2 w-full bg-black/50 border-white/20 focus:border-accent/50 rounded-md p-2 text-white"
+              className="w-full bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 rounded-md p-2.5 text-white h-11"
             >
               <option value="">Select urgency...</option>
               <option value="asap">ASAP (1-3 days)</option>
@@ -148,41 +151,41 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
               <option value="month">Within a month</option>
               <option value="flexible">Flexible</option>
             </select>
-            {errors.urgency && <p className="text-red-400 text-sm mt-1">{errors.urgency.message}</p>}
+            {errors.urgency && <p className="text-red-400 text-sm mt-1.5">{errors.urgency.message}</p>}
           </div>
         </div>
 
         <div>
-          <Label htmlFor="currentProcess" className="text-white">
+          <Label htmlFor="currentProcess" className="text-white text-sm font-medium mb-2 block">
             Current Manual Process (Optional)
           </Label>
           <Textarea
             id="currentProcess"
             {...register("currentProcess")}
             rows={3}
-            className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+            className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 resize-none"
             placeholder="Describe how you currently do this manually..."
           />
         </div>
 
         <div>
-          <Label htmlFor="message" className="text-white">
+          <Label htmlFor="message" className="text-white text-sm font-medium mb-2 block">
             Script/Automation Details *
           </Label>
           <Textarea
             id="message"
             {...register("message")}
             rows={4}
-            className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+            className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 resize-none"
             placeholder="Describe what you need automated, inputs/outputs, desired outcome, etc..."
           />
-          {errors.message && <p className="text-red-400 text-sm mt-1">{errors.message.message}</p>}
+          {errors.message && <p className="text-red-400 text-sm mt-1.5">{errors.message.message}</p>}
         </div>
 
         <Button
           type="submit"
           disabled={!isValid || isLoading}
-          className="w-full bg-accent text-white hover:bg-accent/90 disabled:opacity-50"
+          className="w-full h-12 bg-gradient-to-r from-red-600 to-red-500 text-white hover:opacity-90 disabled:opacity-50 shadow-lg shadow-red-500/30"
         >
           {isLoading ? "Sending..." : "Discuss This Project"}
         </Button>
@@ -190,7 +193,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
         <p className="text-xs text-white/60 text-center">We'll follow up within 1 business day. No spam, ever.</p>
       </form>
     )
-  }
+  },
 )
 
 ScriptsContactForm.displayName = "ScriptsContactForm"

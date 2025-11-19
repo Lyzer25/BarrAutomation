@@ -42,90 +42,90 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
   }
 
   return (
-    <form className="space-y-6">
+    <form className="space-y-6 backdrop-blur-md bg-white/5 border border-white/10 rounded-xl p-8">
       {/* Honeypot field - hidden from users */}
       <input type="text" {...register("trap")} className="absolute left-[-9999px]" tabIndex={-1} autoComplete="off" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="fullName" className="text-white">
+          <Label htmlFor="fullName" className="text-white text-sm font-medium mb-2 block">
             Full Name *
           </Label>
           <Input
             id="fullName"
             {...register("fullName")}
-            className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+            className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
             placeholder="John Doe"
           />
-          {errors.fullName && <p className="text-red-400 text-sm mt-1">{errors.fullName.message}</p>}
+          {errors.fullName && <p className="text-red-400 text-sm mt-1.5">{errors.fullName.message}</p>}
         </div>
 
         <div>
-          <Label htmlFor="email" className="text-white">
+          <Label htmlFor="email" className="text-white text-sm font-medium mb-2 block">
             Email *
           </Label>
           <Input
             id="email"
             type="email"
             {...register("email")}
-            className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+            className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
             placeholder="john@company.com"
           />
-          {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
+          {errors.email && <p className="text-red-400 text-sm mt-1.5">{errors.email.message}</p>}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="phone" className="text-white">
+          <Label htmlFor="phone" className="text-white text-sm font-medium mb-2 block">
             Phone (Optional)
           </Label>
           <Input
             id="phone"
             {...register("phone")}
-            className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+            className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
             placeholder="+1 (555) 123-4567"
           />
         </div>
 
         <div>
-          <Label htmlFor="company" className="text-white">
+          <Label htmlFor="company" className="text-white text-sm font-medium mb-2 block">
             Company (Optional)
           </Label>
           <Input
             id="company"
             {...register("company")}
-            className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+            className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
             placeholder="Acme Corp"
           />
         </div>
       </div>
 
       <div>
-        <Label htmlFor="website" className="text-white">
+        <Label htmlFor="website" className="text-white text-sm font-medium mb-2 block">
           Website (Optional)
         </Label>
         <Input
           id="website"
           {...register("website")}
-          className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+          className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 h-11"
           placeholder="https://company.com"
         />
-        {errors.website && <p className="text-red-400 text-sm mt-1">{errors.website.message}</p>}
+        {errors.website && <p className="text-red-400 text-sm mt-1.5">{errors.website.message}</p>}
       </div>
 
       <div>
-        <Label htmlFor="message" className="text-white">
+        <Label htmlFor="message" className="text-white text-sm font-medium mb-2 block">
           Message *
         </Label>
         <Textarea
           id="message"
           {...register("message")}
           rows={4}
-          className="mt-2 bg-black/50 border-white/20 focus:border-accent/50"
+          className="bg-black/40 backdrop-blur-sm border-white/20 focus:border-red-500/50 resize-none"
           placeholder="Tell us about your automation needs..."
         />
-        {errors.message && <p className="text-red-400 text-sm mt-1">{errors.message.message}</p>}
+        {errors.message && <p className="text-red-400 text-sm mt-1.5">{errors.message.message}</p>}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -134,7 +134,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
           onClick={handleSubmit(handleSimpleContact)}
           disabled={!isValid || isLoading}
           variant="outline"
-          className="w-full border-white/20 text-white hover:bg-white/10 disabled:opacity-50 bg-transparent"
+          className="w-full h-12 border-white/20 text-white hover:bg-white/10 disabled:opacity-50 bg-transparent backdrop-blur-sm"
         >
           {isLoading ? "Processing..." : "Contact Us"}
         </Button>
@@ -143,7 +143,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
           type="button"
           onClick={handleSubmit(handleCustomSolution)}
           disabled={!isValid || isLoading}
-          className="w-full bg-accent text-white hover:bg-accent/90 disabled:opacity-50"
+          className="w-full h-12 bg-gradient-to-r from-red-600 to-red-500 text-white hover:opacity-90 disabled:opacity-50 shadow-lg shadow-red-500/30"
         >
           {isLoading ? "Processing..." : "Build My Custom Solution"}
         </Button>
