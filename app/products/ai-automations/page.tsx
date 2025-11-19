@@ -12,7 +12,7 @@ const stats = [
 ]
 
 export default function AIAutomationsPage() {
-  const [activeCase] = useState(0)
+  const [activeCase, setActiveCase] = useState(0)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
 
   return (
