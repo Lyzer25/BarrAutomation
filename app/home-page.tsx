@@ -7,7 +7,6 @@ import Link from "next/link"
 import { Code, Wrench, Zap, Brain, ArrowRight, Check } from 'lucide-react'
 import { FadeInView } from '@/components/animations/fade-in-view'
 import { StaggerContainer, StaggerItem } from '@/components/animations/stagger-container'
-import { AmbientBackground } from '@/components/ambient-background'
 
 export default function HomePage() {
   const { scrollY } = useScroll()
@@ -18,7 +17,7 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
-        <AmbientBackground />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none z-0" />
         
         <motion.div
           style={{ opacity, scale }}
@@ -43,7 +42,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block text-accent mt-2"
+                className="block text-accent mt-2 drop-shadow-[0_0_15px_rgba(239,68,68,0.3)]"
               >
                 With Custom Solutions
               </motion.span>
@@ -77,7 +76,7 @@ export default function HomePage() {
             </motion.div>
             
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300">
+              <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                 <Link href="/products">Explore Services</Link>
               </Button>
             </motion.div>
@@ -93,30 +92,32 @@ export default function HomePage() {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-white/20 rounded-full p-1"
+            className="w-6 h-10 border-2 border-white/20 rounded-full p-1 shadow-[0_0_10px_rgba(255,255,255,0.1)]"
           >
             <motion.div
               animate={{ y: [0, 16, 0], opacity: [1, 0, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-2 bg-accent rounded-full mx-auto"
+              className="w-1 h-2 bg-accent rounded-full mx-auto shadow-[0_0_5px_rgba(239,68,68,0.8)]"
             />
           </motion.div>
         </motion.div>
       </section>
 
       {/* Services Grid */}
-      <section className="container mx-auto px-4 py-32">
-        <FadeInView className="text-center mb-20">
-          <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
+      <section className="container mx-auto px-4 py-32 relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl bg-red-500/3 rounded-full blur-[100px] pointer-events-none z-0" />
+        
+        <FadeInView className="text-center mb-20 relative z-10">
+          <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
             <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Services</span>
           </div>
-          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">What We Build</h2>
+          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6 drop-shadow-lg">What We Build</h2>
           <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
           </p>
         </FadeInView>
 
-        <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto" staggerDelay={0.15}>
+        <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto relative z-10" staggerDelay={0.15}>
           {[
             {
               icon: Code,
@@ -154,7 +155,7 @@ export default function HomePage() {
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 >
-                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl depth-shadow hover:depth-shadow-lg">
+                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl depth-shadow hover:depth-shadow-lg hover:shadow-[0_0_30px_rgba(239,68,68,0.1)]">
                     <motion.div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
                       style={{
@@ -179,7 +180,7 @@ export default function HomePage() {
                       <motion.div
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
-                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300"
+                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.3)] group-hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]"
                       >
                         <service.icon className="w-6 h-6 text-white group-hover:text-white transition-colors" />
                       </motion.div>
@@ -200,7 +201,7 @@ export default function HomePage() {
                             transition={{ delay: idx * 0.1 }}
                             className="flex items-center text-sm text-white/60 font-light"
                           >
-                            <div className="w-1.5 h-1.5 rounded-full bg-accent/50 mr-3 flex-shrink-0" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-accent/50 mr-3 flex-shrink-0 shadow-[0_0_5px_rgba(239,68,68,0.5)]" />
                             {feature}
                           </motion.li>
                         ))}
@@ -220,7 +221,7 @@ export default function HomePage() {
 
       {/* Why Custom Section */}
       <section className="py-32 relative overflow-hidden">
-        <AmbientBackground />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-red-500/3 rounded-full blur-[150px] pointer-events-none z-0" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
@@ -230,10 +231,10 @@ export default function HomePage() {
               viewport={{ once: true }}
               className="text-center mb-20"
             >
-              <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
+              <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                 <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Our Approach</span>
               </div>
-              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
+              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-lg">
                 Why Custom Development?
               </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
@@ -263,7 +264,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group depth-shadow border-glow"
+                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group depth-shadow border-glow hover:shadow-[0_0_30px_rgba(239,68,68,0.05)]"
                 >
                   <motion.div
                     className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
@@ -273,7 +274,7 @@ export default function HomePage() {
                     }}
                   />
                   <div className="relative z-10">
-                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500 red-ambient-light">
+                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500 red-ambient-light shadow-[0_0_15px_rgba(0,0,0,0.3)]">
                       <div className="w-2 h-2 bg-accent rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                     </div>
                     <h3 className="text-xl font-medium text-white mb-4 tracking-tight">{benefit.title}</h3>
@@ -287,13 +288,13 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-32 bg-black">
-        <div className="container mx-auto px-4">
+      <section className="py-32 bg-black relative">
+        <div className="container mx-auto px-4 relative z-10">
           <FadeInView className="text-center mb-24">
-            <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
+            <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
               <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Process</span>
             </div>
-            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">Simple Process</h2>
+            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-lg">Simple Process</h2>
             <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
           </FadeInView>
 
@@ -329,7 +330,7 @@ export default function HomePage() {
                   whileHover={{ y: -5, scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 300 }}
-                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group depth-shadow red-ambient-light"
+                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group depth-shadow red-ambient-light shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_25px_rgba(239,68,68,0.2)] transition-shadow duration-500"
                 >
                   <span className="text-2xl font-mono text-white/80 group-hover:text-accent transition-colors duration-300">{step.number}</span>
                   <motion.div
@@ -356,9 +357,9 @@ export default function HomePage() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden depth-shadow-lg"
+          className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden depth-shadow-lg shadow-[0_0_50px_rgba(239,68,68,0.05)]"
         >
-          <AmbientBackground />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-500/5 rounded-full blur-[100px] pointer-events-none z-0" />
           
           <div className="relative z-10 max-w-4xl mx-auto">
             <motion.div
@@ -387,7 +388,7 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                    className="block text-accent mt-2"
+                    className="block text-accent mt-2 drop-shadow-[0_0_15px_rgba(239,68,68,0.3)]"
                   >
                     With Custom Solutions
                   </motion.span>
@@ -421,7 +422,7 @@ export default function HomePage() {
                 </motion.div>
                 
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300">
+                  <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                     <Link href="/demos">
                       View Demos
                     </Link>
