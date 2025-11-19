@@ -8,6 +8,7 @@ import { Menu, ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
+import { useState } from "react" // Added missing useState import
 
 const navLinks = [
   { href: "/", label: "Home" },
