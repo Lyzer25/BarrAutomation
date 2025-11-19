@@ -39,6 +39,8 @@ export default function WebDevelopmentPage() {
       description: "Perfect for restaurants, local businesses, and informational sites",
       basePrice: "$750",
       monthlyPrice: "$20/month",
+      badge: "Small Business",
+      badgeColor: "bg-red-dark/20 text-red-light border-red-dark/30",
       features: [
         "Up to 5 custom pages",
         "Contact form integration",
@@ -59,6 +61,9 @@ export default function WebDevelopmentPage() {
       description: "Full-featured online store with product and order management",
       basePrice: "$2,500",
       monthlyPrice: "$100/month",
+      badge: "Most Popular",
+      badgeColor: "bg-green-500/20 text-green-400 border-green-500/30",
+      highlight: true,
       features: [
         "Product catalog & inventory",
         "Shopping cart & checkout",
@@ -80,6 +85,8 @@ export default function WebDevelopmentPage() {
       description: "Complete business solution with inventory, warehouse, and multi-site management",
       basePrice: "Custom Pricing",
       monthlyPrice: "Per Deal Basis",
+      badge: "Enterprise",
+      badgeColor: "bg-red-dark/20 text-red-light border-red-dark/30",
       features: [
         "Warehouse management system",
         "Inventory tracking & forecasting",
@@ -234,8 +241,18 @@ export default function WebDevelopmentPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-[#1c1c1e] border border-white/10 rounded-3xl p-8"
+              className={`bg-[#0A0A0A] border rounded-3xl p-8 ${
+                pkg.highlight 
+                  ? 'border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.1)]' 
+                  : 'border-white/10'
+              }`}
             >
+              <div className="flex items-center justify-between mb-6">
+                <span className={`text-xs font-semibold px-3 py-1.5 rounded-full border ${pkg.badgeColor}`}>
+                  {pkg.badge}
+                </span>
+              </div>
+
               <div className="mb-8">
                 <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mb-6">
                   <pkg.icon className="w-6 h-6 text-white/90" />
@@ -247,7 +264,7 @@ export default function WebDevelopmentPage() {
                   {pkg.description}
                 </p>
                 <div className="space-y-1">
-                  <div className="text-4xl font-semibold text-white">{pkg.basePrice}</div>
+                  <div className="text-4xl font-semibold text-red-medium">{pkg.basePrice}</div>
                   <div className="text-sm text-white/60">{pkg.monthlyPrice}</div>
                 </div>
               </div>
@@ -264,7 +281,7 @@ export default function WebDevelopmentPage() {
               {pkg.upgrade && (
                 <div className="pt-6 border-t border-white/10 mb-6">
                   <div className="text-sm font-semibold text-white mb-2">{pkg.upgrade.title}</div>
-                  <div className="text-lg font-semibold text-white mb-3">{pkg.upgrade.price}</div>
+                  <div className="text-lg font-semibold text-red-medium mb-3">{pkg.upgrade.price}</div>
                   <ul className="space-y-2">
                     {pkg.upgrade.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start text-xs text-white/70">
@@ -279,7 +296,7 @@ export default function WebDevelopmentPage() {
               {pkg.alternative && (
                 <div className="pt-6 border-t border-white/10 mb-6">
                   <div className="text-sm font-semibold text-white mb-2">{pkg.alternative.title}</div>
-                  <div className="text-lg font-semibold text-white mb-1">{pkg.alternative.price}</div>
+                  <div className="text-lg font-semibold text-red-medium mb-1">{pkg.alternative.price}</div>
                   <div className="text-xs text-white/50 mb-3">{pkg.alternative.note}</div>
                   <ul className="space-y-2">
                     {pkg.alternative.features.map((feature, idx) => (

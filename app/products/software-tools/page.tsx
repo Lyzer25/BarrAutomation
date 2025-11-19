@@ -191,54 +191,51 @@ export default function SoftwareToolingPage() {
             viewport={{ once: true }}
             transition={{ delay: 0 }}
           >
-            <Card className="bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full">
-              <CardHeader>
-                <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
-                  SMALL TOOL
-                </div>
-                <CardTitle className="text-white text-3xl">
-                  <span className="text-4xl font-bold">$2,500</span>
-                  <span className="text-subtle-gray text-lg ml-2">- $7,500</span>
-                </CardTitle>
-                <CardDescription className="text-accent font-mono text-sm">
-                  + $50-$150/month hosting & support
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <p className="text-subtle-gray text-sm">
+            <div className="bg-[#0A0A0A] border border-white/10 rounded-3xl p-8 h-full">
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-xs font-semibold bg-red-dark/20 text-red-light px-3 py-1.5 rounded-full border border-red-dark/30">
+                  Small Tool
+                </span>
+              </div>
+
+              <div className="mb-8">
+                <div className="text-4xl font-bold text-red-medium mb-1">$2,500 <span className="text-2xl text-white/60">- $7,500</span></div>
+                <div className="text-sm text-white/60 mb-6">+ $50-$150/month hosting & support</div>
+                
+                <p className="text-white/60 text-sm mb-6">
                   Perfect for single-purpose tools and simple internal applications
                 </p>
+              </div>
                 
-                <ul className="space-y-3">
-                  {[
-                    "Custom dashboards",
-                    "Data entry forms",
-                    "Simple CRM systems",
-                    "Reporting tools",
-                    "Basic API integrations",
-                    "User authentication",
-                    "Database setup",
-                    "Mobile responsive design",
-                    "Basic support included"
-                  ].map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                      <span className="text-white/80">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Custom dashboards",
+                  "Data entry forms",
+                  "Simple CRM systems",
+                  "Reporting tools",
+                  "Basic API integrations",
+                  "User authentication",
+                  "Database setup",
+                  "Mobile responsive design",
+                  "Basic support included"
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm">
+                    <Check className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
+                    <span className="text-white/80">{feature}</span>
+                  </li>
+                ))}
+              </ul>
 
-                <Link href="/contact">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors w-full mt-8"
-                  >
-                    Discuss This Package
-                  </motion.button>
-                </Link>
-              </CardContent>
-            </Card>
+              <Link href="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-white/10 hover:bg-white/15 text-white px-6 py-3 rounded-full text-sm font-semibold transition-colors"
+                >
+                  Discuss This Package
+                </motion.button>
+              </Link>
+            </div>
           </motion.div>
 
           {/* Medium Platform Package */}
@@ -248,58 +245,52 @@ export default function SoftwareToolingPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-gradient-to-b from-accent/10 to-black/80 backdrop-blur-sm border-2 border-accent hover:border-accent/80 transition-all duration-500 h-full relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-black px-4 py-1 rounded-full text-xs font-bold">
-                MOST POPULAR
+            <div className="bg-[#0A0A0A] border-2 border-green-500/30 rounded-3xl p-8 h-full relative shadow-[0_0_30px_rgba(34,197,94,0.1)]">
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-xs font-semibold bg-green-500/20 text-green-400 px-3 py-1.5 rounded-full border border-green-500/30">
+                  Most Popular
+                </span>
               </div>
-              <CardHeader>
-                <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
-                  MEDIUM PLATFORM
-                </div>
-                <CardTitle className="text-white text-3xl">
-                  <span className="text-4xl font-bold">$10,000</span>
-                  <span className="text-subtle-gray text-lg ml-2">- $25,000</span>
-                </CardTitle>
-                <CardDescription className="text-accent font-mono text-sm">
-                  + $200-$400/month hosting & support
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <p className="text-subtle-gray text-sm">
+
+              <div className="mb-8">
+                <div className="text-4xl font-bold text-red-medium mb-1">$10,000 <span className="text-2xl text-white/60">- $25,000</span></div>
+                <div className="text-sm text-white/60 mb-6">+ $200-$400/month hosting & support</div>
+                
+                <p className="text-white/60 text-sm mb-6">
                   Comprehensive solutions with multiple integrated features and workflows
                 </p>
+              </div>
                 
-                <ul className="space-y-3">
-                  {[
-                    "Everything in Small Tool, plus:",
-                    "Complex business logic",
-                    "Multi-user role systems",
-                    "Advanced integrations",
-                    "Real-time features",
-                    "Custom workflows",
-                    "Analytics & reporting",
-                    "Automated notifications",
-                    "Data import/export",
-                    "Priority support"
-                  ].map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                      <span className="text-white/80 font-semibold">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Everything in Small Tool, plus:",
+                  "Complex business logic",
+                  "Multi-user role systems",
+                  "Advanced integrations",
+                  "Real-time features",
+                  "Custom workflows",
+                  "Analytics & reporting",
+                  "Automated notifications",
+                  "Data import/export",
+                  "Priority support"
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm">
+                    <Check className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
+                    <span className="text-white/80">{feature}</span>
+                  </li>
+                ))}
+              </ul>
 
-                <Link href="/contact">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors w-full mt-8"
-                  >
-                    Discuss This Package
-                  </motion.button>
-                </Link>
-              </CardContent>
-            </Card>
+              <Link href="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-white text-black hover:bg-white/90 px-6 py-3 rounded-full text-sm font-semibold transition-colors"
+                >
+                  Discuss This Package
+                </motion.button>
+              </Link>
+            </div>
           </motion.div>
 
           {/* Enterprise Solution Package */}
@@ -309,126 +300,54 @@ export default function SoftwareToolingPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full">
-              <CardHeader>
-                <div className="text-xs font-mono bg-accent/20 text-accent px-3 py-1 rounded w-fit mb-4">
-                  ENTERPRISE SOLUTION
-                </div>
-                <CardTitle className="text-white text-3xl">
-                  <span className="text-4xl font-bold">$25,000+</span>
-                </CardTitle>
-                <CardDescription className="text-accent font-mono text-sm">
-                  Custom pricing per project scope
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <p className="text-subtle-gray text-sm">
+            <div className="bg-[#0A0A0A] border border-white/10 rounded-3xl p-8 h-full">
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-xs font-semibold bg-red-dark/20 text-red-light px-3 py-1.5 rounded-full border border-red-dark/30">
+                  Enterprise
+                </span>
+              </div>
+
+              <div className="mb-8">
+                <div className="text-4xl font-bold text-red-medium mb-1">$25,000+</div>
+                <div className="text-sm text-white/60 mb-6">Custom pricing per project scope</div>
+                
+                <p className="text-white/60 text-sm mb-6">
                   Full-scale enterprise systems with unlimited complexity and customization
                 </p>
+              </div>
                 
-                <ul className="space-y-3">
-                  {[
-                    "Everything in Medium, plus:",
-                    "Multi-system integration",
-                    "Industry-specific features",
-                    "Advanced security (SSO, 2FA)",
-                    "Custom architecture design",
-                    "Scalability & performance",
-                    "Legacy system migration",
-                    "Dedicated infrastructure",
-                    "24/7 premium support",
-                    "Ongoing development & updates"
-                  ].map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                      <span className="text-white/80">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Everything in Medium, plus:",
+                  "Multi-system integration",
+                  "Industry-specific features",
+                  "Advanced security (SSO, 2FA)",
+                  "Custom architecture design",
+                  "Scalability & performance",
+                  "Legacy system migration",
+                  "Dedicated infrastructure",
+                  "24/7 premium support",
+                  "Ongoing development & updates"
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm">
+                    <Check className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
+                    <span className="text-white/80">{feature}</span>
+                  </li>
+                ))}
+              </ul>
 
-                <Link href="/contact">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors w-full mt-8"
-                  >
-                    Discuss This Package
-                  </motion.button>
-                </Link>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-
-        {/* Revenue Share Option */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 max-w-4xl mx-auto"
-        >
-          <Card className="bg-gradient-to-r from-red-dark/20 to-red-deep/20 backdrop-blur-sm border-2 border-accent/50">
-            <CardHeader className="text-center">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <TrendingUp className="w-6 h-6 text-accent" />
-                <CardTitle className="text-white text-2xl">Partnership & Revenue Share</CardTitle>
-              </div>
-              <CardDescription className="text-white/80 text-base">
-                Have a great idea but limited funding? We can work out flexible payment structures.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <div className="grid md:grid-cols-2 gap-6 text-left">
-                <div>
-                  <h4 className="text-accent font-bold mb-2">Flexible Options:</h4>
-                  <ul className="space-y-2 text-white/80 text-sm">
-                    <li className="flex items-center gap-2">
-                      <DollarSign className="w-4 h-4 text-accent" />
-                      Reduced upfront costs
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <DollarSign className="w-4 h-4 text-accent" />
-                      Revenue share agreements
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <DollarSign className="w-4 h-4 text-accent" />
-                      Deferred payment plans
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-accent font-bold mb-2">What You Get:</h4>
-                  <ul className="space-y-2 text-white/80 text-sm">
-                    <li className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-accent" />
-                      Full custom development
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-accent" />
-                      Ongoing feature support
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-accent" />
-                      True partnership approach
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <p className="text-xs text-white/60 mt-4">
-                All terms are negotiated on a per-deal basis based on project scope and business model. Let's discuss what works for you.
-              </p>
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors w-full mt-8"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-white/10 hover:bg-white/15 text-white px-6 py-3 rounded-full text-sm font-semibold transition-colors"
                 >
-                  Discuss Your Project
+                  Discuss This Package
                 </motion.button>
               </Link>
-            </CardContent>
-          </Card>
-        </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Potential Solutions */}
