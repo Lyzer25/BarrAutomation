@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Code, Wrench, Zap, Brain, ArrowRight, Check } from 'lucide-react'
 import { FadeInView } from '@/components/animations/fade-in-view'
 import { StaggerContainer, StaggerItem } from '@/components/animations/stagger-container'
+import { AmbientBackground } from '@/components/ambient-background'
 
 export default function HomePage() {
   const { scrollY } = useScroll()
@@ -17,58 +18,12 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
-        <motion.div
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          animate={{
-            background: [
-              'radial-gradient(ellipse 800px 600px at 20% 40%, rgba(239, 68, 68, 0.12) 0%, transparent 50%)',
-              'radial-gradient(ellipse 800px 600px at 80% 60%, rgba(239, 68, 68, 0.12) 0%, transparent 50%)',
-              'radial-gradient(ellipse 800px 600px at 20% 40%, rgba(239, 68, 68, 0.12) 0%, transparent 50%)',
-            ],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-        />
-
-        <motion.div
-          className="absolute top-0 left-0 w-[500px] h-[500px] opacity-10 pointer-events-none"
-          animate={{
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          style={{
-            background: 'radial-gradient(circle at center, rgba(239, 68, 68, 0.3) 0%, transparent 60%)',
-            filter: 'blur(80px)',
-          }}
-        />
-
-        <motion.div
-          className="absolute bottom-0 right-0 w-[600px] h-[600px] opacity-10 pointer-events-none"
-          animate={{
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          style={{
-            background: 'radial-gradient(circle at center, rgba(239, 68, 68, 0.25) 0%, transparent 60%)',
-            filter: 'blur(100px)',
-          }}
-        />
-
+        <AmbientBackground />
+        
         <motion.div
           style={{ opacity, scale }}
           className="max-w-6xl relative z-10"
         >
-          <motion.div
-            className="absolute inset-0 opacity-30"
-            animate={{
-              background: [
-                'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 50%)',
-                'radial-gradient(circle at 80% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 50%)',
-                'radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 50%)',
-              ],
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-          />
-
           <motion.div
             initial={{ opacity: 0, filter: 'blur(10px)', y: 30 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -265,18 +220,7 @@ export default function HomePage() {
 
       {/* Why Custom Section */}
       <section className="py-32 relative overflow-hidden">
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] opacity-15 pointer-events-none"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.15, 0.25, 0.15],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-          style={{
-            background: 'radial-gradient(circle at center, rgba(239, 68, 68, 0.2) 0%, transparent 60%)',
-            filter: 'blur(120px)',
-          }}
-        />
+        <AmbientBackground />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
@@ -382,7 +326,8 @@ export default function HomePage() {
                 className="text-center relative z-10"
               >
                 <motion.div
-                  whileHover={{ scale: 1.1, y: -5 }}
+                  whileHover={{ y: -5, scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 300 }}
                   className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group depth-shadow red-ambient-light"
                 >
@@ -413,30 +358,7 @@ export default function HomePage() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden depth-shadow-lg"
         >
-          <motion.div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-20 pointer-events-none"
-            animate={{
-              opacity: [0.2, 0.3, 0.2],
-            }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(239, 68, 68, 0.25) 0%, transparent 60%)',
-              filter: 'blur(60px)',
-            }}
-          />
-          
-          <motion.div
-            className="absolute inset-0 rounded-[2.5rem] opacity-50 pointer-events-none"
-            animate={{
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, transparent 50%, rgba(239, 68, 68, 0.05) 100%)',
-              filter: 'blur(20px)',
-              margin: '-4px',
-            }}
-          />
+          <AmbientBackground />
           
           <div className="relative z-10 max-w-4xl mx-auto">
             <motion.div
