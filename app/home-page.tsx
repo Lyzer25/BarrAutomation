@@ -119,7 +119,7 @@ export default function HomePage() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="absolute right-[8%] bottom-[25%] w-72 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 z-10 hidden xl:block"
+          className="absolute right-[8%] bottom-[25%] w-72 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 z-10 hidden xl:block bg-chart-5 opacity-10"
           style={{
             boxShadow: '0 8px 32px 0 rgba(239, 68, 68, 0.15), 0 0 0 1px rgba(239, 68, 68, 0.1)'
           }}
@@ -195,7 +195,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block text-white/70 mt-2"
+                className="block mt-2 text-foreground"
               >
                 the most powerful custom
               </motion.span>
@@ -203,7 +203,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-                className="block text-white/70"
+                className="block mt-2 text-foreground"
               >
                 automated solutions.
               </motion.span>
