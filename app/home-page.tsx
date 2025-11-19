@@ -238,7 +238,7 @@ export default function HomePage() {
               <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                 <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Our Approach</span>
               </div>
-              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] text-glow-white">
+              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight text-glow-white">
                 Why Custom Development?
               </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
@@ -366,77 +366,34 @@ export default function HomePage() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden depth-shadow-lg shadow-[0_0_60px_-10px_rgba(239,68,68,0.1)]"
         >
-          {/* Removed large background blur */}
-          
           <div className="relative z-10 max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-6xl relative z-10"
-            >
-              <motion.div
-                initial={{ opacity: 0, filter: 'blur(10px)', y: 30 }}
-                animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                className="mb-8"
-              >
-                <h1 className="font-mono text-6xl font-thin tracking-tighter text-white md:text-7xl lg:text-8xl leading-[1.05]">
-                  <motion.span
-                    initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                    className="block drop-shadow-[0_0_20px_rgba(255,255,255,0.1)] text-glow-white"
-                  >
-                    Transform Your Business
-                  </motion.span>
-                  <motion.span
-                    initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                    className="block text-accent mt-2 drop-shadow-[0_0_35px_rgba(239,68,68,0.4)] text-glow-red"
-                  >
-                    With Custom Solutions
-                  </motion.span>
-                </h1>
+            <h2 className="text-4xl md:text-6xl font-thin text-white mb-6 tracking-tight text-glow-white">
+              Ready to Build Something Custom?
+            </h2>
+            <p className="text-lg md:text-xl text-white/60 mb-12 font-light leading-relaxed max-w-2xl mx-auto">
+              Let's discuss your project and create a solution built specifically for your business
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-500">
+                  <Link href="/contact">
+                    <span className="relative z-10 flex items-center gap-2">
+                      Schedule Consultation
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </Link>
+                </Button>
               </motion.div>
               
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light"
-              >
-                Specialized custom development for web applications, internal software, process automation, and AI solutions. Built specifically for your business needs.
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center"
-              >
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-500">
-                    <Link href="/contact">
-                      <span className="relative z-10 flex items-center gap-2">
-                        Schedule Consultation
-                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </Link>
-                  </Button>
-                </motion.div>
-                
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                    <Link href="/demos">
-                      View Demos
-                    </Link>
-                  </Button>
-                </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                  <Link href="/demos">
+                    View Demos
+                  </Link>
+                </Button>
               </motion.div>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       </section>
