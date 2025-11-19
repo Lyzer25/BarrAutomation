@@ -66,16 +66,16 @@ export default function ProductsPage() {
                 transition={{ delay: index * 0.1, duration: 0.6 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="group bg-[#1c1c1e] border border-white/10 hover:border-white/20 rounded-3xl p-10 transition-all duration-300 cursor-pointer"
+                className="group bg-[#0A0A0A] border border-white/10 hover:border-red-medium/30 rounded-3xl p-10 transition-all duration-300 cursor-pointer"
               >
                 <div className="flex items-start justify-between mb-8">
-                  <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                    <product.icon className="w-7 h-7 text-white/90" />
+                  <div className="w-14 h-14 bg-white/5 group-hover:bg-red-medium/10 rounded-2xl flex items-center justify-center transition-colors duration-300">
+                    <product.icon className="w-7 h-7 text-white/90 group-hover:text-red-light transition-colors" />
                   </div>
-                  <ArrowRight className="w-5 h-5 text-white/40 group-hover:text-white/60 group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-5 h-5 text-white/40 group-hover:text-red-medium group-hover:translate-x-1 transition-all" />
                 </div>
                 
-                <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">
+                <h3 className="text-2xl font-semibold text-white group-hover:text-red-light mb-3 tracking-tight transition-colors">
                   {product.title}
                 </h3>
                 <p className="text-white/60 leading-relaxed">

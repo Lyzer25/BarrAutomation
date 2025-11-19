@@ -159,14 +159,14 @@ export default function HomePage() {
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className="relative group h-full"
                 >
-                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl">
+                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-red-medium/20 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl">
                     <CardHeader className="pb-4 relative z-10 pt-8 px-8">
                       <motion.div
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
-                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300"
+                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-medium/10 group-hover:border-red-medium/30 transition-all duration-300"
                       >
-                        <service.icon className="w-6 h-6 text-white group-hover:text-white transition-colors" />
+                        <service.icon className="w-6 h-6 text-white group-hover:text-red-light transition-colors" />
                       </motion.div>
                       <CardTitle className="text-2xl text-white font-medium tracking-tight">
                         {service.title}
@@ -246,11 +246,11 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group relative"
+                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] hover:border-red-medium/20 transition-all duration-500 group relative"
                 >
                   <div className="relative z-10">
-                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500">
-                      <div className="w-2 h-2 bg-accent rounded-full"></div>
+                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 group-hover:bg-red-medium/10 transition-transform duration-500">
+                      <div className="w-2 h-2 bg-red-medium rounded-full"></div>
                     </div>
                     <h3 className="text-xl font-medium text-white mb-4 tracking-tight">{benefit.title}</h3>
                     <p className="text-white/50 font-light leading-relaxed">{benefit.desc}</p>

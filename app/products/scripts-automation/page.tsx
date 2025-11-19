@@ -177,7 +177,7 @@ export default function ScriptsAutomationPage() {
               className={`px-5 py-2.5 rounded-full font-semibold transition-all ${
                 selectedCategory === cat.id
                   ? 'bg-red-medium text-white'
-                  : 'bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700'
+                  : 'bg-[#1c1c1e] text-white/60 hover:text-white hover:bg-[#2c2c2e] border border-white/10'
               }`}
             >
               {cat.label}
@@ -204,41 +204,37 @@ export default function ScriptsAutomationPage() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
-                <CardHeader>
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center">
-                      <script.icon className="w-6 h-6 text-red-medium" />
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-accent">{script.price}</div>
-                      <div className="text-xs text-subtle-gray">{script.time}</div>
-                    </div>
+              <div className="group bg-[#0A0A0A] border border-white/10 hover:border-red-medium/40 transition-all duration-500 h-full hover:shadow-xl rounded-3xl p-8">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center">
+                    <script.icon className="w-6 h-6 text-red-medium" />
                   </div>
-                  <CardTitle className="text-white group-hover:text-accent transition-colors">
-                    {script.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {script.examples.map((example, idx) => (
-                      <div key={idx} className="flex items-center text-sm text-white/80">
-                        <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0" />
-                        {example}
-                      </div>
-                    ))}
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-red-medium">{script.price}</div>
+                    <div className="text-xs text-subtle-gray">{script.time}</div>
                   </div>
-                  <Link href="/contact">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full mt-4 bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
-                    >
-                      Discuss This Package
-                    </motion.button>
-                  </Link>
-                </CardContent>
-              </Card>
+                </div>
+                <h3 className="text-xl font-semibold text-white group-hover:text-red-light transition-colors mb-3">
+                  {script.title}
+                </h3>
+                <div className="space-y-2 mb-6">
+                  {script.examples.map((example, idx) => (
+                    <div key={idx} className="flex items-center text-sm text-white/80">
+                      <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0" />
+                      {example}
+                    </div>
+                  ))}
+                </div>
+                <Link href="/contact">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full bg-white text-black px-6 py-3 rounded-full text-sm font-semibold hover:bg-white/90 transition-colors"
+                  >
+                    Discuss This Package
+                  </motion.button>
+                </Link>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -265,7 +261,7 @@ export default function ScriptsAutomationPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <div className="text-6xl font-bold text-accent/20 font-mono mb-4">{step.number}</div>
+                <div className="text-6xl font-bold text-red-medium/20 font-mono mb-4">{step.number}</div>
                 <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
                 <p className="text-sm text-subtle-gray">{step.desc}</p>
               </motion.div>
@@ -288,10 +284,10 @@ export default function ScriptsAutomationPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6"
+              className="bg-[#0A0A0A] border border-white/10 hover:border-red-medium/30 rounded-2xl p-6 transition-all duration-300"
             >
               <p className="text-gray-300 mb-4">{testimonial.text}</p>
-              <div className="border-t border-gray-800 pt-4">
+              <div className="border-t border-white/10 pt-4">
                 <div className="font-semibold text-white">{testimonial.author}</div>
                 <div className="text-sm text-gray-400">{testimonial.company}</div>
               </div>
