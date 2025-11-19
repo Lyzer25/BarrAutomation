@@ -171,91 +171,105 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-16">
-      {/* Success State */}
-      {currentSection === "success" && (
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="flex justify-center mb-6">
-            <CheckCircle2 className="w-20 h-20 text-green-500" />
-          </div>
-          <h1 className="font-mono text-4xl font-thin text-white md:text-5xl mb-4">Message Sent Successfully!</h1>
-          <p className="text-lg text-subtle-gray mb-8">
-            Thank you for reaching out. We'll get back to you within 1 business day.
-          </p>
-          <Button
-            onClick={() => setCurrentSection("contact")}
-            variant="outline"
-            className="border-white/20 text-white hover:bg-white/10"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Send Another Message
-          </Button>
-        </div>
-      )}
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background elements for glassmorphic effect */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-red-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-40 right-20 w-80 h-80 bg-red-600/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-1/3 w-96 h-96 bg-red-400/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 right-10 w-72 h-72 bg-red-500/10 rounded-full blur-3xl" />
+      </div>
 
-      {/* Contact Form Section */}
-      {currentSection === "contact" && (
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <h1 className="font-mono text-4xl font-thin text-white md:text-5xl">Get In Touch</h1>
-            <p className="mt-4 text-lg text-subtle-gray">
-              Select the service you're interested in, then tell us about your project
+      <div className="container mx-auto px-4 py-16">
+        {/* Success State */}
+        {currentSection === "success" && (
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="flex justify-center mb-6">
+              <CheckCircle2 className="w-20 h-20 text-green-500" />
+            </div>
+            <h1 className="font-mono text-4xl font-thin text-white md:text-5xl mb-4">Message Sent Successfully!</h1>
+            <p className="text-lg text-subtle-gray mb-8">
+              Thank you for reaching out. We'll get back to you within 1 business day.
             </p>
+            <Button
+              onClick={() => setCurrentSection("contact")}
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Send Another Message
+            </Button>
           </div>
+        )}
 
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
-            {categories.map((category) => {
-              const Icon = category.icon
-              const isActive = selectedCategory === category.id
-              return (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`p-4 rounded-lg border transition-all duration-200 ${
-                    isActive
-                      ? "border-accent bg-accent/10 text-accent"
-                      : "border-white/20 text-white hover:border-white/40"
-                  }`}
-                >
-                  <Icon className={`w-6 h-6 mx-auto mb-2 ${isActive ? "text-accent" : "text-white/60"}`} />
-                  <div className="text-sm font-medium text-center">{category.label}</div>
-                </button>
-              )
-            })}
+        {/* Contact Form Section */}
+        {currentSection === "contact" && (
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center">
+              <h1 className="font-mono text-4xl font-thin text-white md:text-5xl">Get In Touch</h1>
+              <p className="mt-4 text-lg text-subtle-gray">
+                Select the service you're interested in, then tell us about your project
+              </p>
+            </div>
+
+            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
+              {categories.map((category) => {
+                const Icon = category.icon
+                const isActive = selectedCategory === category.id
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`p-4 rounded-lg border transition-all duration-200 ${
+                      isActive
+                        ? "border-accent bg-accent/10 text-accent"
+                        : "border-white/20 text-white hover:border-white/40"
+                    }`}
+                  >
+                    <Icon className={`w-6 h-6 mx-auto mb-2 ${isActive ? "text-accent" : "text-white/60"}`} />
+                    <div className="text-sm font-medium text-center">{category.label}</div>
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="mt-12">
+              {selectedCategory === "ai-automations" && (
+                <ContactForm ref={contactFormRef} onSubmit={handleContactSubmit} isLoading={isSubmitting} />
+              )}
+              {selectedCategory === "web-dev" && (
+                <WebDevContactForm ref={webDevFormRef} onSubmit={handleSimpleContactSubmit} isLoading={isSubmitting} />
+              )}
+              {selectedCategory === "software-tools" && (
+                <SoftwareToolsContactForm
+                  ref={softwareToolsFormRef}
+                  onSubmit={handleSimpleContactSubmit}
+                  isLoading={isSubmitting}
+                />
+              )}
+              {selectedCategory === "scripts" && (
+                <ScriptsContactForm
+                  ref={scriptsFormRef}
+                  onSubmit={handleSimpleContactSubmit}
+                  isLoading={isSubmitting}
+                />
+              )}
+            </div>
           </div>
+        )}
 
-          <div className="mt-12">
-            {selectedCategory === "ai-automations" && (
-              <ContactForm ref={contactFormRef} onSubmit={handleContactSubmit} isLoading={isSubmitting} />
-            )}
-            {selectedCategory === "web-dev" && (
-              <WebDevContactForm ref={webDevFormRef} onSubmit={handleSimpleContactSubmit} isLoading={isSubmitting} />
-            )}
-            {selectedCategory === "software-tools" && (
-              <SoftwareToolsContactForm
-                ref={softwareToolsFormRef}
-                onSubmit={handleSimpleContactSubmit}
-                isLoading={isSubmitting}
-              />
-            )}
-            {selectedCategory === "scripts" && (
-              <ScriptsContactForm ref={scriptsFormRef} onSubmit={handleSimpleContactSubmit} isLoading={isSubmitting} />
-            )}
+        {/* Discovery Stepper (AI Automations only) */}
+        {contactBasics && currentSection === "discovery" && (
+          <div id="discovery-section" className="max-w-4xl mx-auto mt-20">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl font-semibold text-white">Discovery Questions</h2>
+              <p className="mt-2 text-subtle-gray">Help us understand your automation needs better</p>
+            </div>
+
+            <DiscoveryStepper contactBasics={contactBasics} onSubmit={handleDiscoverySubmit} isLoading={isSubmitting} />
           </div>
-        </div>
-      )}
-
-      {/* Discovery Stepper (AI Automations only) */}
-      {contactBasics && currentSection === "discovery" && (
-        <div id="discovery-section" className="max-w-4xl mx-auto mt-20">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-semibold text-white">Discovery Questions</h2>
-            <p className="mt-2 text-subtle-gray">Help us understand your automation needs better</p>
-          </div>
-
-          <DiscoveryStepper contactBasics={contactBasics} onSubmit={handleDiscoverySubmit} isLoading={isSubmitting} />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
