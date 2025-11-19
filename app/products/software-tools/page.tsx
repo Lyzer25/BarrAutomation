@@ -16,28 +16,32 @@ export default function SoftwareToolingPage() {
       title: "Process Automation",
       description: "Eliminate repetitive tasks and streamline workflows",
       stats: "75% time saved",
-      color: "red"
+      color: "red",
+      badge: "Automation"
     },
     {
       icon: Database,
       title: "Data Integration",
       description: "Connect all your systems and unify your data",
       stats: "100+ integrations",
-      color: "red"
+      color: "red",
+      badge: "Integration"
     },
     {
       icon: BarChart3,
       title: "Custom Dashboards",
       description: "Real-time insights tailored to your business",
       stats: "Real-time updates",
-      color: "red"
+      color: "red",
+      badge: "Analytics"
     },
     {
       icon: Shield,
       title: "Enterprise Security",
       description: "Bank-grade security for your internal tools",
       stats: "SOC2 compliant",
-      color: "red"
+      color: "red",
+      badge: "Security"
     }
   ]
 
@@ -143,20 +147,26 @@ export default function SoftwareToolingPage() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
+              <Card className="group bg-[#0A0A0A] backdrop-blur-sm border border-white/10 hover:border-red-medium/30 transition-all duration-500 h-full">
                 <CardHeader>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-semibold bg-red-dark/20 text-red-light px-3 py-1 rounded-full border border-red-dark/30">
+                      {solution.badge}
+                    </span>
+                  </div>
+                  
                   <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center mb-4">
                     <solution.icon className="w-6 h-6 text-red-medium" />
                   </div>
-                  <CardTitle className="text-white group-hover:text-accent transition-colors">
+                  <CardTitle className="text-white">
                     {solution.title}
                   </CardTitle>
-                  <CardDescription className="text-subtle-gray group-hover:text-white/80 transition-colors">
+                  <CardDescription className="text-white/60">
                     {solution.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm font-bold text-accent">{solution.stats}</p>
+                  <p className="text-sm font-bold text-red-medium">{solution.stats}</p>
                 </CardContent>
               </Card>
             </motion.div>

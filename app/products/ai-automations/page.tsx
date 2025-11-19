@@ -96,12 +96,12 @@ export default function AIAutomationsPage() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { icon: Brain, title: "Custom AI Models", desc: "Tailored machine learning solutions for your specific needs", features: ["Model training", "Fine-tuning", "Data analysis"] },
-            { icon: MessageSquare, title: "Conversational AI", desc: "Intelligent chatbots and virtual assistants", features: ["NLP processing", "Multi-language", "Context awareness"] },
-            { icon: Workflow, title: "AI Workflow Automation", desc: "Automate complex business processes with AI", features: ["Document processing", "Data extraction", "Smart routing"] },
-            { icon: Bot, title: "Computer Vision", desc: "Image and video analysis for your applications", features: ["Object detection", "Face recognition", "Quality inspection"] },
-            { icon: Brain, title: "Predictive Analytics", desc: "Forecast trends and make data-driven decisions", features: ["Sales forecasting", "Risk assessment", "Anomaly detection"] },
-            { icon: Sparkles, title: "Document Intelligence", desc: "Extract insights from documents automatically", features: ["OCR processing", "Data extraction", "Summarization"] }
+            { icon: Brain, title: "Custom AI Models", desc: "Tailored machine learning solutions for your specific needs", features: ["Model training", "Fine-tuning", "Data analysis"], badge: "ML/AI", stat: "Custom Trained" },
+            { icon: MessageSquare, title: "Conversational AI", desc: "Intelligent chatbots and virtual assistants", features: ["NLP processing", "Multi-language", "Context awareness"], badge: "Chatbots", stat: "24/7 Available" },
+            { icon: Workflow, title: "AI Workflow Automation", desc: "Automate complex business processes with AI", features: ["Document processing", "Data extraction", "Smart routing"], badge: "Automation", stat: "10x Faster" },
+            { icon: Bot, title: "Computer Vision", desc: "Image and video analysis for your applications", features: ["Object detection", "Face recognition", "Quality inspection"], badge: "Vision", stat: "Real-time" },
+            { icon: Brain, title: "Predictive Analytics", desc: "Forecast trends and make data-driven decisions", features: ["Sales forecasting", "Risk assessment", "Anomaly detection"], badge: "Analytics", stat: "Data-Driven" },
+            { icon: Sparkles, title: "Document Intelligence", desc: "Extract insights from documents automatically", features: ["OCR processing", "Data extraction", "Summarization"], badge: "Documents", stat: "99% Accuracy" }
           ].map((solution, index) => (
             <motion.div
               key={index}
@@ -110,16 +110,25 @@ export default function AIAutomationsPage() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <div className="bg-[#1c1c1e] border border-white/10 rounded-3xl p-8 text-center max-w-4xl mx-auto">
+              <div className="bg-[#0A0A0A] border border-white/10 hover:border-red-medium/30 transition-all duration-500 rounded-3xl p-8 h-full">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold bg-red-dark/20 text-red-light px-3 py-1 rounded-full border border-red-dark/30">
+                    {solution.badge}
+                  </span>
+                </div>
+                
                 <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center mb-4">
                   <solution.icon className="w-6 h-6 text-red-medium" />
                 </div>
                 <h3 className="text-white text-2xl font-semibold mb-4">
                   {solution.title}
                 </h3>
-                <p className="text-white/60 text-lg mb-8 leading-relaxed max-w-2xl mx-auto">
+                <p className="text-white/60 text-base mb-4 leading-relaxed">
                   {solution.desc}
                 </p>
+                
+                <p className="text-red-medium font-semibold text-sm mb-6">{solution.stat}</p>
+                
                 <ul className="space-y-2">
                   {solution.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center text-sm text-white/80">

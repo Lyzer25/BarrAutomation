@@ -10,19 +10,25 @@ export default function WebDevelopmentPage() {
       icon: Globe,
       title: "Custom Web Applications",
       description: "Full-stack web apps built with modern frameworks like Next.js, React, and Node.js",
-      features: ["Responsive Design", "Cloud Deployment", "API Integration", "Real-time Features"]
+      features: ["Responsive Design", "Cloud Deployment", "API Integration", "Real-time Features"],
+      badge: "Web Apps",
+      stat: "Modern Stack"
     },
     {
       icon: Smartphone,
       title: "Mobile-First Design",
       description: "Beautiful, fast websites optimized for every device and screen size",
-      features: ["Progressive Web Apps", "Touch-Optimized", "Offline Support", "App-Like Experience"]
+      features: ["Progressive Web Apps", "Touch-Optimized", "Offline Support", "App-Like Experience"],
+      badge: "Mobile",
+      stat: "100% Responsive"
     },
     {
       icon: Gauge,
       title: "Performance Optimization",
       description: "Lightning-fast load times and seamless user experiences that convert",
-      features: ["Core Web Vitals", "SEO Optimized", "CDN Integration", "Image Optimization"]
+      features: ["Core Web Vitals", "SEO Optimized", "CDN Integration", "Image Optimization"],
+      badge: "Performance",
+      stat: "<1s Load Time"
     }
   ]
 
@@ -177,16 +183,25 @@ export default function WebDevelopmentPage() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <div className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20 p-8 rounded-3xl">
+              <div className="group bg-[#0A0A0A] backdrop-blur-sm border border-white/10 hover:border-red-medium/30 transition-all duration-500 h-full p-8 rounded-3xl">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold bg-red-dark/20 text-red-light px-3 py-1 rounded-full border border-red-dark/30">
+                    {service.badge}
+                  </span>
+                </div>
+                
                 <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center mb-4">
                   <service.icon className="w-6 h-6 text-red-medium" />
                 </div>
-                <h3 className="text-white group-hover:text-accent transition-colors text-2xl mb-2 tracking-tight">
+                <h3 className="text-white text-2xl mb-2 tracking-tight">
                   {service.title}
                 </h3>
-                <p className="text-subtle-gray group-hover:text-white/80 transition-colors text-sm leading-relaxed mb-6">
+                <p className="text-white/60 text-sm leading-relaxed mb-4">
                   {service.description}
                 </p>
+                
+                <p className="text-red-medium font-semibold text-sm mb-6">{service.stat}</p>
+                
                 <ul className="space-y-3 mb-8">
                   {service.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start text-sm text-white/80">
