@@ -8,7 +8,7 @@ import { Menu, ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
-import { useState } from "react" // Added missing useState import
+import { useState } from "react"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -33,7 +33,7 @@ export default function Header() {
   const [showDemosDropdown, setShowDemosDropdown] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl supports-[backdrop-filter]:bg-black/30">
+    <header className="sticky top-0 z-50 w-full border-b border-red-500/10 bg-[#0A0A0A]/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(239,68,68,0.05)]">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <Image
@@ -52,8 +52,8 @@ export default function Header() {
             className={cn(
               "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
               pathname === "/" 
-                ? "bg-white text-black" 
-                : "text-white/70 hover:text-white hover:bg-white/10"
+                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
+                : "text-white/70 hover:text-white hover:bg-red-500/10"
             )}
           >
             Home
@@ -69,8 +69,8 @@ export default function Header() {
               className={cn(
                 "flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
                 showProductsDropdown || pathname.startsWith('/products')
-                  ? "bg-white text-black" 
-                  : "text-white/70 hover:text-white hover:bg-white/10"
+                  ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
+                  : "text-white/70 hover:text-white hover:bg-red-500/10"
               )}
             >
               Products
@@ -86,7 +86,7 @@ export default function Header() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="absolute top-full left-0 pt-2"
                 >
-                  <div className="w-64 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-1">
+                  <div className="w-64 bg-[#0A0A0A]/95 backdrop-blur-xl border border-red-500/20 rounded-2xl shadow-[0_8px_32px_rgba(239,68,68,0.2)] overflow-hidden p-1">
                     {productsLinks.map((link) => (
                       <Link
                         key={link.href}
@@ -94,8 +94,8 @@ export default function Header() {
                         className={cn(
                           "block px-4 py-3 text-sm rounded-xl transition-all duration-200",
                           pathname === link.href 
-                            ? "bg-white/10 text-white font-medium" 
-                            : "text-white/70 hover:text-white hover:bg-white/5"
+                            ? "bg-red-500/20 text-white font-medium border border-red-500/30" 
+                            : "text-white/70 hover:text-white hover:bg-red-500/10"
                         )}
                       >
                         {link.label}
@@ -117,8 +117,8 @@ export default function Header() {
               className={cn(
                 "flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
                 showDemosDropdown || pathname.startsWith('/demos')
-                  ? "bg-white text-black" 
-                  : "text-white/70 hover:text-white hover:bg-white/10"
+                  ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
+                  : "text-white/70 hover:text-white hover:bg-red-500/10"
               )}
             >
               Demos
@@ -134,7 +134,7 @@ export default function Header() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="absolute top-full left-0 pt-2"
                 >
-                  <div className="w-48 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-1">
+                  <div className="w-48 bg-[#0A0A0A]/95 backdrop-blur-xl border border-red-500/20 rounded-2xl shadow-[0_8px_32px_rgba(239,68,68,0.2)] overflow-hidden p-1">
                     {demosLinks.map((link) => (
                       <Link
                         key={link.href}
@@ -142,8 +142,8 @@ export default function Header() {
                         className={cn(
                           "block px-4 py-3 text-sm rounded-xl transition-all duration-200",
                           pathname === link.href 
-                            ? "bg-white/10 text-white font-medium" 
-                            : "text-white/70 hover:text-white hover:bg-white/5"
+                            ? "bg-red-500/20 text-white font-medium border border-red-500/30" 
+                            : "text-white/70 hover:text-white hover:bg-red-500/10"
                         )}
                       >
                         {link.label}
@@ -160,8 +160,8 @@ export default function Header() {
             className={cn(
               "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
               pathname === "/integrations" 
-                ? "bg-white text-black" 
-                : "text-white/70 hover:text-white hover:bg-white/10"
+                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
+                : "text-white/70 hover:text-white hover:bg-red-500/10"
             )}
           >
             Integrations
@@ -172,8 +172,8 @@ export default function Header() {
             className={cn(
               "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
               pathname === "/contact" 
-                ? "bg-white text-black" 
-                : "text-white/70 hover:text-white hover:bg-white/10"
+                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
+                : "text-white/70 hover:text-white hover:bg-red-500/10"
             )}
           >
             Contact Us
@@ -181,7 +181,7 @@ export default function Header() {
         </div>
         
         <div className="hidden md:block">
-          <Button asChild className="rounded-full bg-accent hover:bg-accent/90 text-white px-6 shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] transition-all duration-300">
+          <Button asChild className="rounded-full bg-red-500 hover:bg-red-600 text-white px-6 shadow-[0_0_20px_rgba(239,68,68,0.4)] hover:shadow-[0_0_30px_rgba(239,68,68,0.6)] transition-all duration-300">
             <Link href="/contact">Build My Solution</Link>
           </Button>
         </div>
@@ -189,32 +189,32 @@ export default function Header() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 rounded-full">
+              <Button variant="ghost" size="icon" className="text-white hover:bg-red-500/10 rounded-full">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-black/95 border-white/10 backdrop-blur-xl">
+            <SheetContent side="right" className="bg-[#0A0A0A]/95 border-red-500/20 backdrop-blur-xl">
               <nav className="grid gap-6 text-lg font-medium mt-8">
                 <Link
                   href="/"
                   className={cn(
-                    "transition-colors hover:text-accent",
-                    pathname === "/" ? "text-accent" : "text-white",
+                    "transition-colors",
+                    pathname === "/" ? "text-red-400" : "text-white hover:text-red-400",
                   )}
                 >
                   Home
                 </Link>
                 
                 {/* Products Section in Mobile Menu */}
-                <div className="border-t border-white/10 pt-4">
-                  <div className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">Products</div>
+                <div className="border-t border-red-500/10 pt-4">
+                  <div className="text-sm font-semibold text-red-400/60 mb-3 uppercase tracking-wider">Products</div>
                   {productsLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
                       className={cn(
-                        "block py-2 transition-colors hover:text-accent",
-                        pathname === link.href ? "text-accent" : "text-white",
+                        "block py-2 transition-colors",
+                        pathname === link.href ? "text-red-400" : "text-white hover:text-red-400",
                       )}
                     >
                       {link.label}
@@ -223,15 +223,15 @@ export default function Header() {
                 </div>
                 
                 {/* Demos Section in Mobile Menu */}
-                <div className="border-t border-white/10 pt-4">
-                  <div className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">Demos</div>
+                <div className="border-t border-red-500/10 pt-4">
+                  <div className="text-sm font-semibold text-red-400/60 mb-3 uppercase tracking-wider">Demos</div>
                   {demosLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
                       className={cn(
-                        "block py-2 transition-colors hover:text-accent",
-                        pathname === link.href ? "text-accent" : "text-white",
+                        "block py-2 transition-colors",
+                        pathname === link.href ? "text-red-400" : "text-white hover:text-red-400",
                       )}
                     >
                       {link.label}
@@ -242,8 +242,8 @@ export default function Header() {
                 <Link
                   href="/integrations"
                   className={cn(
-                    "transition-colors hover:text-accent",
-                    pathname === "/integrations" ? "text-accent" : "text-white",
+                    "transition-colors",
+                    pathname === "/integrations" ? "text-red-400" : "text-white hover:text-red-400",
                   )}
                 >
                   Integrations
@@ -252,8 +252,8 @@ export default function Header() {
                 <Link
                   href="/contact"
                   className={cn(
-                    "transition-colors hover:text-accent",
-                    pathname === "/contact" ? "text-accent" : "text-white",
+                    "transition-colors",
+                    pathname === "/contact" ? "text-red-400" : "text-white hover:text-red-400",
                   )}
                 >
                   Contact Us

@@ -336,7 +336,20 @@ export default function HomePage() {
       </section>
 
       {/* Services Grid */}
-      <section className="container mx-auto px-4 py-32 relative">
+      <section className="container mx-auto px-4 py-32 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(239, 68, 68, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(239, 68, 68, 0.02) 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+        </div>
+
         <FadeInView className="text-center mb-20 relative z-10">
           <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">What We Build</h2>
           <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
@@ -382,14 +395,14 @@ export default function HomePage() {
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   className="relative group h-full"
                 >
-                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-red-medium/20 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl">
+                  <Card className="group bg-[#0A0A0A]/80 backdrop-blur-xl border border-red-500/10 hover:border-red-medium/30 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl shadow-[0_0_50px_rgba(239,68,68,0.05)]">
                     <CardHeader className="pb-4 relative z-10 pt-8 px-8">
                       <motion.div
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
-                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-medium/10 group-hover:border-red-medium/30 transition-all duration-300"
+                        className="w-12 h-12 bg-red-500/5 border border-red-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-medium/10 group-hover:border-red-medium/40 transition-all duration-300 backdrop-blur-sm"
                       >
-                        <service.icon className="w-6 h-6 text-white group-hover:text-red-light transition-colors" />
+                        <service.icon className="w-6 h-6 text-red-400 group-hover:text-red-light transition-colors" />
                       </motion.div>
                       <CardTitle className="text-2xl text-white font-medium tracking-tight">{service.title}</CardTitle>
                       <CardDescription className="text-white/50 group-hover:text-white/70 transition-colors text-base font-light leading-relaxed mt-2">
@@ -406,16 +419,19 @@ export default function HomePage() {
                             transition={{ delay: idx * 0.1 }}
                             className="flex items-center text-sm text-white/60 font-light"
                           >
-                            <div className="w-1.5 h-1.5 rounded-full bg-accent/50 mr-3 flex-shrink-0" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-red-500/50 mr-3 flex-shrink-0" />
                             {feature}
                           </motion.li>
                         ))}
                       </ul>
-                      <div className="flex items-center text-white/40 group-hover:text-white transition-all text-sm font-medium">
+                      <div className="flex items-center text-red-400/60 group-hover:text-red-400 transition-all text-sm font-medium">
                         <span>Learn More</span>
                         <ArrowRight className="w-4 h-4 ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                       </div>
                     </CardContent>
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent" />
+                    </div>
                   </Card>
                 </motion.div>
               </Link>
@@ -426,6 +442,27 @@ export default function HomePage() {
 
       {/* Why Custom Section */}
       <section className="py-32 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <motion.line
+              x1="20%" y1="10%" x2="40%" y2="30%"
+              stroke="rgb(239, 68, 68)"
+              strokeWidth="0.5"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
+            />
+            <motion.line
+              x1="60%" y1="20%" x2="80%" y2="40%"
+              stroke="rgb(239, 68, 68)"
+              strokeWidth="0.5"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 3, delay: 1, repeat: Infinity, repeatDelay: 2 }}
+            />
+          </svg>
+        </div>
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
             <motion.div
@@ -463,14 +500,26 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] hover:border-red-medium/20 transition-all duration-500 group relative"
+                  className="text-center p-10 rounded-3xl border border-red-500/10 bg-[#0A0A0A]/80 backdrop-blur-xl hover:bg-[#0A0A0A] hover:border-red-medium/30 transition-all duration-500 group relative overflow-hidden shadow-[0_0_50px_rgba(239,68,68,0.03)]"
                 >
                   <div className="relative z-10">
-                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 group-hover:bg-red-medium/10 transition-transform duration-500">
-                      <div className="w-2 h-2 bg-red-medium rounded-full"></div>
+                    <div className="w-12 h-12 bg-red-500/5 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 group-hover:bg-red-medium/10 group-hover:border-red-500/40 transition-all duration-500 backdrop-blur-sm">
+                      <div className="w-2 h-2 bg-red-medium rounded-full group-hover:shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                     </div>
                     <h3 className="text-xl font-medium text-white mb-4 tracking-tight">{benefit.title}</h3>
                     <p className="text-white/50 font-light leading-relaxed">{benefit.desc}</p>
+                  </div>
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500">
+                    <div
+                      style={{
+                        backgroundImage: `
+                          linear-gradient(rgba(239, 68, 68, 0.05) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(239, 68, 68, 0.05) 1px, transparent 1px)
+                        `,
+                        backgroundSize: "20px 20px",
+                      }}
+                      className="w-full h-full"
+                    />
                   </div>
                 </motion.div>
               ))}
@@ -480,7 +529,20 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-32 bg-black relative">
+      <section className="py-32 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(239, 68, 68, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(239, 68, 68, 0.1) 1px, transparent 1px)
+              `,
+              backgroundSize: "60px 60px",
+            }}
+            className="w-full h-full"
+          />
+        </div>
+
         <div className="container mx-auto px-4 relative z-10">
           <FadeInView className="text-center mb-24">
             <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">Simple Process</h2>
@@ -488,8 +550,9 @@ export default function HomePage() {
           </FadeInView>
 
           <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-8 relative">
-            <div className="hidden md:block absolute top-12 left-0 w-full h-[1px]">
-              <div className="w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            <div className="hidden md:block absolute top-12 left-0 w-full h-[2px]">
+              <div className="w-full h-full bg-gradient-to-r from-transparent via-red-500/20 to-transparent" />
+              <div className="absolute inset-0 blur-sm bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
             </div>
 
             {[
@@ -501,14 +564,15 @@ export default function HomePage() {
             ].map((step, index) => (
               <FadeInView key={index} delay={index * 0.15} className="text-center relative z-10">
                 <motion.div
-                  whileHover={{ y: -5, scale: 1.01 }}
+                  whileHover={{ y: -5, scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 300 }}
-                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group"
+                  className="w-24 h-24 mx-auto bg-[#0A0A0A] border border-red-500/20 rounded-full flex items-center justify-center mb-8 relative group backdrop-blur-sm shadow-[0_0_30px_rgba(239,68,68,0.05)]"
                 >
-                  <span className="text-2xl font-mono text-white/80 group-hover:text-accent transition-colors duration-300">
+                  <span className="text-2xl font-mono text-white/80 group-hover:text-red-400 transition-colors duration-300">
                     {step.number}
                   </span>
+                  <div className="absolute inset-0 rounded-full border border-red-500/0 group-hover:border-red-500/30 group-hover:scale-110 transition-all duration-500" />
                 </motion.div>
                 <h3 className="text-xl font-medium text-white mb-3 tracking-tight">{step.title}</h3>
                 <p className="text-sm text-white/50 font-light leading-relaxed">{step.desc}</p>
@@ -525,8 +589,21 @@ export default function HomePage() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden"
+          className="relative bg-[#0A0A0A]/80 backdrop-blur-xl border border-red-500/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden shadow-[0_0_80px_rgba(239,68,68,0.1)]"
         >
+          <div className="absolute inset-0 opacity-5">
+            <div
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(239, 68, 68, 0.2) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(239, 68, 68, 0.2) 1px, transparent 1px)
+                `,
+                backgroundSize: "30px 30px",
+              }}
+              className="w-full h-full"
+            />
+          </div>
+
           <div className="relative z-10 max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-6xl font-thin text-white mb-6 tracking-tight">
               Ready to Build Something Custom?
@@ -556,7 +633,7 @@ export default function HomePage() {
                   size="lg"
                   variant="outline"
                   asChild
-                  className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium"
+                  className="border-red-500/20 bg-red-500/5 backdrop-blur-md text-white hover:bg-red-500/10 hover:border-red-500/40 text-base px-10 py-7 rounded-full font-medium"
                 >
                   <Link href="/demos">View Demos</Link>
                 </Button>
