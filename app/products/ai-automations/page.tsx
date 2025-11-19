@@ -111,8 +111,8 @@ export default function AIAutomationsPage() {
               transition={{ delay: index * 0.1 }}
             >
               <div className="bg-[#1c1c1e] border border-white/10 rounded-3xl p-8 text-center max-w-4xl mx-auto">
-                <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
-                  <solution.icon className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center mb-4">
+                  <solution.icon className="w-6 h-6 text-red-medium" />
                 </div>
                 <h3 className="text-white text-2xl font-semibold mb-4">
                   {solution.title}
@@ -160,7 +160,7 @@ export default function AIAutomationsPage() {
                 onClick={() => setActiveCase(index)}
                 className={`px-6 py-3 rounded-lg font-semibold transition-all ${
                   activeCase === index
-                    ? 'bg-gradient-to-r from-red-500 to-orange-500 text-white'
+                    ? 'bg-red-medium text-white'
                     : 'bg-gray-800 text-gray-400 hover:text-white'
                 }`}
               >
@@ -179,7 +179,7 @@ export default function AIAutomationsPage() {
           >
             <div className="grid md:grid-cols-3 gap-8">
               <div>
-                <h4 className="text-sm font-semibold text-red-400 mb-2">THE CHALLENGE</h4>
+                <h4 className="text-sm font-semibold text-red-medium mb-2">THE CHALLENGE</h4>
                 <p className="text-gray-300">{[
                   { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
                   { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
@@ -187,7 +187,7 @@ export default function AIAutomationsPage() {
                 ][activeCase].challenge}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-red-400 mb-2">CUSTOM SOLUTION APPROACH</h4>
+                <h4 className="text-sm font-semibold text-red-medium mb-2">CUSTOM SOLUTION APPROACH</h4>
                 <p className="text-gray-300">{[
                   { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },
                   { industry: "Healthcare Example", challenge: "Medical document processing bottleneck", solution: "Custom AI document intelligence system with HIPAA compliance", results: ["90% time reduction goal", "Target 99.8% accuracy", "Fully HIPAA compliant"] },
@@ -195,7 +195,7 @@ export default function AIAutomationsPage() {
                 ][activeCase].solution}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-red-400 mb-2">POTENTIAL RESULTS</h4>
+                <h4 className="text-sm font-semibold text-red-medium mb-2">POTENTIAL RESULTS</h4>
                 <ul className="space-y-2">
                   {[
                     { industry: "E-Commerce Example", challenge: "Manual product categorization taking hours", solution: "Custom AI model for automatic product classification and tagging", results: ["Target 95% accuracy", "10x faster processing", "Save 40 hours/week"] },

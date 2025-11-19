@@ -178,8 +178,8 @@ export default function WebDevelopmentPage() {
               transition={{ delay: index * 0.1 }}
             >
               <div className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20 p-8 rounded-3xl">
-                <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
-                  <service.icon className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center mb-4">
+                  <service.icon className="w-6 h-6 text-red-medium" />
                 </div>
                 <h3 className="text-white group-hover:text-accent transition-colors text-2xl mb-2 tracking-tight">
                   {service.title}

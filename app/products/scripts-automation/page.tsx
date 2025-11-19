@@ -176,7 +176,7 @@ export default function ScriptsAutomationPage() {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full font-semibold transition-all ${
                 selectedCategory === cat.id
-                  ? 'bg-red-500 text-white'
+                  ? 'bg-red-medium text-white'
                   : 'bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700'
               }`}
             >
@@ -207,8 +207,8 @@ export default function ScriptsAutomationPage() {
               <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
                 <CardHeader>
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
-                      <script.icon className="w-6 h-6 text-white" />
+                    <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center">
+                      <script.icon className="w-6 h-6 text-red-medium" />
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold text-accent">{script.price}</div>

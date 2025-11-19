@@ -16,20 +16,28 @@
   --secondary-foreground: hsl(0 0% 98%);
   --muted: hsl(0 0% 9%);
   --muted-foreground: hsl(0 0% 63.9%);
-  /* Changed accent from cyan to red */
-  --accent: hsl(0 84% 60%);
+  
+  /* Creating a comprehensive red palette */
+  --accent: hsl(0 84% 60%);  /* Primary red - keep for main accent */
   --accent-foreground: hsl(0 0% 98%);
+  --red-light: hsl(0 70% 65%);  /* Lighter red for highlights */
+  --red-medium: hsl(0 80% 55%);  /* Medium red for gradients */
+  --red-dark: hsl(0 90% 45%);  /* Darker red for depth */
+  --red-deep: hsl(0 95% 35%);  /* Deep red for shadows */
+  
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(0 0% 98%);
   --border: hsl(0 0% 14.9%);
   --input: hsl(0 0% 14.9%);
   --ring: hsl(0 0% 83.1%);
-  --chart-1: hsl(12 76% 61%);
-  /* Changed chart colors from cyan/blue to red shades */
+  
+  /* Red palette for charts - removed orange tones */
+  --chart-1: hsl(0 84% 60%);
   --chart-2: hsl(0 70% 50%);
   --chart-3: hsl(0 60% 40%);
-  --chart-4: hsl(43 74% 66%);
-  --chart-5: hsl(27 87% 67%);
+  --chart-4: hsl(0 50% 30%);
+  --chart-5: hsl(0 40% 25%);
+  
   --radius: 0.5rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
@@ -54,20 +62,27 @@
   --secondary-foreground: hsl(0 0% 98%);
   --muted: hsl(0 0% 9%);
   --muted-foreground: hsl(0 0% 63.9%);
-  /* Changed accent from cyan to red */
+  
+  /* Red palette for dark mode */
   --accent: hsl(0 84% 60%);
   --accent-foreground: hsl(0 0% 98%);
+  --red-light: hsl(0 70% 65%);
+  --red-medium: hsl(0 80% 55%);
+  --red-dark: hsl(0 90% 45%);
+  --red-deep: hsl(0 95% 35%);
+  
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(0 0% 98%);
   --border: hsl(0 0% 14.9%);
   --input: hsl(0 0% 14.9%);
   --ring: hsl(0 0% 83.1%);
-  --chart-1: hsl(12 76% 61%);
-  /* Changed chart colors from cyan/blue to red shades */
+  
+  /* Red palette for charts in dark mode */
+  --chart-1: hsl(0 84% 60%);
   --chart-2: hsl(0 70% 50%);
   --chart-3: hsl(0 60% 40%);
-  --chart-4: hsl(43 74% 66%);
-  --chart-5: hsl(27 87% 67%);
+  --chart-4: hsl(0 50% 30%);
+  --chart-5: hsl(0 40% 25%);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -112,6 +127,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Adding red palette to theme variables */
+  --color-red-light: var(--red-light);
+  --color-red-medium: var(--red-medium);
+  --color-red-dark: var(--red-dark);
+  --color-red-deep: var(--red-deep);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -735,9 +756,9 @@ html {
   opacity: 1;
 }
 
+/* Updated gradient from red-to-orange to red-to-red palette */
 .gradient-text {
-  /* Changed gradient from cyan/blue to red shades */
-  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(90deg, hsl(0 84% 60%) 0%, hsl(0 90% 45%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -756,8 +777,8 @@ html {
   inset: 0;
   border-radius: 0.5rem;
   padding: 2px;
-  /* Changed gradient from cyan/blue to red shades */
-  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+  /* Red-to-red gradient instead of orange */
+  background: linear-gradient(90deg, hsl(0 84% 60%) 0%, hsl(0 90% 45%) 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;

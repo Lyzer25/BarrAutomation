@@ -16,28 +16,28 @@ export default function SoftwareToolingPage() {
       title: "Process Automation",
       description: "Eliminate repetitive tasks and streamline workflows",
       stats: "75% time saved",
-      color: "from-red-500 to-orange-500"
+      color: "red"
     },
     {
       icon: Database,
       title: "Data Integration",
       description: "Connect all your systems and unify your data",
       stats: "100+ integrations",
-      color: "from-red-500 to-orange-500"
+      color: "red"
     },
     {
       icon: BarChart3,
       title: "Custom Dashboards",
       description: "Real-time insights tailored to your business",
       stats: "Real-time updates",
-      color: "from-red-500 to-orange-500"
+      color: "red"
     },
     {
       icon: Shield,
       title: "Enterprise Security",
       description: "Bank-grade security for your internal tools",
       stats: "SOC2 compliant",
-      color: "from-red-500 to-orange-500"
+      color: "red"
     }
   ]
 
@@ -145,8 +145,8 @@ export default function SoftwareToolingPage() {
             >
               <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
-                    <solution.icon className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 bg-red-dark/20 border border-red-dark/30 rounded-xl flex items-center justify-center mb-4">
+                    <solution.icon className="w-6 h-6 text-red-medium" />
                   </div>
                   <CardTitle className="text-white group-hover:text-accent transition-colors">
                     {solution.title}
@@ -357,7 +357,7 @@ export default function SoftwareToolingPage() {
           viewport={{ once: true }}
           className="mt-12 max-w-4xl mx-auto"
         >
-          <Card className="bg-gradient-to-r from-accent/20 to-orange-500/20 backdrop-blur-sm border-2 border-accent/50">
+          <Card className="bg-gradient-to-r from-red-dark/20 to-red-deep/20 backdrop-blur-sm border-2 border-accent/50">
             <CardHeader className="text-center">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <TrendingUp className="w-6 h-6 text-accent" />
