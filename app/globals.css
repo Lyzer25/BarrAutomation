@@ -140,6 +140,8 @@
 
   --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-family-mono: var(--font-roboto-mono), ui-monospace, monospace;
+  /* Adding Chakra Petch as heading font */
+  --font-family-heading: var(--font-chakra-petch), ui-sans-serif, system-ui, sans-serif;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -879,4 +881,9 @@ html {
 
 .page-fly-in {
   animation: pageFlyIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Apply Chakra Petch to all headings site-wide */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-heading);
 }

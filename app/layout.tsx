@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Roboto_Mono } from 'next/font/google'
+import { Inter, Roboto_Mono, Chakra_Petch } from 'next/font/google'
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import Header from "@/components/header"
@@ -15,6 +15,11 @@ const robotoMono = Roboto_Mono({
   subsets: ["latin"],
   weight: ["300", "400", "700"],
   variable: "--font-roboto-mono",
+})
+const chakraPetch = Chakra_Petch({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-chakra-petch",
 })
 
 export const metadata: Metadata = {
@@ -33,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable)}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable, chakraPetch.variable)}>
         <TooltipProvider>
           <LandingBackgroundWrapper>
             <Header />
