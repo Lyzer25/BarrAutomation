@@ -163,13 +163,10 @@ export default function WebDevelopmentPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="group relative bg-white text-black px-8 py-4 rounded-full text-base font-semibold overflow-hidden"
+                  className="group relative bg-white text-black px-8 py-4 rounded-full text-base font-semibold overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(239,68,68,0.5)]"
                 >
-                  <span className="relative z-10">Start Your Project</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <span className="relative z-10 opacity-0 group-hover:opacity-100 text-white absolute inset-0 flex items-center justify-center transition-opacity">
-                    Start Your Project
-                  </span>
+                  <span className="relative z-10 group-hover:text-white transition-colors duration-300">Start Your Project</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </motion.button>
               </Link>
               <Link href="/demos">
