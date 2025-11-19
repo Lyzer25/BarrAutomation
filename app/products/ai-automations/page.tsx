@@ -124,10 +124,10 @@ export default function AIAutomationsPage() {
                 desc: "Deploy AI agents that handle customer support, data entry, scheduling, and internal inquiries 24/7 with responses trained on your specific business operations."
               },
               {
-                icon: Brain,
+                icon: Sparkles,
                 iconBg: "bg-red-light",
-                title: "Continuously learns and improves.",
-                desc: "Your AI gets smarter over time by learning from your team's interactions, documentation updates, and feedback to deliver increasingly accurate responses."
+                title: "Generate and qualify leads automatically.",
+                desc: "AI-powered chatbots engage website visitors, qualify leads through intelligent conversations, and integrate with your CRM to capture high-quality prospects 24/7."
               }
             ].map((feature, index) => (
               <motion.div
