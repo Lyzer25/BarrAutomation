@@ -233,6 +233,64 @@ body {
     0 0 60px rgba(239, 68, 68, 0.08);
 }
 
+/* Adding realistic light falloff shadow effects inspired by reference images */
+
+/* Soft shadow utilities for natural depth */
+.shadow-soft {
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5))
+          drop-shadow(0 20px 50px rgba(0, 0, 0, 0.4));
+}
+
+.shadow-soft-lg {
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6))
+          drop-shadow(0 40px 80px rgba(0, 0, 0, 0.5));
+}
+
+.shadow-soft-xl {
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.7))
+          drop-shadow(0 60px 120px rgba(0, 0, 0, 0.6));
+}
+
+/* Red accent shadows for emphasis */
+.shadow-red-soft {
+  filter: drop-shadow(0 15px 35px rgba(239, 68, 68, 0.3))
+          drop-shadow(0 30px 70px rgba(239, 68, 68, 0.2));
+}
+
+.shadow-red-soft-lg {
+  filter: drop-shadow(0 25px 50px rgba(239, 68, 68, 0.4))
+          drop-shadow(0 50px 100px rgba(239, 68, 68, 0.3));
+}
+
+/* Card depth shadows */
+.card-shadow {
+  box-shadow: 
+    0 10px 30px -5px rgba(0, 0, 0, 0.8),
+    0 20px 60px -10px rgba(0, 0, 0, 0.7),
+    0 0 100px -20px rgba(0, 0, 0, 0.5);
+}
+
+.card-shadow-hover {
+  box-shadow: 
+    0 15px 40px -5px rgba(0, 0, 0, 0.9),
+    0 30px 80px -10px rgba(0, 0, 0, 0.8),
+    0 0 120px -15px rgba(239, 68, 68, 0.15);
+}
+
+/* Button shadows */
+.button-shadow {
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.8),
+    0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.button-shadow-hover {
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.9),
+    0 24px 60px rgba(0, 0, 0, 0.7),
+    0 0 80px rgba(255, 255, 255, 0.05);
+}
+
 /* Removed harsh glow effects and replaced with soft gradient shadows */
 
 /* Remove all text-glow and box-glow classes */
@@ -704,6 +762,10 @@ html {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
+}
+
+.gradient-border::before {
+  opacity: 1; /* Removed hover for always-on gradient border */
 }
 
 .glass {
