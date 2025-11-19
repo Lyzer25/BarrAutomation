@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Roboto_Mono } from "next/font/google"
+import { Inter, Roboto_Mono } from 'next/font/google'
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import Header from "@/components/header"
@@ -8,6 +8,7 @@ import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { LandingBackgroundWrapper } from "./landing-bg-wrapper"
+import { PageTransition } from "@/components/page-transition"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const robotoMono = Roboto_Mono({
@@ -36,7 +37,9 @@ export default function RootLayout({
         <TooltipProvider>
           <LandingBackgroundWrapper>
             <Header />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
             <Toaster />
           </LandingBackgroundWrapper>
