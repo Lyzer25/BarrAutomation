@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Terminal, Bot, Zap, Clock, ArrowRight, Check, Star } from 'lucide-react'
+import { Terminal, Bot, Zap, Clock, Check } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -110,34 +110,33 @@ export default function ScriptsAutomationPage() {
     : scriptTypes.filter(s => s.category === selectedCategory)
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-24">
+      <section className="container mx-auto px-4 py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-4xl mx-auto"
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-5xl mx-auto"
         >
-          
-          <h1 className="font-mono text-4xl font-thin text-white md:text-6xl lg:text-7xl">
-            Quick Scripts &{' '}
-            <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-              Fast Solutions
-            </span>
+          <h1 className="font-sans text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6">
+            Scripts & Automation
           </h1>
           
-          <p className="mt-6 text-lg text-subtle-gray max-w-3xl mx-auto">
-            Need something automated fast? From simple scripts to complex workflows, we deliver custom working solutions in hours, not weeks. Fixed prices, rapid delivery.
+          <p className="text-xl md:text-2xl text-white/60 font-light leading-relaxed max-w-3xl mx-auto">
+            Quick scripts and fast solutions delivered in hours, not weeks
           </p>
           
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild className="animate-pulse-glow">
-              <Link href="/contact">Get Instant Quote</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/demos">View Script Gallery</Link>
-            </Button>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
+              >
+                Get Instant Quote
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       </section>
@@ -229,9 +228,15 @@ export default function ScriptsAutomationPage() {
                       </div>
                     ))}
                   </div>
-                  <Button asChild className="w-full mt-4" variant="secondary">
-                    <Link href="/contact">Discuss This Package</Link>
-                  </Button>
+                  <Link href="/contact">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-full mt-4 bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
+                    >
+                      Discuss This Package
+                    </motion.button>
+                  </Link>
                 </CardContent>
               </Card>
             </motion.div>
@@ -298,22 +303,27 @@ export default function ScriptsAutomationPage() {
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-24">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-xl p-12 text-center"
+          transition={{ duration: 0.6 }}
+          className="bg-[#1c1c1e] border border-white/10 rounded-3xl p-16 text-center max-w-4xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Got Something to Automate?
+          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
+            Got something to automate?
           </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Describe your task and get a quote in minutes. Most custom scripts delivered within 24-48 hours.
+          <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Most custom scripts delivered within 24-48 hours
           </p>
-          <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-gray-100">
-            <Link href="/contact">
-              Get Instant Quote <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-          </Button>
+          <Link href="/contact">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
+            >
+              Get Instant Quote
+            </motion.button>
+          </Link>
         </motion.div>
       </section>
     </div>

@@ -2,9 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Globe, Smartphone, Gauge, ArrowRight, Check, Code, Palette, Rocket, ShoppingCart, Warehouse } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Globe, Smartphone, Gauge, ShoppingCart, Warehouse, Check } from 'lucide-react'
 
 export default function WebDevelopmentPage() {
   const services = [
@@ -96,34 +94,41 @@ export default function WebDevelopmentPage() {
   ]
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-24">
+    <div className="min-h-screen bg-black">
+      <section className="container mx-auto px-4 py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-4xl mx-auto"
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-5xl mx-auto"
         >
-          
-          <h1 className="font-mono text-4xl font-thin text-white md:text-6xl lg:text-7xl">
-            Custom Web Solutions That Drive{' '}
-            <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-              Real Results
-            </span>
+          <h1 className="font-sans text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6">
+            Web Development
           </h1>
           
-          <p className="mt-6 text-lg text-subtle-gray max-w-3xl mx-auto">
-            From landing pages to complex web applications, we build fast, beautiful, and scalable websites tailored to your business needs.
+          <p className="text-xl md:text-2xl text-white/60 font-light leading-relaxed max-w-3xl mx-auto">
+            Custom websites and web applications built from scratch to drive real results for your business
           </p>
           
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild className="animate-pulse-glow">
-              <Link href="/contact">Start Your Project</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/demos">View Our Work</Link>
-            </Button>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
+              >
+                Start Your Project
+              </motion.button>
+            </Link>
+            <Link href="/demos">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white/10 text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/15 transition-colors"
+              >
+                View Our Work
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       </section>
@@ -172,40 +177,37 @@ export default function WebDevelopmentPage() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
-                    <service.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <CardTitle className="text-white group-hover:text-accent transition-colors">
-                    {service.title}
-                  </CardTitle>
-                  <CardDescription className="text-subtle-gray group-hover:text-white/80 transition-colors">
-                    {service.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {service.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-sm text-white/80">
-                        <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              <div className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20 p-8 rounded-3xl">
+                <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
+                  <service.icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-white group-hover:text-accent transition-colors text-2xl mb-2 tracking-tight">
+                  {service.title}
+                </h3>
+                <p className="text-subtle-gray group-hover:text-white/80 transition-colors text-sm leading-relaxed mb-6">
+                  {service.description}
+                </p>
+                <ul className="space-y-3 mb-8">
+                  {service.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start text-sm text-white/80">
+                      <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Pricing Packages Section */}
-      <section className="container mx-auto px-4 py-20 bg-black/20">
-        <div className="text-center mb-12">
-          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Solution Packages</h2>
-          <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
-            Flexible pricing options designed to fit your business needs and budget
+      <section className="container mx-auto px-4 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4 tracking-tight">
+            Solution Packages
+          </h2>
+          <p className="text-xl text-white/60 leading-relaxed max-w-2xl mx-auto">
+            Flexible pricing options designed to fit your business needs
           </p>
         </div>
 
@@ -217,75 +219,77 @@ export default function WebDevelopmentPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
+              className="bg-[#1c1c1e] border border-white/10 rounded-3xl p-8"
             >
-              <Card className="group bg-black/80 backdrop-blur-sm border border-white/10 hover:border-accent/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-accent/20">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
-                    <pkg.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <CardTitle className="text-white group-hover:text-accent transition-colors text-2xl">
-                    {pkg.name}
-                  </CardTitle>
-                  <CardDescription className="text-subtle-gray group-hover:text-white/80 transition-colors">
-                    {pkg.description}
-                  </CardDescription>
-                  <div className="pt-4 border-t border-white/10 mt-4">
-                    <div className="text-3xl font-bold text-white">{pkg.basePrice}</div>
-                    <div className="text-sm text-accent mt-1">{pkg.monthlyPrice}</div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <ul className="space-y-3">
-                    {pkg.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start text-sm text-white/80">
-                        <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
+              <div className="mb-8">
+                <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mb-6">
+                  <pkg.icon className="w-6 h-6 text-white/90" />
+                </div>
+                <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+                  {pkg.name}
+                </h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-6">
+                  {pkg.description}
+                </p>
+                <div className="space-y-1">
+                  <div className="text-4xl font-semibold text-white">{pkg.basePrice}</div>
+                  <div className="text-sm text-white/60">{pkg.monthlyPrice}</div>
+                </div>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                {pkg.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start text-sm text-white/80">
+                    <Check className="w-5 h-5 text-white/60 mr-3 flex-shrink-0 mt-0.5" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {pkg.upgrade && (
+                <div className="pt-6 border-t border-white/10 mb-6">
+                  <div className="text-sm font-semibold text-white mb-2">{pkg.upgrade.title}</div>
+                  <div className="text-lg font-semibold text-white mb-3">{pkg.upgrade.price}</div>
+                  <ul className="space-y-2">
+                    {pkg.upgrade.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start text-xs text-white/70">
+                        <Check className="w-4 h-4 text-white/60 mr-2 flex-shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
 
-                  {pkg.upgrade && (
-                    <div className="pt-4 border-t border-white/10">
-                      <div className="text-sm font-semibold text-accent mb-2">{pkg.upgrade.title}</div>
-                      <div className="text-lg font-bold text-white mb-2">{pkg.upgrade.price}</div>
-                      <ul className="space-y-2">
-                        {pkg.upgrade.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start text-xs text-white/70">
-                            <Check className="w-3 h-3 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+              {pkg.alternative && (
+                <div className="pt-6 border-t border-white/10 mb-6">
+                  <div className="text-sm font-semibold text-white mb-2">{pkg.alternative.title}</div>
+                  <div className="text-lg font-semibold text-white mb-1">{pkg.alternative.price}</div>
+                  <div className="text-xs text-white/50 mb-3">{pkg.alternative.note}</div>
+                  <ul className="space-y-2">
+                    {pkg.alternative.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start text-xs text-white/70">
+                        <Check className="w-4 h-4 text-white/60 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-                  {pkg.alternative && (
-                    <div className="pt-4 border-t border-white/10">
-                      <div className="text-sm font-semibold text-accent mb-2">{pkg.alternative.title}</div>
-                      <div className="text-lg font-bold text-white mb-1">{pkg.alternative.price}</div>
-                      <div className="text-xs text-white/60 mb-2">{pkg.alternative.note}</div>
-                      <ul className="space-y-2">
-                        {pkg.alternative.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start text-xs text-white/70">
-                            <Check className="w-3 h-3 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+              {pkg.note && (
+                <p className="text-xs text-white/50 italic mb-6">{pkg.note}</p>
+              )}
 
-                  {pkg.note && (
-                    <div className="pt-4 border-t border-white/10">
-                      <p className="text-xs text-white/60 italic">{pkg.note}</p>
-                    </div>
-                  )}
-
-                  <Button className="w-full mt-4" variant="outline" asChild>
-                    <Link href="/contact">Discuss This Package</Link>
-                  </Button>
-                </CardContent>
-              </Card>
+              <Link href="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-white/10 hover:bg-white/15 text-white px-6 py-3 rounded-full text-sm font-semibold transition-colors"
+                >
+                  Discuss This Package
+                </motion.button>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -320,50 +324,28 @@ export default function WebDevelopmentPage() {
         </div>
       </section>
 
-      {/* Technologies Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Modern Tech Stack</h2>
-          <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
-            We use the latest technologies to build fast, secure, and scalable applications
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-          {['Next.js', 'React', 'TypeScript', 'Tailwind', 'Node.js', 'PostgreSQL'].map((tech, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="bg-white/5 hover:bg-accent/10 border border-white/10 hover:border-accent/30 rounded-lg p-4 text-center transition-all duration-300"
-            >
-              <p className="text-sm font-mono text-white">{tech}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA Section */}
       <section className="container mx-auto px-4 py-24">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-xl p-12 text-center"
+          className="bg-[#1c1c1e] border border-white/10 rounded-3xl p-16 text-center max-w-4xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to Build Something Amazing?
+          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
+            Ready to build something amazing?
           </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Let's turn your vision into a powerful web application that drives growth
+          <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Let's turn your vision into a powerful web application
           </p>
-          <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-gray-100">
-            <Link href="/contact">
-              Get Started Today <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-          </Button>
+          <Link href="/contact">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
+            >
+              Get Started Today
+            </motion.button>
+          </Link>
         </motion.div>
       </section>
     </div>

@@ -69,33 +69,32 @@ export default function SoftwareToolingPage() {
   ]
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-24">
+    <div className="min-h-screen bg-black">
+      <section className="container mx-auto px-4 py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-4xl mx-auto"
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-5xl mx-auto"
         >
-          <h1 className="font-mono text-4xl font-thin text-white md:text-6xl lg:text-7xl">
-            Custom Software That{' '}
-            <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-              Powers Growth
-            </span>
+          <h1 className="font-sans text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6">
+            Software & Internal Tools
           </h1>
           
-          <p className="mt-6 text-lg text-subtle-gray max-w-3xl mx-auto">
-            From custom CRMs to warehouse management systems, from internal dashboards to industry-specific platforms - we build software solutions tailored to your exact business needs.
+          <p className="text-xl md:text-2xl text-white/60 font-light leading-relaxed max-w-3xl mx-auto">
+            Custom software solutions tailored to your exact business needs
           </p>
           
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild className="animate-pulse-glow">
-              <Link href="/contact">Schedule Consultation</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/demos">View Case Studies</Link>
-            </Button>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
+              >
+                Schedule Consultation
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       </section>
@@ -219,9 +218,15 @@ export default function SoftwareToolingPage() {
                   ))}
                 </ul>
 
-                <Button asChild className="w-full animate-pulse-glow">
-                  <Link href="/contact">Discuss This Package</Link>
-                </Button>
+                <Link href="/contact">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors w-full mt-8"
+                  >
+                    Discuss This Package
+                  </motion.button>
+                </Link>
               </CardContent>
             </Card>
           </motion.div>
@@ -274,9 +279,15 @@ export default function SoftwareToolingPage() {
                   ))}
                 </ul>
 
-                <Button asChild className="w-full bg-accent hover:bg-accent/90">
-                  <Link href="/contact">Discuss This Package</Link>
-                </Button>
+                <Link href="/contact">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors w-full mt-8"
+                  >
+                    Discuss This Package
+                  </motion.button>
+                </Link>
               </CardContent>
             </Card>
           </motion.div>
@@ -325,9 +336,15 @@ export default function SoftwareToolingPage() {
                   ))}
                 </ul>
 
-                <Button asChild variant="outline" className="w-full">
-                  <Link href="/contact">Discuss This Package</Link>
-                </Button>
+                <Link href="/contact">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors w-full mt-8"
+                  >
+                    Discuss This Package
+                  </motion.button>
+                </Link>
               </CardContent>
             </Card>
           </motion.div>
@@ -390,9 +407,15 @@ export default function SoftwareToolingPage() {
               <p className="text-xs text-white/60 mt-4">
                 All terms are negotiated on a per-deal basis based on project scope and business model. Let's discuss what works for you.
               </p>
-              <Button asChild size="lg" className="animate-pulse-glow">
-                <Link href="/contact">Discuss Your Project</Link>
-              </Button>
+              <Link href="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors w-full mt-8"
+                >
+                  Discuss Your Project
+                </motion.button>
+              </Link>
             </CardContent>
           </Card>
         </motion.div>
@@ -472,25 +495,28 @@ export default function SoftwareToolingPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="container mx-auto px-4 py-24">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-red-600 to-orange-600 rounded-xl p-12 text-center"
+          className="bg-[#1c1c1e] border border-white/10 rounded-3xl p-16 text-center max-w-4xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to Transform Your Operations?
+          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
+            Ready to transform your operations?
           </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Let's build the custom software solution that takes your business to the next level
+          <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Let's build custom software that drives growth
           </p>
-          <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-gray-100">
-            <Link href="/contact">
-              Get Started Today <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-          </Button>
+          <Link href="/contact">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-black px-8 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors"
+            >
+              Get Started Today
+            </motion.button>
+          </Link>
         </motion.div>
       </section>
     </div>
