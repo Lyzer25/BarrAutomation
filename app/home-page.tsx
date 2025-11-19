@@ -175,7 +175,7 @@ export default function HomePage() {
             initial={{ opacity: 0, filter: "blur(10px)", y: 30 }}
             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-8 mt-40"
+            className="mb-8 mt-32"
           >
             <h1 className="font-mono text-5xl md:text-7xl lg:text-8xl font-light tracking-tight text-white leading-[1.1]">
               <motion.span
@@ -184,21 +184,13 @@ export default function HomePage() {
                 transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
                 className="block"
               >
-                Built for your business,
+                The most powerful custom
               </motion.span>
               <motion.span
                 initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
                 className="block mt-2 text-white/90"
-              >
-                the most powerful custom
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-                className="block mt-2 text-foreground"
               >
                 automated solutions.
               </motion.span>
