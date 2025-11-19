@@ -2,9 +2,59 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Globe, Smartphone, Gauge, ShoppingCart, Warehouse, Check, Code2, Palette, Zap } from 'lucide-react'
+import { Globe, Smartphone, Gauge, ShoppingCart, Warehouse, Check, Code2, Palette, Zap, Package, Users, Settings, BarChart3, ShieldCheck } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 export default function WebDevelopmentPage() {
+  const [activeDashboard, setActiveDashboard] = useState(0)
+  
+  const dashboards = [
+    {
+      title: 'Product Management',
+      subtitle: 'Manage your inventory',
+      items: [
+        { name: 'Wireless Headphones', price: '$89.99', stock: 234, status: 'In Stock' },
+        { name: 'Smart Watch Pro', price: '$299.99', stock: 67, status: 'Low Stock' },
+        { name: 'USB-C Cable', price: '$12.99', stock: 891, status: 'In Stock' },
+      ]
+    },
+    {
+      title: 'Order Dashboard',
+      subtitle: 'Track your sales',
+      orders: [
+        { id: '#ORD-1847', customer: 'John Smith', amount: '$342.50', status: 'Completed' },
+        { id: '#ORD-1846', customer: 'Sarah Johnson', amount: '$127.99', status: 'Processing' },
+        { id: '#ORD-1845', customer: 'Mike Davis', amount: '$89.99', status: 'Shipped' },
+      ]
+    },
+    {
+      title: 'Admin Portal',
+      subtitle: 'Manage your team',
+      admins: [
+        { name: 'Alex Morgan', role: 'Super Admin', status: 'Active', lastLogin: '2 min ago' },
+        { name: 'Jamie Lee', role: 'Manager', status: 'Active', lastLogin: '1 hour ago' },
+        { name: 'Sam Taylor', role: 'Support', status: 'Away', lastLogin: '3 hours ago' },
+      ]
+    },
+    {
+      title: 'Analytics Overview',
+      subtitle: 'Business insights',
+      stats: [
+        { label: 'Total Revenue', value: '$45,231', change: '+12.5%', trend: 'up' },
+        { label: 'Active Users', value: '2,847', change: '+8.2%', trend: 'up' },
+        { label: 'Avg. Order Value', value: '$127.50', change: '-2.4%', trend: 'down' },
+      ]
+    },
+  ]
+
+  // Auto-scroll through dashboards
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveDashboard((prev) => (prev + 1) % dashboards.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
+
   const browserMockups = [
     { title: 'E-Commerce', color: 'from-red-500/20 to-orange-500/20', delay: 0 },
     { title: 'Dashboard', color: 'from-red-500/20 to-pink-500/20', delay: 0.2 },
@@ -200,112 +250,188 @@ export default function WebDevelopmentPage() {
                   </div>
                   <div className="flex-1 flex items-center justify-center">
                     <div className="bg-black/40 rounded-lg px-4 py-1.5 text-xs text-white/60 border border-white/10 max-w-md w-full">
-                      your-business.com
+                      your-business.com/admin
                     </div>
                   </div>
                 </div>
 
-                {/* Browser content - visual showcase */}
-                <div className="relative bg-gradient-to-br from-black via-gray-900 to-black p-8 md:p-12 min-h-[400px]">
+                <div className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 md:p-12 min-h-[500px] overflow-hidden">
                   {/* Grid pattern overlay */}
-                  <div className="absolute inset-0 opacity-10" style={{
+                  <div className="absolute inset-0 opacity-5" style={{
                     backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
                     backgroundSize: '30px 30px'
                   }} />
 
-                  {/* Animated floating cards showcasing design elements */}
-                  <div className="relative grid md:grid-cols-3 gap-6">
-                    {/* Design card */}
+                  {/* Dashboard content with smooth transitions */}
+                  <div className="relative">
+                    {/* Product Management Dashboard */}
                     <motion.div
-                      initial={{ opacity: 0, x: -20 }}
+                      key={`dashboard-${activeDashboard}`}
+                      initial={{ opacity: 0, x: 50 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.6 }}
-                      className="bg-gradient-to-br from-red-500/10 to-orange-500/10 backdrop-blur-sm border border-red-500/20 rounded-xl p-6 hover:border-red-500/40 transition-all group"
+                      exit={{ opacity: 0, x: -50 }}
+                      transition={{ duration: 0.5 }}
+                      className="space-y-6"
                     >
-                      <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <Palette className="w-6 h-6 text-red-400" />
-                      </div>
-                      <h3 className="text-white font-semibold mb-2">Stunning Design</h3>
-                      <p className="text-white/60 text-sm">Pixel-perfect interfaces that captivate users</p>
-                      <div className="mt-4 flex gap-2">
-                        <div className="w-8 h-8 rounded bg-gradient-to-br from-red-400 to-red-600" />
-                        <div className="w-8 h-8 rounded bg-gradient-to-br from-orange-400 to-red-500" />
-                        <div className="w-8 h-8 rounded bg-gradient-to-br from-pink-400 to-red-500" />
-                      </div>
-                    </motion.div>
-
-                    {/* Performance card */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.7 }}
-                      className="bg-gradient-to-br from-red-500/10 to-pink-500/10 backdrop-blur-sm border border-red-500/20 rounded-xl p-6 hover:border-red-500/40 transition-all group"
-                    >
-                      <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <Zap className="w-6 h-6 text-red-400" />
-                      </div>
-                      <h3 className="text-white font-semibold mb-2">Lightning Fast</h3>
-                      <p className="text-white/60 text-sm">Optimized for speed and performance</p>
-                      <div className="mt-4">
-                        <div className="flex justify-between text-xs text-white/40 mb-2">
-                          <span>Load Time</span>
-                          <span>0.8s</span>
+                      {/* Dashboard header */}
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-2xl font-bold text-white mb-1">{dashboards[activeDashboard].title}</h3>
+                          <p className="text-white/50 text-sm">{dashboards[activeDashboard].subtitle}</p>
                         </div>
-                        <div className="h-2 bg-black/40 rounded-full overflow-hidden">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: '95%' }}
-                            transition={{ delay: 1, duration: 1 }}
-                            className="h-full bg-gradient-to-r from-red-500 to-red-400"
-                          />
+                        <div className="flex gap-2">
+                          {dashboards.map((_, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setActiveDashboard(idx)}
+                              className={`w-2 h-2 rounded-full transition-all ${
+                                idx === activeDashboard ? 'bg-red-500 w-6' : 'bg-white/20'
+                              }`}
+                            />
+                          ))}
                         </div>
                       </div>
-                    </motion.div>
 
-                    {/* Code quality card */}
-                    <motion.div
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.8 }}
-                      className="bg-gradient-to-br from-red-500/10 to-purple-500/10 backdrop-blur-sm border border-red-500/20 rounded-xl p-6 hover:border-red-500/40 transition-all group"
-                    >
-                      <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <Code2 className="w-6 h-6 text-red-400" />
-                      </div>
-                      <h3 className="text-white font-semibold mb-2">Clean Code</h3>
-                      <p className="text-white/60 text-sm">Built with best practices and standards</p>
-                      <div className="mt-4 bg-black/40 rounded-lg p-3 font-mono text-xs text-green-400">
-                        <div className="text-red-400">{'<YourBusiness />'}</div>
-                      </div>
+                      {/* Product Management View */}
+                      {activeDashboard === 0 && (
+                        <div className="space-y-3">
+                          {dashboards[0].items.map((item, idx) => (
+                            <motion.div
+                              key={idx}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: idx * 0.1 }}
+                              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 hover:border-red-500/30 transition-all"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                  <div className="w-12 h-12 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-lg flex items-center justify-center">
+                                    <Package className="w-6 h-6 text-red-400" />
+                                  </div>
+                                  <div>
+                                    <p className="text-white font-semibold text-sm">{item.name}</p>
+                                    <p className="text-white/50 text-xs">Stock: {item.stock}</p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <p className="text-white font-semibold">{item.price}</p>
+                                  <span className={`text-xs px-2 py-0.5 rounded-full ${
+                                    item.status === 'In Stock' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+                                  }`}>
+                                    {item.status}
+                                  </span>
+                                </div>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Orders Dashboard View */}
+                      {activeDashboard === 1 && (
+                        <div className="space-y-3">
+                          {dashboards[1].orders.map((order, idx) => (
+                            <motion.div
+                              key={idx}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: idx * 0.1 }}
+                              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 hover:border-red-500/30 transition-all"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-lg flex items-center justify-center">
+                                    <ShoppingCart className="w-6 h-6 text-blue-400" />
+                                  </div>
+                                  <div>
+                                    <p className="text-white font-semibold text-sm">{order.id}</p>
+                                    <p className="text-white/50 text-xs">{order.customer}</p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <p className="text-white font-semibold">{order.amount}</p>
+                                  <span className={`text-xs px-2 py-0.5 rounded-full ${
+                                    order.status === 'Completed' ? 'bg-green-500/20 text-green-400' :
+                                    order.status === 'Processing' ? 'bg-blue-500/20 text-blue-400' :
+                                    'bg-orange-500/20 text-orange-400'
+                                  }`}>
+                                    {order.status}
+                                  </span>
+                                </div>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Admin Portal View */}
+                      {activeDashboard === 2 && (
+                        <div className="space-y-3">
+                          {dashboards[2].admins.map((admin, idx) => (
+                            <motion.div
+                              key={idx}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: idx * 0.1 }}
+                              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 hover:border-red-500/30 transition-all"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center">
+                                    <Users className="w-6 h-6 text-purple-400" />
+                                  </div>
+                                  <div>
+                                    <p className="text-white font-semibold text-sm">{admin.name}</p>
+                                    <p className="text-white/50 text-xs">{admin.role}</p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <span className={`text-xs px-2 py-0.5 rounded-full ${
+                                    admin.status === 'Active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
+                                  }`}>
+                                    {admin.status}
+                                  </span>
+                                  <p className="text-white/50 text-xs mt-1">{admin.lastLogin}</p>
+                                </div>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Analytics View */}
+                      {activeDashboard === 3 && (
+                        <div className="space-y-3">
+                          {dashboards[3].stats.map((stat, idx) => (
+                            <motion.div
+                              key={idx}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: idx * 0.1 }}
+                              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 hover:border-red-500/30 transition-all"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                  <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg flex items-center justify-center">
+                                    <BarChart3 className="w-6 h-6 text-green-400" />
+                                  </div>
+                                  <div>
+                                    <p className="text-white/50 text-xs mb-1">{stat.label}</p>
+                                    <p className="text-white font-bold text-2xl">{stat.value}</p>
+                                  </div>
+                                </div>
+                                <div className={`text-sm font-semibold ${
+                                  stat.trend === 'up' ? 'text-green-400' : 'text-red-400'
+                                }`}>
+                                  {stat.change}
+                                </div>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
                     </motion.div>
                   </div>
-
-                  {/* Floating decorative elements */}
-                  <motion.div
-                    animate={{
-                      y: [0, -10, 0],
-                      rotate: [0, 5, 0]
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    className="absolute top-8 right-8 w-20 h-20 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl backdrop-blur-sm border border-red-500/30"
-                  />
-                  <motion.div
-                    animate={{
-                      y: [0, 10, 0],
-                      rotate: [0, -5, 0]
-                    }}
-                    transition={{
-                      duration: 5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1
-                    }}
-                    className="absolute bottom-8 left-8 w-16 h-16 bg-gradient-to-br from-pink-500/20 to-red-500/20 rounded-full backdrop-blur-sm border border-pink-500/30"
-                  />
                 </div>
               </div>
             </motion.div>
