@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import LogoCarousel from "@/components/logo-carousel"
 import Link from "next/link"
-import { Brain, MessageSquare, Workflow, Bot, Sparkles, Check } from 'lucide-react'
+import { Brain, MessageSquare, Workflow, Bot, Sparkles, Check, Clock, TrendingUp, Users, Zap, DollarSign, Target } from 'lucide-react'
 
 const stats = [
   { icon: Bot, value: "24/7", label: "AI Availability" },
@@ -13,6 +13,7 @@ const stats = [
 
 export default function AIAutomationsPage() {
   const [activeCase] = useState(0)
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
 
   return (
     <div className="min-h-screen bg-black">
@@ -211,6 +212,186 @@ export default function AIAutomationsPage() {
         </div>
       </section>
 
+      <section className="py-24 bg-gradient-to-b from-black via-black/95 to-black">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="font-sans text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+              What You Could Do With Us
+            </h2>
+            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+              Transform your business with custom AI solutions that work 24/7
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Clock,
+                title: "24/7 Customer Support",
+                description: "AI chatbots handle customer inquiries around the clock, trained on your knowledge base",
+                stat: "24/7",
+                statLabel: "Always Available",
+                color: "red-medium",
+                features: ["Instant responses", "No wait times", "Scale infinitely"]
+              },
+              {
+                icon: TrendingUp,
+                title: "10x Efficiency Gains",
+                description: "Automate repetitive tasks and free your team to focus on high-value work",
+                stat: "10x",
+                statLabel: "Faster Processing",
+                color: "red-light",
+                features: ["Eliminate bottlenecks", "Reduce manual work", "Speed up operations"]
+              },
+              {
+                icon: Users,
+                title: "Lead Generation & Qualification",
+                description: "AI agents engage visitors, qualify leads, and schedule meetings automatically",
+                stat: "3x",
+                statLabel: "More Qualified Leads",
+                color: "red-dark",
+                features: ["Engage every visitor", "Smart qualification", "CRM integration"]
+              },
+              {
+                icon: Zap,
+                title: "Instant Knowledge Access",
+                description: "Employees get instant answers from your internal documentation and processes",
+                stat: "90%",
+                statLabel: "Time Saved",
+                color: "red-medium",
+                features: ["Search all docs instantly", "No manual lookup", "Always up-to-date"]
+              },
+              {
+                icon: DollarSign,
+                title: "Reduce Operating Costs",
+                description: "Lower support costs and scale operations without proportional headcount increases",
+                stat: "60%",
+                statLabel: "Cost Reduction",
+                color: "red-light",
+                features: ["Lower overhead", "Scale efficiently", "Predictable costs"]
+              },
+              {
+                icon: Target,
+                title: "Personalized Experiences",
+                description: "AI delivers tailored responses based on customer history and context",
+                stat: "85%",
+                statLabel: "Satisfaction Rate",
+                color: "red-dark",
+                features: ["Context-aware", "Personalized responses", "Better engagement"]
+              }
+            ].map((capability, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                <motion.div
+                  whileHover={{ y: -8 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="bg-[#0A0A0A] border border-white/10 hover:border-red-medium/40 transition-all duration-500 rounded-3xl p-8 h-full relative overflow-hidden group"
+                >
+                  {/* Animated background gradient on hover */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: hoveredCard === index ? 0.05 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 bg-gradient-to-br from-red-medium to-transparent"
+                  />
+                  
+                  {/* Icon with animated background */}
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                    className={`w-16 h-16 bg-${capability.color}/20 border border-${capability.color}/30 rounded-2xl flex items-center justify-center mb-6 relative z-10`}
+                  >
+                    <capability.icon className={`w-8 h-8 text-${capability.color}`} />
+                  </motion.div>
+                  
+                  {/* Stat Badge */}
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <motion.span
+                      initial={{ scale: 0.8 }}
+                      whileInView={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200 }}
+                      className="text-4xl font-bold text-white"
+                    >
+                      {capability.stat}
+                    </motion.span>
+                    <span className="text-sm text-white/60 font-medium">{capability.statLabel}</span>
+                  </div>
+                  
+                  <h3 className="text-white text-2xl font-bold mb-3 tracking-tight">
+                    {capability.title}
+                  </h3>
+                  
+                  <p className="text-white/60 text-base mb-6 leading-relaxed">
+                    {capability.description}
+                  </p>
+                  
+                  {/* Feature list with animated checkmarks */}
+                  <ul className="space-y-2">
+                    {capability.features.map((feature, idx) => (
+                      <motion.li
+                        key={idx}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3 + idx * 0.1 }}
+                        className="flex items-center text-sm text-white/70"
+                      >
+                        <motion.div
+                          whileHover={{ scale: 1.2 }}
+                          className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center mr-3 flex-shrink-0"
+                        >
+                          <Check className="w-3 h-3 text-green-400" />
+                        </motion.div>
+                        {feature}
+                      </motion.li>
+                    ))}
+                  </ul>
+                  
+                  {/* Hover indicator */}
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: hoveredCard === index ? "100%" : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-red-medium to-red-light"
+                  />
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* CTA below cards */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+            className="text-center mt-16"
+          >
+            <Link href="/contact">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-black px-10 py-4 rounded-full text-base font-semibold hover:bg-white/90 transition-colors shadow-lg shadow-white/10"
+              >
+                Build Your Custom AI Solution
+              </motion.button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Custom AI Capabilities */}
       <section className="container mx-auto px-4 py-20 bg-black/20">
         <div className="text-center mb-12">
           <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Custom AI Capabilities</h2>
