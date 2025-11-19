@@ -13,8 +13,10 @@ import {
   DollarSign,
   CreditCard,
   Mail,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
 
 export default function WebDevelopmentPage() {
   const [activeDashboard, setActiveDashboard] = useState(0)
@@ -95,66 +97,13 @@ export default function WebDevelopmentPage() {
     },
   ]
 
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (!heroRef.current) return
+  const nextDashboard = () => {
+    setActiveDashboard((prev) => (prev + 1) % dashboards.length)
+  }
 
-      const heroRect = heroRef.current.getBoundingClientRect()
-      const isInHeroSection = heroRect.top <= 100 && heroRect.bottom >= window.innerHeight * 0.5
-
-      if (!isInHeroSection) {
-        isScrollingCarousel.current = false
-        return
-      }
-
-      // Debounce scroll events
-      const now = Date.now()
-      if (now - lastScrollTime.current < 600) {
-        if (isScrollingCarousel.current) {
-          e.preventDefault()
-        }
-        return
-      }
-
-      if (isInHeroSection) {
-        if (e.deltaY > 0 && activeDashboard < dashboards.length - 1) {
-          // Scrolling down and not at last card
-          e.preventDefault()
-          isScrollingCarousel.current = true
-          lastScrollTime.current = now
-          setActiveDashboard((prev) => prev + 1)
-        } else if (e.deltaY < 0 && activeDashboard > 0) {
-          // Scrolling up and not at first card
-          e.preventDefault()
-          isScrollingCarousel.current = true
-          lastScrollTime.current = now
-          setActiveDashboard((prev) => prev - 1)
-        } else {
-          // Allow normal scroll when at boundaries
-          isScrollingCarousel.current = false
-        }
-      }
-    }
-
-    window.addEventListener("wheel", handleWheel, { passive: false })
-    return () => window.removeEventListener("wheel", handleWheel)
-  }, [activeDashboard, dashboards.length])
-
-  // Reset when leaving hero section
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!heroRef.current) return
-      const heroRect = heroRef.current.getBoundingClientRect()
-      const isInHeroSection = heroRect.top <= 100 && heroRect.bottom >= window.innerHeight * 0.5
-
-      if (!isInHeroSection) {
-        isScrollingCarousel.current = false
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  const prevDashboard = () => {
+    setActiveDashboard((prev) => (prev - 1 + dashboards.length) % dashboards.length)
+  }
 
   const browserMockups = [
     { title: "E-Commerce", color: "from-red-500/20 to-orange-500/20", delay: 0 },
@@ -356,13 +305,29 @@ export default function WebDevelopmentPage() {
             </div>
           </motion.div>
 
-          {/* Browser Mockup - now properly positioned below content */}
+          {/* Browser Mockup with Navigation Arrows */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             className="relative"
           >
+            <button
+              onClick={prevDashboard}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-red-500/50 rounded-full p-3 transition-all group"
+              aria-label="Previous dashboard"
+            >
+              <ChevronLeft className="w-6 h-6 text-white group-hover:text-red-400 transition-colors" />
+            </button>
+
+            <button
+              onClick={nextDashboard}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-red-500/50 rounded-full p-3 transition-all group"
+              aria-label="Next dashboard"
+            >
+              <ChevronRight className="w-6 h-6 text-white group-hover:text-red-400 transition-colors" />
+            </button>
+
             {/* Browser window */}
             <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
               {/* Browser chrome */}
