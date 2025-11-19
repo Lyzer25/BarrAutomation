@@ -144,7 +144,7 @@ export default function AIAutomationsPage() {
                 <h3 className="text-white text-xl font-bold mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-white/60 text-base leading-relaxed">
+                <p className="text-white/75 text-base leading-relaxed">
                   {feature.desc}
                 </p>
               </motion.div>
@@ -191,7 +191,7 @@ export default function AIAutomationsPage() {
             <h2 className="font-sans text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
               What You Could Do With Us
             </h2>
-            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+            <p className="text-white/75 text-lg max-w-2xl mx-auto">
               Transform your business with custom AI solutions that work 24/7
             </p>
           </motion.div>
@@ -301,7 +301,7 @@ export default function AIAutomationsPage() {
                     {capability.title}
                   </h3>
                   
-                  <p className="text-white/60 text-base mb-6 leading-relaxed">
+                  <p className="text-white/75 text-base mb-6 leading-relaxed">
                     {capability.description}
                   </p>
                   
@@ -313,7 +313,7 @@ export default function AIAutomationsPage() {
                         initial={{ opacity: 0, x: -10 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 + idx * 0.1 }}
-                        className="flex items-center text-sm text-white/70"
+                        className="flex items-center text-sm text-white/80"
                       >
                         <motion.div
                           whileHover={{ scale: 1.2 }}
@@ -373,7 +373,7 @@ export default function AIAutomationsPage() {
       <section className="container mx-auto px-4 py-20 bg-black/20">
         <div className="text-center mb-12">
           <h2 className="font-mono text-3xl font-thin text-white md:text-4xl">Custom AI Capabilities</h2>
-          <p className="mt-4 text-subtle-gray max-w-2xl mx-auto">
+          <p className="text-center text-white/75 mb-12 max-w-2xl mx-auto">
             Every AI solution is custom-built for your specific use case
           </p>
         </div>
@@ -407,7 +407,7 @@ export default function AIAutomationsPage() {
                 <h3 className="text-white text-2xl font-semibold mb-4">
                   {solution.title}
                 </h3>
-                <p className="text-white/60 text-base mb-4 leading-relaxed">
+                <p className="text-white/75 text-base mb-4 leading-relaxed">
                   {solution.desc}
                 </p>
                 
@@ -415,7 +415,7 @@ export default function AIAutomationsPage() {
                 
                 <ul className="space-y-2">
                   {solution.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-sm text-white/80">
+                    <li key={idx} className="flex items-center text-sm text-white/85">
                       <Check className="w-4 h-4 text-green-400 mr-2 flex-shrink-0" />
                       {feature}
                     </li>
@@ -551,7 +551,7 @@ export default function AIAutomationsPage() {
           <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
             Ready to build your custom AI solution?
           </h2>
-          <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xl text-white/75 mb-10 leading-relaxed max-w-2xl mx-auto">
             Let's discuss how AI can transform your business
           </p>
           <Link href="/contact">

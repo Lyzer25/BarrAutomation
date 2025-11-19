@@ -119,7 +119,7 @@ export default function WebDevelopmentPage() {
             Web Development
           </h1>
           
-          <p className="text-xl md:text-2xl text-white/60 font-light leading-relaxed max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-white/75 font-light leading-relaxed max-w-3xl mx-auto">
             Custom websites and web applications built from scratch to drive real results for your business
           </p>
           
@@ -203,7 +203,7 @@ export default function WebDevelopmentPage() {
                 <h3 className="text-white text-2xl mb-2 tracking-tight">
                   {service.title}
                 </h3>
-                <p className="text-white/60 text-sm leading-relaxed mb-4">
+                <p className="text-white/75 text-sm leading-relaxed mb-4">
                   {service.description}
                 </p>
                 
@@ -211,7 +211,7 @@ export default function WebDevelopmentPage() {
                 
                 <ul className="space-y-3 mb-8">
                   {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start text-sm text-white/80">
+                    <li key={idx} className="flex items-start text-sm text-white/85">
                       <Check className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
                       <span>{feature}</span>
                     </li>
@@ -228,7 +228,7 @@ export default function WebDevelopmentPage() {
           <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4 tracking-tight">
             Solution Packages
           </h2>
-          <p className="text-xl text-white/60 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xl text-white/75 leading-relaxed max-w-2xl mx-auto">
             Flexible pricing options designed to fit your business needs
           </p>
         </div>
@@ -260,7 +260,7 @@ export default function WebDevelopmentPage() {
                 <h3 className="text-2xl font-semibold text-white mb-2 tracking-tight">
                   {pkg.name}
                 </h3>
-                <p className="text-white/60 text-sm leading-relaxed mb-6">
+                <p className="text-white/75 text-sm leading-relaxed mb-6">
                   {pkg.description}
                 </p>
                 <div className="space-y-1">
@@ -271,7 +271,7 @@ export default function WebDevelopmentPage() {
 
               <ul className="space-y-3 mb-8">
                 {pkg.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start text-sm text-white/80">
+                  <li key={idx} className="flex items-start text-sm text-white/85">
                     <Check className="w-5 h-5 text-white/60 mr-3 flex-shrink-0 mt-0.5" />
                     <span>{feature}</span>
                   </li>
@@ -366,7 +366,7 @@ export default function WebDevelopmentPage() {
           <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
             Ready to build something amazing?
           </h2>
-          <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xl text-white/75 mb-10 leading-relaxed max-w-2xl mx-auto">
             Let's turn your vision into a powerful web application
           </p>
           <Link href="/contact">

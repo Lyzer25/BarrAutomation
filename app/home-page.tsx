@@ -277,7 +277,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="mt-8 max-w-3xl mx-auto text-base md:text-lg text-white/70 leading-relaxed font-light"
+            className="mt-8 max-w-3xl mx-auto text-base md:text-lg text-white/80 leading-relaxed font-light"
           >
             Barr Automations builds custom web applications, AI chatbots, internal tools, and process automation.
             Trusted by businesses who need solutions that actually fit their workflow.
@@ -356,7 +356,7 @@ export default function HomePage() {
           <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
             What We Build
           </h2>
-          <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="mt-4 text-lg text-white/75 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
           </p>
         </FadeInView>
@@ -411,7 +411,7 @@ export default function HomePage() {
                       <CardTitle className="text-2xl text-white font-medium tracking-tight">
                         {service.title}
                       </CardTitle>
-                      <CardDescription className="text-white/50 group-hover:text-white/70 transition-colors text-base font-light leading-relaxed mt-2">
+                      <CardDescription className="text-white/70 group-hover:text-white/85 transition-colors text-base font-light leading-relaxed mt-2">
                         {service.desc}
                       </CardDescription>
                     </CardHeader>
@@ -423,7 +423,7 @@ export default function HomePage() {
                             initial={{ opacity: 0, x: -10 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: idx * 0.1 }}
-                            className="flex items-center text-sm text-white/60 font-light"
+                            className="flex items-center text-sm text-white/75 font-light"
                           >
                             <div className="w-1.5 h-1.5 rounded-full bg-red-500/50 mr-3 flex-shrink-0" />
                             {feature}
@@ -480,7 +480,7 @@ export default function HomePage() {
               <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
                 Why Custom Development?
               </h2>
-              <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
+              <p className="text-lg text-white/75 max-w-2xl mx-auto font-light leading-relaxed">
                 Off-the-shelf solutions force you to adapt your business to their limitations.
                 <br className="hidden md:block" />
                 Custom development adapts to you.
@@ -517,7 +517,7 @@ export default function HomePage() {
                     <h3 className="text-xl font-medium text-white mb-4 tracking-tight">
                       {benefit.title}
                     </h3>
-                    <p className="text-white/50 font-light leading-relaxed">{benefit.desc}</p>
+                    <p className="text-white/70 font-light leading-relaxed">{benefit.desc}</p>
                   </div>
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500">
                     <div
@@ -558,7 +558,7 @@ export default function HomePage() {
             <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
               Simple Process
             </h2>
-            <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
+            <p className="mt-4 text-lg text-white/75 font-light">From idea to deployed solution</p>
           </FadeInView>
 
           <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-8 relative">
@@ -589,7 +589,7 @@ export default function HomePage() {
                 <h3 className="text-xl font-medium text-white mb-3 tracking-tight">
                   {step.title}
                 </h3>
-                <p className="text-sm text-white/50 font-light leading-relaxed">{step.desc}</p>
+                <p className="text-sm text-white/70 font-light leading-relaxed">{step.desc}</p>
               </FadeInView>
             ))}
           </div>
@@ -610,7 +610,7 @@ export default function HomePage() {
             <h2 className="text-4xl md:text-6xl font-thin text-white mb-6 tracking-tight">
               Ready to Build Something Custom?
             </h2>
-            <p className="text-lg md:text-xl text-white/60 mb-12 font-light leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-white/75 mb-12 font-light leading-relaxed max-w-2xl mx-auto">
               Let's discuss your project and create a solution built specifically for your business
             </p>
 
