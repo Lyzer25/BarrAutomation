@@ -171,9 +171,6 @@ export default function HomePage() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="mb-6"
           >
-            <div className="inline-block px-4 py-2 border border-red-500/30 rounded-full bg-red-500/10 backdrop-blur-sm">
-              <span className="text-red-400 font-mono text-xs tracking-widest uppercase font-medium">Built for your business</span>
-            </div>
           </motion.div>
 
           <motion.div
@@ -267,9 +264,6 @@ export default function HomePage() {
       {/* Services Grid */}
       <section className="container mx-auto px-4 py-32 relative">
         <FadeInView className="text-center mb-20 relative z-10">
-          <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
-            <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Services</span>
-          </div>
           <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">What We Build</h2>
           <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
@@ -368,9 +362,6 @@ export default function HomePage() {
               viewport={{ once: true }}
               className="text-center mb-20"
             >
-              <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
-                <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Our Approach</span>
-              </div>
               <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
                 Why Custom Development?
               </h2>
@@ -421,9 +412,6 @@ export default function HomePage() {
       <section className="py-32 bg-black relative">
         <div className="container mx-auto px-4 relative z-10">
           <FadeInView className="text-center mb-24">
-            <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
-              <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Process</span>
-            </div>
             <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
               Simple Process
             </h2>
