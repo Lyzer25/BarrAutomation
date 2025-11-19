@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
-import { Code, Wrench, Zap, Brain, ArrowRight } from "lucide-react"
+import { Code, Wrench, Zap, Brain, ArrowRight, Cpu, Database, Network, Workflow, Server, Terminal } from 'lucide-react'
 import { FadeInView } from "@/components/animations/fade-in-view"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 
@@ -17,14 +17,100 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,68,68,0.06),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,68,68,0.08),transparent_50%)]" />
+        
+        {/* Circuit grid pattern */}
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
-            backgroundSize: "40px 40px",
+            backgroundImage: `
+              linear-gradient(rgba(239, 68, 68, 0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(239, 68, 68, 0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: "50px 50px",
           }}
         />
+
+        {/* Animated connecting lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+          <motion.line
+            x1="10%" y1="20%" x2="30%" y2="40%"
+            stroke="rgb(239, 68, 68)"
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.3 }}
+            transition={{ duration: 2, delay: 0.5, repeat: Infinity, repeatDelay: 3 }}
+          />
+          <motion.line
+            x1="70%" y1="30%" x2="90%" y2="50%"
+            stroke="rgb(239, 68, 68)"
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.3 }}
+            transition={{ duration: 2, delay: 1, repeat: Infinity, repeatDelay: 3 }}
+          />
+          <motion.line
+            x1="15%" y1="70%" x2="40%" y2="85%"
+            stroke="rgb(239, 68, 68)"
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.3 }}
+            transition={{ duration: 2, delay: 1.5, repeat: Infinity, repeatDelay: 3 }}
+          />
+          <motion.line
+            x1="60%" y1="75%" x2="85%" y2="90%"
+            stroke="rgb(239, 68, 68)"
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.3 }}
+            transition={{ duration: 2, delay: 2, repeat: Infinity, repeatDelay: 3 }}
+          />
+        </svg>
+
+        {/* Scattered tech icons */}
+        {[
+          { Icon: Cpu, x: "12%", y: "18%", delay: 0.3 },
+          { Icon: Database, x: "85%", y: "25%", delay: 0.6 },
+          { Icon: Network, x: "20%", y: "75%", delay: 0.9 },
+          { Icon: Workflow, x: "88%", y: "70%", delay: 1.2 },
+          { Icon: Server, x: "8%", y: "50%", delay: 1.5 },
+          { Icon: Terminal, x: "92%", y: "45%", delay: 1.8 },
+        ].map(({ Icon, x, y, delay }, idx) => (
+          <motion.div
+            key={idx}
+            className="absolute w-10 h-10 bg-[#0A0A0A]/80 border border-red-500/20 rounded-lg flex items-center justify-center backdrop-blur-sm"
+            style={{ left: x, top: y }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 0.4, scale: 1 }}
+            transition={{ delay, duration: 0.8, repeat: Infinity, repeatType: "reverse", repeatDelay: 4 }}
+          >
+            <Icon className="w-5 h-5 text-red-400/60" />
+          </motion.div>
+        ))}
+
+        {/* Node connection points */}
+        {[
+          { x: "30%", y: "40%" },
+          { x: "70%", y: "30%" },
+          { x: "15%", y: "70%" },
+          { x: "85%", y: "90%" },
+        ].map((pos, idx) => (
+          <motion.div
+            key={idx}
+            className="absolute w-3 h-3 bg-red-500/40 rounded-full"
+            style={{ left: pos.x, top: pos.y }}
+            animate={{
+              scale: [1, 1.5, 1],
+              opacity: [0.4, 0.8, 0.4],
+            }}
+            transition={{
+              duration: 2,
+              delay: idx * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
 
         <motion.div
           animate={{
@@ -79,7 +165,7 @@ export default function HomePage() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="absolute left-[8%] top-[35%] w-80 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 font-mono text-sm text-left z-10 hidden xl:block bg-chart-4 opacity-5"
+          className="absolute left-[8%] top-[35%] w-80 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 font-mono text-sm text-left z-10 hidden xl:block"
           style={{
             boxShadow: "0 8px 32px 0 rgba(239, 68, 68, 0.15), 0 0 0 1px rgba(239, 68, 68, 0.1)",
           }}
@@ -119,7 +205,7 @@ export default function HomePage() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="absolute right-[8%] bottom-[25%] w-72 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 z-10 hidden xl:block bg-chart-5 opacity-10"
+          className="absolute right-[8%] bottom-[25%] w-72 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 z-10 hidden xl:block"
           style={{
             boxShadow: "0 8px 32px 0 rgba(239, 68, 68, 0.15), 0 0 0 1px rgba(239, 68, 68, 0.1)",
           }}
@@ -165,34 +251,22 @@ export default function HomePage() {
         {/* Main content */}
         <motion.div style={{ opacity, scale }} className="max-w-6xl relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-6"
-          ></motion.div>
-
-          <motion.div
             initial={{ opacity: 0, filter: "blur(10px)", y: 30 }}
             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-8 mt-32"
+            className="mb-12 mt-20"
           >
-            <h1 className="font-mono text-5xl md:text-7xl lg:text-8xl font-light tracking-tight text-white leading-[1.1]">
+            <h1 className="font-mono text-6xl md:text-8xl lg:text-9xl font-light tracking-tight text-white leading-[1.1]">
               <motion.span
                 initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                className="block"
+                className="block bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent"
+                style={{
+                  textShadow: "0 0 80px rgba(239, 68, 68, 0.5), 0 0 40px rgba(239, 68, 68, 0.3)",
+                }}
               >
-                The most powerful custom
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block mt-2 text-white/90"
-              >
-                automated solutions.
+                Automate your business.
               </motion.span>
             </h1>
           </motion.div>
