@@ -89,17 +89,31 @@ export default function HomePage() {
             <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
             <div className="w-3 h-3 rounded-full bg-green-500/80" />
           </div>
-          <pre className="text-white/60 leading-relaxed">
-            <span className="text-red-400">const</span> <span className="text-blue-300">solution</span> = {'{'}
-            {'\n  '}client: <span className="text-green-300">&quot;Your Business&quot;</span>,
-            {'\n  '}type: <span className="text-green-300">&quot;Custom Built&quot;</span>,
-            {'\n  '}features: [
-            {'\n    '}<span className="text-green-300">&quot;AI Automation&quot;</span>,
-            {'\n    '}<span className="text-green-300">&quot;Web Apps&quot;</span>,
-            {'\n    '}<span className="text-green-300">&quot;Process Tools&quot;</span>
-            {'\n  }]
-            {'\n}'};
-          </pre>
+          <div className="text-white/60 leading-relaxed space-y-1">
+            <div>
+              <span className="text-red-400">const</span> <span className="text-blue-300">solution</span> = {'{'}
+            </div>
+            <div className="pl-4">
+              client: <span className="text-green-300">Your Business</span>,
+            </div>
+            <div className="pl-4">
+              type: <span className="text-green-300">Custom Built</span>,
+            </div>
+            <div className="pl-4">
+              features: [
+            </div>
+            <div className="pl-8">
+              <span className="text-green-300">AI Automation</span>,
+            </div>
+            <div className="pl-8">
+              <span className="text-green-300">Web Apps</span>,
+            </div>
+            <div className="pl-8">
+              <span className="text-green-300">Process Tools</span>
+            </div>
+            <div className="pl-4">]</div>
+            <div>{'};'}</div>
+          </div>
         </motion.div>
 
         {/* UI Components preview - right side */}
