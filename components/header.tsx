@@ -7,9 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu, ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { cn } from "@/lib/utils"
-import GooeyNav from "@/components/bits/Components/GooeyNav/GooeyNav"
-import "@/components/bits/Components/GooeyNav/GooeyNav.css"
-import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -30,30 +28,31 @@ const demosLinks = [
 
 export default function Header() {
   const pathname = usePathname()
-  const initialActiveIndex = navLinks.findIndex((link) => link.href === pathname)
   const [showProductsDropdown, setShowProductsDropdown] = useState(false)
   const [showDemosDropdown, setShowDemosDropdown] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl supports-[backdrop-filter]:bg-black/30">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 group">
           <Image
             src="/barrautomationslogo.png"
             alt="Barr Automations Logo"
             width={40}
             height={40}
-            className="h-10 w-10"
+            className="h-10 w-10 transition-transform duration-500 group-hover:rotate-180"
           />
-          <span className="text-xl font-bold font-mono text-white">Barr Automations</span>
+          <span className="text-xl font-bold font-mono text-white tracking-tight">Barr Automations</span>
         </Link>
         
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-1">
           <Link
             href="/"
             className={cn(
-              "text-white hover:text-accent transition-colors font-medium",
-              pathname === "/" && "text-accent"
+              "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
+              pathname === "/" 
+                ? "bg-white text-black" 
+                : "text-white/70 hover:text-white hover:bg-white/10"
             )}
           >
             Home
@@ -65,29 +64,46 @@ export default function Header() {
             onMouseEnter={() => setShowProductsDropdown(true)}
             onMouseLeave={() => setShowProductsDropdown(false)}
           >
-            <button className="flex items-center gap-1 text-white hover:text-accent transition-colors font-medium">
+            <button 
+              className={cn(
+                "flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
+                showProductsDropdown || pathname.startsWith('/products')
+                  ? "bg-white text-black" 
+                  : "text-white/70 hover:text-white hover:bg-white/10"
+              )}
+            >
               Products
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", showProductsDropdown && "rotate-180")} />
             </button>
             
-            {showProductsDropdown && (
-              <div className="absolute top-full left-0">
-                <div className="w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden pt-2">
-                  {productsLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={cn(
-                        "block px-4 py-3 text-sm transition-colors hover:bg-white/5 hover:text-accent border-b border-white/5 last:border-b-0",
-                        pathname === link.href ? "text-accent bg-white/5" : "text-white"
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
+            <AnimatePresence>
+              {showProductsDropdown && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute top-full left-0 pt-2"
+                >
+                  <div className="w-64 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-1">
+                    {productsLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className={cn(
+                          "block px-4 py-3 text-sm rounded-xl transition-all duration-200",
+                          pathname === link.href 
+                            ? "bg-white/10 text-white font-medium" 
+                            : "text-white/70 hover:text-white hover:bg-white/5"
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
           
           {/* Demos Dropdown */}
@@ -96,36 +112,55 @@ export default function Header() {
             onMouseEnter={() => setShowDemosDropdown(true)}
             onMouseLeave={() => setShowDemosDropdown(false)}
           >
-            <button className="flex items-center gap-1 text-white hover:text-accent transition-colors font-medium">
+            <button 
+              className={cn(
+                "flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
+                showDemosDropdown || pathname.startsWith('/demos')
+                  ? "bg-white text-black" 
+                  : "text-white/70 hover:text-white hover:bg-white/10"
+              )}
+            >
               Demos
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", showDemosDropdown && "rotate-180")} />
             </button>
             
-            {showDemosDropdown && (
-              <div className="absolute top-full left-0">
-                <div className="w-64 bg-black/95 border border-white/10 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden pt-2">
-                  {demosLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={cn(
-                        "block px-4 py-3 text-sm transition-colors hover:bg-white/5 hover:text-accent border-b border-white/5 last:border-b-0",
-                        pathname === link.href ? "text-accent bg-white/5" : "text-white"
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
+            <AnimatePresence>
+              {showDemosDropdown && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute top-full left-0 pt-2"
+                >
+                  <div className="w-48 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-1">
+                    {demosLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className={cn(
+                          "block px-4 py-3 text-sm rounded-xl transition-all duration-200",
+                          pathname === link.href 
+                            ? "bg-white/10 text-white font-medium" 
+                            : "text-white/70 hover:text-white hover:bg-white/5"
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
           
           <Link
             href="/integrations"
             className={cn(
-              "text-white hover:text-accent transition-colors font-medium",
-              pathname === "/integrations" && "text-accent"
+              "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
+              pathname === "/integrations" 
+                ? "bg-white text-black" 
+                : "text-white/70 hover:text-white hover:bg-white/10"
             )}
           >
             Integrations
@@ -134,8 +169,10 @@ export default function Header() {
           <Link
             href="/contact"
             className={cn(
-              "text-white hover:text-accent transition-colors font-medium",
-              pathname === "/contact" && "text-accent"
+              "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
+              pathname === "/contact" 
+                ? "bg-white text-black" 
+                : "text-white/70 hover:text-white hover:bg-white/10"
             )}
           >
             Contact Us
@@ -143,7 +180,7 @@ export default function Header() {
         </div>
         
         <div className="hidden md:block">
-          <Button asChild>
+          <Button asChild className="rounded-full bg-accent hover:bg-accent/90 text-white px-6 shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] transition-all duration-300">
             <Link href="/contact">Build My Solution</Link>
           </Button>
         </div>
@@ -151,11 +188,11 @@ export default function Header() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon">
-                <Menu className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 rounded-full">
+                <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
+            <SheetContent side="right" className="bg-black/95 border-white/10 backdrop-blur-xl">
               <nav className="grid gap-6 text-lg font-medium mt-8">
                 <Link
                   href="/"
@@ -169,7 +206,7 @@ export default function Header() {
                 
                 {/* Products Section in Mobile Menu */}
                 <div className="border-t border-white/10 pt-4">
-                  <div className="text-sm font-semibold text-gray-400 mb-3">Products</div>
+                  <div className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">Products</div>
                   {productsLinks.map((link) => (
                     <Link
                       key={link.href}
@@ -186,7 +223,7 @@ export default function Header() {
                 
                 {/* Demos Section in Mobile Menu */}
                 <div className="border-t border-white/10 pt-4">
-                  <div className="text-sm font-semibold text-gray-400 mb-3">Demos</div>
+                  <div className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">Demos</div>
                   {demosLinks.map((link) => (
                     <Link
                       key={link.href}

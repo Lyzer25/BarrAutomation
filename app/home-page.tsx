@@ -159,55 +159,48 @@ export default function HomePage() {
             <StaggerItem key={index}>
               <Link href={service.link}>
                 <motion.div
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  whileHover={{ y: -5, scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 >
-                  <Card className="group bg-black/40 backdrop-blur-sm border border-white/10 hover:border-accent/40 transition-all duration-500 h-full cursor-pointer overflow-hidden relative">
+                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl shadow-2xl">
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-accent/0 via-accent/0 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      initial={false}
-                      animate={{
-                        background: [
-                          'linear-gradient(135deg, rgba(239, 68, 68, 0) 0%, rgba(239, 68, 68, 0) 100%)',
-                          'linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0) 100%)',
-                        ],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+                      className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     />
                     
-                    <CardHeader className="pb-4 relative z-10">
+                    <CardHeader className="pb-4 relative z-10 pt-8 px-8">
                       <motion.div
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
-                        className="w-14 h-14 bg-accent/10 border border-accent/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:border-accent/30 transition-all duration-300"
+                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300"
                       >
-                        <service.icon className="w-7 h-7 text-accent" />
+                        <service.icon className="w-6 h-6 text-white group-hover:text-white transition-colors" />
                       </motion.div>
-                      <CardTitle className="text-2xl text-white group-hover:text-accent transition-colors font-mono font-thin">
+                      <CardTitle className="text-2xl text-white font-medium tracking-tight">
                         {service.title}
                       </CardTitle>
-                      <CardDescription className="text-white/60 group-hover:text-white/80 transition-colors text-base font-light leading-relaxed">
+                      <CardDescription className="text-white/50 group-hover:text-white/70 transition-colors text-base font-light leading-relaxed mt-2">
                         {service.desc}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="relative z-10">
-                      <ul className="space-y-3 mb-6">
+                    <CardContent className="relative z-10 px-8 pb-8">
+                      <ul className="space-y-3 mb-8">
                         {service.features.map((feature, idx) => (
                           <motion.li
                             key={idx}
                             initial={{ opacity: 0, x: -10 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: idx * 0.1 }}
-                            className="flex items-center text-sm text-white/70 font-light"
+                            className="flex items-center text-sm text-white/60 font-light"
                           >
-                            <Check className="w-4 h-4 text-accent mr-3 flex-shrink-0" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-accent/50 mr-3 flex-shrink-0" />
                             {feature}
                           </motion.li>
                         ))}
                       </ul>
-                      <div className="flex items-center text-accent group-hover:gap-2 transition-all text-sm font-semibold">
+                      <div className="flex items-center text-white/40 group-hover:text-white transition-all text-sm font-medium">
                         <span>Learn More</span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-4 h-4 ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                       </div>
                     </CardContent>
                   </Card>
@@ -219,19 +212,21 @@ export default function HomePage() {
       </section>
 
       {/* Why Custom Section */}
-      <section className="py-32 border-y border-white/5">
-        <div className="container mx-auto px-4">
+      <section className="py-32 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
+        
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-center mb-20"
             >
-              <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5">
-                <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Approach</span>
+              <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
+                <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Our Approach</span>
               </div>
-              <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">
+              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
                 Why Custom Development?
               </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
@@ -261,13 +256,13 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-center p-8 rounded-xl border border-white/5 bg-white/[0.02] hover:border-accent/20 hover:bg-white/[0.04] transition-all duration-300"
+                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group"
                 >
-                  <div className="w-12 h-12 bg-accent/10 border border-accent/20 rounded-lg flex items-center justify-center mx-auto mb-6">
-                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                  <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500">
+                    <div className="w-2 h-2 bg-accent rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                   </div>
-                  <h3 className="text-xl font-mono font-thin text-white mb-4">{benefit.title}</h3>
-                  <p className="text-white/60 font-light leading-relaxed">{benefit.desc}</p>
+                  <h3 className="text-xl font-medium text-white mb-4 tracking-tight">{benefit.title}</h3>
+                  <p className="text-white/50 font-light leading-relaxed">{benefit.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -276,17 +271,19 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-32">
+      <section className="py-32 bg-black">
         <div className="container mx-auto px-4">
-          <FadeInView className="text-center mb-20">
-            <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
-              <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Process</span>
+          <FadeInView className="text-center mb-24">
+            <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
+              <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Process</span>
             </div>
-            <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">Simple Process</h2>
+            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">Simple Process</h2>
             <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
           </FadeInView>
 
-          <div className="max-w-5xl mx-auto grid md:grid-cols-4 gap-8">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-12 relative">
+            <div className="hidden md:block absolute top-12 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            
             {[
               { number: "01", title: "Discuss", desc: "Tell us what you need" },
               { number: "02", title: "Plan", desc: "We design the solution" },
@@ -296,32 +293,18 @@ export default function HomePage() {
               <FadeInView
                 key={index}
                 delay={index * 0.15}
-                className="text-center relative"
+                className="text-center relative z-10"
               >
-                {index < 3 && (
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    transition={{ delay: index * 0.15 + 0.3, duration: 0.6 }}
-                    className="hidden md:block absolute top-12 left-[60%] w-[80%] h-[2px] bg-gradient-to-r from-accent/40 to-transparent origin-left"
-                  />
-                )}
                 <motion.div
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.1, y: -5 }}
                   transition={{ type: 'spring', stiffness: 300 }}
-                  className="text-6xl font-bold text-accent/20 font-mono mb-4 relative"
+                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group"
                 >
-                  {step.number}
-                  <motion.div
-                    className="absolute inset-0 text-accent/40 blur-xl"
-                    animate={{ opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    {step.number}
-                  </motion.div>
+                  <span className="text-2xl font-mono text-white/80 group-hover:text-accent transition-colors duration-300">{step.number}</span>
+                  <div className="absolute inset-0 rounded-full border border-accent/0 group-hover:border-accent/20 transition-all duration-500 scale-110" />
                 </motion.div>
-                <h3 className="text-xl font-mono font-thin text-white mb-2">{step.title}</h3>
-                <p className="text-sm text-white/60 font-light">{step.desc}</p>
+                <h3 className="text-xl font-medium text-white mb-3 tracking-tight">{step.title}</h3>
+                <p className="text-sm text-white/50 font-light leading-relaxed">{step.desc}</p>
               </FadeInView>
             ))}
           </div>
@@ -331,30 +314,37 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-24 pb-32">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="relative bg-gradient-to-br from-accent/90 via-accent to-accent/80 rounded-2xl p-12 md:p-20 text-center overflow-hidden"
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent)] pointer-events-none" />
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-mono font-thin text-white mb-6 leading-tight">
-              Ready to Build Something Custom?
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(239,68,68,0.15),transparent_70%)] pointer-events-none" />
+          
+          <div className="relative z-10 max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-6xl font-thin text-white mb-8 tracking-tight leading-[1.1]">
+              Ready to Build Something <span className="text-accent">Custom?</span>
             </h2>
-            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
+            <p className="text-lg md:text-xl text-white/60 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
               Whether it's a website, software tool, automation script, or AI solution — let's discuss what you need.
             </p>
-            <div className="flex flex-col sm:flex-row gap-5 justify-center">
-              <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
-                <Link href="/contact">
-                  Schedule Consultation <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="border-2 border-white text-white hover:bg-white/10 text-base px-10 py-7 rounded-lg font-semibold transition-all duration-300">
-                <Link href="/demos">
-                  View Demos
-                </Link>
-              </Button>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" asChild className="bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-500">
+                  <Link href="/contact">
+                    Schedule Consultation
+                  </Link>
+                </Button>
+              </motion.div>
+              
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300">
+                  <Link href="/demos">
+                    View Demos
+                  </Link>
+                </Button>
+              </motion.div>
             </div>
           </div>
         </motion.div>
