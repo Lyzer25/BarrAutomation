@@ -12,7 +12,7 @@ const stats = [
 ]
 
 export default function AIAutomationsPage() {
-  const [activeCase, setActiveCase] = useState(0)
+  const [activeCase] = useState(0)
 
   return (
     <div className="min-h-screen bg-black">
@@ -112,22 +112,22 @@ export default function AIAutomationsPage() {
           >
             {[
               {
-                icon: Brain,
+                icon: MessageSquare,
                 iconBg: "bg-red-medium",
-                title: "Custom AI built specifically for you.",
-                desc: "No templates, no limitations. Every AI solution is designed from the ground up to solve your exact business challenges."
+                title: "Chatbots trained on your documentation.",
+                desc: "Custom AI chatbots learn your internal processes, company knowledge, and workflows to handle tasks exactly as your team would."
               },
               {
-                icon: Workflow,
+                icon: Bot,
                 iconBg: "bg-red-dark",
-                title: "Seamless integration with your workflow.",
-                desc: "We build AI that works within your existing systems and processes, not against them. Deploy anywhere, scale infinitely."
+                title: "Replace repetitive employee tasks.",
+                desc: "Deploy AI agents that handle customer support, data entry, scheduling, and internal inquiries 24/7 with responses trained on your specific business operations."
               },
               {
-                icon: Sparkles,
+                icon: Brain,
                 iconBg: "bg-red-light",
-                title: "Own your AI, own your future.",
-                desc: "Full ownership of your custom models and code. No vendor lock-in, no subscription traps. Your data stays yours, your competitive edge stays protected."
+                title: "Continuously learns and improves.",
+                desc: "Your AI gets smarter over time by learning from your team's interactions, documentation updates, and feedback to deliver increasingly accurate responses."
               }
             ].map((feature, index) => (
               <motion.div
