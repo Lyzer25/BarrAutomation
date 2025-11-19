@@ -298,7 +298,7 @@ export default function HomePage() {
             <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
           </FadeInView>
 
-          <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-12 relative">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-8 relative">
             <div className="hidden md:block absolute top-12 left-0 w-full h-[1px]">
               <div className="w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
               <motion.div
@@ -319,7 +319,8 @@ export default function HomePage() {
               { number: "01", title: "Discuss", desc: "Tell us what you need" },
               { number: "02", title: "Plan", desc: "We design the solution" },
               { number: "03", title: "Build", desc: "Custom development begins" },
-              { number: "04", title: "Launch", desc: "Deploy and iterate" }
+              { number: "04", title: "Fine tune", desc: "Refine and optimize" },
+              { number: "05", title: "Launch", desc: "Deploy and iterate" }
             ].map((step, index) => (
               <FadeInView
                 key={index}
