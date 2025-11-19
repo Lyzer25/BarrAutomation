@@ -42,7 +42,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block text-accent mt-2 drop-shadow-[0_0_35px_rgba(239,68,68,0.4)]"
+                className="block text-accent mt-2 drop-shadow-[0_0_35px_rgba(239,68,68,0.4)] text-glow-red"
               >
                 With Custom Solutions
               </motion.span>
@@ -65,9 +65,8 @@ export default function HomePage() {
             className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative group">
-              {/* Added a backlight glow behind the button */}
-              <div className="absolute inset-0 bg-white/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transition-all duration-500">
+              <div className="absolute inset-0 bg-white/30 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-150" />
+              <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group box-glow-white hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-500">
                 <Link href="/contact">
                   <span className="relative z-10 flex items-center gap-2">
                     Schedule Consultation
@@ -113,7 +112,7 @@ export default function HomePage() {
           <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
             <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Services</span>
           </div>
-          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">What We Build</h2>
+          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] text-glow-white">What We Build</h2>
           <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
           </p>
@@ -158,10 +157,9 @@ export default function HomePage() {
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className="relative group"
                 >
-                  {/* Added a specific backlight for each card to simulate light falloff */}
-                  <div className="absolute inset-0 bg-red-500/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 scale-95 group-hover:scale-105" />
+                  <div className="absolute -inset-4 bg-red-500/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
                   
-                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl depth-shadow hover:shadow-[0_0_50px_-10px_rgba(239,68,68,0.15)]">
+                  <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl depth-shadow box-glow-red">
                     <motion.div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
                       style={{
@@ -186,7 +184,7 @@ export default function HomePage() {
                       <motion.div
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
-                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.3)] group-hover:shadow-[0_0_30px_rgba(239,68,68,0.6)]"
+                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300 box-glow-red"
                       >
                         <service.icon className="w-6 h-6 text-white group-hover:text-white transition-colors" />
                       </motion.div>
@@ -240,7 +238,7 @@ export default function HomePage() {
               <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                 <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Our Approach</span>
               </div>
-              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] text-glow-white">
                 Why Custom Development?
               </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
@@ -302,7 +300,7 @@ export default function HomePage() {
             <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
               <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Process</span>
             </div>
-            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">Simple Process</h2>
+            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] text-glow-white">Simple Process</h2>
             <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
           </FadeInView>
 
@@ -339,9 +337,9 @@ export default function HomePage() {
                   whileHover={{ y: -5, scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 300 }}
-                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group depth-shadow red-ambient-light shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_35px_rgba(239,68,68,0.3)] transition-shadow duration-500"
+                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group depth-shadow box-glow-red hover:shadow-[0_0_60px_rgba(239,68,68,0.6)] transition-shadow duration-500"
                 >
-                  <span className="text-2xl font-mono text-white/80 group-hover:text-accent transition-colors duration-300 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]">{step.number}</span>
+                  <span className="text-2xl font-mono text-white/80 group-hover:text-accent transition-colors duration-300 group-hover:text-glow-red">{step.number}</span>
                   <motion.div
                     className="absolute inset-0 rounded-full border-2 border-accent/0 group-hover:border-accent/30 transition-all duration-500"
                     animate={{
@@ -389,7 +387,7 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                    className="block drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                    className="block drop-shadow-[0_0_20px_rgba(255,255,255,0.1)] text-glow-white"
                   >
                     Transform Your Business
                   </motion.span>
@@ -397,7 +395,7 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                    className="block text-accent mt-2 drop-shadow-[0_0_35px_rgba(239,68,68,0.4)]"
+                    className="block text-accent mt-2 drop-shadow-[0_0_35px_rgba(239,68,68,0.4)] text-glow-red"
                   >
                     With Custom Solutions
                   </motion.span>

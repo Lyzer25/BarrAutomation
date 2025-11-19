@@ -233,6 +233,36 @@ body {
     0 0 60px rgba(239, 68, 68, 0.08);
 }
 
+/* Adding stronger text glow effects */
+.text-glow-white {
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.3),
+    0 0 40px rgba(255, 255, 255, 0.2),
+    0 0 60px rgba(255, 255, 255, 0.1);
+}
+
+.text-glow-red {
+  text-shadow: 
+    0 0 30px rgba(239, 68, 68, 0.8),
+    0 0 60px rgba(239, 68, 68, 0.6),
+    0 0 90px rgba(239, 68, 68, 0.4),
+    0 0 120px rgba(239, 68, 68, 0.2);
+}
+
+.box-glow-red {
+  box-shadow: 
+    0 0 20px rgba(239, 68, 68, 0.3),
+    0 0 40px rgba(239, 68, 68, 0.2),
+    0 0 80px rgba(239, 68, 68, 0.1);
+}
+
+.box-glow-white {
+  box-shadow: 
+    0 0 15px rgba(255, 255, 255, 0.2),
+    0 0 30px rgba(255, 255, 255, 0.1),
+    0 0 60px rgba(255, 255, 255, 0.05);
+}
+
 .red-ambient-light {
   position: relative;
 }
