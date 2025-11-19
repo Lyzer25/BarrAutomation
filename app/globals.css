@@ -233,50 +233,18 @@ body {
     0 0 60px rgba(239, 68, 68, 0.08);
 }
 
-/* Adding stronger text glow effects */
-.text-glow-white {
-  text-shadow: 
-    0 0 20px rgba(255, 255, 255, 0.3),
-    0 0 40px rgba(255, 255, 255, 0.2),
-    0 0 60px rgba(255, 255, 255, 0.1);
-}
+/* Removed harsh glow effects and replaced with soft gradient shadows */
 
-.text-glow-red {
-  text-shadow: 
-    0 0 30px rgba(239, 68, 68, 0.8),
-    0 0 60px rgba(239, 68, 68, 0.6),
-    0 0 90px rgba(239, 68, 68, 0.4),
-    0 0 120px rgba(239, 68, 68, 0.2);
-}
+/* Remove all text-glow and box-glow classes */
 
-.box-glow-red {
-  box-shadow: 
-    0 0 20px rgba(239, 68, 68, 0.3),
-    0 0 40px rgba(239, 68, 68, 0.2),
-    0 0 80px rgba(239, 68, 68, 0.1);
-}
-
-.box-glow-white {
-  box-shadow: 
-    0 0 15px rgba(255, 255, 255, 0.2),
-    0 0 30px rgba(255, 255, 255, 0.1),
-    0 0 60px rgba(255, 255, 255, 0.05);
-}
-
-.red-ambient-light {
-  position: relative;
-}
-
-.red-ambient-light::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 70%);
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: -1;
-  filter: blur(20px);
-}
+/* Remove these classes:
+.text-glow-white
+.text-glow-red
+.box-glow-red
+.box-glow-white
+.red-ambient-light
+.border-glow
+*/
 
 .border-glow {
   position: relative;
