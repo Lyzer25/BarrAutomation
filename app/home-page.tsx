@@ -18,14 +18,12 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
         
-        {/* Background grid pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,59,48,0.03),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,68,68,0.06),transparent_50%)]" />
         <div className="absolute inset-0" style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)',
           backgroundSize: '40px 40px'
         }} />
 
-        {/* Floating glassmorphic elements */}
         <motion.div
           animate={{ 
             y: [0, -20, 0],
@@ -36,9 +34,9 @@ export default function HomePage() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute left-[5%] top-[20%] w-72 h-96 rounded-[3rem] bg-gradient-to-br from-red-500/10 to-red-900/5 backdrop-blur-3xl border border-white/5 z-0 hidden lg:block"
+          className="absolute left-[5%] top-[20%] w-72 h-96 rounded-[3rem] bg-gradient-to-br from-red-600/20 to-red-900/10 backdrop-blur-3xl border border-red-500/20 z-0 hidden lg:block"
           style={{
-            boxShadow: '0 8px 32px 0 rgba(255, 59, 48, 0.15), inset 0 0 60px rgba(255, 59, 48, 0.05)'
+            boxShadow: '0 8px 32px 0 rgba(239, 68, 68, 0.25), inset 0 0 80px rgba(239, 68, 68, 0.08)'
           }}
         />
 
@@ -52,9 +50,9 @@ export default function HomePage() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute right-[5%] top-[15%] w-80 h-80 rounded-full bg-gradient-to-br from-red-600/10 to-transparent backdrop-blur-3xl border border-white/5 z-0 hidden lg:block"
+          className="absolute right-[5%] top-[15%] w-80 h-80 rounded-full bg-gradient-to-br from-red-500/15 to-red-700/10 backdrop-blur-3xl border border-red-500/20 z-0 hidden lg:block"
           style={{
-            boxShadow: '0 8px 32px 0 rgba(255, 59, 48, 0.15), inset 0 0 60px rgba(255, 59, 48, 0.05)'
+            boxShadow: '0 8px 32px 0 rgba(239, 68, 68, 0.2), inset 0 0 80px rgba(239, 68, 68, 0.08)'
           }}
         />
 
@@ -68,9 +66,9 @@ export default function HomePage() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute left-[15%] bottom-[20%] w-64 h-72 rounded-[2.5rem] bg-gradient-to-br from-red-500/5 to-red-900/10 backdrop-blur-3xl border border-white/5 z-0 hidden lg:block"
+          className="absolute left-[15%] bottom-[20%] w-64 h-72 rounded-[2.5rem] bg-gradient-to-br from-red-600/15 to-red-900/20 backdrop-blur-3xl border border-red-500/20 z-0 hidden lg:block"
           style={{
-            boxShadow: '0 8px 32px 0 rgba(255, 59, 48, 0.1), inset 0 0 60px rgba(255, 59, 48, 0.05)'
+            boxShadow: '0 8px 32px 0 rgba(239, 68, 68, 0.2), inset 0 0 80px rgba(239, 68, 68, 0.08)'
           }}
         />
 
@@ -79,17 +77,17 @@ export default function HomePage() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="absolute left-[8%] top-[35%] w-80 bg-[#0A0A0A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 font-mono text-sm text-left z-10 hidden xl:block"
+          className="absolute left-[8%] top-[35%] w-80 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 font-mono text-sm text-left z-10 hidden xl:block"
           style={{
-            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4)'
+            boxShadow: '0 8px 32px 0 rgba(239, 68, 68, 0.15), 0 0 0 1px rgba(239, 68, 68, 0.1)'
           }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 rounded-full bg-red-500/80" />
+            <div className="w-3 h-3 rounded-full bg-red-500" />
             <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
             <div className="w-3 h-3 rounded-full bg-green-500/80" />
           </div>
-          <div className="text-white/60 leading-relaxed space-y-1">
+          <div className="text-white/70 leading-relaxed space-y-1">
             <div>
               <span className="text-red-400">const</span> <span className="text-blue-300">solution</span> = {'{'}
             </div>
@@ -121,14 +119,14 @@ export default function HomePage() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="absolute right-[8%] bottom-[25%] w-72 bg-[#0A0A0A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 z-10 hidden xl:block"
+          className="absolute right-[8%] bottom-[25%] w-72 bg-[#0A0A0A]/90 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 z-10 hidden xl:block"
           style={{
-            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4)'
+            boxShadow: '0 8px 32px 0 rgba(239, 68, 68, 0.15), 0 0 0 1px rgba(239, 68, 68, 0.1)'
           }}
         >
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-white/60 text-sm">Deploy Status</span>
+              <span className="text-white/70 text-sm font-medium">Deploy Status</span>
               <span className="px-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 text-xs font-medium">Live</span>
             </div>
             <div className="space-y-2">
@@ -140,9 +138,9 @@ export default function HomePage() {
                   className="h-full bg-gradient-to-r from-red-500 to-red-600"
                 />
               </div>
-              <div className="flex justify-between text-xs text-white/40">
+              <div className="flex justify-between text-xs text-white/60">
                 <span>Automation Active</span>
-                <span>95%</span>
+                <span className="font-medium">95%</span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3 mt-6">
@@ -154,7 +152,7 @@ export default function HomePage() {
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white/60 text-sm font-medium"
+                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white/70 text-sm font-medium"
               >
                 Monitor
               </motion.button>
@@ -173,8 +171,8 @@ export default function HomePage() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="mb-6"
           >
-            <div className="inline-block px-4 py-2 border border-red-500/20 rounded-full bg-red-500/5 backdrop-blur-sm">
-              <span className="text-red-400 font-mono text-xs tracking-widest uppercase">Custom Development</span>
+            <div className="inline-block px-4 py-2 border border-red-500/30 rounded-full bg-red-500/10 backdrop-blur-sm">
+              <span className="text-red-400 font-mono text-xs tracking-widest uppercase font-medium">Custom Automated Solutions</span>
             </div>
           </motion.div>
 
@@ -197,7 +195,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block text-white/50 mt-2"
+                className="block text-white/70 mt-2"
               >
                 the most powerful custom
               </motion.span>
@@ -205,9 +203,9 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-                className="block text-white/50"
+                className="block text-white/70"
               >
-                development solutions.
+                automated solutions.
               </motion.span>
             </h1>
           </motion.div>
@@ -216,7 +214,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="mt-8 max-w-3xl mx-auto text-base md:text-lg text-white/50 leading-relaxed font-light"
+            className="mt-8 max-w-3xl mx-auto text-base md:text-lg text-white/70 leading-relaxed font-light"
           >
             Barr Automations builds custom web applications, AI chatbots, internal tools, and process automation. 
             Trusted by businesses who need solutions that actually fit their workflow.
@@ -498,7 +496,7 @@ export default function HomePage() {
               >
                 <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium">
                   <Link href="/contact">
-                    <span className="relative z-10 flex items-center gap-2">
+                    <span className="flex items-center gap-2">
                       Schedule Consultation
                       <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                     </span>
