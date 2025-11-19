@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { FadeInView } from '@/components/animations/fade-in-view'
 import { StaggerContainer, StaggerItem } from '@/components/animations/stagger-container'
-import { MagneticButton } from '@/components/animations/magnetic-button'
 
 export default function ProductsPage() {
   const products = [
@@ -176,13 +175,13 @@ export default function ProductsPage() {
               <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto font-light leading-relaxed">
                 Let's discuss your project and find the perfect solution for your needs
               </p>
-              <MagneticButton strength={0.15}>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
                 <Button size="lg" variant="secondary" asChild className="bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-lg font-semibold">
                   <Link href="/contact">
                     Contact Us Today <ArrowRight className="ml-2 w-5 h-5" />
                   </Link>
                 </Button>
-              </MagneticButton>
+              </motion.div>
             </div>
           </motion.div>
         </FadeInView>

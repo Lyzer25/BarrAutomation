@@ -7,7 +7,6 @@ import Link from "next/link"
 import { Code, Wrench, Zap, Brain, ArrowRight, Check } from 'lucide-react'
 import { FadeInView } from '@/components/animations/fade-in-view'
 import { StaggerContainer, StaggerItem } from '@/components/animations/stagger-container'
-import { MagneticButton } from '@/components/animations/magnetic-button'
 
 export default function HomePage() {
   const { scrollY } = useScroll()
@@ -75,7 +74,7 @@ export default function HomePage() {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <MagneticButton strength={0.4}>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-500">
                 <Link href="/contact">
                   <span className="relative z-10 flex items-center gap-2">
@@ -84,12 +83,13 @@ export default function HomePage() {
                   </span>
                 </Link>
               </Button>
-            </MagneticButton>
-            <MagneticButton strength={0.4}>
+            </motion.div>
+            
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium transition-all duration-300">
                 <Link href="/products">Explore Services</Link>
               </Button>
-            </MagneticButton>
+            </motion.div>
           </motion.div>
         </motion.div>
 
