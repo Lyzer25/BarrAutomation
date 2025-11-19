@@ -33,10 +33,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                className="block"
-                style={{
-                  filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8)) drop-shadow(0 40px 80px rgba(0, 0, 0, 0.6))'
-                }}
+                className="block shadow-[0_30px_60px_rgba(0,0,0,0.9),0_60px_120px_rgba(0,0,0,0.7)]"
               >
                 Transform Your Business
               </motion.span>
@@ -44,10 +41,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block text-accent mt-2"
-                style={{
-                  filter: 'drop-shadow(0 20px 50px rgba(239, 68, 68, 0.6)) drop-shadow(0 40px 100px rgba(239, 68, 68, 0.3))'
-                }}
+                className="block text-accent mt-2 shadow-[0_30px_80px_rgba(239,68,68,0.6),0_60px_160px_rgba(239,68,68,0.4)]"
               >
                 With Custom Solutions
               </motion.span>
@@ -58,10 +52,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light"
-            style={{
-              filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8))'
-            }}
+            className="mt-8 max-w-3xl mx-auto text-lg text-white/70 md:text-xl leading-relaxed font-light shadow-[0_20px_40px_rgba(0,0,0,0.8)]"
           >
             Specialized custom development for web applications, internal software, process automation, and AI solutions. Built specifically for your business needs.
           </motion.p>
@@ -75,10 +66,7 @@ export default function HomePage() {
             <motion.div 
               whileHover={{ scale: 1.05 }} 
               whileTap={{ scale: 0.95 }} 
-              className="relative"
-              style={{
-                filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.9)) drop-shadow(0 40px 80px rgba(0, 0, 0, 0.5))'
-              }}
+              className="relative shadow-[0_30px_60px_rgba(0,0,0,0.95),0_60px_120px_rgba(0,0,0,0.7)]"
             >
               <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium">
                 <Link href="/contact">
@@ -93,9 +81,7 @@ export default function HomePage() {
             <motion.div 
               whileHover={{ scale: 1.05 }} 
               whileTap={{ scale: 0.95 }}
-              style={{
-                filter: 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8)) drop-shadow(0 30px 60px rgba(0, 0, 0, 0.4))'
-              }}
+              className="shadow-[0_25px_50px_rgba(0,0,0,0.9),0_50px_100px_rgba(0,0,0,0.6)]"
             >
               <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium">
                 <Link href="/products">Explore Services</Link>
@@ -113,18 +99,12 @@ export default function HomePage() {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-white/20 rounded-full p-1"
-            style={{
-              filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6))'
-            }}
+            className="w-6 h-10 border-2 border-white/20 rounded-full p-1 shadow-[0_15px_30px_rgba(0,0,0,0.7)]"
           >
             <motion.div
               animate={{ y: [0, 16, 0], opacity: [1, 0, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-2 bg-accent rounded-full mx-auto"
-              style={{
-                filter: 'drop-shadow(0 4px 8px rgba(239, 68, 68, 0.8))'
-              }}
+              className="w-1 h-2 bg-accent rounded-full mx-auto shadow-[0_6px_12px_rgba(239,68,68,0.9)]"
             />
           </motion.div>
         </motion.div>
@@ -133,18 +113,10 @@ export default function HomePage() {
       {/* Services Grid */}
       <section className="container mx-auto px-4 py-32 relative">
         <FadeInView className="text-center mb-20 relative z-10">
-          <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm"
-            style={{
-              filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))'
-            }}
-          >
+          <div className="inline-block mb-4 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_12px_24px_rgba(0,0,0,0.7)]">
             <span className="text-white/60 font-mono text-xs tracking-widest uppercase">Our Services</span>
           </div>
-          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6"
-            style={{
-              filter: 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8)) drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5))'
-            }}
-          >What We Build</h2>
+          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6 shadow-[0_20px_40px_rgba(0,0,0,0.9),0_40px_80px_rgba(0,0,0,0.6)]">What We Build</h2>
           <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
           </p>
@@ -186,28 +158,18 @@ export default function HomePage() {
                 <motion.div
                   whileHover={{ y: -8 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                  className="relative group h-full"
-                  style={{
-                    filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.9)) drop-shadow(0 50px 100px rgba(0, 0, 0, 0.6))'
-                  }}
+                  className="relative group h-full shadow-[0_35px_70px_rgba(0,0,0,0.95),0_70px_140px_rgba(0,0,0,0.7)]"
                 >
                   <Card className="group bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all duration-500 h-full cursor-pointer overflow-hidden relative rounded-3xl">
                     <CardHeader className="pb-4 relative z-10 pt-8 px-8">
                       <motion.div
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
-                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300"
-                        style={{
-                          filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))'
-                        }}
+                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:border-accent transition-all duration-300 shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
                       >
                         <service.icon className="w-6 h-6 text-white group-hover:text-white transition-colors" />
                       </motion.div>
-                      <CardTitle className="text-2xl text-white font-medium tracking-tight"
-                        style={{
-                          filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))'
-                        }}
-                      >
+                      <CardTitle className="text-2xl text-white font-medium tracking-tight shadow-[0_10px_20px_rgba(0,0,0,0.7)]">
                         {service.title}
                       </CardTitle>
                       <CardDescription className="text-white/50 group-hover:text-white/70 transition-colors text-base font-light leading-relaxed mt-2">
@@ -252,18 +214,10 @@ export default function HomePage() {
               viewport={{ once: true }}
               className="text-center mb-20"
             >
-              <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm"
-                style={{
-                  filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))'
-                }}
-              >
+              <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_12px_24px_rgba(0,0,0,0.7)]">
                 <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Our Approach</span>
               </div>
-              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight"
-                style={{
-                  filter: 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8)) drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5))'
-                }}
-              >
+              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight shadow-[0_20px_40px_rgba(0,0,0,0.9),0_40px_80px_rgba(0,0,0,0.6)]">
                 Why Custom Development?
               </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
@@ -293,24 +247,13 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group relative"
-                  style={{
-                    filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.9)) drop-shadow(0 40px 80px rgba(0, 0, 0, 0.6))'
-                  }}
+                  className="text-center p-10 rounded-3xl border border-white/5 bg-[#0A0A0A] hover:bg-white/[0.02] transition-all duration-500 group relative shadow-[0_30px_60px_rgba(0,0,0,0.95),0_60px_120px_rgba(0,0,0,0.7)]"
                 >
                   <div className="relative z-10">
-                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500"
-                      style={{
-                        filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))'
-                      }}
-                    >
+                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-500 shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
                       <div className="w-2 h-2 bg-accent rounded-full"></div>
                     </div>
-                    <h3 className="text-xl font-medium text-white mb-4 tracking-tight"
-                      style={{
-                        filter: 'drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6))'
-                      }}
-                    >{benefit.title}</h3>
+                    <h3 className="text-xl font-medium text-white mb-4 tracking-tight shadow-[0_8px_16px_rgba(0,0,0,0.7)]">{benefit.title}</h3>
                     <p className="text-white/50 font-light leading-relaxed">{benefit.desc}</p>
                   </div>
                 </motion.div>
@@ -324,18 +267,10 @@ export default function HomePage() {
       <section className="py-32 bg-black relative">
         <div className="container mx-auto px-4 relative z-10">
           <FadeInView className="text-center mb-24">
-            <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm"
-              style={{
-                filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))'
-              }}
-            >
+            <div className="inline-block mb-4 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm shadow-[0_12px_24px_rgba(0,0,0,0.7)]">
               <span className="text-white/60 font-mono text-[10px] tracking-[0.2em] uppercase">Process</span>
             </div>
-            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight"
-              style={{
-                filter: 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8)) drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5))'
-              }}
-            >Simple Process</h2>
+            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight shadow-[0_20px_40px_rgba(0,0,0,0.9),0_40px_80px_rgba(0,0,0,0.6)]">Simple Process</h2>
             <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
           </FadeInView>
 
@@ -360,18 +295,11 @@ export default function HomePage() {
                   whileHover={{ y: -5, scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 300 }}
-                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group"
-                  style={{
-                    filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.9)) drop-shadow(0 40px 80px rgba(0, 0, 0, 0.6))'
-                  }}
+                  className="w-24 h-24 mx-auto bg-[#050505] border border-white/10 rounded-full flex items-center justify-center mb-8 relative group shadow-[0_30px_60px_rgba(0,0,0,0.95),0_60px_120px_rgba(0,0,0,0.7)]"
                 >
                   <span className="text-2xl font-mono text-white/80 group-hover:text-accent transition-colors duration-300">{step.number}</span>
                 </motion.div>
-                <h3 className="text-xl font-medium text-white mb-3 tracking-tight"
-                  style={{
-                    filter: 'drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6))'
-                  }}
-                >{step.title}</h3>
+                <h3 className="text-xl font-medium text-white mb-3 tracking-tight shadow-[0_8px_16px_rgba(0,0,0,0.7)]">{step.title}</h3>
                 <p className="text-sm text-white/50 font-light leading-relaxed">{step.desc}</p>
               </FadeInView>
             ))}
@@ -386,17 +314,10 @@ export default function HomePage() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden"
-          style={{
-            filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.9)) drop-shadow(0 60px 120px rgba(0, 0, 0, 0.7))'
-          }}
+          className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.95),0_80px_160px_rgba(0,0,0,0.8)]"
         >
           <div className="relative z-10 max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-thin text-white mb-6 tracking-tight"
-              style={{
-                filter: 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8))'
-              }}
-            >
+            <h2 className="text-4xl md:text-6xl font-thin text-white mb-6 tracking-tight shadow-[0_20px_40px_rgba(0,0,0,0.9)]">
               Ready to Build Something Custom?
             </h2>
             <p className="text-lg md:text-xl text-white/60 mb-12 font-light leading-relaxed max-w-2xl mx-auto">
@@ -407,9 +328,7 @@ export default function HomePage() {
               <motion.div 
                 whileHover={{ scale: 1.05 }} 
                 whileTap={{ scale: 0.95 }}
-                style={{
-                  filter: 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8))'
-                }}
+                className="shadow-[0_20px_40px_rgba(0,0,0,0.9)]"
               >
                 <Button size="lg" asChild className="relative bg-white text-black hover:bg-white/90 text-base px-10 py-7 rounded-full font-medium overflow-hidden group">
                   <Link href="/contact">
@@ -424,9 +343,7 @@ export default function HomePage() {
               <motion.div 
                 whileHover={{ scale: 1.05 }} 
                 whileTap={{ scale: 0.95 }}
-                style={{
-                  filter: 'drop-shadow(0 12px 24px rgba(0, 0, 0, 0.7))'
-                }}
+                className="shadow-[0_15px_30px_rgba(0,0,0,0.8)]"
               >
                 <Button size="lg" variant="outline" asChild className="border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20 text-base px-10 py-7 rounded-full font-medium">
                   <Link href="/demos">
