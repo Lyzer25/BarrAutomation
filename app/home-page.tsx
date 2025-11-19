@@ -7,14 +7,32 @@ import Link from "next/link"
 import { Code, Wrench, Zap, Brain, ArrowRight, Cpu, Database, Network, Workflow, Server, Terminal } from 'lucide-react'
 import { FadeInView } from "@/components/animations/fade-in-view"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
+import { useState } from 'react'
 
 export default function HomePage() {
   const { scrollY } = useScroll()
   const opacity = useTransform(scrollY, [0, 300], [1, 0])
   const scale = useTransform(scrollY, [0, 300], [1, 0.95])
 
+  const [selectedFont, setSelectedFont] = useState(0)
+  
+  const fonts = [
+    { name: "Space Grotesk", family: "'Space Grotesk', sans-serif", url: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" },
+    { name: "Orbitron", family: "'Orbitron', sans-serif", url: "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" },
+    { name: "Rajdhani", family: "'Rajdhani', sans-serif", url: "https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" },
+    { name: "Exo 2", family: "'Exo 2', sans-serif", url: "https://fonts.googleapis.com/css2?family=Exo+2:wght@100;200;300;400;500;600;700;800;900&display=swap" },
+    { name: "Audiowide", family: "'Audiowide', sans-serif", url: "https://fonts.googleapis.com/css2?family=Audiowide&display=swap" },
+    { name: "Michroma", family: "'Michroma', sans-serif", url: "https://fonts.googleapis.com/css2?family=Michroma&display=swap" },
+    { name: "IBM Plex Mono", family: "'IBM Plex Mono', monospace", url: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&display=swap" },
+    { name: "JetBrains Mono", family: "'JetBrains Mono', monospace", url: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" },
+    { name: "Syne", family: "'Syne', sans-serif", url: "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" },
+    { name: "Chakra Petch", family: "'Chakra Petch', sans-serif", url: "https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap" },
+  ]
+
   return (
     <>
+      <link href={fonts[selectedFont].url} rel="stylesheet" />
+
       {/* Hero Section */}
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,68,68,0.08),transparent_50%)]" />
@@ -256,7 +274,10 @@ export default function HomePage() {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="mb-12 mt-20"
           >
-            <h1 className="font-mono text-6xl md:text-8xl lg:text-9xl font-light tracking-tight text-white leading-[1.1]">
+            <h1 
+              className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight text-white leading-[1.1]"
+              style={{ fontFamily: fonts[selectedFont].family }}
+            >
               <motion.span
                 initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -269,6 +290,27 @@ export default function HomePage() {
                 Automate your business.
               </motion.span>
             </h1>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-wrap gap-2 justify-center mb-8"
+          >
+            {fonts.map((font, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedFont(index)}
+                className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 ${
+                  selectedFont === index
+                    ? 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.5)]'
+                    : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white/80 border border-white/10'
+                }`}
+              >
+                {font.name}
+              </button>
+            ))}
           </motion.div>
 
           <motion.p
@@ -351,7 +393,9 @@ export default function HomePage() {
         </div>
 
         <FadeInView className="text-center mb-20 relative z-10">
-          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6">What We Build</h2>
+          <h2 className="font-mono text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight" style={{ fontFamily: fonts[selectedFont].family }}>
+            What We Build
+          </h2>
           <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
           </p>
@@ -404,7 +448,9 @@ export default function HomePage() {
                       >
                         <service.icon className="w-6 h-6 text-red-400 group-hover:text-red-light transition-colors" />
                       </motion.div>
-                      <CardTitle className="text-2xl text-white font-medium tracking-tight">{service.title}</CardTitle>
+                      <CardTitle className="text-2xl text-white font-medium tracking-tight" style={{ fontFamily: fonts[selectedFont].family }}>
+                        {service.title}
+                      </CardTitle>
                       <CardDescription className="text-white/50 group-hover:text-white/70 transition-colors text-base font-light leading-relaxed mt-2">
                         {service.desc}
                       </CardDescription>
@@ -471,7 +517,9 @@ export default function HomePage() {
               viewport={{ once: true }}
               className="text-center mb-20"
             >
-              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">Why Custom Development?</h2>
+              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight" style={{ fontFamily: fonts[selectedFont].family }}>
+                Why Custom Development?
+              </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
                 Off-the-shelf solutions force you to adapt your business to their limitations.
                 <br className="hidden md:block" />
@@ -506,7 +554,9 @@ export default function HomePage() {
                     <div className="w-12 h-12 bg-red-500/5 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 group-hover:bg-red-medium/10 group-hover:border-red-500/40 transition-all duration-500 backdrop-blur-sm">
                       <div className="w-2 h-2 bg-red-medium rounded-full group-hover:shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                     </div>
-                    <h3 className="text-xl font-medium text-white mb-4 tracking-tight">{benefit.title}</h3>
+                    <h3 className="text-xl font-medium text-white mb-4 tracking-tight" style={{ fontFamily: fonts[selectedFont].family }}>
+                      {benefit.title}
+                    </h3>
                     <p className="text-white/50 font-light leading-relaxed">{benefit.desc}</p>
                   </div>
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500">
@@ -545,7 +595,9 @@ export default function HomePage() {
 
         <div className="container mx-auto px-4 relative z-10">
           <FadeInView className="text-center mb-24">
-            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">Simple Process</h2>
+            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight" style={{ fontFamily: fonts[selectedFont].family }}>
+              Simple Process
+            </h2>
             <p className="mt-4 text-lg text-white/60 font-light">From idea to deployed solution</p>
           </FadeInView>
 
@@ -574,7 +626,9 @@ export default function HomePage() {
                   </span>
                   <div className="absolute inset-0 rounded-full border border-red-500/0 group-hover:border-red-500/30 group-hover:scale-110 transition-all duration-500" />
                 </motion.div>
-                <h3 className="text-xl font-medium text-white mb-3 tracking-tight">{step.title}</h3>
+                <h3 className="text-xl font-medium text-white mb-3 tracking-tight" style={{ fontFamily: fonts[selectedFont].family }}>
+                  {step.title}
+                </h3>
                 <p className="text-sm text-white/50 font-light leading-relaxed">{step.desc}</p>
               </FadeInView>
             ))}
@@ -605,7 +659,7 @@ export default function HomePage() {
           </div>
 
           <div className="relative z-10 max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-thin text-white mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-6xl font-thin text-white mb-6 tracking-tight" style={{ fontFamily: fonts[selectedFont].family }}>
               Ready to Build Something Custom?
             </h2>
             <p className="text-lg md:text-xl text-white/60 mb-12 font-light leading-relaxed max-w-2xl mx-auto">
