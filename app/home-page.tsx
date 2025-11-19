@@ -172,7 +172,7 @@ export default function HomePage() {
             className="mb-6"
           >
             <div className="inline-block px-4 py-2 border border-red-500/30 rounded-full bg-red-500/10 backdrop-blur-sm">
-              <span className="text-red-400 font-mono text-xs tracking-widest uppercase font-medium">Custom Automated Solutions</span>
+              <span className="text-red-400 font-mono text-xs tracking-widest uppercase font-medium">Built for your business</span>
             </div>
           </motion.div>
 
@@ -180,7 +180,7 @@ export default function HomePage() {
             initial={{ opacity: 0, filter: 'blur(10px)', y: 30 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-8"
+            className="mb-8 mt-32"
           >
             <h1 className="font-mono text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.1]">
               <motion.span
@@ -189,20 +189,12 @@ export default function HomePage() {
                 transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
                 className="block"
               >
-                Built for your business,
+                The most powerful custom
               </motion.span>
               <motion.span
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                className="block mt-2 text-foreground"
-              >
-                the most powerful custom
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
                 className="block mt-2 text-foreground"
               >
                 automated solutions.
