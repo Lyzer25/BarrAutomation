@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { contactBasicsSchema, type ContactBasicsInput } from "@/lib/validators/contact"
 import { forwardRef, useImperativeHandle } from "react"
-import { Brain, Sparkles, MessageSquare, Target } from "lucide-react"
+import { Brain, Sparkles, MessageSquare, Target, ArrowRight } from "lucide-react"
 
 interface ContactFormProps {
   onSubmit: (data: ContactBasicsInput, type: "simple" | "custom") => void
@@ -60,6 +60,16 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
           <h3 className="text-xl font-bold text-white mb-2">Smart Automation</h3>
           <p className="text-white/80 text-sm leading-relaxed">
             AI that learns from your data. Automate decisions, generate content, and extract insights automatically.
+          </p>
+        </div>
+
+        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-600/5 border border-red-500/30 rounded-xl p-5 relative">
+          <div className="absolute -right-3 top-1/2 -translate-y-1/2">
+            <ArrowRight className="w-6 h-6 text-red-500 animate-pulse" />
+          </div>
+          <h4 className="text-sm font-bold text-red-500 mb-2">Quick Consultation</h4>
+          <p className="text-white/70 text-xs leading-relaxed">
+            Need to chat first? The left button sends your info quickly for a consultation call.
           </p>
         </div>
       </div>
@@ -166,7 +176,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
               variant="outline"
               className="w-full h-12 border-white/20 text-white hover:bg-white/10 disabled:opacity-50 bg-transparent backdrop-blur-sm"
             >
-              {isLoading ? "Processing..." : "Contact Us"}
+              {isLoading ? "Processing..." : "Discuss This Project"}
             </Button>
 
             <Button
@@ -185,6 +195,16 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
 
       {/* Right Panel - Use Cases & Integration */}
       <div className="lg:col-span-3 space-y-6">
+        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-600/5 border border-red-500/30 rounded-xl p-5 relative">
+          <div className="absolute -left-3 top-1/2 -translate-y-1/2 rotate-180">
+            <ArrowRight className="w-6 h-6 text-red-500 animate-pulse" />
+          </div>
+          <h4 className="text-sm font-bold text-red-500 mb-2">Detailed AI Request</h4>
+          <p className="text-white/70 text-xs leading-relaxed">
+            Know what you need? The right button helps us understand your specific AI automation requirements.
+          </p>
+        </div>
+
         <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
           <MessageSquare className="w-8 h-8 mb-4 text-red-500" />
           <h3 className="text-xl font-bold text-white mb-2">Conversational AI</h3>
