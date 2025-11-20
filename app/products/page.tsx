@@ -128,7 +128,7 @@ export default function ProductsPage() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="text-white">Transform Your </span>
-            <span className="bg-gradient-to-r from-red-500 via-orange-500 to-red-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-500 via-orange-500 to-red-600 bg-clip-text text-transparent pb-2">
               Business
             </span>
           </motion.h1>
@@ -252,7 +252,7 @@ export default function ProductsPage() {
           <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-orange-500/10 opacity-50" />
 
           <div className="relative z-10">
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight pb-2">
               Ready to{" "}
               <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
                 innovate

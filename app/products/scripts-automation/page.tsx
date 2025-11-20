@@ -201,10 +201,10 @@ export default function ScriptsAutomationPage() {
           className="text-center max-w-5xl mx-auto relative z-10"
         >
           {/* Main heading with gradient */}
-          <h1 className="font-sans text-6xl md:text-8xl font-bold tracking-tight mb-6">
+          <h1 className="font-sans text-6xl md:text-8xl font-bold tracking-tight mb-6 leading-normal overflow-visible">
             <span className="block text-white">Automate</span>
             <span
-              className="block bg-gradient-to-r from-red-600 via-red-500 to-red-400 text-transparent bg-clip-text"
+              className="block bg-gradient-to-r from-red-600 via-red-500 to-red-400 text-transparent bg-clip-text pb-3"
               style={{
                 textShadow: "0 0 60px rgba(239, 68, 68, 0.3)",
               }}
