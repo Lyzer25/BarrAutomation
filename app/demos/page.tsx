@@ -1,26 +1,8 @@
 "use client"
 
 import Link from "next/link"
-<<<<<<< Refactoring
 import { motion } from "framer-motion"
 import { ArrowRight, Zap, MessageSquare, Database, Target } from "lucide-react"
-=======
-import { ArrowRight } from "lucide-react"
-import dynamic from "next/dynamic"
-
-// Lazy load heavy components for better performance
-const ChromaGrid = dynamic(() => import("@/components/bits/Components/ChromaGrid/ChromaGrid"), {
-  loading: () => <div className="min-h-[400px] animate-pulse bg-white/5 rounded-xl" />,
-})
-
-const IntegrationEcosystem = dynamic(() => import("@/components/smart-lead-machine/integration-ecosystem"), {
-  loading: () => <div className="min-h-[300px] animate-pulse bg-white/5 rounded-xl" />,
-})
-
-// Static generation with 1-hour revalidation
-export const dynamic = 'force-static'
-export const revalidate = 3600
->>>>>>> main
 
 const demos = [
   {

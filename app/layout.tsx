@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Roboto_Mono, Chakra_Petch } from 'next/font/google'
+import { Inter, Roboto_Mono, Chakra_Petch } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import Header from "@/components/header"
@@ -38,16 +38,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-<<<<<<< Refactoring
-      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable, chakraPetch.variable)}>
-=======
-      <head>
-        <link rel="preconnect" href="https://logo.clearbit.com" />
-        <link rel="dns-prefetch" href="https://logo.clearbit.com" />
-        <link rel="preconnect" href="https://api.resend.com" />
-      </head>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable)}>
->>>>>>> main
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          inter.variable,
+          robotoMono.variable,
+          chakraPetch.variable,
+        )}
+      >
         <TooltipProvider>
           <LandingBackgroundWrapper>
             <Header />
