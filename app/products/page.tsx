@@ -157,7 +157,7 @@ export default function ProductsPage() {
                 Start Your Project
               </motion.button>
             </Link>
-            <Link href="/demos">
+            <Link href="/demos/ai-demos">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
