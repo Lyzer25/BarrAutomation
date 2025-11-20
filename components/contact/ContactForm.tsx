@@ -197,16 +197,6 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
 
       {/* Right Panel - Use Cases & Integration */}
       <div className="lg:col-span-3 space-y-6">
-        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-600/5 border-2 border-red-500/40 rounded-xl p-5 relative">
-          <div className="absolute -left-4 top-1/2 -translate-y-1/2 rotate-180">
-            <ArrowRight className="w-8 h-8 text-red-500 animate-pulse drop-shadow-lg" />
-          </div>
-          <h4 className="text-base font-bold text-red-400 mb-2.5">Detailed AI Request</h4>
-          <p className="text-white/80 text-sm leading-relaxed">
-            Know what you need? The right button helps us understand your specific AI automation requirements.
-          </p>
-        </div>
-
         <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
           <MessageSquare className="w-8 h-8 mb-4 text-red-500" />
           <h3 className="text-xl font-bold text-white mb-3">Conversational AI</h3>
@@ -220,6 +210,16 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
           <h3 className="text-xl font-bold text-white mb-3">Task-Specific AI</h3>
           <p className="text-white/80 text-sm leading-relaxed">
             Custom AI trained for your specific workflows. From data analysis to content creation to predictions.
+          </p>
+        </div>
+
+        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-600/5 border-2 border-red-500/40 rounded-xl p-5 relative">
+          <div className="absolute -left-4 top-1/2 -translate-y-1/2 rotate-180">
+            <ArrowRight className="w-8 h-8 text-red-500 animate-pulse drop-shadow-lg" />
+          </div>
+          <h4 className="text-base font-bold text-red-400 mb-2.5">Detailed AI Request</h4>
+          <p className="text-white/80 text-sm leading-relaxed">
+            Know what you need? The right button helps us understand your specific AI automation requirements.
           </p>
         </div>
       </div>
