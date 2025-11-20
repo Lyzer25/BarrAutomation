@@ -38,7 +38,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+<<<<<<< Refactoring
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable, chakraPetch.variable)}>
+=======
+      <head>
+        <link rel="preconnect" href="https://logo.clearbit.com" />
+        <link rel="dns-prefetch" href="https://logo.clearbit.com" />
+        <link rel="preconnect" href="https://api.resend.com" />
+      </head>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable)}>
+>>>>>>> main
         <TooltipProvider>
           <LandingBackgroundWrapper>
             <Header />

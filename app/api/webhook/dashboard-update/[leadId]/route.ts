@@ -4,15 +4,28 @@ import { webhookLogger, extractRequestMetadata, createTimer } from "@/lib/webhoo
 import type { DashboardData } from "@/types/automation-types"
 import { addStatusUpdate, setDashboardData } from "@/lib/event-store"
 
+// Helper for development-only logging
+const devLog = (...args: any[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    devLog(...args)
+  }
+}
+
+const devWarn = (...args: any[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    devWarn(...args)
+  }
+}
+
 export async function POST(request: Request, { params }: { params: { leadId: string } }) {
   const timer = createTimer()
   const { headers, userAgent, sourceIP } = extractRequestMetadata(request)
   const leadId = params.leadId
-  
-  console.log('🎯 Dashboard Update Webhook Called')
-  console.log(`   📋 Lead ID: ${leadId}`)
-  console.log(`   🌐 Source IP: ${sourceIP}`)
-  console.log(`   🔧 User Agent: ${userAgent}`)
+
+  devLog('🎯 Dashboard Update Webhook Called')
+  devLog(`   📋 Lead ID: ${leadId}`)
+  devLog(`   🌐 Source IP: ${sourceIP}`)
+  devLog(`   🔧 User Agent: ${userAgent}`)
 
   // Validate leadId
   if (!leadId) {
@@ -35,7 +48,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       sourceIP,
     })
 
-    console.log(`❌ Dashboard Update Failed: ${errorMsg}`)
+    devLog(`❌ Dashboard Update Failed: ${errorMsg}`)
     return NextResponse.json({ error: errorMsg }, { status: 400 })
   }
 
@@ -48,7 +61,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
     // Parse request body
     try {
       requestBody = await request.json()
-      console.log(`📤 Raw Request Body:`, JSON.stringify(requestBody, null, 2))
+      devLog(`📤 Raw Request Body:`, JSON.stringify(requestBody, null, 2))
     } catch (parseError) {
       const errorMsg = "Invalid JSON in request body"
       const processingTime = timer()
@@ -70,7 +83,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
         sourceIP,
       })
 
-      console.log(`❌ JSON Parse Error: ${errorMsg}`)
+      devLog(`❌ JSON Parse Error: ${errorMsg}`)
       return NextResponse.json({ error: errorMsg }, { status: 400 })
     }
 
@@ -78,10 +91,10 @@ export async function POST(request: Request, { params }: { params: { leadId: str
     let dashboardData = requestBody
     if (requestBody.dashboard) {
       dashboardData = requestBody.dashboard
-      console.log(`📦 Extracted nested dashboard data`)
+      devLog(`📦 Extracted nested dashboard data`)
     }
 
-    console.log(`📊 Processing Dashboard Data:`, JSON.stringify(dashboardData, null, 2))
+    devLog(`📊 Processing Dashboard Data:`, JSON.stringify(dashboardData, null, 2))
 
     // Validate and process leadScore
     if (dashboardData.leadScore !== undefined) {
@@ -114,11 +127,11 @@ export async function POST(request: Request, { params }: { params: { leadId: str
           sourceIP,
         })
 
-        console.log(`❌ Lead Score Validation Error: ${errorMsg}`)
+        devLog(`❌ Lead Score Validation Error: ${errorMsg}`)
         return NextResponse.json(responseBody, { status: responseStatus })
       }
       
-      console.log(`✅ Lead Score processed: ${originalScore} → ${dashboardData.leadScore}`)
+      devLog(`✅ Lead Score processed: ${originalScore} → ${dashboardData.leadScore}`)
     }
 
     // Ensure leadData exists with fallback
@@ -129,7 +142,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
         phone: '', 
         message: '' 
       }
-      console.log(`📝 Applied default leadData fallback`)
+      devLog(`📝 Applied default leadData fallback`)
     }
 
     // Validate required dashboard fields
@@ -170,15 +183,15 @@ export async function POST(request: Request, { params }: { params: { leadId: str
         sourceIP,
       })
 
-      console.log(`❌ Dashboard Validation Errors:`)
-      validationErrors.forEach(error => console.log(`   • ${error}`))
+      devLog(`❌ Dashboard Validation Errors:`)
+      validationErrors.forEach(error => devLog(`   • ${error}`))
       return NextResponse.json(responseBody, { status: responseStatus })
     }
 
-    console.log(`✅ Dashboard Validation Passed`)
-    console.log(`   📊 Lead Score: ${dashboardData.leadScore}`)
-    console.log(`   👤 Lead Name: ${dashboardData.leadData?.name || 'Unknown'}`)
-    console.log(`   📧 Lead Email: ${dashboardData.leadData?.email || 'Unknown'}`)
+    devLog(`✅ Dashboard Validation Passed`)
+    devLog(`   📊 Lead Score: ${dashboardData.leadScore}`)
+    devLog(`   👤 Lead Name: ${dashboardData.leadData?.name || 'Unknown'}`)
+    devLog(`   📧 Lead Email: ${dashboardData.leadData?.email || 'Unknown'}`)
 
     // Emit event to EventEmitter, persist dashboard snapshot, and emit canonical dashboard-complete status
     try {
@@ -189,7 +202,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       try {
         setDashboardData(leadId, dashboardData)
       } catch (persistErr) {
-        console.warn("⚠️ Failed to persist dashboard data to event store:", persistErr)
+        devWarn("⚠️ Failed to persist dashboard data to event store:", persistErr)
       }
 
       // Also emit a status-update event using the canonical step id expected by the UI
@@ -200,16 +213,16 @@ export async function POST(request: Request, { params }: { params: { leadId: str
         try {
           addStatusUpdate(leadId, { step: statusPayload.step, status: statusPayload.status, message: statusPayload.message, timestamp: new Date().toISOString() })
         } catch (persistStatusErr) {
-          console.warn("⚠️ Failed to persist dashboard status to event store:", persistStatusErr)
+          devWarn("⚠️ Failed to persist dashboard status to event store:", persistStatusErr)
         }
       } catch (statusEmitErr) {
-        console.warn("⚠️ Failed to emit dashboard-complete status update:", statusEmitErr)
+        devWarn("⚠️ Failed to emit dashboard-complete status update:", statusEmitErr)
       }
 
       eventEmitted = true
-      console.log(`📡 Dashboard event emitted successfully to EventEmitter`)
+      devLog(`📡 Dashboard event emitted successfully to EventEmitter`)
     } catch (emitError) {
-      console.log(`❌ Failed to emit dashboard event:`, emitError)
+      devLog(`❌ Failed to emit dashboard event:`, emitError)
       // Continue processing even if event emission fails
     }
 
@@ -241,9 +254,9 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       sourceIP,
     })
 
-    console.log(`✅ Dashboard Update Completed Successfully`)
-    console.log(`   ⏱️  Processing Time: ${processingTime}ms`)
-    console.log(`   📊 Final Dashboard Data Keys: ${Object.keys(dashboardData).join(', ')}`)
+    devLog(`✅ Dashboard Update Completed Successfully`)
+    devLog(`   ⏱️  Processing Time: ${processingTime}ms`)
+    devLog(`   📊 Final Dashboard Data Keys: ${Object.keys(dashboardData).join(', ')}`)
     
     return NextResponse.json(responseBody, { status: responseStatus })
 
@@ -268,7 +281,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       })
       eventEmitted = true
     } catch (emitError) {
-      console.log(`❌ Failed to emit error event:`, emitError)
+      devLog(`❌ Failed to emit error event:`, emitError)
     }
 
     // Log failed request
@@ -289,9 +302,9 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       sourceIP,
     })
 
-    console.log(`❌ Dashboard Update Failed`)
-    console.log(`   🚨 Error: ${errorMessage}`)
-    console.log(`   ⏱️  Processing Time: ${processingTime}ms`)
+    devLog(`❌ Dashboard Update Failed`)
+    devLog(`   🚨 Error: ${errorMessage}`)
+    devLog(`   ⏱️  Processing Time: ${processingTime}ms`)
     
     return NextResponse.json(responseBody, { status: responseStatus })
   }

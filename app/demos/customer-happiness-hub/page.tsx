@@ -2,6 +2,10 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 
+// Static generation with 1-hour revalidation
+export const dynamic = 'force-static'
+export const revalidate = 3600
+
 type Channel = 'Google' | 'Yelp' | 'Email' | 'Social'
 type Sentiment = 'positive' | 'neutral' | 'negative'
 

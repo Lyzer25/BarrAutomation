@@ -8,6 +8,10 @@ import IntegrationFilters from "@/components/integrations/integration-filters"
 import { integrationData } from "@/lib/integrations"
 import { FadeInView } from "@/components/animations/fade-in-view"
 
+// Static generation with 1-hour revalidation
+export const dynamic = 'force-static'
+export const revalidate = 3600
+
 export default function IntegrationsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [activeCategory, setActiveCategory] = useState("🚀 Most Common")

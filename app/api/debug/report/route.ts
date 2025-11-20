@@ -29,13 +29,15 @@ export async function POST(request: Request) {
     const debugData = await request.json()
     
     // Log client debug data on server
-    console.log('📊 Client debug report received:', {
-      sessionId: debugData.sessionId,
-      totalEvents: debugData.summary?.totalEvents || 0,
-      errorCount: debugData.summary?.errorCount || 0,
-      timeoutCount: debugData.summary?.timeoutCount || 0,
-      timestamp: new Date().toISOString()
-    })
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📊 Client debug report received:', {
+        sessionId: debugData.sessionId,
+        totalEvents: debugData.summary?.totalEvents || 0,
+        errorCount: debugData.summary?.errorCount || 0,
+        timeoutCount: debugData.summary?.timeoutCount || 0,
+        timestamp: new Date().toISOString()
+      })
+    }
     
     // In a real application, you might want to:
     // - Store this data in a database
@@ -53,7 +55,9 @@ export async function POST(request: Request) {
       }
     })
   } catch (error) {
-    console.error('Failed to process client debug report:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Failed to process client debug report:', error)
+    }
     return NextResponse.json(
       { 
         error: 'Failed to process debug report',
