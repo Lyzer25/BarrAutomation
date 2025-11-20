@@ -1,122 +1,115 @@
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+"use client"
+
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-import dynamic from "next/dynamic"
-
-// Lazy load heavy components for better performance
-const ChromaGrid = dynamic(() => import("@/components/bits/Components/ChromaGrid/ChromaGrid"), {
-  loading: () => <div className="min-h-[400px] animate-pulse bg-white/5 rounded-xl" />,
-})
-
-const IntegrationEcosystem = dynamic(() => import("@/components/smart-lead-machine/integration-ecosystem"), {
-  loading: () => <div className="min-h-[300px] animate-pulse bg-white/5 rounded-xl" />,
-})
-
-// Static generation with 1-hour revalidation
-export const dynamic = 'force-static'
-export const revalidate = 3600
+import { motion } from "framer-motion"
+import { ArrowRight, Zap, MessageSquare, Database, Target } from "lucide-react"
 
 const demos = [
   {
     title: "Smart Lead Machine",
-    industry: "Real Estate",
-    useCase: "Webhook ingestion, GPT-4 lead scoring, CRM updates, and notifications.",
-    roi: "Saves 18+ hours/week",
-    description:
-      "Transforms raw leads from 5+ sources into qualified, prioritized prospects in your CRM within seconds. Never miss a hot lead again.",
-    link: "/demos/smart-lead-machine",
-    status: "Live",
-  },
-  {
-    title: "Revenue Recovery Robot",
-    industry: "Ecommerce",
-    useCase: "Ecommerce abandoned cart detection with personalized AI reactivation.",
-    roi: "Recovers 15-25% of lost carts",
-    description:
-      "Automatically detects abandoned carts, analyzes customer history, and sends hyper-personalized SMS/email campaigns to win back sales.",
-    link: "/demos/revenue-recovery",
-    status: "Live",
-  },
-  {
-    title: "Client Success Engine",
-    industry: "Agencies & Consulting",
-    useCase: "Automated client onboarding, project setup, and progress updates.",
-    roi: "Reduces onboarding time by 85%",
-    description:
-      "From signed contract to project kickoff in minutes. Automates DocuSign, Asana/Monday setup, and keeps clients informed with progress reports.",
-    link: "/demos/client-success-engine",
-    status: "Live",
-  },
-  {
-    title: "AI Receptionist",
-    industry: "Hospitality & Services",
-    useCase: "Answers calls, books appointments, and manages Google Calendar.",
-    roi: "24/7 availability, zero missed calls",
-    description:
-      "Your always-on virtual front desk. Handles incoming calls, schedules appointments directly in Google Calendar, and provides instant responses. Perfect for restaurants, salons, and busy entrepreneurs.",
-    status: "In Development",
+    description: "AI-powered lead generation and qualification system",
+    icon: Target,
+    href: "/demos/smart-lead-machine",
+    color: "from-red-500 to-orange-500",
   },
   {
     title: "Customer Happiness Hub",
-    industry: "Service Businesses",
-    useCase: "Monitors reviews, classifies sentiment, and drafts auto-responses.",
-    roi: "98% faster response time",
-    description:
-      "Aggregates customer feedback from all channels, uses AI to understand sentiment, and routes issues to the right team member with a suggested response.",
-    link: "/demos/customer-happiness-hub",
-    status: "Live",
+    description: "Intelligent customer support automation",
+    icon: MessageSquare,
+    href: "/demos/customer-happiness-hub",
+    color: "from-red-500 to-pink-500",
   },
   {
-    title: "Data-Entry Automation Studio",
-    industry: "Operations",
-    useCase: "Watch AI convert messy inputs into clean, mapped records.",
-    roi: "Saves 20+ hours/week",
-    description:
-      "Replace repetitive data-entry tasks across finance, sales, and support. Try sample invoices, messy leads CSVs, and real support emails.",
-    link: "/demos/data-entry-automation",
-    status: "Live",
-    // static stat chips displayed in card UI below
-    stats: {
-      timeSavedPerDay: "13 hrs",
-      errorReduction: "85%",
-      firstPassYield: "95%",
-    },
+    title: "Data Entry Automation",
+    description: "Automated data extraction and processing",
+    icon: Database,
+    href: "/demos/data-entry-automation",
+    color: "from-red-500 to-purple-500",
+  },
+  {
+    title: "Revenue Recovery",
+    description: "Automated payment recovery system",
+    icon: Zap,
+    href: "/demos/revenue-recovery",
+    color: "from-red-500 to-rose-500",
   },
 ]
 
 export default function DemosPage() {
   return (
-    <div className="container mx-auto px-4 py-16">
-      <div className="text-center max-w-3xl mx-auto">
-        <h1 className="font-mono text-4xl font-thin text-white md:text-5xl">Live Automation Demos</h1>
-        <p className="mt-4 text-lg text-subtle-gray">
-          These are real automations we've already built — but they're just a starting point. Barri.ai specializes in
-          custom-built workflows powered by the best AI available.
-        </p>
+    <div className="min-h-screen pt-24 pb-16">
+      {/* Background Elements */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-red-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-red-600/20 rounded-full blur-3xl" />
       </div>
 
-      <div className="mt-12">
-        <ChromaGrid items={demos} />
-      </div>
-
-      <Card className="bg-accent/5 border-2 border-accent/50 flex flex-col justify-between md:col-span-2 lg:col-span-1 p-6 rounded-xl mt-8">
-        <div>
-          <h3 className="text-white font-bold text-lg">Looking for Something Custom?</h3>
-          <p className="text-white/60 mt-2 text-sm">
-            We design bespoke automations tailored to your exact needs. Typical builds take 2-4 weeks. From Zapier
-            migrations to autonomous GPT agents, we can build it.
+      <div className="container mx-auto px-4">
+        {/* Hero Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <span className="text-white">Live</span>
+            <span className="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent"> Demos</span>
+          </h1>
+          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+            Experience our AI-powered automation solutions in action. Click on any demo to see how we can transform your
+            business.
           </p>
-        </div>
-        <Button asChild className="mt-4 w-full">
-          <Link href="/contact">
-            Start a Custom Build <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </Card>
+        </motion.div>
 
-      <div className="mt-16">
-        <IntegrationEcosystem />
+        {/* Demos Grid */}
+        <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+          {demos.map((demo, index) => (
+            <motion.div
+              key={demo.href}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              <Link href={demo.href}>
+                <div className="group relative p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-red-500/20 hover:border-red-500/40 transition-all duration-300 hover:scale-[1.02]">
+                  {/* Gradient Overlay on Hover */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${demo.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`}
+                  />
+
+                  <div className="relative">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20">
+                        <demo.icon className="w-6 h-6 text-red-400" />
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-red-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+
+                    <h3 className="text-2xl font-bold text-white mb-3">{demo.title}</h3>
+
+                    <p className="text-white/60 leading-relaxed">{demo.description}</p>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center mt-16"
+        >
+          <p className="text-white/70 mb-6">Want to build a custom solution for your business?</p>
+          <Link href="/contact">
+            <button className="px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full font-medium hover:shadow-lg hover:shadow-red-500/50 transition-all duration-300">
+              Get Started
+            </button>
+          </Link>
+        </motion.div>
       </div>
     </div>
   )

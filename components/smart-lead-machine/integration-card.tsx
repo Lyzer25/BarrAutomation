@@ -14,17 +14,25 @@ const IntegrationCard = React.memo(({ name, description, domain }: IntegrationCa
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className="relative p-4 rounded-lg transition-all group hover:bg-white/5"
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      className="relative p-6 rounded-2xl transition-all group bg-[#0A0A0A]/80 backdrop-blur-xl border border-red-500/10 hover:border-red-500/30 hover:bg-[#0A0A0A]/90 h-full"
     >
-      <div className="flex items-center gap-3">
-        <IntegrationLogo domain={domain} name={name} />
-        <h4 className="font-bold text-white">{name}</h4>
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl">
+        <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent rounded-2xl" />
       </div>
-      <p className="text-xs text-subtle-gray mt-2">{description}</p>
+
+      <div className="relative z-10">
+        <div className="flex items-center gap-4 mb-4">
+          <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }} className="flex-shrink-0">
+            <IntegrationLogo domain={domain} name={name} />
+          </motion.div>
+          <h4 className="font-semibold text-white text-lg group-hover:text-red-400 transition-colors">{name}</h4>
+        </div>
+        <p className="text-sm text-white/60 group-hover:text-white/80 transition-colors leading-relaxed">
+          {description}
+        </p>
+      </div>
     </motion.div>
   )
 })

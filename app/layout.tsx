@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Roboto_Mono } from "next/font/google"
+import { Inter, Roboto_Mono, Chakra_Petch } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import Header from "@/components/header"
@@ -8,12 +8,18 @@ import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { LandingBackgroundWrapper } from "./landing-bg-wrapper"
+import { PageTransition } from "@/components/page-transition"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
   weight: ["300", "400", "700"],
   variable: "--font-roboto-mono",
+})
+const chakraPetch = Chakra_Petch({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-chakra-petch",
 })
 
 export const metadata: Metadata = {
@@ -32,16 +38,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://logo.clearbit.com" />
-        <link rel="dns-prefetch" href="https://logo.clearbit.com" />
-        <link rel="preconnect" href="https://api.resend.com" />
-      </head>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable, robotoMono.variable)}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          inter.variable,
+          robotoMono.variable,
+          chakraPetch.variable,
+        )}
+      >
         <TooltipProvider>
           <LandingBackgroundWrapper>
             <Header />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
             <Toaster />
           </LandingBackgroundWrapper>
