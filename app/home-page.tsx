@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
-import { Code, Wrench, Zap, Brain, ArrowRight, Cpu, Database, Network, Workflow, Server, Terminal } from "lucide-react"
+import { Code, Wrench, Zap, Brain, ArrowRight, Cpu, Database, Network, Workflow, Server, Terminal } from 'lucide-react'
 import { FadeInView } from "@/components/animations/fade-in-view"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 
@@ -18,7 +18,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,68,68,0.08),transparent_50%)]" />
-
+        
         {/* Circuit grid pattern */}
         <div
           className="absolute inset-0"
@@ -34,48 +34,36 @@ export default function HomePage() {
         {/* Animated connecting lines */}
         <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
           <motion.line
-            x1="10%"
-            y1="20%"
-            x2="30%"
-            y2="40%"
+            x1="10%" y1="20%" x2="30%" y2="40%"
             stroke="rgb(239, 68, 68)"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.3 }}
-            transition={{ duration: 2, delay: 0.5, repeat: Number.POSITIVE_INFINITY, repeatDelay: 3 }}
+            transition={{ duration: 2, delay: 0.5, repeat: Infinity, repeatDelay: 3 }}
           />
           <motion.line
-            x1="70%"
-            y1="30%"
-            x2="90%"
-            y2="50%"
+            x1="70%" y1="30%" x2="90%" y2="50%"
             stroke="rgb(239, 68, 68)"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.3 }}
-            transition={{ duration: 2, delay: 1, repeat: Number.POSITIVE_INFINITY, repeatDelay: 3 }}
+            transition={{ duration: 2, delay: 1, repeat: Infinity, repeatDelay: 3 }}
           />
           <motion.line
-            x1="15%"
-            y1="70%"
-            x2="40%"
-            y2="85%"
+            x1="15%" y1="70%" x2="40%" y2="85%"
             stroke="rgb(239, 68, 68)"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.3 }}
-            transition={{ duration: 2, delay: 1.5, repeat: Number.POSITIVE_INFINITY, repeatDelay: 3 }}
+            transition={{ duration: 2, delay: 1.5, repeat: Infinity, repeatDelay: 3 }}
           />
           <motion.line
-            x1="60%"
-            y1="75%"
-            x2="85%"
-            y2="90%"
+            x1="60%" y1="75%" x2="85%" y2="90%"
             stroke="rgb(239, 68, 68)"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.3 }}
-            transition={{ duration: 2, delay: 2, repeat: Number.POSITIVE_INFINITY, repeatDelay: 3 }}
+            transition={{ duration: 2, delay: 2, repeat: Infinity, repeatDelay: 3 }}
           />
         </svg>
 
@@ -94,13 +82,7 @@ export default function HomePage() {
             style={{ left: x, top: y }}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 0.4, scale: 1 }}
-            transition={{
-              delay,
-              duration: 0.8,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-              repeatDelay: 4,
-            }}
+            transition={{ delay, duration: 0.8, repeat: Infinity, repeatType: "reverse", repeatDelay: 4 }}
           >
             <Icon className="w-5 h-5 text-red-400/60" />
           </motion.div>
@@ -124,7 +106,7 @@ export default function HomePage() {
             transition={{
               duration: 2,
               delay: idx * 0.5,
-              repeat: Number.POSITIVE_INFINITY,
+              repeat: Infinity,
               ease: "easeInOut",
             }}
           />
@@ -274,7 +256,9 @@ export default function HomePage() {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="mb-12 mt-20"
           >
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight text-white leading-[1.1]">
+            <h1 
+              className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight text-white leading-[1.1]"
+            >
               <motion.span
                 initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -369,7 +353,9 @@ export default function HomePage() {
         </div>
 
         <FadeInView className="text-center mb-20 relative z-10">
-          <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">What We Build</h2>
+          <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
+            What We Build
+          </h2>
           <p className="mt-4 text-lg text-white/75 max-w-2xl mx-auto font-light leading-relaxed">
             Four specialized services delivering custom solutions for modern businesses
           </p>
@@ -422,7 +408,9 @@ export default function HomePage() {
                       >
                         <service.icon className="w-6 h-6 text-red-400 group-hover:text-red-light transition-colors" />
                       </motion.div>
-                      <CardTitle className="text-2xl text-white font-medium tracking-tight">{service.title}</CardTitle>
+                      <CardTitle className="text-2xl text-white font-medium tracking-tight">
+                        {service.title}
+                      </CardTitle>
                       <CardDescription className="text-white/70 group-hover:text-white/85 transition-colors text-base font-light leading-relaxed mt-2">
                         {service.desc}
                       </CardDescription>
@@ -463,26 +451,20 @@ export default function HomePage() {
         <div className="absolute inset-0 opacity-20">
           <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <motion.line
-              x1="20%"
-              y1="10%"
-              x2="40%"
-              y2="30%"
+              x1="20%" y1="10%" x2="40%" y2="30%"
               stroke="rgb(239, 68, 68)"
               strokeWidth="0.5"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, repeatDelay: 2 }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
             />
             <motion.line
-              x1="60%"
-              y1="20%"
-              x2="80%"
-              y2="40%"
+              x1="60%" y1="20%" x2="80%" y2="40%"
               stroke="rgb(239, 68, 68)"
               strokeWidth="0.5"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 3, delay: 1, repeat: Number.POSITIVE_INFINITY, repeatDelay: 2 }}
+              transition={{ duration: 3, delay: 1, repeat: Infinity, repeatDelay: 2 }}
             />
           </svg>
         </div>
@@ -495,7 +477,9 @@ export default function HomePage() {
               viewport={{ once: true }}
               className="text-center mb-20"
             >
-              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">Why Custom Development?</h2>
+              <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
+                Why Custom Development?
+              </h2>
               <p className="text-lg text-white/75 max-w-2xl mx-auto font-light leading-relaxed">
                 Off-the-shelf solutions force you to adapt your business to their limitations.
                 <br className="hidden md:block" />
@@ -530,7 +514,9 @@ export default function HomePage() {
                     <div className="w-12 h-12 bg-red-500/5 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 group-hover:bg-red-medium/10 group-hover:border-red-500/40 transition-all duration-500 backdrop-blur-sm">
                       <div className="w-2 h-2 bg-red-medium rounded-full group-hover:shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                     </div>
-                    <h3 className="text-xl font-medium text-white mb-4 tracking-tight">{benefit.title}</h3>
+                    <h3 className="text-xl font-medium text-white mb-4 tracking-tight">
+                      {benefit.title}
+                    </h3>
                     <p className="text-white/70 font-light leading-relaxed">{benefit.desc}</p>
                   </div>
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500">
@@ -569,7 +555,9 @@ export default function HomePage() {
 
         <div className="container mx-auto px-4 relative z-10">
           <FadeInView className="text-center mb-24">
-            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">Simple Process</h2>
+            <h2 className="text-4xl font-thin text-white md:text-6xl mb-6 tracking-tight">
+              Simple Process
+            </h2>
             <p className="mt-4 text-lg text-white/75 font-light">From idea to deployed solution</p>
           </FadeInView>
 
@@ -598,7 +586,9 @@ export default function HomePage() {
                   </span>
                   <div className="absolute inset-0 rounded-full border border-red-500/0 group-hover:border-red-500/30 group-hover:scale-110 transition-all duration-500" />
                 </motion.div>
-                <h3 className="text-xl font-medium text-white mb-3 tracking-tight">{step.title}</h3>
+                <h3 className="text-xl font-medium text-white mb-3 tracking-tight">
+                  {step.title}
+                </h3>
                 <p className="text-sm text-white/70 font-light leading-relaxed">{step.desc}</p>
               </FadeInView>
             ))}
@@ -615,6 +605,7 @@ export default function HomePage() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="relative bg-[#0A0A0A]/80 backdrop-blur-xl border border-red-500/10 rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden shadow-[0_0_80px_rgba(239,68,68,0.1)]"
         >
+
           <div className="relative z-10 max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-6xl font-thin text-white mb-6 tracking-tight">
               Ready to Build Something Custom?
@@ -646,7 +637,7 @@ export default function HomePage() {
                   asChild
                   className="border-red-500/20 bg-red-500/5 backdrop-blur-md text-white hover:bg-red-500/10 hover:border-red-500/40 text-base px-10 py-7 rounded-full font-medium"
                 >
-                  <Link href="/demos/ai-demos">View Demos</Link>
+                  <Link href="/demos">View Demos</Link>
                 </Button>
               </motion.div>
             </div>

@@ -250,11 +250,11 @@ export default function WebDevelopmentPage() {
             className="text-center mb-12"
           >
             {/* Main Heading with gradient glow */}
-            <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-none">
+            <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-none overflow-visible pb-4">
               Beautiful websites.
               <br />
               <span
-                className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600"
+                className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600 pb-3"
                 style={{
                   textShadow: "0 0 80px rgba(239, 68, 68, 0.5)",
                 }}

@@ -265,11 +265,11 @@ export default function SoftwareToolingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-6xl md:text-8xl font-light tracking-tight text-white mb-8 leading-[1.1]"
+              className="text-6xl md:text-8xl font-light tracking-tight text-white mb-8 leading-[1.1] overflow-visible pb-4"
             >
               <span className="block">Build the tools</span>
               <span
-                className="block bg-gradient-to-r from-red-600 via-red-500 to-red-400 bg-clip-text text-transparent"
+                className="inline-block bg-gradient-to-r from-red-600 via-red-500 to-red-400 bg-clip-text text-transparent pb-3"
                 style={{
                   textShadow: "0 0 80px rgba(239, 68, 68, 0.3)",
                 }}

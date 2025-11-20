@@ -28,23 +28,25 @@ export default function IntegrationsPage() {
   }
 
   const filteredIntegrations = useMemo(() => {
+    console.log("[v0] Filtering with category:", activeCategory, "search:", searchQuery)
     let integrations = allIntegrations
 
+    // Apply category filter
     if (activeCategory !== "All") {
-      integrations = integrations.filter((i) => i.category === activeCategory || selectedIds.has(i.id))
+      integrations = integrations.filter((i) => i.category === activeCategory)
     }
 
-    if (searchQuery) {
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim()
       integrations = integrations.filter(
-        (i) =>
-          i.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          i.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          selectedIds.has(i.id),
+        (i) => i.name.toLowerCase().includes(query) || i.description.toLowerCase().includes(query),
       )
     }
 
+    console.log("[v0] Filtered to", integrations.length, "integrations")
     return integrations
-  }, [allIntegrations, searchQuery, activeCategory, selectedIds])
+  }, [allIntegrations, searchQuery, activeCategory])
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -130,10 +132,10 @@ export default function IntegrationsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-light tracking-tight text-white mb-6"
+            className="text-5xl md:text-7xl font-light tracking-tight text-white mb-6 leading-normal overflow-visible"
           >
             <span className="block">AI</span>
-            <span className="block bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent pb-3">
               Integrations
             </span>
           </motion.h1>
