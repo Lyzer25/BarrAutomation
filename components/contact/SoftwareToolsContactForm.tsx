@@ -40,7 +40,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
         <div className="lg:col-span-3 space-y-6">
           <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
             <Database className="w-8 h-8 mb-4 text-red-500" />
-            <h3 className="text-xl font-bold text-white mb-2">Powerful Integrations</h3>
+            <h3 className="text-xl font-bold text-white mb-3">Powerful Integrations</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Connect with your existing tools seamlessly. We integrate with databases, APIs, and third-party services.
             </p>
@@ -48,7 +48,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
 
           <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
             <Layers className="w-8 h-8 mb-4 text-red-500" />
-            <h3 className="text-xl font-bold text-white mb-2">Scalable Architecture</h3>
+            <h3 className="text-xl font-bold text-white mb-3">Scalable Architecture</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Built to grow with your business. From 10 to 10,000 users, our systems scale effortlessly.
             </p>
@@ -71,7 +71,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="fullName" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="fullName" className="text-white text-base font-medium mb-2.5 block">
                   Full Name *
                 </Label>
                 <Input
@@ -84,7 +84,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="email" className="text-white text-base font-medium mb-2.5 block">
                   Email *
                 </Label>
                 <Input
@@ -100,7 +100,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="phone" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="phone" className="text-white text-base font-medium mb-2.5 block">
                   Phone (Optional)
                 </Label>
                 <Input
@@ -112,7 +112,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
               </div>
 
               <div>
-                <Label htmlFor="company" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="company" className="text-white text-base font-medium mb-2.5 block">
                   Company *
                 </Label>
                 <Input
@@ -126,7 +126,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
             </div>
 
             <div>
-              <Label htmlFor="softwareType" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="softwareType" className="text-white text-base font-medium mb-2.5 block">
                 Software Type *
               </Label>
               <select
@@ -146,7 +146,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="userCount" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="userCount" className="text-white text-base font-medium mb-2.5 block">
                   Expected Users *
                 </Label>
                 <select
@@ -164,7 +164,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
               </div>
 
               <div>
-                <Label htmlFor="timeline" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="timeline" className="text-white text-base font-medium mb-2.5 block">
                   Desired Timeline *
                 </Label>
                 <select
@@ -183,7 +183,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
             </div>
 
             <div>
-              <Label htmlFor="integrations" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="integrations" className="text-white text-base font-medium mb-2.5 block">
                 Required Integrations (Optional)
               </Label>
               <Input
@@ -195,7 +195,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
             </div>
 
             <div>
-              <Label htmlFor="message" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="message" className="text-white text-base font-medium mb-2.5 block">
                 Software Requirements *
               </Label>
               <Textarea
@@ -216,7 +216,9 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
               {isLoading ? "Sending..." : "Discuss This Project"}
             </Button>
 
-            <p className="text-xs text-white/60 text-center">We'll follow up within 1 business day. No spam, ever.</p>
+            <p className="text-sm text-white/70 text-center leading-relaxed">
+              We'll follow up within 1 business day. No spam, ever.
+            </p>
           </form>
         </div>
 
@@ -224,7 +226,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
         <div className="lg:col-span-3 space-y-6">
           <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
             <Settings className="w-8 h-8 mb-4 text-red-500" />
-            <h3 className="text-xl font-bold text-white mb-2">Custom Built</h3>
+            <h3 className="text-xl font-bold text-white mb-3">Custom Built</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               No templates or off-the-shelf solutions. Every feature designed specifically for your workflow.
             </p>
@@ -232,7 +234,7 @@ const SoftwareToolsContactForm = forwardRef<SoftwareToolsContactFormHandle, Soft
 
           <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
             <TrendingUp className="w-8 h-8 mb-4 text-red-500" />
-            <h3 className="text-xl font-bold text-white mb-2">Boost Productivity</h3>
+            <h3 className="text-xl font-bold text-white mb-3">Boost Productivity</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Automate repetitive tasks and streamline operations. Save hours every day with intelligent software.
             </p>

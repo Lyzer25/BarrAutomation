@@ -48,7 +48,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
       <div className="lg:col-span-3 space-y-6">
         <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
           <Brain className="w-8 h-8 mb-4 text-red-500" />
-          <h3 className="text-xl font-bold text-white mb-2">Intelligent AI</h3>
+          <h3 className="text-xl font-bold text-white mb-3">Intelligent AI</h3>
           <p className="text-white/80 text-sm leading-relaxed">
             Powered by cutting-edge models. From GPT to Claude to custom models - we implement the best AI for your
             needs.
@@ -57,18 +57,18 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
 
         <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
           <Sparkles className="w-8 h-8 mb-4 text-red-500" />
-          <h3 className="text-xl font-bold text-white mb-2">Smart Automation</h3>
+          <h3 className="text-xl font-bold text-white mb-3">Smart Automation</h3>
           <p className="text-white/80 text-sm leading-relaxed">
             AI that learns from your data. Automate decisions, generate content, and extract insights automatically.
           </p>
         </div>
 
-        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-600/5 border border-red-500/30 rounded-xl p-5 relative">
-          <div className="absolute -right-3 top-1/2 -translate-y-1/2">
-            <ArrowRight className="w-6 h-6 text-red-500 animate-pulse" />
+        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-600/5 border-2 border-red-500/40 rounded-xl p-5 relative">
+          <div className="absolute -right-4 top-1/2 -translate-y-1/2">
+            <ArrowRight className="w-8 h-8 text-red-500 animate-pulse drop-shadow-lg" />
           </div>
-          <h4 className="text-sm font-bold text-red-500 mb-2">Quick Consultation</h4>
-          <p className="text-white/70 text-xs leading-relaxed">
+          <h4 className="text-base font-bold text-red-400 mb-2.5">Quick Consultation</h4>
+          <p className="text-white/80 text-sm leading-relaxed">
             Need to chat first? The left button sends your info quickly for a consultation call.
           </p>
         </div>
@@ -88,7 +88,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="fullName" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="fullName" className="text-white text-base font-medium mb-2.5 block">
                 Full Name *
               </Label>
               <Input
@@ -101,7 +101,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
             </div>
 
             <div>
-              <Label htmlFor="email" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="email" className="text-white text-base font-medium mb-2.5 block">
                 Email *
               </Label>
               <Input
@@ -117,7 +117,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="phone" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="phone" className="text-white text-base font-medium mb-2.5 block">
                 Phone (Optional)
               </Label>
               <Input
@@ -129,7 +129,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
             </div>
 
             <div>
-              <Label htmlFor="company" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="company" className="text-white text-base font-medium mb-2.5 block">
                 Company (Optional)
               </Label>
               <Input
@@ -142,7 +142,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
           </div>
 
           <div>
-            <Label htmlFor="website" className="text-white text-sm font-medium mb-2 block">
+            <Label htmlFor="website" className="text-white text-base font-medium mb-2.5 block">
               Website (Optional)
             </Label>
             <Input
@@ -155,7 +155,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
           </div>
 
           <div>
-            <Label htmlFor="message" className="text-white text-sm font-medium mb-2 block">
+            <Label htmlFor="message" className="text-white text-base font-medium mb-2.5 block">
               Message *
             </Label>
             <Textarea
@@ -189,25 +189,27 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
             </Button>
           </div>
 
-          <p className="text-xs text-white/60 text-center">We'll follow up within 1 business day. No spam, ever.</p>
+          <p className="text-sm text-white/70 text-center leading-relaxed">
+            We'll follow up within 1 business day. No spam, ever.
+          </p>
         </form>
       </div>
 
       {/* Right Panel - Use Cases & Integration */}
       <div className="lg:col-span-3 space-y-6">
-        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-600/5 border border-red-500/30 rounded-xl p-5 relative">
-          <div className="absolute -left-3 top-1/2 -translate-y-1/2 rotate-180">
-            <ArrowRight className="w-6 h-6 text-red-500 animate-pulse" />
+        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-600/5 border-2 border-red-500/40 rounded-xl p-5 relative">
+          <div className="absolute -left-4 top-1/2 -translate-y-1/2 rotate-180">
+            <ArrowRight className="w-8 h-8 text-red-500 animate-pulse drop-shadow-lg" />
           </div>
-          <h4 className="text-sm font-bold text-red-500 mb-2">Detailed AI Request</h4>
-          <p className="text-white/70 text-xs leading-relaxed">
+          <h4 className="text-base font-bold text-red-400 mb-2.5">Detailed AI Request</h4>
+          <p className="text-white/80 text-sm leading-relaxed">
             Know what you need? The right button helps us understand your specific AI automation requirements.
           </p>
         </div>
 
         <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
           <MessageSquare className="w-8 h-8 mb-4 text-red-500" />
-          <h3 className="text-xl font-bold text-white mb-2">Conversational AI</h3>
+          <h3 className="text-xl font-bold text-white mb-3">Conversational AI</h3>
           <p className="text-white/80 text-sm leading-relaxed">
             Build intelligent chatbots and assistants. Handle customer queries with AI that understands context.
           </p>
@@ -215,7 +217,7 @@ const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(({ onSubmit,
 
         <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
           <Target className="w-8 h-8 mb-4 text-red-500" />
-          <h3 className="text-xl font-bold text-white mb-2">Task-Specific AI</h3>
+          <h3 className="text-xl font-bold text-white mb-3">Task-Specific AI</h3>
           <p className="text-white/80 text-sm leading-relaxed">
             Custom AI trained for your specific workflows. From data analysis to content creation to predictions.
           </p>

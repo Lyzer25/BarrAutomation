@@ -40,7 +40,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
         <div className="lg:col-span-3 space-y-6">
           <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
             <Clock className="w-8 h-8 mb-4 text-red-500" />
-            <h3 className="text-xl font-bold text-white mb-2">Save Time Daily</h3>
+            <h3 className="text-xl font-bold text-white mb-3">Save Time Daily</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Turn hours of manual work into seconds. Our scripts eliminate repetitive tasks automatically.
             </p>
@@ -48,7 +48,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
 
           <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
             <Zap className="w-8 h-8 mb-4 text-red-500" />
-            <h3 className="text-xl font-bold text-white mb-2">Lightning Fast</h3>
+            <h3 className="text-xl font-bold text-white mb-3">Lightning Fast</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Process thousands of files in minutes. Automation that works at machine speed, not human pace.
             </p>
@@ -71,7 +71,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="fullName" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="fullName" className="text-white text-base font-medium mb-2.5 block">
                   Full Name *
                 </Label>
                 <Input
@@ -84,7 +84,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="email" className="text-white text-base font-medium mb-2.5 block">
                   Email *
                 </Label>
                 <Input
@@ -100,7 +100,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="phone" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="phone" className="text-white text-base font-medium mb-2.5 block">
                   Phone (Optional)
                 </Label>
                 <Input
@@ -112,7 +112,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
               </div>
 
               <div>
-                <Label htmlFor="company" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="company" className="text-white text-base font-medium mb-2.5 block">
                   Company (Optional)
                 </Label>
                 <Input
@@ -125,7 +125,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
             </div>
 
             <div>
-              <Label htmlFor="scriptType" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="scriptType" className="text-white text-base font-medium mb-2.5 block">
                 Script/Automation Type *
               </Label>
               <select
@@ -147,7 +147,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="frequency" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="frequency" className="text-white text-base font-medium mb-2.5 block">
                   How Often? *
                 </Label>
                 <select
@@ -166,7 +166,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
               </div>
 
               <div>
-                <Label htmlFor="urgency" className="text-white text-sm font-medium mb-2 block">
+                <Label htmlFor="urgency" className="text-white text-base font-medium mb-2.5 block">
                   Urgency Level *
                 </Label>
                 <select
@@ -185,7 +185,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
             </div>
 
             <div>
-              <Label htmlFor="currentProcess" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="currentProcess" className="text-white text-base font-medium mb-2.5 block">
                 Current Manual Process (Optional)
               </Label>
               <Textarea
@@ -198,7 +198,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
             </div>
 
             <div>
-              <Label htmlFor="message" className="text-white text-sm font-medium mb-2 block">
+              <Label htmlFor="message" className="text-white text-base font-medium mb-2.5 block">
                 Script/Automation Details *
               </Label>
               <Textarea
@@ -219,7 +219,9 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
               {isLoading ? "Sending..." : "Discuss This Project"}
             </Button>
 
-            <p className="text-xs text-white/60 text-center">We'll follow up within 1 business day. No spam, ever.</p>
+            <p className="text-sm text-white/70 text-center leading-relaxed">
+              We'll follow up within 1 business day. No spam, ever.
+            </p>
           </form>
         </div>
 
@@ -227,7 +229,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
         <div className="lg:col-span-3 space-y-6">
           <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
             <Repeat className="w-8 h-8 mb-4 text-red-500" />
-            <h3 className="text-xl font-bold text-white mb-2">Set & Forget</h3>
+            <h3 className="text-xl font-bold text-white mb-3">Set & Forget</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Schedule scripts to run automatically. Daily, weekly, or on-demand - your automation runs 24/7.
             </p>
@@ -235,7 +237,7 @@ const ScriptsContactForm = forwardRef<ScriptsContactFormHandle, ScriptsContactFo
 
           <div className="backdrop-blur-xl bg-white/5 border border-red-500/20 rounded-xl p-6">
             <BarChart3 className="w-8 h-8 mb-4 text-red-500" />
-            <h3 className="text-xl font-bold text-white mb-2">Measure ROI</h3>
+            <h3 className="text-xl font-bold text-white mb-3">Measure ROI</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Track time saved and efficiency gained. See exactly how much value your automation provides.
             </p>
