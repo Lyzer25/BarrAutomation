@@ -67,7 +67,9 @@ export default function ContactPage() {
         throw new Error(result.error || "Submission failed")
       }
     } catch (error: any) {
-      console.error("contact_submit_error:", error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error("contact_submit_error:", error)
+      }
 
       // Handle rate limiting specifically
       if (error.message?.includes("Too many requests")) {
@@ -124,7 +126,9 @@ export default function ContactPage() {
         throw new Error(result.error || "Submission failed")
       }
     } catch (error: any) {
-      console.error("contact_submit_error:", error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error("contact_submit_error:", error)
+      }
 
       // Handle rate limiting specifically
       if (error.message?.includes("Too many requests")) {

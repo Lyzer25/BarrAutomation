@@ -4,6 +4,10 @@ import type React from "react"
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { SAMPLES, TOOLTIPS, computeImpact, type UseCaseKey } from "../../../data/dataEntrySamples"
+
+// Static generation with 1-hour revalidation
+export const dynamic = 'force-static'
+export const revalidate = 3600
 import { Button } from "../../../components/ui/button"
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "../../../components/ui/tooltip"
 import { Card } from "../../../components/ui/card"

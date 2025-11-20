@@ -2,8 +2,20 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import ChromaGrid from "@/components/bits/Components/ChromaGrid/ChromaGrid"
-import IntegrationEcosystem from "@/components/smart-lead-machine/integration-ecosystem"
+import dynamic from "next/dynamic"
+
+// Lazy load heavy components for better performance
+const ChromaGrid = dynamic(() => import("@/components/bits/Components/ChromaGrid/ChromaGrid"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-white/5 rounded-xl" />,
+})
+
+const IntegrationEcosystem = dynamic(() => import("@/components/smart-lead-machine/integration-ecosystem"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-white/5 rounded-xl" />,
+})
+
+// Static generation with 1-hour revalidation
+export const dynamic = 'force-static'
+export const revalidate = 3600
 
 const demos = [
   {

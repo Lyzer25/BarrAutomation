@@ -4,15 +4,28 @@ import { webhookLogger, extractRequestMetadata, createTimer } from "@/lib/webhoo
 import type { StatusUpdate } from "@/types/automation-types"
 import { addStatusUpdate } from "@/lib/event-store"
 
+// Helper for development-only logging
+const devLog = (...args: any[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    devLog(...args)
+  }
+}
+
+const devWarn = (...args: any[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    devWarn(...args)
+  }
+}
+
 export async function POST(request: Request, { params }: { params: { leadId: string } }) {
   const timer = createTimer()
   const { headers, userAgent, sourceIP } = extractRequestMetadata(request)
   const leadId = params.leadId
-  
-  console.log('🔄 Status Update Webhook Called')
-  console.log(`   📋 Lead ID: ${leadId}`)
-  console.log(`   🌐 Source IP: ${sourceIP}`)
-  console.log(`   🔧 User Agent: ${userAgent}`)
+
+  devLog('🔄 Status Update Webhook Called')
+  devLog(`   📋 Lead ID: ${leadId}`)
+  devLog(`   🌐 Source IP: ${sourceIP}`)
+  devLog(`   🔧 User Agent: ${userAgent}`)
 
   // Validate leadId
   if (!leadId) {
@@ -35,7 +48,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       sourceIP,
     })
 
-    console.log(`❌ Status Update Failed: ${errorMsg}`)
+    devLog(`❌ Status Update Failed: ${errorMsg}`)
     return NextResponse.json({ error: errorMsg }, { status: 400 })
   }
 
@@ -48,7 +61,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
     // Parse request body
     try {
       requestBody = await request.json() as StatusUpdate
-      console.log(`📤 Request Body:`, JSON.stringify(requestBody, null, 2))
+      devLog(`📤 Request Body:`, JSON.stringify(requestBody, null, 2))
     } catch (parseError) {
       const errorMsg = "Invalid JSON in request body"
       const processingTime = timer()
@@ -70,7 +83,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
         sourceIP,
       })
 
-      console.log(`❌ JSON Parse Error: ${errorMsg}`)
+      devLog(`❌ JSON Parse Error: ${errorMsg}`)
       return NextResponse.json({ error: errorMsg }, { status: 400 })
     }
 
@@ -97,15 +110,15 @@ export async function POST(request: Request, { params }: { params: { leadId: str
         sourceIP,
       })
 
-      console.log(`❌ Validation Error: ${errorMsg}`)
-      console.log(`   📋 Received:`, requestBody)
+      devLog(`❌ Validation Error: ${errorMsg}`)
+      devLog(`   📋 Received:`, requestBody)
       return NextResponse.json(responseBody, { status: responseStatus })
     }
 
-    console.log(`✅ Validation Passed`)
-    console.log(`   📝 Step: ${requestBody.step}`)
-    console.log(`   📊 Status: ${requestBody.status}`)
-    console.log(`   💬 Message: ${requestBody.message || 'none'}`)
+    devLog(`✅ Validation Passed`)
+    devLog(`   📝 Step: ${requestBody.step}`)
+    devLog(`   📊 Status: ${requestBody.status}`)
+    devLog(`   💬 Message: ${requestBody.message || 'none'}`)
 
     // Normalize incoming step aliases (map common n8n / upstream variants to canonical client step IDs),
     // then emit event and persist snapshot for new subscribers
@@ -125,7 +138,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       const canonicalStep = stepAliasMap[incomingStep] || incomingStep
 
       if (canonicalStep !== incomingStep) {
-        console.log(`🔁 Normalizing step id: ${incomingStep} -> ${canonicalStep}`)
+        devLog(`🔁 Normalizing step id: ${incomingStep} -> ${canonicalStep}`)
       }
 
       const payloadWithCanonical = { ...requestBody, step: canonicalStep }
@@ -142,13 +155,13 @@ export async function POST(request: Request, { params }: { params: { leadId: str
           timestamp: new Date().toISOString(),
         })
       } catch (persistErr) {
-        console.warn("⚠️ Failed to persist status update to event store:", persistErr)
+        devWarn("⚠️ Failed to persist status update to event store:", persistErr)
       }
 
       eventEmitted = true
-      console.log(`📡 Event emitted successfully to EventEmitter (canonical step: ${canonicalStep})`)
+      devLog(`📡 Event emitted successfully to EventEmitter (canonical step: ${canonicalStep})`)
     } catch (emitError) {
-      console.log(`❌ Failed to emit event:`, emitError)
+      devLog(`❌ Failed to emit event:`, emitError)
       // Continue processing even if event emission fails
     }
 
@@ -179,8 +192,8 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       sourceIP,
     })
 
-    console.log(`✅ Status Update Completed Successfully`)
-    console.log(`   ⏱️  Processing Time: ${processingTime}ms`)
+    devLog(`✅ Status Update Completed Successfully`)
+    devLog(`   ⏱️  Processing Time: ${processingTime}ms`)
     
     return NextResponse.json(responseBody, { status: responseStatus })
 
@@ -205,7 +218,7 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       })
       eventEmitted = true
     } catch (emitError) {
-      console.log(`❌ Failed to emit error event:`, emitError)
+      devLog(`❌ Failed to emit error event:`, emitError)
     }
 
     // Log failed request
@@ -226,9 +239,9 @@ export async function POST(request: Request, { params }: { params: { leadId: str
       sourceIP,
     })
 
-    console.log(`❌ Status Update Failed`)
-    console.log(`   🚨 Error: ${errorMessage}`)
-    console.log(`   ⏱️  Processing Time: ${processingTime}ms`)
+    devLog(`❌ Status Update Failed`)
+    devLog(`   🚨 Error: ${errorMessage}`)
+    devLog(`   ⏱️  Processing Time: ${processingTime}ms`)
     
     return NextResponse.json(responseBody, { status: responseStatus })
   }

@@ -2,6 +2,19 @@ import { NextResponse } from "next/server";
 import { leadEventEmitter } from "@/lib/events";
 import { getSnapshot } from "@/lib/event-store";
 
+// Helper for development-only logging
+const devLog = (...args: any[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    devLog(...args)
+  }
+}
+
+const devWarn = (...args: any[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    devWarn(...args)
+  }
+}
+
 export async function GET(request: Request, { params }: { params: { leadId: string } }) {
   const { leadId } = params;
   if (!leadId) {
@@ -17,10 +30,10 @@ export async function GET(request: Request, { params }: { params: { leadId: stri
           controller.error('leadEventEmitter not available');
           return;
         }
-        console.log('SSE connected for leadId:', leadId);
+        devLog('SSE connected for leadId:', leadId);
         const handleUpdate = (update: any) => {
           controller.enqueue(`data: ${JSON.stringify(update)}\n\n`);
-          console.log('Pushed event to SSE for leadId:', leadId, update);
+          devLog('Pushed event to SSE for leadId:', leadId, update);
         };
         leadEventEmitter.subscribe(leadId, handleUpdate);
 
@@ -48,7 +61,7 @@ export async function GET(request: Request, { params }: { params: { leadId: stri
             }
           }
         } catch (snapshotErr) {
-          console.warn("⚠️ Failed to send initial snapshot to SSE client:", snapshotErr);
+          devWarn("⚠️ Failed to send initial snapshot to SSE client:", snapshotErr);
         }
 
         // Keep-alive ping

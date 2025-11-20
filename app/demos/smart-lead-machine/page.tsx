@@ -22,7 +22,9 @@ export default function SmartLeadMachinePage() {
 
   const handleDemoStarted = useCallback(
     (leadId: string) => {
-      console.log("🚀 Demo started with leadId:", leadId)
+      if (process.env.NODE_ENV === 'development') {
+        console.log("🚀 Demo started with leadId:", leadId)
+      }
       setActiveLeadId(leadId)
       setShowDashboard(false)
       startAutomation(leadId)
@@ -31,12 +33,16 @@ export default function SmartLeadMachinePage() {
   )
 
   const handleContinueToDashboard = useCallback(() => {
-    console.log("🎯 Continue to dashboard")
+    if (process.env.NODE_ENV === 'development') {
+      console.log("🎯 Continue to dashboard")
+    }
     setShowDashboard(true)
   }, [])
 
   const handleBackToWorkflow = useCallback(() => {
-    console.log("🔄 Back to workflow")
+    if (process.env.NODE_ENV === 'development') {
+      console.log("🔄 Back to workflow")
+    }
     setShowDashboard(false)
   }, [])
 

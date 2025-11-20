@@ -54,6 +54,8 @@ export default function LogoCarousel() {
               width={96}
               height={32}
               className="h-8 w-auto transition-all duration-300"
+              loading={index < 3 ? "eager" : "lazy"}
+              priority={index < 3}
               onError={(e) => {
                 // Fallback to text if logo fails to load
                 const target = e.target as HTMLImageElement
@@ -62,7 +64,7 @@ export default function LogoCarousel() {
                 if (fallback) fallback.style.display = 'flex'
               }}
             />
-            <div 
+            <div
               className="h-8 w-24 bg-muted rounded flex items-center justify-center hidden"
               style={{ display: 'none' }}
             >
