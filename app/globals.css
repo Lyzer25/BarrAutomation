@@ -832,6 +832,33 @@ html {
   }
 }
 
+/* Added header isolation to prevent flash during page transitions */
+/* Isolate header from page transitions */
+header {
+  will-change: auto;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  isolation: isolate;
+  position: sticky;
+  z-index: 9999;
+}
+
+/* Prevent header from inheriting parent transforms */
+header * {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Lock header during page transitions */
+body:has(.page-zoom-out) header,
+body:has(.page-zoom-in) header {
+  transform: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  animation: none !important;
+}
+
 /* Alternative fly transition variant */
 @keyframes pageFlyOut {
   0% {

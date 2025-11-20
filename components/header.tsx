@@ -4,8 +4,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu, ChevronDown } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { Menu, ChevronDown } from "lucide-react"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
@@ -23,9 +23,7 @@ const productsLinks = [
   { href: "/products/ai-automations", label: "AI Automations" },
 ]
 
-const demosLinks = [
-  { href: "/demos/ai-demos", label: "AI Demos" },
-]
+const demosLinks = [{ href: "/demos/ai-demos", label: "AI Demos" }]
 
 export default function Header() {
   const pathname = usePathname()
@@ -33,7 +31,7 @@ export default function Header() {
   const [showDemosDropdown, setShowDemosDropdown] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-red-500/10 bg-[#0A0A0A]/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(239,68,68,0.05)]">
+    <header className="sticky top-0 z-50 w-full border-b border-red-500/10 bg-[#0A0A0A]/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(239,68,68,0.05)] transform-none isolate">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <Image
@@ -45,41 +43,43 @@ export default function Header() {
           />
           <span className="text-xl font-bold font-mono text-white tracking-tight">Barr Automations</span>
         </Link>
-        
+
         <div className="hidden md:flex items-center gap-1">
           <Link
             href="/"
             className={cn(
               "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
-              pathname === "/" 
-                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
-                : "text-white/70 hover:text-white hover:bg-red-500/10"
+              pathname === "/"
+                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]"
+                : "text-white/70 hover:text-white hover:bg-red-500/10",
             )}
           >
             Home
           </Link>
-          
+
           {/* Products Dropdown */}
-          <div 
+          <div
             className="relative"
             onMouseEnter={() => setShowProductsDropdown(true)}
             onMouseLeave={() => setShowProductsDropdown(false)}
           >
-            <button 
+            <button
               className={cn(
                 "flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
-                showProductsDropdown || pathname.startsWith('/products')
-                  ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
-                  : "text-white/70 hover:text-white hover:bg-red-500/10"
+                showProductsDropdown || pathname.startsWith("/products")
+                  ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]"
+                  : "text-white/70 hover:text-white hover:bg-red-500/10",
               )}
             >
               Products
-              <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", showProductsDropdown && "rotate-180")} />
+              <ChevronDown
+                className={cn("h-3 w-3 transition-transform duration-300", showProductsDropdown && "rotate-180")}
+              />
             </button>
-            
+
             <AnimatePresence>
               {showProductsDropdown && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 8, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
@@ -93,9 +93,9 @@ export default function Header() {
                         href={link.href}
                         className={cn(
                           "block px-4 py-3 text-sm rounded-xl transition-all duration-200",
-                          pathname === link.href 
-                            ? "bg-red-500/20 text-white font-medium border border-red-500/30" 
-                            : "text-white/70 hover:text-white hover:bg-red-500/10"
+                          pathname === link.href
+                            ? "bg-red-500/20 text-white font-medium border border-red-500/30"
+                            : "text-white/70 hover:text-white hover:bg-red-500/10",
                         )}
                       >
                         {link.label}
@@ -106,28 +106,30 @@ export default function Header() {
               )}
             </AnimatePresence>
           </div>
-          
+
           {/* Demos Dropdown */}
-          <div 
+          <div
             className="relative"
             onMouseEnter={() => setShowDemosDropdown(true)}
             onMouseLeave={() => setShowDemosDropdown(false)}
           >
-            <button 
+            <button
               className={cn(
                 "flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
-                showDemosDropdown || pathname.startsWith('/demos')
-                  ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
-                  : "text-white/70 hover:text-white hover:bg-red-500/10"
+                showDemosDropdown || pathname.startsWith("/demos")
+                  ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]"
+                  : "text-white/70 hover:text-white hover:bg-red-500/10",
               )}
             >
               Demos
-              <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", showDemosDropdown && "rotate-180")} />
+              <ChevronDown
+                className={cn("h-3 w-3 transition-transform duration-300", showDemosDropdown && "rotate-180")}
+              />
             </button>
-            
+
             <AnimatePresence>
               {showDemosDropdown && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 8, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
@@ -141,9 +143,9 @@ export default function Header() {
                         href={link.href}
                         className={cn(
                           "block px-4 py-3 text-sm rounded-xl transition-all duration-200",
-                          pathname === link.href 
-                            ? "bg-red-500/20 text-white font-medium border border-red-500/30" 
-                            : "text-white/70 hover:text-white hover:bg-red-500/10"
+                          pathname === link.href
+                            ? "bg-red-500/20 text-white font-medium border border-red-500/30"
+                            : "text-white/70 hover:text-white hover:bg-red-500/10",
                         )}
                       >
                         {link.label}
@@ -154,38 +156,41 @@ export default function Header() {
               )}
             </AnimatePresence>
           </div>
-          
+
           <Link
             href="/integrations"
             className={cn(
               "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
-              pathname === "/integrations" 
-                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
-                : "text-white/70 hover:text-white hover:bg-red-500/10"
+              pathname === "/integrations"
+                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]"
+                : "text-white/70 hover:text-white hover:bg-red-500/10",
             )}
           >
             Integrations
           </Link>
-          
+
           <Link
             href="/contact"
             className={cn(
               "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
-              pathname === "/contact" 
-                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]" 
-                : "text-white/70 hover:text-white hover:bg-red-500/10"
+              pathname === "/contact"
+                ? "bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]"
+                : "text-white/70 hover:text-white hover:bg-red-500/10",
             )}
           >
             Contact Us
           </Link>
         </div>
-        
+
         <div className="hidden md:block">
-          <Button asChild className="rounded-full bg-red-500 hover:bg-red-600 text-white px-6 shadow-[0_0_20px_rgba(239,68,68,0.4)] hover:shadow-[0_0_30px_rgba(239,68,68,0.6)] transition-all duration-300">
+          <Button
+            asChild
+            className="rounded-full bg-red-500 hover:bg-red-600 text-white px-6 shadow-[0_0_20px_rgba(239,68,68,0.4)] hover:shadow-[0_0_30px_rgba(239,68,68,0.6)] transition-all duration-300"
+          >
             <Link href="/contact">Build My Solution</Link>
           </Button>
         </div>
-        
+
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
@@ -204,7 +209,7 @@ export default function Header() {
                 >
                   Home
                 </Link>
-                
+
                 {/* Products Section in Mobile Menu */}
                 <div className="border-t border-red-500/10 pt-4">
                   <div className="text-sm font-semibold text-red-400/60 mb-3 uppercase tracking-wider">Products</div>
@@ -221,7 +226,7 @@ export default function Header() {
                     </Link>
                   ))}
                 </div>
-                
+
                 {/* Demos Section in Mobile Menu */}
                 <div className="border-t border-red-500/10 pt-4">
                   <div className="text-sm font-semibold text-red-400/60 mb-3 uppercase tracking-wider">Demos</div>
@@ -238,7 +243,7 @@ export default function Header() {
                     </Link>
                   ))}
                 </div>
-                
+
                 <Link
                   href="/integrations"
                   className={cn(
@@ -248,7 +253,7 @@ export default function Header() {
                 >
                   Integrations
                 </Link>
-                
+
                 <Link
                   href="/contact"
                   className={cn(
