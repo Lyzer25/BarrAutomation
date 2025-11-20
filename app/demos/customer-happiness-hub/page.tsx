@@ -1,13 +1,10 @@
-'use client'
+"use client"
 
-import React, { useEffect, useMemo, useState } from 'react'
+import type React from "react"
+import { useEffect, useMemo, useState } from "react"
 
-// Static generation with 1-hour revalidation
-export const dynamic = 'force-static'
-export const revalidate = 3600
-
-type Channel = 'Google' | 'Yelp' | 'Email' | 'Social'
-type Sentiment = 'positive' | 'neutral' | 'negative'
+type Channel = "Google" | "Yelp" | "Email" | "Social"
+type Sentiment = "positive" | "neutral" | "negative"
 
 type Review = {
   id: string
@@ -38,64 +35,64 @@ type Review = {
 
 const SAMPLE_REVIEWS: Review[] = [
   {
-    id: 'r1',
-    channel: 'Google',
-    text: 'Amazing service — the technician was on time and super friendly. Will recommend!',
-    date: '2025-08-20'
+    id: "r1",
+    channel: "Google",
+    text: "Amazing service — the technician was on time and super friendly. Will recommend!",
+    date: "2025-08-20",
   },
   {
-    id: 'r2',
-    channel: 'Yelp',
-    text: 'Had to wait too long, very frustrated with the delay. Terrible experience.',
-    date: '2025-08-19'
+    id: "r2",
+    channel: "Yelp",
+    text: "Had to wait too long, very frustrated with the delay. Terrible experience.",
+    date: "2025-08-19",
   },
   {
-    id: 'r3',
-    channel: 'Email',
-    text: 'Overall okay but the invoice had an incorrect line item. Please advise.',
-    date: '2025-08-18'
+    id: "r3",
+    channel: "Email",
+    text: "Overall okay but the invoice had an incorrect line item. Please advise.",
+    date: "2025-08-18",
   },
   {
-    id: 'r4',
-    channel: 'Social',
-    text: 'Love the new scheduling app — it made booking a breeze. Awesome work!',
-    date: '2025-08-17'
+    id: "r4",
+    channel: "Social",
+    text: "Love the new scheduling app — it made booking a breeze. Awesome work!",
+    date: "2025-08-17",
   },
   {
-    id: 'r5',
-    channel: 'Google',
-    text: 'Staff were helpful but checkout took too long — disappointed.',
-    date: '2025-08-16'
+    id: "r5",
+    channel: "Google",
+    text: "Staff were helpful but checkout took too long — disappointed.",
+    date: "2025-08-16",
   },
   {
-    id: 'r6',
-    channel: 'Email',
-    text: 'Thanks for the quick response earlier. Everything resolved.',
-    date: '2025-08-15'
-  }
+    id: "r6",
+    channel: "Email",
+    text: "Thanks for the quick response earlier. Everything resolved.",
+    date: "2025-08-15",
+  },
 ]
 
-const POSITIVE_KEYWORDS = ['great', 'awesome', 'amazing', 'love', 'excellent', 'helpful', 'quick']
-const NEGATIVE_KEYWORDS = ['terrible', 'awful', 'frustrated', 'disappointed', 'delay', 'too long', 'problem']
+const POSITIVE_KEYWORDS = ["great", "awesome", "amazing", "love", "excellent", "helpful", "quick"]
+const NEGATIVE_KEYWORDS = ["terrible", "awful", "frustrated", "disappointed", "delay", "too long", "problem"]
 
 function classifySentiment(text: string): Sentiment {
   const t = text.toLowerCase()
   for (const k of POSITIVE_KEYWORDS) {
-    if (t.includes(k)) return 'positive'
+    if (t.includes(k)) return "positive"
   }
   for (const k of NEGATIVE_KEYWORDS) {
-    if (t.includes(k)) return 'negative'
+    if (t.includes(k)) return "negative"
   }
-  return 'neutral'
+  return "neutral"
 }
 
 /** Simple heuristic to generate a suggested response. In production, an AI model would generate tone-aware responses. */
 function generateSuggestedResponse(review: Review): string {
   const sentiment = review.sentiment ?? classifySentiment(review.text)
-  if (sentiment === 'positive') {
+  if (sentiment === "positive") {
     return `Thank you for your kind words! We're thrilled you had a great experience — we'll share this with the team.`
   }
-  if (sentiment === 'negative') {
+  if (sentiment === "negative") {
     return `We're very sorry to hear about this. We take feedback seriously — a manager will reach out to resolve this as soon as possible.`
   }
   return `Thanks for the feedback — can you share a few more details so we can investigate and improve?`
@@ -103,14 +100,16 @@ function generateSuggestedResponse(review: Review): string {
 
 /** Convert sentiment to numeric score for averaging: positive=1, neutral=0, negative=-1 */
 function sentimentScore(s: Sentiment) {
-  return s === 'positive' ? 1 : s === 'negative' ? -1 : 0
+  return s === "positive" ? 1 : s === "negative" ? -1 : 0
 }
 
 /** Tiny, accessible tooltip */
 function Info({ children }: { children: React.ReactNode }) {
   return (
     <span className="ml-2 inline-block group relative">
-      <span className="inline-flex items-center justify-center w-5 h-5 text-xs rounded-full bg-white/6 text-white/90">i</span>
+      <span className="inline-flex items-center justify-center w-5 h-5 text-xs rounded-full bg-white/6 text-white/90">
+        i
+      </span>
       <span
         role="tooltip"
         className="opacity-0 group-hover:opacity-100 transition-opacity text-xs absolute -top-10 left-1/2 -translate-x-1/2 w-64 p-2 rounded bg-black border border-white/10 text-white/80 shadow"
@@ -123,13 +122,19 @@ function Info({ children }: { children: React.ReactNode }) {
 
 export default function CustomerHappinessHubDemo() {
   const [reviews, setReviews] = useState<Review[]>(
-    SAMPLE_REVIEWS.map((r) => ({ ...r, sentiment: classifySentiment(r.text), routedTo: null, responded: false, responseText: null }))
+    SAMPLE_REVIEWS.map((r) => ({
+      ...r,
+      sentiment: classifySentiment(r.text),
+      routedTo: null,
+      responded: false,
+      responseText: null,
+    })),
   )
   const [expanded, setExpanded] = useState<string | null>(null)
   const [stat, setStat] = useState(0) // animated stat (0 -> 98)
   const [showWorkflowModal, setShowWorkflowModal] = useState(false)
   const [showCtaModal, setShowCtaModal] = useState(false)
-  const [sortKey, setSortKey] = useState<'date' | 'sentiment' | 'channel'>('date')
+  const [sortKey, setSortKey] = useState<"date" | "sentiment" | "channel">("date")
 
   // animate stat to 98
   useEffect(() => {
@@ -164,7 +169,7 @@ export default function CustomerHappinessHubDemo() {
     return {
       positive: Math.round((counts.positive / Math.max(1, total)) * 100),
       neutral: Math.round((counts.neutral / Math.max(1, total)) * 100),
-      negative: Math.round((counts.negative / Math.max(1, total)) * 100)
+      negative: Math.round((counts.negative / Math.max(1, total)) * 100),
     }
   }, [totals])
 
@@ -184,7 +189,7 @@ export default function CustomerHappinessHubDemo() {
         if (r.id !== id) return r
         const responseText = r.responseText ?? generateSuggestedResponse(r)
         return { ...r, responded: true, responseText }
-      })
+      }),
     )
   }
 
@@ -194,12 +199,12 @@ export default function CustomerHappinessHubDemo() {
 
   const sortedReviews = useMemo(() => {
     const copy = [...reviews]
-    if (sortKey === 'date') {
+    if (sortKey === "date") {
       copy.sort((a, b) => (b.date > a.date ? 1 : -1))
-    } else if (sortKey === 'sentiment') {
+    } else if (sortKey === "sentiment") {
       const order = { positive: -1, neutral: 0, negative: 1 } as any
       copy.sort((a, b) => order[a.sentiment as Sentiment] - order[b.sentiment as Sentiment])
-    } else if (sortKey === 'channel') {
+    } else if (sortKey === "channel") {
       copy.sort((a, b) => a.channel.localeCompare(b.channel))
     }
     return copy
@@ -209,7 +214,7 @@ export default function CustomerHappinessHubDemo() {
   const pieStroke = {
     positive: sentimentPercents.positive,
     neutral: sentimentPercents.neutral,
-    negative: sentimentPercents.negative
+    negative: sentimentPercents.negative,
   }
 
   return (
@@ -221,14 +226,19 @@ export default function CustomerHappinessHubDemo() {
             <div>
               <div className="flex items-center gap-3">
                 <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Customer Happiness Hub</h1>
-                <span className="px-3 py-1 rounded-full text-xs bg-teal-700/20 text-teal-300 font-medium">Service Businesses</span>
-                <span className="ml-2 text-xs px-2 py-1 rounded bg-white/6 text-white/80 border border-white/8">Coming Soon</span>
+                <span className="px-3 py-1 rounded-full text-xs bg-teal-700/20 text-teal-300 font-medium">
+                  Service Businesses
+                </span>
+                <span className="ml-2 text-xs px-2 py-1 rounded bg-white/6 text-white/80 border border-white/8">
+                  Coming Soon
+                </span>
               </div>
 
               <p className="mt-3 text-sm text-white/80 max-w-2xl">
                 The system monitors reviews, classifies sentiment and drafts auto-responses.
                 <br />
-                It aggregates feedback from all channels, uses AI to understand sentiment, and routes issues to the right team member with a suggested response.
+                It aggregates feedback from all channels, uses AI to understand sentiment, and routes issues to the
+                right team member with a suggested response.
               </p>
 
               <div className="mt-4 flex items-center gap-6">
@@ -282,7 +292,8 @@ export default function CustomerHappinessHubDemo() {
                   <option value="channel">Channel</option>
                 </select>
                 <Info>
-                  Example sentiment classification runs locally in this demo using keyword heuristics. In production AI/NLP models process thousands of reviews and detect tone.
+                  Example sentiment classification runs locally in this demo using keyword heuristics. In production
+                  AI/NLP models process thousands of reviews and detect tone.
                 </Info>
               </div>
             </div>
@@ -291,7 +302,7 @@ export default function CustomerHappinessHubDemo() {
               {sortedReviews.map((r) => (
                 <div
                   key={r.id}
-                  className={`rounded-lg border border-white/6 p-3 bg-black/30 transition hover:shadow-md ${expanded === r.id ? 'ring-2 ring-teal-600/30' : ''}`}
+                  className={`rounded-lg border border-white/6 p-3 bg-black/30 transition hover:shadow-md ${expanded === r.id ? "ring-2 ring-teal-600/30" : ""}`}
                 >
                   <div className="flex items-start gap-3">
                     <div className="w-12 text-xs text-white/70">
@@ -311,17 +322,17 @@ export default function CustomerHappinessHubDemo() {
                           onClick={() => toggleExpand(r.id)}
                           className="text-xs px-2 py-1 rounded bg-white/6 hover:bg-white/8"
                         >
-                          {expanded === r.id ? 'Collapse' : 'View'}
+                          {expanded === r.id ? "Collapse" : "View"}
                         </button>
                         <button
                           onClick={() => {
-                            routeReview(r.id, 'Support')
+                            routeReview(r.id, "Support")
                           }}
                           className="text-xs px-2 py-1 rounded bg-teal-700 text-white/90 hover:bg-teal-600"
                         >
                           Route → Support
                         </button>
-                        <div className="text-xs text-white/70 ml-auto">{r.responded ? 'Responded' : 'Pending'}</div>
+                        <div className="text-xs text-white/70 ml-auto">{r.responded ? "Responded" : "Pending"}</div>
                       </div>
 
                       {expanded === r.id && (
@@ -334,13 +345,15 @@ export default function CustomerHappinessHubDemo() {
                             className="w-full bg-black/20 border border-white/6 rounded p-2 text-sm min-h-[80px]"
                             value={r.responseText ?? generateSuggestedResponse(r)}
                             onChange={(e) =>
-                              setReviews((prev) => prev.map((x) => (x.id === r.id ? { ...x, responseText: e.target.value } : x)))
+                              setReviews((prev) =>
+                                prev.map((x) => (x.id === r.id ? { ...x, responseText: e.target.value } : x)),
+                              )
                             }
                           />
 
                           <div className="mt-3 flex items-center gap-2">
                             <select
-                              value={r.routedTo ?? ''}
+                              value={r.routedTo ?? ""}
                               onChange={(e) => onChangeRoutingDraft(r.id, e.target.value)}
                               className="bg-black/20 border border-white/6 px-2 py-1 rounded text-sm"
                             >
@@ -352,7 +365,7 @@ export default function CustomerHappinessHubDemo() {
                             </select>
                             <button
                               onClick={() => {
-                                if (!r.routedTo) routeReview(r.id, 'Support')
+                                if (!r.routedTo) routeReview(r.id, "Support")
                               }}
                               className="px-3 py-1 rounded bg-white/6 hover:bg-white/8 text-sm"
                             >
@@ -385,7 +398,8 @@ export default function CustomerHappinessHubDemo() {
             <h3 className="text-lg font-semibold flex items-center">
               Overview
               <Info>
-                Aggregated metrics show volume, sentiment distribution and response-time improvements driven by automation.
+                Aggregated metrics show volume, sentiment distribution and response-time improvements driven by
+                automation.
               </Info>
             </h3>
 
@@ -398,9 +412,18 @@ export default function CustomerHappinessHubDemo() {
                 <div className="flex items-center gap-4 mt-2">
                   <PieChart values={pieStroke} size={96} />
                   <div className="text-sm">
-                    <div className="flex gap-3 items-center"><span className="w-3 h-3 bg-teal-400 rounded" /> Positive <span className="ml-2 text-white/70">{sentimentPercents.positive}%</span></div>
-                    <div className="flex gap-3 items-center mt-2"><span className="w-3 h-3 bg-white/40 rounded" /> Neutral <span className="ml-2 text-white/70">{sentimentPercents.neutral}%</span></div>
-                    <div className="flex gap-3 items-center mt-2"><span className="w-3 h-3 bg-pink-500 rounded" /> Negative <span className="ml-2 text-white/70">{sentimentPercents.negative}%</span></div>
+                    <div className="flex gap-3 items-center">
+                      <span className="w-3 h-3 bg-teal-400 rounded" /> Positive{" "}
+                      <span className="ml-2 text-white/70">{sentimentPercents.positive}%</span>
+                    </div>
+                    <div className="flex gap-3 items-center mt-2">
+                      <span className="w-3 h-3 bg-white/40 rounded" /> Neutral{" "}
+                      <span className="ml-2 text-white/70">{sentimentPercents.neutral}%</span>
+                    </div>
+                    <div className="flex gap-3 items-center mt-2">
+                      <span className="w-3 h-3 bg-pink-500 rounded" /> Negative{" "}
+                      <span className="ml-2 text-white/70">{sentimentPercents.negative}%</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -416,9 +439,15 @@ export default function CustomerHappinessHubDemo() {
               <div className="mt-4">
                 <div className="text-sm text-white/70">Response time: Automated vs Manual</div>
                 <div className="mt-2 space-y-2">
-                  <div className="text-xs text-white/70 flex justify-between"><span>Manual (e.g., 1 h)</span><span>60 min</span></div>
+                  <div className="text-xs text-white/70 flex justify-between">
+                    <span>Manual (e.g., 1 h)</span>
+                    <span>60 min</span>
+                  </div>
                   <Bar widthPercent={100} color="bg-white/12" label="Manual" />
-                  <div className="text-xs text-white/70 flex justify-between mt-2"><span>Automated (a few minutes)</span><span>~2 min</span></div>
+                  <div className="text-xs text-white/70 flex justify-between mt-2">
+                    <span>Automated (a few minutes)</span>
+                    <span>~2 min</span>
+                  </div>
                   <Bar widthPercent={6} color="bg-teal-500" label="Automated" />
                 </div>
                 <div className="mt-3 text-xs text-white/60">
@@ -433,7 +462,9 @@ export default function CustomerHappinessHubDemo() {
                 >
                   Book a demo
                 </button>
-                <div className="mt-2 text-xs text-white/60">Or click "Try Live Demo" on the Demos page to open this tool directly.</div>
+                <div className="mt-2 text-xs text-white/60">
+                  Or click "Try Live Demo" on the Demos page to open this tool directly.
+                </div>
               </div>
             </div>
           </aside>
@@ -443,18 +474,10 @@ export default function CustomerHappinessHubDemo() {
       {showWorkflowModal && (
         <Modal onClose={() => setShowWorkflowModal(false)} title="Workflow Overview">
           <ol className="list-decimal pl-5 space-y-2 text-sm text-white/80">
-            <li>
-              The system pulls in reviews from multiple channels (review sites, social, support tickets).
-            </li>
-            <li>
-              AI uses natural-language processing to detect tone and categorize sentiment.
-            </li>
-            <li>
-              It generates an appropriate response and suggests a routing path to the right team member.
-            </li>
-            <li>
-              Managers see analytics dashboards and response-time improvements (up to 98%).
-            </li>
+            <li>The system pulls in reviews from multiple channels (review sites, social, support tickets).</li>
+            <li>AI uses natural-language processing to detect tone and categorize sentiment.</li>
+            <li>It generates an appropriate response and suggests a routing path to the right team member.</li>
+            <li>Managers see analytics dashboards and response-time improvements (up to 98%).</li>
           </ol>
         </Modal>
       )}
@@ -467,14 +490,24 @@ export default function CustomerHappinessHubDemo() {
               onSubmit={(e) => {
                 e.preventDefault()
                 setShowCtaModal(false)
-                alert('Thanks — demo request submitted (simulated).')
+                alert("Thanks — demo request submitted (simulated).")
               }}
             >
               <div className="flex flex-col gap-2">
                 <input required placeholder="Name" className="bg-black/20 border border-white/6 rounded p-2 text-sm" />
-                <input required placeholder="Email" type="email" className="bg-black/20 border border-white/6 rounded p-2 text-sm" />
-                <textarea placeholder="Company / Notes" className="bg-black/20 border border-white/6 rounded p-2 text-sm" />
-                <button type="submit" className="mt-2 px-3 py-2 rounded bg-teal-600 text-black font-semibold">Request demo</button>
+                <input
+                  required
+                  placeholder="Email"
+                  type="email"
+                  className="bg-black/20 border border-white/6 rounded p-2 text-sm"
+                />
+                <textarea
+                  placeholder="Company / Notes"
+                  className="bg-black/20 border border-white/6 rounded p-2 text-sm"
+                />
+                <button type="submit" className="mt-2 px-3 py-2 rounded bg-teal-600 text-black font-semibold">
+                  Request demo
+                </button>
               </div>
             </form>
           </div>
@@ -517,7 +550,7 @@ function RadialGauge({ value }: { value: number }) {
           strokeWidth="8"
           strokeLinecap="round"
           strokeDasharray={`${dash} ${c - dash}`}
-          style={{ transition: 'stroke-dasharray 700ms ease' }}
+          style={{ transition: "stroke-dasharray 700ms ease" }}
           fill="none"
         />
         <text x="0" y="4" textAnchor="middle" fontSize="14" fill="#ffffffcc" transform="rotate(90)">
@@ -530,29 +563,32 @@ function RadialGauge({ value }: { value: number }) {
 
 function SentimentPill({ sentiment }: { sentiment: Sentiment }) {
   const map = {
-    positive: { label: 'Positive', bg: 'bg-teal-600 text-black' },
-    neutral: { label: 'Neutral', bg: 'bg-white/10 text-white' },
-    negative: { label: 'Negative', bg: 'bg-pink-500 text-black' }
+    positive: { label: "Positive", bg: "bg-teal-600 text-black" },
+    neutral: { label: "Neutral", bg: "bg-white/10 text-white" },
+    negative: { label: "Negative", bg: "bg-pink-500 text-black" },
   }
   return <span className={`px-2 py-1 rounded text-xs font-semibold ${map[sentiment].bg}`}>{map[sentiment].label}</span>
 }
 
-function PieChart({ values, size = 120 }: { values: { positive: number; neutral: number; negative: number }; size?: number }) {
+function PieChart({
+  values,
+  size = 120,
+}: { values: { positive: number; neutral: number; negative: number }; size?: number }) {
   const total = values.positive + values.neutral + values.negative || 1
   const p1 = (values.positive / total) * 100
   const p2 = (values.neutral / total) * 100
   const p3 = (values.negative / total) * 100
   // draw using conic-gradient fallback to CSS circle segments using inline styles
   const style = {
-    background: `conic-gradient(#06b6d4 ${p1}%, #ffffff66 ${p1} ${p1 + p2}%, #fb7185 ${p1 + p2} 100%)`
+    background: `conic-gradient(#06b6d4 ${p1}%, #ffffff66 ${p1} ${p1 + p2}%, #fb7185 ${p1 + p2} 100%)`,
   }
-  return <div style={style as any} className="rounded-full" dangerouslySetInnerHTML={{ __html: '' }} aria-hidden />
+  return <div style={style as any} className="rounded-full" dangerouslySetInnerHTML={{ __html: "" }} aria-hidden />
 }
 
 function Bar({ widthPercent, color, label }: { widthPercent: number; color: string; label?: string }) {
   return (
     <div className="w-full bg-white/6 rounded h-4 overflow-hidden">
-      <div className={`${color} h-4`} style={{ width: `${widthPercent}%`, transition: 'width 700ms ease' }} />
+      <div className={`${color} h-4`} style={{ width: `${widthPercent}%`, transition: "width 700ms ease" }} />
     </div>
   )
 }
@@ -560,10 +596,10 @@ function Bar({ widthPercent, color, label }: { widthPercent: number; color: stri
 function Modal({ children, title, onClose }: { children: React.ReactNode; title: string; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === "Escape") onClose()
     }
-    document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
+    document.addEventListener("keydown", onKey)
+    return () => document.removeEventListener("keydown", onKey)
   }, [onClose])
 
   return (
@@ -572,7 +608,9 @@ function Modal({ children, title, onClose }: { children: React.ReactNode; title:
       <div className="relative bg-black/80 border border-white/8 rounded-lg p-6 max-w-xl w-full shadow-lg">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-bold">{title}</h3>
-          <button onClick={onClose} className="text-white/60 hover:text-white">Close</button>
+          <button onClick={onClose} className="text-white/60 hover:text-white">
+            Close
+          </button>
         </div>
         <div className="mt-4">{children}</div>
       </div>
