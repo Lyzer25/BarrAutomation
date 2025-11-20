@@ -17,6 +17,9 @@ type InquiryCategory = "web-dev" | "software-tools" | "scripts" | "ai-automation
 
 export default function ContactPage() {
   const [selectedCategory, setSelectedCategory] = useState<InquiryCategory | null>(null)
+  const [previousCategory, setPreviousCategory] = useState<InquiryCategory | null>(null)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [transitionDirection, setTransitionDirection] = useState<"left" | "right">("right")
   const [currentSection, setCurrentSection] = useState<"contact" | "discovery" | "success">("contact")
   const [contactBasics, setContactBasics] = useState<ContactBasicsInput | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -63,7 +66,6 @@ export default function ContactPage() {
       const result = await response.json()
 
       if (result.ok) {
-        // Clear the appropriate form
         if (selectedCategory === "ai-automations") contactFormRef.current?.reset()
         else if (selectedCategory === "web-dev") webDevFormRef.current?.reset()
         else if (selectedCategory === "software-tools") softwareToolsFormRef.current?.reset()
@@ -103,7 +105,6 @@ export default function ContactPage() {
     if (type === "simple") {
       await handleSimpleContactSubmit(data)
     } else {
-      // Custom solution: proceed to discovery questions (AI Automations only)
       setContactBasics(data)
       setCurrentSection("discovery")
 
@@ -170,9 +171,28 @@ export default function ContactPage() {
     }
   }
 
+  const handleCategorySelect = (newCategory: InquiryCategory) => {
+    if (newCategory === selectedCategory || isTransitioning) return
+
+    const currentIndex = categories.findIndex((cat) => cat.id === selectedCategory)
+    const newIndex = categories.findIndex((cat) => cat.id === newCategory)
+
+    setTransitionDirection(newIndex > currentIndex ? "right" : "left")
+    setPreviousCategory(selectedCategory)
+    setIsTransitioning(true)
+
+    setTimeout(() => {
+      setSelectedCategory(newCategory)
+
+      setTimeout(() => {
+        setIsTransitioning(false)
+        setPreviousCategory(null)
+      }, 600)
+    }, 50)
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Background elements for glassmorphic effect */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-20 left-10 w-96 h-96 bg-red-500/20 rounded-full blur-3xl" />
         <div className="absolute top-40 right-20 w-80 h-80 bg-red-600/10 rounded-full blur-3xl" />
@@ -181,7 +201,6 @@ export default function ContactPage() {
       </div>
 
       <div className="container mx-auto px-4 py-16">
-        {/* Success State */}
         {currentSection === "success" && (
           <div className="max-w-2xl mx-auto text-center">
             <div className="flex justify-center mb-6">
@@ -202,7 +221,6 @@ export default function ContactPage() {
           </div>
         )}
 
-        {/* Contact Form Section */}
         {currentSection === "contact" && (
           <div className="max-w-7xl mx-auto">
             <div className="text-center">
@@ -219,7 +237,7 @@ export default function ContactPage() {
                 return (
                   <button
                     key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
+                    onClick={() => handleCategorySelect(category.id)}
                     className={`p-4 rounded-lg border transition-all duration-200 ${
                       isActive
                         ? "border-accent bg-accent/10 text-accent"
@@ -233,32 +251,83 @@ export default function ContactPage() {
               })}
             </div>
 
-            <div className="mt-12">
-              {selectedCategory === "ai-automations" && (
-                <ContactForm ref={contactFormRef} onSubmit={handleContactSubmit} isLoading={isSubmitting} />
-              )}
-              {selectedCategory === "web-dev" && (
-                <WebDevContactForm ref={webDevFormRef} onSubmit={handleSimpleContactSubmit} isLoading={isSubmitting} />
-              )}
-              {selectedCategory === "software-tools" && (
-                <SoftwareToolsContactForm
-                  ref={softwareToolsFormRef}
-                  onSubmit={handleSimpleContactSubmit}
-                  isLoading={isSubmitting}
-                />
-              )}
-              {selectedCategory === "scripts" && (
-                <ScriptsContactForm
-                  ref={scriptsFormRef}
-                  onSubmit={handleSimpleContactSubmit}
-                  isLoading={isSubmitting}
-                />
-              )}
+            <div className="mt-12 relative overflow-hidden">
+              <div className="relative" style={{ minHeight: "600px" }}>
+                {isTransitioning && previousCategory && (
+                  <div
+                    className="absolute inset-0 transition-all duration-600 ease-in-out"
+                    style={{
+                      transform: transitionDirection === "right" ? "translateX(-100%)" : "translateX(100%)",
+                      opacity: 0,
+                    }}
+                  >
+                    {previousCategory === "ai-automations" && (
+                      <ContactForm ref={contactFormRef} onSubmit={handleContactSubmit} isLoading={isSubmitting} />
+                    )}
+                    {previousCategory === "web-dev" && (
+                      <WebDevContactForm
+                        ref={webDevFormRef}
+                        onSubmit={handleSimpleContactSubmit}
+                        isLoading={isSubmitting}
+                      />
+                    )}
+                    {previousCategory === "software-tools" && (
+                      <SoftwareToolsContactForm
+                        ref={softwareToolsFormRef}
+                        onSubmit={handleSimpleContactSubmit}
+                        isLoading={isSubmitting}
+                      />
+                    )}
+                    {previousCategory === "scripts" && (
+                      <ScriptsContactForm
+                        ref={scriptsFormRef}
+                        onSubmit={handleSimpleContactSubmit}
+                        isLoading={isSubmitting}
+                      />
+                    )}
+                  </div>
+                )}
+
+                <div
+                  className={`transition-all duration-600 ease-in-out ${isTransitioning ? "opacity-0" : "opacity-100"}`}
+                  style={{
+                    transform: isTransitioning
+                      ? transitionDirection === "right"
+                        ? "translateX(100%)"
+                        : "translateX(-100%)"
+                      : "translateX(0)",
+                  }}
+                >
+                  {selectedCategory === "ai-automations" && (
+                    <ContactForm ref={contactFormRef} onSubmit={handleContactSubmit} isLoading={isSubmitting} />
+                  )}
+                  {selectedCategory === "web-dev" && (
+                    <WebDevContactForm
+                      ref={webDevFormRef}
+                      onSubmit={handleSimpleContactSubmit}
+                      isLoading={isSubmitting}
+                    />
+                  )}
+                  {selectedCategory === "software-tools" && (
+                    <SoftwareToolsContactForm
+                      ref={softwareToolsFormRef}
+                      onSubmit={handleSimpleContactSubmit}
+                      isLoading={isSubmitting}
+                    />
+                  )}
+                  {selectedCategory === "scripts" && (
+                    <ScriptsContactForm
+                      ref={scriptsFormRef}
+                      onSubmit={handleSimpleContactSubmit}
+                      isLoading={isSubmitting}
+                    />
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        {/* Discovery Stepper (AI Automations only) */}
         {contactBasics && currentSection === "discovery" && (
           <div id="discovery-section" className="max-w-4xl mx-auto mt-20">
             <div className="text-center mb-12">
