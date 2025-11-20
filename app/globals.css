@@ -16,28 +16,28 @@
   --secondary-foreground: hsl(0 0% 98%);
   --muted: hsl(0 0% 9%);
   --muted-foreground: hsl(0 0% 63.9%);
-  
+
   /* Creating a comprehensive red palette */
-  --accent: hsl(0 84% 60%);  /* Primary red - keep for main accent */
+  --accent: hsl(0 84% 60%); /* Primary red - keep for main accent */
   --accent-foreground: hsl(0 0% 98%);
-  --red-light: hsl(0 70% 65%);  /* Lighter red for highlights */
-  --red-medium: hsl(0 80% 55%);  /* Medium red for gradients */
-  --red-dark: hsl(0 90% 45%);  /* Darker red for depth */
-  --red-deep: hsl(0 95% 35%);  /* Deep red for shadows */
-  
+  --red-light: hsl(0 70% 65%); /* Lighter red for highlights */
+  --red-medium: hsl(0 80% 55%); /* Medium red for gradients */
+  --red-dark: hsl(0 90% 45%); /* Darker red for depth */
+  --red-deep: hsl(0 95% 35%); /* Deep red for shadows */
+
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(0 0% 98%);
   --border: hsl(0 0% 14.9%);
   --input: hsl(0 0% 14.9%);
   --ring: hsl(0 0% 83.1%);
-  
+
   /* Red palette for charts - removed orange tones */
   --chart-1: hsl(0 84% 60%);
   --chart-2: hsl(0 70% 50%);
   --chart-3: hsl(0 60% 40%);
   --chart-4: hsl(0 50% 30%);
   --chart-5: hsl(0 40% 25%);
-  
+
   --radius: 0.5rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
@@ -62,7 +62,7 @@
   --secondary-foreground: hsl(0 0% 98%);
   --muted: hsl(0 0% 9%);
   --muted-foreground: hsl(0 0% 63.9%);
-  
+
   /* Red palette for dark mode */
   --accent: hsl(0 84% 60%);
   --accent-foreground: hsl(0 0% 98%);
@@ -70,13 +70,13 @@
   --red-medium: hsl(0 80% 55%);
   --red-dark: hsl(0 90% 45%);
   --red-deep: hsl(0 95% 35%);
-  
+
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(0 0% 98%);
   --border: hsl(0 0% 14.9%);
   --input: hsl(0 0% 14.9%);
   --ring: hsl(0 0% 83.1%);
-  
+
   /* Red palette for charts in dark mode */
   --chart-1: hsl(0 84% 60%);
   --chart-2: hsl(0 70% 50%);
@@ -243,75 +243,55 @@ body {
 }
 
 .depth-shadow {
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.4),
-    0 8px 16px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(239, 68, 68, 0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 40px rgba(239, 68, 68, 0.05);
 }
 
 .depth-shadow-lg {
-  box-shadow: 
-    0 8px 16px rgba(0, 0, 0, 0.5),
-    0 16px 32px rgba(0, 0, 0, 0.4),
-    0 0 60px rgba(239, 68, 68, 0.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5), 0 16px 32px rgba(0, 0, 0, 0.4), 0 0 60px rgba(239, 68, 68, 0.08);
 }
 
 /* Adding realistic light falloff shadow effects inspired by reference images */
 
 /* Soft shadow utilities for natural depth */
 .shadow-soft {
-  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5))
-          drop-shadow(0 20px 50px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.4));
 }
 
 .shadow-soft-lg {
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6))
-          drop-shadow(0 40px 80px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6)) drop-shadow(0 40px 80px rgba(0, 0, 0, 0.5));
 }
 
 .shadow-soft-xl {
-  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.7))
-          drop-shadow(0 60px 120px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.7)) drop-shadow(0 60px 120px rgba(0, 0, 0, 0.6));
 }
 
 /* Red accent shadows for emphasis */
 .shadow-red-soft {
-  filter: drop-shadow(0 15px 35px rgba(239, 68, 68, 0.3))
-          drop-shadow(0 30px 70px rgba(239, 68, 68, 0.2));
+  filter: drop-shadow(0 15px 35px rgba(239, 68, 68, 0.3)) drop-shadow(0 30px 70px rgba(239, 68, 68, 0.2));
 }
 
 .shadow-red-soft-lg {
-  filter: drop-shadow(0 25px 50px rgba(239, 68, 68, 0.4))
-          drop-shadow(0 50px 100px rgba(239, 68, 68, 0.3));
+  filter: drop-shadow(0 25px 50px rgba(239, 68, 68, 0.4)) drop-shadow(0 50px 100px rgba(239, 68, 68, 0.3));
 }
 
 /* Card depth shadows */
 .card-shadow {
-  box-shadow: 
-    0 10px 30px -5px rgba(0, 0, 0, 0.8),
-    0 20px 60px -10px rgba(0, 0, 0, 0.7),
-    0 0 100px -20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), 0 20px 60px -10px rgba(0, 0, 0, 0.7), 0 0 100px -20px
+    rgba(0, 0, 0, 0.5);
 }
 
 .card-shadow-hover {
-  box-shadow: 
-    0 15px 40px -5px rgba(0, 0, 0, 0.9),
-    0 30px 80px -10px rgba(0, 0, 0, 0.8),
-    0 0 120px -15px rgba(239, 68, 68, 0.15);
+  box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.9), 0 30px 80px -10px rgba(0, 0, 0, 0.8), 0 0 120px -15px
+    rgba(239, 68, 68, 0.15);
 }
 
 /* Button shadows */
 .button-shadow {
-  box-shadow: 
-    0 8px 20px rgba(0, 0, 0, 0.8),
-    0 16px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8), 0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
 .button-shadow-hover {
-  box-shadow: 
-    0 12px 30px rgba(0, 0, 0, 0.9),
-    0 24px 60px rgba(0, 0, 0, 0.7),
-    0 0 80px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 80px rgba(255, 255, 255, 0.05);
 }
 
 /* Removed harsh glow effects and replaced with soft gradient shadows */
@@ -811,44 +791,44 @@ html {
   pointer-events: none;
 }
 
-/* Adding book-style page zoom transitions */
+/* Enhanced page zoom transitions that go all the way to black */
 .page-transition {
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
   perspective: 2000px;
 }
 
 .page-zoom-out {
-  animation: pageZoomOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: pageZoomOut 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .page-zoom-in {
-  animation: pageZoomIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: pageZoomIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes pageZoomOut {
   0% {
     transform: scale(1) translateZ(0);
     opacity: 1;
-    filter: blur(0px);
+    filter: blur(0px) brightness(1);
   }
   100% {
-    transform: scale(0.85) translateZ(-200px);
+    transform: scale(0) translateZ(-500px);
     opacity: 0;
-    filter: blur(4px);
+    filter: blur(10px) brightness(0);
   }
 }
 
 @keyframes pageZoomIn {
   0% {
-    transform: scale(0.85) translateZ(-200px);
+    transform: scale(0) translateZ(-500px);
     opacity: 0;
-    filter: blur(4px);
+    filter: blur(10px) brightness(0);
   }
   100% {
     transform: scale(1) translateZ(0);
     opacity: 1;
-    filter: blur(0px);
+    filter: blur(0px) brightness(1);
   }
 }
 
@@ -884,7 +864,12 @@ html {
 }
 
 /* Apply Chakra Petch to all headings site-wide */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-family-heading);
 }
 
@@ -894,7 +879,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Enhanced contrast for all body text */
-p, li, span {
+p,
+li,
+span {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
