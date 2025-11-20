@@ -11,6 +11,8 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+
     setIsAnimating(true)
 
     const timeout = setTimeout(() => {
