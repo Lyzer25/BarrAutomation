@@ -44,7 +44,7 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <Mail className="h-4 w-4 text-accent" />
               <a href="mailto:contact@barrautomations.com" className="hover:text-accent transition-colors">
-                contact@barrautomations.com
+                barrautomations@gmail.com
               </a>
             </div>
             <div className="flex items-center gap-2">
