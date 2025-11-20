@@ -126,17 +126,6 @@ export default function IntegrationsPage() {
 
       <div className="container mx-auto px-4 py-16 relative z-10">
         <FadeInView className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="inline-block mb-6"
-          >
-            <div className="px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full backdrop-blur-sm">
-              <span className="text-red-400 text-sm font-medium">Powered by AI</span>
-            </div>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
