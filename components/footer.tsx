@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { MapPin, Mail, Phone } from "lucide-react"
+import { MapPin, Mail } from "lucide-react"
 
 export default function Footer() {
   return (
@@ -46,11 +46,6 @@ export default function Footer() {
               <a href="mailto:contact@barrautomations.com" className="hover:text-accent transition-colors">
                 barrautomations@gmail.com
               </a>
-            </div>
-            <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-accent" />
-              <a href="tel:+1234567890" className="hover:text-accent transition-colors">
-                (972) 462-4093              </a>
             </div>
           </div>
 
